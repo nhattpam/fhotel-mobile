@@ -1,39 +1,39 @@
 import 'package:flutter/material.dart';
+
 import '../core/app_export.dart';
 
 class CustomSearchView extends StatelessWidget {
-  CustomSearchView({
-    Key? key,
-    this.alignment,
-    this.width,
-    this.scrollPadding,
-    this.controller,
-    this.focusNode,
-    this.autofocus = true,
-    this.textStyle,
-    this.textInputType = TextInputType.text,
-    this.maxLines,
-    this.hintText,
-    this.hintStyle,
-    this.prefix,
-    this.prefixConstraints,
-    this.suffix,
-    this.suffixConstraints,
-    this.contentPadding,
-    this.borderDecoration,
-    this.fillColor,
-    this.filled = true,
-    this.validator,
-    this.onChanged,
-    required this.context, // 1. Add BuildContext parameter
-  }) : super(
+  CustomSearchView(
+      {Key? key,
+      this.alignment,
+      this.width,
+      this.boxDecoration,
+      this.scrollPadding,
+      this.controller,
+      this.focusNode,
+      this.autofocus = false,
+      this.textStyle,
+      this.textInputType = TextInputType.text,
+      this.maxLines,
+      this.hintText,
+      this.hintStyle,
+      this.prefix,
+      this.prefixConstraints,
+      this.suffix,
+      this.suffixConstraints,
+      this.contentPadding,
+      this.borderDecoration,
+      this.fillColor,
+      this.filled = true,
+      this.validator,
+      this.onChanged})
+      : super(
           key: key,
         );
 
   final Alignment? alignment;
-  final BuildContext context; // 2. Define BuildContext parameter
-
   final double? width;
+  final BoxDecoration? boxDecoration;
   final TextEditingController? scrollPadding;
   final TextEditingController? controller;
   final FocusNode? focusNode;
@@ -59,54 +59,87 @@ class CustomSearchView extends StatelessWidget {
     return alignment != null
         ? Align(
             alignment: alignment ?? Alignment.center,
-            child: searchViewWidget(context),
-          )
+            child: searchViewWidget(context))
         : searchViewWidget(context);
   }
 
-  Widget searchViewWidget(BuildContext context) => SizedBox(
+  Widget searchViewWidget(BuildContext context) => Container(
         width: width ?? double.maxFinite,
+        decoration: boxDecoration,
         child: TextFormField(
-          autofocus: false,
-          scrollPadding:
-              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-          controller: controller,
-          focusNode: focusNode ?? FocusNode(),
-          // autofocus: autofocus!,
-          style: textStyle ?? CustomTextStyles.titleSmallGray600,
-          keyboardType: textInputType,
-          maxLines: maxLines ?? 1,
-          // decoration: decoration,
-          validator: validator,
-          onTap: () {
-            controller?.clear();
-            // showSearch(context: context, delegate: SearchCourse());
-          },
-        ),
+            scrollPadding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom),
+            controller: controller,
+            focusNode: focusNode,
+            onTapOutside: (event) {
+              if (focusNode != null) {
+                focusNode?.unfocus();
+              } else {
+                FocusManager.instance.primaryFocus?.unfocus();
+              }
+            },
+            autofocus: autofocus!,
+            style: textStyle ?? theme.textTheme.bodyMedium,
+            keyboardType: textInputType,
+            maxLines: maxLines ?? 1,
+            decoration: decoration,
+            validator: validator,
+            onChanged: (String value) {
+              onChanged?.call(value);
+            }),
       );
 
-  // InputDecoration get decoration => InputDecoration(
-  //       hintText: hintText ?? "",
-  //       hintStyle: hintStyle ?? CustomTextStyles.titleSmallGray600,
-  //       isDense: true,
-  //       contentPadding: contentPadding ?? EdgeInsets.symmetric(vertical: 21.v),
-  //       fillColor: fillColor ?? theme.colorScheme.onPrimaryContainer,
-  //       filled: filled,
-  //       border: borderDecoration ??
-  //           OutlineInputBorder(
-  //             borderRadius: BorderRadius.circular(15.h),
-  //             borderSide: BorderSide.none,
-  //           ),
-  //       enabledBorder: borderDecoration ??
-  //           OutlineInputBorder(
-  //             borderRadius: BorderRadius.circular(15.h),
-  //             borderSide: BorderSide.none,
-  //           ),
-  //       focusedBorder: borderDecoration ??
-  //           OutlineInputBorder(
-  //             borderRadius: BorderRadius.circular(15.h),
-  //             borderSide: BorderSide.none,
-  //           ),
-  //     );
-
+  InputDecoration get decoration => InputDecoration(
+        hintText: hintText ?? "",
+        hintStyle: hintStyle ?? CustomTextStyles.bodyMediumGray600,
+        prefixIcon: prefix ??
+            Container(
+              margin: EdgeInsets.fromLTRB(32.h, 16.h, 6.h, 16.h),
+              child: CustomImageView(
+                imagePath: ImageConstant.imgSearch,
+                height: 24.h,
+                width: 24.h,
+              ),
+            ),
+        prefixIconConstraints: prefixConstraints ??
+            BoxConstraints(
+              maxHeight: 56.h,
+            ),
+        suffixIcon: suffix ??
+            Padding(
+              padding: EdgeInsets.only(
+                right: 15.h,
+              ),
+              child: IconButton(
+                onPressed: () => controller!.clear(),
+                icon: Icon(
+                  Icons.clear,
+                  color: Colors.grey.shade600,
+                ),
+              ),
+            ),
+        suffixIconConstraints: suffixConstraints ??
+            BoxConstraints(
+              maxHeight: 56.h,
+            ),
+        isDense: true,
+        contentPadding:
+            contentPadding ?? EdgeInsets.fromLTRB(16.h, 16.h, 12.h, 16.h),
+        fillColor: fillColor ?? appTheme.whiteA700,
+        filled: filled,
+        border: borderDecoration ??
+            OutlineInputBorder(
+              borderSide: BorderSide.none,
+            ),
+        enabledBorder: borderDecoration ??
+            OutlineInputBorder(
+              borderSide: BorderSide.none,
+            ),
+        focusedBorder: (borderDecoration ?? OutlineInputBorder()).copyWith(
+          borderSide: BorderSide(
+            color: theme.colorScheme.primary,
+            width: 1,
+          ),
+        ),
+      );
 }

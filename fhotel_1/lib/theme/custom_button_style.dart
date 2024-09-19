@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:fhotel_1/core/app_export.dart';
+import 'package:flutter/material.dart';
 
 /// A class that offers pre-defined button styles for customizing button appearance.
 class CustomButtonStyles {

@@ -1,7 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:fhotel_1/core/app_export.dart';
-
-import '../custom_image_view.dart';
+import 'package:flutter/material.dart';
 
 class AppbarImage extends StatelessWidget {
 AppbarImage({Key? key, this.imagePath, this.margin, this.onTap})
