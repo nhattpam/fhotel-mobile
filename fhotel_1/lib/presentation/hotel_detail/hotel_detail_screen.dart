@@ -1,3 +1,4 @@
+import 'package:fhotel_1/presentation/hotel_detail/widgets/carousel_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider_plus/carousel_slider_plus.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
