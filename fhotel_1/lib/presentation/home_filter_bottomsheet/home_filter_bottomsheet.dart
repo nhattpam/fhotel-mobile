@@ -3,11 +3,15 @@ import 'package:flutter/material.dart';
 
 import '../../core/app_export.dart';
 
-class HomeFilterBottomsheet extends StatelessWidget {
-  HomeFilterBottomsheet({Key? key})
-      : super(
-          key: key,
-        );
+class HomeFilterBottomsheet extends StatefulWidget {
+  const HomeFilterBottomsheet({Key? key}) : super(key: key);
+
+  @override
+  HomeFilterBottomsheetState createState() => HomeFilterBottomsheetState();
+}
+
+// ignore_for_file: must_be_immutable
+class HomeFilterBottomsheetState extends State<HomeFilterBottomsheet> {
   TextEditingController inputoneController = TextEditingController();
   TextEditingController labeloneController = TextEditingController();
   bool plateone = false;
@@ -79,11 +83,13 @@ class HomeFilterBottomsheet extends StatelessWidget {
 
   Widget _buildInputone(BuildContext context) {
     return CustomTextFormField(
+      borderDecoration: OutlineInputBorder(
+          borderSide: BorderSide(color: appTheme.black900.withOpacity(0.15))),
       controller: inputoneController,
       hintText: "Nhập giá",
-      hintStyle: CustomTextStyles.bodyMediumGray600,
+      hintStyle: CustomTextStyles.bodyLargeBlack900_1,
       suffix: Padding(
-        padding: EdgeInsets.only(left: 16.h),
+        padding: EdgeInsets.only(right: 16.h),
         child: Text(
           "₫",
           style: TextStyle(
@@ -103,12 +109,14 @@ class HomeFilterBottomsheet extends StatelessWidget {
 
   Widget _buildLabelone(BuildContext context) {
     return CustomTextFormField(
+      borderDecoration: OutlineInputBorder(
+          borderSide: BorderSide(color: appTheme.black900.withOpacity(0.15))),
       controller: labeloneController,
       hintText: "Nhập giá",
-      hintStyle: CustomTextStyles.bodyMediumGray600,
+      hintStyle: CustomTextStyles.bodyLargeBlack900_1,
       textInputAction: TextInputAction.done,
       suffix: Padding(
-        padding: EdgeInsets.only(left: 16.h),
+        padding: EdgeInsets.only(right: 16.h),
         child: Text(
           "₫",
           style: TextStyle(
@@ -210,7 +218,26 @@ class HomeFilterBottomsheet extends StatelessWidget {
               },
               itemCount: 5,
               itemBuilder: (context, index) {
-                return SectioncontentItemWidget();
+                return ChipTheme(
+                  data: ChipTheme.of(context).copyWith(
+                    backgroundColor: Colors.white,
+                    selectedColor: Colors.blue,
+                    disabledColor: Colors.grey,
+                    shape: RoundedRectangleBorder(
+                      side: const BorderSide(
+                        color: Colors.grey, // Border color
+                        width: 1, // Border width
+                      ),
+                      borderRadius:
+                          BorderRadius.circular(50), // Rounded corners
+                    ),
+                  ),
+                  child: const Chip(
+                    label: Text("1 sao"),
+                    // selected: false,
+                    // onSelected: (bool selected) {},
+                  ),
+                );
               },
             ),
           )
@@ -238,12 +265,35 @@ class HomeFilterBottomsheet extends StatelessWidget {
             style: theme.textTheme.titleMedium,
           ),
           SizedBox(height: 24.h),
-          CustomCheckboxButton(
-            text: "Đặt trước, trả sau tại ngay nơi nghỉ",
-            value: plateone,
-            onChange: (value) {
-              plateone = value;
-            },
+          Row(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(bottom: 1.v),
+                child: Checkbox(
+                  fillColor: MaterialStateProperty.resolveWith(
+                    (states) {
+                      if (!states.contains(MaterialState.selected)) {
+                        return Colors.white;
+                      }
+                      return null;
+                    },
+                  ),
+                  checkColor: Colors.white,
+                  activeColor: Colors.blue,
+                  value: plateone,
+                  onChanged: (newValue) {
+                    setState(() {
+                      plateone = newValue!;
+                    });
+                  },
+                ),
+              ),
+              Text(
+                'Đặt trước, trả sau tại ngay nơi nghỉ',
+                textAlign: TextAlign.start,
+                style: theme.textTheme.bodyMedium,
+              ),
+            ],
           ),
           SizedBox(height: 10.h)
         ],
@@ -257,8 +307,8 @@ class HomeFilterBottomsheet extends StatelessWidget {
       child: CustomOutlinedButton(
         height: 40.h,
         text: "Xóa bộ lọc",
-        buttonStyle: CustomButtonStyles.outlinePrimary,
-        buttonTextStyle: CustomTextStyles.bodyLargePrimary,
+        buttonStyle: CustomButtonStyles.outlineBlue,
+        buttonTextStyle: CustomTextStyles.bodyLargeBlue,
       ),
     );
   }
@@ -266,7 +316,10 @@ class HomeFilterBottomsheet extends StatelessWidget {
   Widget _buildPang(BuildContext context) {
     return Expanded(
       child: CustomElevatedButton(
+        height: 40.h,
         text: "Áp dụng",
+        buttonStyle: CustomButtonStyles.fillBlue,
+        buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,
       ),
     );
   }

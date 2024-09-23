@@ -1,5 +1,6 @@
 import 'package:carousel_slider_plus/carousel_slider_plus.dart';
 import 'package:fhotel_1/core/utils/size_utils.dart';
+import 'package:fhotel_1/presentation/home_check_in_date_default/home_check_in_date_default.dart';
 import 'package:fhotel_1/presentation/home_destination_default/home_destination_default.dart';
 import 'package:fhotel_1/presentation/home_hotel_region_empty/widgets/carouselunit_item_widget.dart';
 import 'package:fhotel_1/presentation/home_hotel_region_empty/widgets/maincontent_item_widget.dart';
@@ -13,6 +14,9 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../core/utils/image_constant.dart';
 import '../../theme/theme_helper.dart';
 import '../../widgets/custom_image_view.dart';
+import '../home_duration_bottomsheet/home_duration_bottomsheet.dart';
+import '../home_filter_bottomsheet/home_filter_bottomsheet.dart';
+import '../home_room_guest_default/home_room_guest_default.dart';
 
 class HomeHotelRegionEmptyScreen extends StatefulWidget {
   HomeHotelRegionEmptyScreen({Key? key}) : super(key: key);
@@ -21,10 +25,54 @@ class HomeHotelRegionEmptyScreen extends StatefulWidget {
   CategoryScreenState createState() => CategoryScreenState();
 }
 
-TextEditingController searchController = TextEditingController();
+void _showModalBottomSheet(BuildContext context) {
+  showModalBottomSheet(
+    context: context,
+    builder: (BuildContext context) {
+      return HomeDestinationDefaultBottomsheet();
+    },
+  );
+}
+
+void _showCalendarModalBottomSheet(BuildContext context) {
+  showModalBottomSheet(
+    context: context,
+    builder: (BuildContext context) {
+      return HomeCheckInDateDefaultBottomsheet();
+    },
+  );
+}
+void _showDurationModalBottomSheet(BuildContext context) {
+  showModalBottomSheet(
+    context: context,
+    builder: (BuildContext context) {
+      return const HomeDurationBottomsheet();
+    },
+  );
+}
+
+void _showRoomAndGuestModalBottomSheet(BuildContext context) {
+  showModalBottomSheet(
+    context: context,
+    builder: (BuildContext context) {
+      return HomeRoomGuestFilledBottomsheet();
+    },
+  );
+}
+
+void _showFilterModalBottomSheet(BuildContext context) {
+  showModalBottomSheet(
+    context: context,
+    builder: (BuildContext context) {
+      return HomeFilterBottomsheet();
+    },
+  );
+}
+
 
 class CategoryScreenState extends State<HomeHotelRegionEmptyScreen> {
   int sliderIndex = 1;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -186,21 +234,21 @@ class CategoryScreenState extends State<HomeHotelRegionEmptyScreen> {
                                       style: theme.textTheme.bodyMedium,
                                     ),
                                     SizedBox(height: 6.h),
-                                    GestureDetector(
-                                      onTap: (){
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  HomeDestinationDefaultBottomsheet(),
-                                          )
-                                        );
-                                      },
-                                      child: Text(
-                                        "Nhập điểm đến, khách sạn",
-                                        style: CustomTextStyles.titleSmallGray600,
+                                    ElevatedButton(
+                                        onPressed: () =>
+                                            _showModalBottomSheet(context),
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: Colors.transparent,
+                                          // Set background to transparent
+                                          elevation:
+                                              0, // Remove shadow/elevation
+                                        ),
+                                        child: Text(
+                                          "Nhập điểm đến, khách sạn",
+                                          style: CustomTextStyles
+                                              .titleSmallGray600,
+                                        ),
                                       ),
-                                    ),
                                   ],
                                 ),
                               ),
@@ -254,9 +302,21 @@ class CategoryScreenState extends State<HomeHotelRegionEmptyScreen> {
                                               style: theme.textTheme.bodyMedium,
                                             ),
                                             SizedBox(height: 4.h),
-                                            Text(
-                                              "Thứ Tư,02/02/2022",
-                                              style: theme.textTheme.titleSmall,
+                                            ElevatedButton(
+                                              onPressed: () {
+                                                _showCalendarModalBottomSheet(context);
+                                              },
+                                              style: ElevatedButton.styleFrom(
+                                                backgroundColor:
+                                                    Colors.transparent,
+                                                // Set background to transparent
+                                                elevation:
+                                                    0, // Remove shadow/elevation
+                                              ),
+                                              child: Text(
+                                                "Thứ Tư,02/02/2022",
+                                                style: theme.textTheme.titleSmall,
+                                              ),
                                             ),
                                           ],
                                         ),
@@ -271,13 +331,25 @@ class CategoryScreenState extends State<HomeHotelRegionEmptyScreen> {
                               children: [
                                 SizedBox(height: 10.h),
                                 Text(
-                                  "Sõ đêm nghi",
+                                  "Sõ đêm nghỉ",
                                   style: theme.textTheme.bodyMedium,
                                 ),
                                 SizedBox(height: 4.h),
-                                Text(
-                                  "1 đêm",
-                                  style: theme.textTheme.titleSmall,
+                                ElevatedButton(
+                                  onPressed: () {
+                                    _showDurationModalBottomSheet(context);
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor:
+                                    Colors.transparent,
+                                    // Set background to transparent
+                                    elevation:
+                                    0, // Remove shadow/elevation
+                                  ),
+                                  child: Text(
+                                    "1 đêm",
+                                    style: theme.textTheme.titleSmall,
+                                  ),
                                 ),
                               ],
                             ),
@@ -325,7 +397,7 @@ class CategoryScreenState extends State<HomeHotelRegionEmptyScreen> {
                       SizedBox(width: double.maxFinite, child: Divider()),
                       SizedBox(
                         width: double.maxFinite,
-                        child: _buildListmasterOne(
+                        child: _buildListmasterTwo(
                           context,
                           iconwrapper: ImageConstant.imgIconWrapper1,
                           labelfilterone: "Bộ lọc",
@@ -334,7 +406,7 @@ class CategoryScreenState extends State<HomeHotelRegionEmptyScreen> {
                       ),
                       SizedBox(height: 16.h),
                       CustomElevatedButton(
-                        onPressed: (){
+                        onPressed: () {
                           print('a');
                         },
                         text: "Tìm kiếm",
@@ -371,9 +443,8 @@ class CategoryScreenState extends State<HomeHotelRegionEmptyScreen> {
                       ),
                       Text(
                         "Xóa",
-                        style: CustomTextStyles.bodyMediumPrimary.copyWith(
-                          color: Colors.blue
-                        ),
+                        style: CustomTextStyles.bodyMediumPrimary
+                            .copyWith(color: Colors.blue),
                       )
                     ],
                   ),
@@ -563,12 +634,83 @@ class CategoryScreenState extends State<HomeHotelRegionEmptyScreen> {
                       ),
                     ),
                     SizedBox(height: 6.h),
-                    Text(
-                      placeholderOne,
-                      style: CustomTextStyles.titleSmallGray600.copyWith(
-                        color: appTheme.gray600,
+                    ElevatedButton(
+                      onPressed: () {
+                        _showRoomAndGuestModalBottomSheet(context);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                        Colors.transparent,
+                        // Set background to transparent
+                        elevation:
+                        0, // Remove shadow/elevation
                       ),
-                    )
+                      child: Text(
+                        placeholderOne,
+                        style: CustomTextStyles.titleSmallGray600.copyWith(
+                          color: appTheme.gray600,
+                        ),
+                      )
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+  Widget _buildListmasterTwo(
+    BuildContext context, {
+    required String iconwrapper,
+    required String labelfilterone,
+    required String placeholderOne,
+  }) {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 6.h),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          CustomImageView(
+            imagePath: iconwrapper,
+            height: 24.h,
+            width: 24.h,
+          ),
+          SizedBox(width: 8.h),
+          Expanded(
+            child: Align(
+              alignment: Alignment.bottomLeft,
+              child: Padding(
+                padding: EdgeInsets.only(top: 2.h),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      labelfilterone,
+                      style: theme.textTheme.bodyMedium!.copyWith(
+                        color: theme.colorScheme.onPrimary,
+                      ),
+                    ),
+                    SizedBox(height: 6.h),
+                    ElevatedButton(
+                      onPressed: () {
+                        _showFilterModalBottomSheet(context);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                        Colors.transparent,
+                        // Set background to transparent
+                        elevation:
+                        0, // Remove shadow/elevation
+                      ),
+                      child: Text(
+                        placeholderOne,
+                        style: CustomTextStyles.titleSmallGray600.copyWith(
+                          color: appTheme.gray600,
+                        ),
+                      )
+                    ),
                   ],
                 ),
               ),

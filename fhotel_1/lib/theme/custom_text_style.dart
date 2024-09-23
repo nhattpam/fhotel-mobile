@@ -45,6 +45,10 @@ class CustomTextStyles {
       theme.textTheme.bodyLarge!.copyWith(
         color: theme.colorScheme.primary,
       );
+  static get bodyLargeBlue =>
+      theme.textTheme.bodyLarge!.copyWith(
+        color: Colors.blueAccent,
+      );
 
   static get bodyMediumGray600 =>
       theme.textTheme.bodyMedium!.copyWith(

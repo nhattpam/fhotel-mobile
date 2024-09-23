@@ -66,6 +66,10 @@ class HomeDestinationDefaultBottomsheet extends StatelessWidget {
             height: 24.h,
             width: 24.h,
             margin: EdgeInsets.only(left: 36.h),
+            onTap: () {
+              // Close the bottom sheet when the image is tapped
+              Navigator.pop(context);
+            },
           )
         ],
       ),

@@ -17,7 +17,7 @@ class ImageConstant {
 
 // Home - Room & Guest - Default images
   static String imgIconWrapperBlack900 =
-      'SimagePath/img_icon_wrapper_black_900.svg';
+      '$imagePath/minus-solid.svg';
 
 // Home - Room & Guest - Quantity images
   static String imgIconWrapperwhiteA700 =
@@ -92,16 +92,16 @@ class ImageConstant {
       '$imagePath/img_icon_wrapper_primary_24x24.svg';
   static String imgImage = '$imagePath/photo-1542314831-068cd1dbfeeb.jfif';
   static String imgImage108x328 = '$imagePath/pexels-thorsten-technoman-109353-338504.jpg';
-  static String imgCloseIcon = '$imagePath/img_close_icon.svg';
+  static String imgCloseIcon = '$imagePath/xmark-solid.svg';
   static String imgSearch = '$imagePath/img_search.svg';
   static String imgImage160x160 = '$imagePath/img_image_160x160.png';
   static String imgIconWrapper4 = '$imagePath/img_icon_wrapper_4.svg';
   static String imgCircle = '$imagePath/img_circle.svg';
-  static String imgIconWrapper5 = '$imagePath/img_icon_wrapper_5.svg';
-  static String imgIconWrapper6 = '$imagePath/img_icon_wrapper_6.svg';
-  static String imgIconWrapper7 = '$imagePath/img_icon_wrapper_7.svg';
-  static String imgIconWrapper8 = '$imagePath/img_icon_wrapper_8.svg';
-  static String imgContentMinus = '$imagePath/img_content_minus.svg';
+  static String imgIconWrapper5 = '$imagePath/door-open-solid.svg';
+  static String imgIconWrapper6 = '$imagePath/plus-solid.svg';
+  static String imgIconWrapper7 = '$imagePath/person-solid.svg';
+  static String imgIconWrapper8 = '$imagePath/child-dress-solid.svg';
+  static String imgContentMinus = '$imagePath/minus-solid.svg';
   static String imgTrailingIcon = '$imagePath/img_trailing_icon.svg';
   static String imgArrowDown = '$imagePath/img_arrowdown.svg';
   static String imgStatusIcon = '$imagePath/img_status_icon.svg';

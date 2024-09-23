@@ -22,10 +22,11 @@ class SectioncontentItemWidget extends StatelessWidget {
           width: 1.h,
         ),
       ),
-      child: Text(
-        "1 sao",
+      child: Chip(
+        label: Text("sao",
         textAlign: TextAlign.center,
         style: theme.textTheme.bodyMedium,
+      ),
       ),
     );
   }

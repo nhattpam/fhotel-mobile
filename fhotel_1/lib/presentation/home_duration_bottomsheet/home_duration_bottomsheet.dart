@@ -3,12 +3,15 @@ import 'package:flutter/material.dart';
 
 import '../../core/app_export.dart';
 
-class HomeDurationBottomsheet extends StatelessWidget {
-  const HomeDurationBottomsheet({Key? key})
-      : super(
-    key: key,
-  );
+class HomeDurationBottomsheet extends StatefulWidget {
+  const HomeDurationBottomsheet({Key? key}) : super(key: key);
 
+  @override
+  _HomeDurationBottomsheetState createState() => _HomeDurationBottomsheetState();
+}
+
+class _HomeDurationBottomsheetState extends State<HomeDurationBottomsheet> {
+  bool choose = false; // Move the choose state here
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -56,10 +59,7 @@ class HomeDurationBottomsheet extends StatelessWidget {
                           mainAxisSize: MainAxisSize.min, children: [
                           _buildHomeduration(context),
                           SizedBox(height: 8.h),
-                          _buildwrapper(context),
-                          SizedBox(height: 8.h),
-                          SizedBox(width: double.maxFinite, child: Divider(),
-                          )
+                          Divider(),
                         ],
                         ),
                       ),
@@ -103,6 +103,10 @@ class HomeDurationBottomsheet extends StatelessWidget {
             height: 24.h,
             width: 24.h,
             margin: EdgeInsets.only(left: 68.h),
+            onTap: () {
+              // Close the bottom sheet when the image is tapped
+              Navigator.pop(context);
+            },
           )
         ],
       ),
@@ -116,7 +120,7 @@ class HomeDurationBottomsheet extends StatelessWidget {
       shrinkWrap: true,
       separatorBuilder: (context, index) {
         return Padding(
-          padding: EdgeInsets.symmetric(vertical: 4.0.h),
+          padding: EdgeInsets.symmetric(vertical: 10.0.h),
           child: Divider(
             height: 1.h,
             thickness: 1.h,
@@ -126,43 +130,50 @@ class HomeDurationBottomsheet extends StatelessWidget {
       },
       itemCount: 10,
       itemBuilder: (context, index) {
-        return HomeDurationItemWidget();
+        return HomeDurationItemWidget(
+          onSelectionChanged: (selected) {
+            setState(() {
+              choose = selected; // Update the static variable
+            });
+          },
+        );
       },
     );
   }
 
-  Widget _buildwrapper(BuildContext context) {
-    return SizedBox(
-      width: double.maxFinite,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          CustomImageView(
-            imagePath: ImageConstant.imgCircle,
-            height: 20.h,
-            width: 20.h,
-            radius: BorderRadius.circular(
-              10.0.h,
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 10.h),
-            child: Text(
-              "11 đêm",
-              style: theme.textTheme.titleSmall,
-            ),
-          ),
-          Spacer(),
-          Text(
-            "Trả phòng: 13/02/2022",
-            style: theme.textTheme.bodyMedium,
-          ),
-        ],
-      ),
-    );
-  }
 
-  Widget _buildButtonbar(BuildContext context) {
+  // Widget _buildwrapper(BuildContext context) {
+  //   return SizedBox(
+  //     width: double.maxFinite,
+  //     child: Row(
+  //       mainAxisAlignment: MainAxisAlignment.center,
+  //       children: [
+  //         CustomImageView(
+  //           imagePath: ImageConstant.imgCircle,
+  //           height: 20.h,
+  //           width: 20.h,
+  //           radius: BorderRadius.circular(
+  //             10.0.h,
+  //           ),
+  //         ),
+  //         Padding(
+  //           padding: EdgeInsets.only(left: 10.h),
+  //           child: Text(
+  //             "1 đêm",
+  //             style: theme.textTheme.titleSmall,
+  //           ),
+  //         ),
+  //         Spacer(),
+  //         Text(
+  //           "Trả phòng: 13/02/2022",
+  //           style: theme.textTheme.bodyMedium,
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
+
+  Widget _buildButtonbar (BuildContext context) {
     return Container(
       width: double.maxFinite,
       padding: EdgeInsets.fromLTRB(16.h, 6.h, 16.h, 8.h),
@@ -178,11 +189,21 @@ class HomeDurationBottomsheet extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          CustomElevatedButton(
-            text: "Hoàn tất",
-          ),
+          if(choose == true)
+            CustomElevatedButton(
+              text: "Hoàn tất",
+              buttonStyle: CustomButtonStyles.fillBlue,
+              buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,
+            ),
+          if(choose == false)
+            CustomElevatedButton(
+              text: "Hoàn tất",
+              buttonStyle: CustomButtonStyles.fillBlack,
+              buttonTextStyle: CustomTextStyles.bodyLargeBlack900_1,
+            )
         ],
       ),
     );
   }
+
 }

@@ -65,6 +65,7 @@ class ListphNgOneItemWidget extends StatelessWidget {
                       alignment: Alignment.center,
                       children: [
                         CustomImageView(
+                          color: appTheme.black900.withOpacity(0.15),
                           imagePath: ImageConstant.imgIconWrapperBlack900,
                           height: 24.h,
                           width: 24.h,
@@ -86,7 +87,7 @@ class ListphNgOneItemWidget extends StatelessWidget {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadiusStyle.roundedBorder4,
                       border: Border.all(
-                        color: theme.colorScheme.primary,
+                        color: Colors.blue,
                         width: 1.h,
                       ),
                     ),
@@ -94,6 +95,7 @@ class ListphNgOneItemWidget extends StatelessWidget {
                       alignment: Alignment.center,
                       children: [
                         CustomImageView(
+                          color: Colors.blue,
                           imagePath: ImageConstant.imgIconWrapper6,
                           height: 24.h,
                           width: 24.h,
@@ -109,8 +111,7 @@ class ListphNgOneItemWidget extends StatelessWidget {
       ),
     );
   }
-  Widget
-  _buildInputone(BuildContext context) {
+  Widget _buildInputone(BuildContext context) {
     return Expanded (
         child: CustomTextFormField(
         readOnly: true,

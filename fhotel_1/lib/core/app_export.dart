@@ -20,3 +20,4 @@ export 'package:fhotel_1/widgets/app_bar/appbar_iconbutton.dart';
 export 'package:fhotel_1/widgets/custom_radio_button.dart';
 export 'package:fhotel_1/widgets/app_bar/appbar_leading_iconbutton.dart';
 export 'package:fhotel_1/widgets/custom_dropdown.dart';
+export 'package:fhotel_1/widgets/custom_switch.dart';

@@ -4,36 +4,42 @@ import 'package:flutter/material.dart';
 import '../../core/app_export.dart';
 
 // ignore_for_file: must_be_immutable
-class HomeCheckInDateDefaultBottomsheet extends StatelessWidget {
+class HomeCheckInDateDefaultBottomsheet extends StatefulWidget {
   HomeCheckInDateDefaultBottomsheet({Key? key})
       : super(
     key: key,
   );
+  @override
+  _HomeCheckInDateDefaultBottomsheet createState() => _HomeCheckInDateDefaultBottomsheet();
+}
+class _HomeCheckInDateDefaultBottomsheet extends State<HomeCheckInDateDefaultBottomsheet> {
   List<DateTime?> selectedDatesFromCalendar = [];
-
+  static bool choose = false;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.maxFinite,
-      decoration: BoxDecoration(
-        color: appTheme.whiteA700,
-        borderRadius: BorderRadiusStyle.customBorderTL8,
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          _buildSheetheader(context),
-          SizedBox(height: 14.h),
-          Container(
-            width: double.maxFinite,
-            margin: EdgeInsets.symmetric(horizontal: 12.h),
-            child: Column(
-              children: [_buildCalendarone(context)],
+    return SingleChildScrollView(
+      child: Container(
+        width: double.maxFinite,
+        decoration: BoxDecoration(
+          color: appTheme.whiteA700,
+          borderRadius: BorderRadiusStyle.customBorderTL8,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _buildSheetheader(context),
+            SizedBox(height: 14.h),
+            Container(
+              width: double.maxFinite,
+              margin: EdgeInsets.symmetric(horizontal: 12.h),
+              child: Column(
+                children: [_buildCalendarone(context)],
+              ),
             ),
-          ),
-          SizedBox(height: 14.h),
-          _buildButtonbar(context)
-        ],
+            SizedBox(height: 14.h),
+            _buildButtonbar(context)
+          ],
+        ),
       ),
     );
   }
@@ -67,14 +73,17 @@ class HomeCheckInDateDefaultBottomsheet extends StatelessWidget {
             height: 24.h,
             width: 24.h,
             margin: EdgeInsets.only(left: 48.h),
+            onTap: () {
+              // Close the bottom sheet when the image is tapped
+              Navigator.pop(context);
+            },
           )
         ],
       ),
     );
   }
 
-  Widget
-  _buildCalendarone(BuildContext context) {
+  Widget _buildCalendarone(BuildContext context) {
     return SizedBox(
       height: 338.h,
       width: 336.h,
@@ -87,14 +96,15 @@ class HomeCheckInDateDefaultBottomsheet extends StatelessWidget {
             lastDate: DateTime(DateTime
                 .now()
                 .year + 5),
+            selectedDayHighlightColor: Color(0XFF1A94FF),
             firstDayOfWeek: 0,
             todayTextStyle: TextStyle(
               color: appTheme.black900.withOpacity(0.15),
               fontFamily: 'Inter',
               fontWeight: FontWeight.w400,
             ),
-            selectedDayTextStyle: TextStyle(
-              color: Color(0XFF1494FF),
+            selectedDayTextStyle: const TextStyle(
+              color: Colors.white,
               fontFamily: 'Inter',
               fontWeight: FontWeight.w700,
             ),
@@ -109,7 +119,11 @@ class HomeCheckInDateDefaultBottomsheet extends StatelessWidget {
           ),
           value: selectedDatesFromCalendar,
           onValueChanged: (dates) {
-
+            setState(() {
+              selectedDatesFromCalendar = dates;
+              choose = true;
+            });
+              print(dates);
           }
       ),
     );
@@ -130,11 +144,18 @@ class HomeCheckInDateDefaultBottomsheet extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          CustomElevatedButton(
-            text: "Hoàn tất",
-            buttonStyle: CustomButtonStyles.fillBlack,
-            buttonTextStyle: CustomTextStyles.bodyLargeBlack900_1,
-          )
+          if(choose == true)
+            CustomElevatedButton(
+              text: "Hoàn tất",
+              buttonStyle: CustomButtonStyles.fillBlue,
+              buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,
+            ),
+          if(choose == false)
+            CustomElevatedButton(
+              text: "Hoàn tất",
+              buttonStyle: CustomButtonStyles.fillBlack,
+              buttonTextStyle: CustomTextStyles.bodyLargeBlack900_1,
+            )
         ],
       ),
     );

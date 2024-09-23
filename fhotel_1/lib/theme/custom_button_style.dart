@@ -11,6 +11,13 @@ class CustomButtonStyles {
     ),
     elevation: 0,
   );
+  static ButtonStyle get fillBlue => ElevatedButton.styleFrom(
+    backgroundColor: appTheme.blue600,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(4.h),
+    ),
+    elevation: 0,
+  );
 
   static ButtonStyle get fillBlueGray => ElevatedButton.styleFrom(
     backgroundColor: appTheme.blueGray50,
@@ -49,6 +56,16 @@ class CustomButtonStyles {
   backgroundColor: Colors.transparent,
   side: BorderSide (
   color: theme.colorScheme.primary,
+  width: 1,
+  ),
+  shape: RoundedRectangleBorder (
+  borderRadius: BorderRadius.circular (4.h),
+  ),
+  );
+  static ButtonStyle get outlineBlue => OutlinedButton.styleFrom(
+  backgroundColor: Colors.transparent,
+  side: BorderSide (
+  color: Colors.blueAccent,
   width: 1,
   ),
   shape: RoundedRectangleBorder (
