@@ -1,6 +1,7 @@
 import 'package:fhotel_1/presentation/hotel_detail_scroll/widgets/keyword_listing_item.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+
 import '../../../core/app_export.dart';
 
 class BHotelDetailsScrollScreen extends StatelessWidget {

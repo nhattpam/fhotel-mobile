@@ -1,7 +1,7 @@
 import 'package:fhotel_1/presentation/hotel_detail/widgets/carousel_item_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:carousel_slider_plus/carousel_slider_plus.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+
 import '../../core/app_export.dart';
 
 class HotelDetailsScreen extends StatelessWidget {
@@ -66,22 +66,7 @@ class HotelDetailsScreen extends StatelessWidget {
   }
 
   Widget _buildCarousel(BuildContext context) {
-    return CarouselSlider.builder(
-      options: CarouselOptions(
-          height: 1092.h,
-          initialPage: 0,
-          autoPlay: true,
-          viewportFraction: 1.0,
-          enableInfiniteScroll: false,
-          scrollDirection: Axis.horizontal,
-          onPageChanged: (index, reason) {
-            sliderIndex = index;
-          }),
-      itemCount: 1,
-      itemBuilder: (context, index, realIndex) {
-        return CarouselItemWidget();
-      },
-    );
+    return CarouselItemWidget();
   }
 
   PreferredSizeWidget _buildAppbar(BuildContext context) {

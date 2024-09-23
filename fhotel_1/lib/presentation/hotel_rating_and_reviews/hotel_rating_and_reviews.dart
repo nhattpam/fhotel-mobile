@@ -1,12 +1,31 @@
+import 'package:fhotel_1/presentation/home_duration_bottomsheet/home_duration_bottomsheet.dart';
+import 'package:fhotel_1/presentation/home_hotel_region_empty/home_hotel_region_empty.dart';
 import 'package:fhotel_1/presentation/hotel_rating_and_reviews/widgets/list_label_item_value_widget.dart';
 import 'package:flutter/material.dart';
+
 import '../../core/app_export.dart';
 
-class HotelDetailsRatingsReviewsScreen extends StatelessWidget {
-  const HotelDetailsRatingsReviewsScreen({Key? key})
-      : super(
-          key: key,
-        );
+class HotelDetailsRatingsReviewsScreen extends StatefulWidget {
+  const HotelDetailsRatingsReviewsScreen({Key? key}) : super(key: key);
+
+  @override
+  HotelDetailsRatingsReviewsScreenState createState() =>
+      HotelDetailsRatingsReviewsScreenState();
+}
+
+class HotelDetailsRatingsReviewsScreenState
+    extends State<HotelDetailsRatingsReviewsScreen>
+    with TickerProviderStateMixin {
+
+  late TabController tabviewController;
+  GlobalKey<NavigatorState> navigatorKey = GlobalKey();
+
+  @override
+  void initState() {
+    super.initState();
+    tabviewController = TabController(length: 3, vsync: this);
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -25,21 +44,65 @@ class HotelDetailsRatingsReviewsScreen extends StatelessWidget {
                   color: appTheme.gray10001,
                 ),
               ),
-              _buildBasic(context),
-              Expanded(
-                child: Container(
-                  width: double.maxFinite,
-                  padding: EdgeInsets.symmetric(vertical: 12.h),
-                  decoration: BoxDecoration(
-                    color: appTheme.whiteA700,
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [_buildListlabelvalue(context)],
-                  ),
+              TabBar(
+                controller: tabviewController,
+                labelPadding: EdgeInsets.zero,
+                labelColor: appTheme.blue600,
+                labelStyle: TextStyle(
+                  fontSize: 15.fSize,
+                  fontFamily: 'Mulish',
+                  fontWeight: FontWeight.w800,
                 ),
-              )
+                unselectedLabelColor: appTheme.black900.withOpacity(0.5),
+                unselectedLabelStyle: TextStyle(
+                  fontSize: 15.fSize,
+                  fontFamily: 'Mulish',
+                  fontWeight: FontWeight.w800,
+                ),
+                dividerColor: appTheme.black900.withOpacity(0.5),
+                indicatorColor: Colors.blueAccent,
+                indicatorSize: TabBarIndicatorSize.tab,
+                tabs: const [
+                  Tab(
+                    child: Text(
+                      "Tất cả",
+                    ),
+                  ),
+                  Tab(
+                    child: Text(
+                      "Phòng sạch",
+                    ),
+                  ),
+                  Tab(
+                    child: Text(
+                      "Nhân viên thân thiện",
+                      maxLines: 1,
+                      // overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
+              Expanded(
+                child: TabBarView(
+                  controller: tabviewController,
+                  children: [
+                    Expanded(
+                      child: Container(
+                        width: double.maxFinite,
+                        padding: EdgeInsets.symmetric(vertical: 12.h),
+                        decoration: BoxDecoration(
+                          color: appTheme.whiteA700,
+                        ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [_buildListlabelvalue(context)],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
             ],
           ),
         ),
@@ -124,13 +187,19 @@ class HotelDetailsRatingsReviewsScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     "8, 6",
-                    style: theme.textTheme.headlineLarge,
+                    style: TextStyle(
+                        fontSize: 30,
+                        color: Colors.blueAccent,
+                        fontWeight: FontWeight.bold),
                   ),
-                  Text(
-                    "ẫn tượng",
-                    style: CustomTextStyles.titleSmallPrimary,
+                  const Text(
+                    "Ấn tượng",
+                    style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.blueAccent,
+                        fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 4.h),
                   Text(
@@ -165,8 +234,10 @@ class HotelDetailsRatingsReviewsScreen extends StatelessWidget {
                         ),
                       ),
                       CustomRatingBar(
-                        initialRating: 0,
-                      )
+                        color: Colors.yellow,
+                        ignoreGestures: true,
+                        initialRating: 5,
+                      ),
                     ],
                   ),
                 ),
@@ -184,8 +255,10 @@ class HotelDetailsRatingsReviewsScreen extends StatelessWidget {
                         ),
                       ),
                       CustomRatingBar(
-                        initialRating: 0,
-                      )
+                        color: Colors.yellow,
+                        ignoreGestures: true,
+                        initialRating: 4,
+                      ),
                     ],
                   ),
                 ),
@@ -203,7 +276,9 @@ class HotelDetailsRatingsReviewsScreen extends StatelessWidget {
                         ),
                       ),
                       CustomRatingBar(
-                        initialRating: 0,
+                        color: Colors.yellow,
+                        ignoreGestures: true,
+                        initialRating: 3,
                       ),
                     ],
                   ),
@@ -222,8 +297,10 @@ class HotelDetailsRatingsReviewsScreen extends StatelessWidget {
                         ),
                       ),
                       CustomRatingBar(
-                        initialRating: 0,
-                      )
+                        color: Colors.yellow,
+                        ignoreGestures: true,
+                        initialRating: 2,
+                      ),
                     ],
                   ),
                 )
@@ -235,167 +312,60 @@ class HotelDetailsRatingsReviewsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildBasic(BuildContext context) {
-    return Container(
-      width: double.maxFinite,
-      decoration: BoxDecoration(
-        color: appTheme.whiteA700,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: IntrinsicWidth(
-              child: SizedBox(
-                width: 474.h,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Row(
-                          children: [
-                            SizedBox(
-                              width: 74.h,
-                              child: Column(
-                                children: [
-                                  Text(
-                                    "Tất cả",
-                                    style: CustomTextStyles.titleSmallPrimary,
-                                  ),
-                                  SizedBox(height: 12.h),
-                                  SizedBox(
-                                    width: double.maxFinite,
-                                    child: Divider(
-                                      color: theme.colorScheme.primary,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              width: 132.h,
-                              child: Column(
-                                children: [
-                                  Container(
-                                    width: double.maxFinite,
-                                    margin:
-                                        EdgeInsets.symmetric(horizontal: 16.h),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          "Phòng sạch",
-                                          style: CustomTextStyles
-                                              .bodyMediumGray600,
-                                        ),
-                                        Container(
-                                          width: 20.h,
-                                          height: 16.h,
-                                          alignment: Alignment.center,
-                                          decoration: BoxDecoration(
-                                            color: appTheme.redA200,
-                                            borderRadius: BorderRadiusStyle
-                                                .roundedBorder8,
-                                            border: Border.all(
-                                              color: appTheme.whiteA700,
-                                              width: 1.h,
-                                            ),
-                                          ),
-                                          child: Text(
-                                            "16".toUpperCase(),
-                                            textAlign: TextAlign.center,
-                                            style: theme.textTheme.labelMedium,
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(height: 10.h),
-                                  SizedBox(
-                                    width: double.maxFinite,
-                                    child: Divider(),
-                                  )
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              child: Column(
-                                children: [
-                                  Container(
-                                    width: double.maxFinite,
-                                    margin:
-                                        EdgeInsets.symmetric(horizontal: 16.h),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Align(
-                                          alignment: Alignment.center,
-                                          child: Text(
-                                            "Nhân viên thân thiện",
-                                            style: CustomTextStyles
-                                                .bodyMediumGray600,
-                                          ),
-                                        ),
-                                        CustomImageView(
-                                          imagePath: ImageConstant.imgRedDot,
-                                          height: 8.h,
-                                          width: 8.h,
-                                          radius: BorderRadius.circular(
-                                            4.0.h,
-                                          ),
-                                          margin: EdgeInsets.only(top: 4.h),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(height: 10.h),
-                                  SizedBox(
-                                    width: double.maxFinite,
-                                    child: Divider(),
-                                  )
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.fromLTRB(26.h, 12.h, 26.h, 10.h),
-                      decoration: BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(
-                            color: appTheme.blueGray50,
-                            width: 1.h,
-                          ),
-                        ),
-                      ),
-                      child: Column(
-                        children: [
-                          Text(
-                            "Mô tả",
-                            textAlign: TextAlign.center,
-                            style: CustomTextStyles.bodyMediumGray600,
-                          )
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
-          )
-        ],
-      ),
-    );
-  }
+  // Widget _buildBasic(BuildContext context) {
+  //   return SafeArea(
+  //     child: Scaffold(
+  //       body: SizedBox(
+  //         width: SizeUtils.width,
+  //         child: SingleChildScrollView(
+  //           child: SizedBox(
+  //             height: SizeUtils.height,
+  //             width: double.maxFinite,
+  //             child: Stack(
+  //               alignment: Alignment.bottomCenter,
+  //               children: [
+  //                 Align(
+  //                   alignment: Alignment.center,
+  //                   child: Container(
+  //                     padding: EdgeInsets.only(
+  //                       left: 34.h,
+  //                       top: 67.v,
+  //                       right: 34.h,
+  //                     ),
+  //                     child: Column(
+  //                       mainAxisSize: MainAxisSize.min,
+  //                       children: [
+  //                         _buildNovbar(context),
+  //                         SizedBox(height: 16.v),
+  //                         _buildTabview(context),
+  //                         SizedBox(height: 16.v),
+  //                       ],
+  //                     ),
+  //                   ),
+  //                 ),
+  //                 Container(
+  //                   margin: EdgeInsets.only(
+  //                     top: 163.v,
+  //                     bottom: 5.v,
+  //                   ),
+  //                   height: 763.v,
+  //                   child: TabBarView(
+  //                     controller: tabviewController,
+  //                     children: [
+  //                       HomeHotelRegionEmptyScreen(),
+  //                       HomeHotelRegionEmptyScreen(),
+  //                     ],
+  //                   ),
+  //                 ),
+  //               ],
+  //             ),
+  //           ),
+  //         ),
+  //       ),
+  //       // bottomNavigationBar: _buildBottomBar(context),
+  //     ),
+  //   );
+  // }
 
   Widget _buildListlabelvalue(BuildContext context) {
     return Expanded(
@@ -410,7 +380,7 @@ class HotelDetailsRatingsReviewsScreen extends StatelessWidget {
               height: 12.h,
             );
           },
-          itemCount: 3,
+          itemCount: 5,
           itemBuilder: (context, index) {
             return ListlabelvalueltemWidget();
           },

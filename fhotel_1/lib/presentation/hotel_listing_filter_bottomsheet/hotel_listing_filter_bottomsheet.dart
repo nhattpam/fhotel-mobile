@@ -1,18 +1,14 @@
-import 'package:fhotel_1/presentation/hotel_listing_filter_bottomsheet/widgets/sectioncontent1_item_widget.dart';
-import 'package:fhotel_1/presentation/hotel_listing_filter_bottomsheet/widgets/sectioncontent2_item_widget.dart';
 import 'package:flutter/material.dart';
-import '../../core/app_export.dart';
 
-// ignore_for_file: must_be_immutable
-  class HotellistingFilterBottomsheet extends StatefulWidget {
+import '../../core/app_export.dart';
+class HotellistingFilterBottomsheet extends StatefulWidget {
   const HotellistingFilterBottomsheet({Key? key}) : super(key: key);
 
   @override
   HotellistingFilterBottomsheetState createState() => HotellistingFilterBottomsheetState();
   }
 
-// ignore_for_file: must_be_immutable
-  class HotellistingFilterBottomsheetState extends State<HotellistingFilterBottomsheet> {
+class HotellistingFilterBottomsheetState extends State<HotellistingFilterBottomsheet> {
 
   TextEditingController labeltwelveController = TextEditingController();
   TextEditingController labeloneController = TextEditingController();

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../../core/app_export.dart';
 
 class KeywordlistingItemWidget extends StatelessWidget {
@@ -22,10 +23,10 @@ class KeywordlistingItemWidget extends StatelessWidget {
           width: 1.h,
         ),
       ),
-      child: Text(
-        "Phòng sạch (16)",
-        textAlign: TextAlign.center,
-        style: theme.textTheme.bodyMedium,
+      child: const Chip(
+        label: Text("Phòng sạch"),
+        // selected: false,
+        // onSelected: (bool selected) {},
       ),
     );
   }

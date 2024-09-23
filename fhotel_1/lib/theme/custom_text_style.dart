@@ -57,7 +57,7 @@ class CustomTextStyles {
 
   static get bodyMediumPrimary =>
       theme.textTheme.bodyMedium!.copyWith(
-        color: theme.colorScheme.primary,
+        color: Colors.blueAccent,
       );
 
   static get bodyMediumRedA200 =>

@@ -1,8 +1,6 @@
 import 'package:fhotel_1/core/app_export.dart';
 import 'package:flutter/material.dart';
 
-import '../custom_icon_button.dart';
-
 class AppbarTrailingIconbutton extends StatelessWidget {
   AppbarTrailingIconbutton({Key? key, this.imagePath, this.margin, this.onTap})
       : super(key: key,);

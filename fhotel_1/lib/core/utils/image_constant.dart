@@ -42,7 +42,7 @@ class ImageConstant {
 // Hotel details - Ratings & reviews images
   static String imgRedDot = '$imagePath/img_red_dot.svg';
 
-  static String imgCircle24x24 = '$imagePath/img_circle_24x24.png';
+  static String imgCircle24x24 = '$imagePath/user-regular.svg';
 
 // Hotel details - Ratings & reviews One images
   static String imgImage4 = '$imagePath/img_image_4.png';
@@ -127,9 +127,9 @@ class ImageConstant {
   static String imgIonWrapperGreenA700 =
       '$imagePath/img_icon_wrapper_green_a700.svg';
   static String imgStar = '$imagePath/img_star.svg';
-  static String imgArrowRight = '$imagePath/img_arrow_right.svg';
-  static String imgImage24x24 = '$imagePath/img_image_24x24.png';
-  static String imgIconWrapper14 = '$imagePath/img_icon_wrapper_14.svg';
+  static String imgArrowRight = '$imagePath/chevron-right-solid.svg';
+  static String imgImage24x24 = '$imagePath/thumbs-up-regular.svg';
+  static String imgIconWrapper14 = '$imagePath/clock-regular.svg';
   static String imgArrowdownPrimary = '$imagePath/img_arrowdown_primary.svg';
   static String imgImage180x360 = '$imagePath/img_image_180x360.png';
   static String imgImage40x40 = '$imagePath/img_image_40x40.png';

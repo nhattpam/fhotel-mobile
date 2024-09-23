@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../core/app_export.dart';
 class HotelListingOffLocationScreen extends StatelessWidget {
   const HotelListingOffLocationScreen({Key? key})

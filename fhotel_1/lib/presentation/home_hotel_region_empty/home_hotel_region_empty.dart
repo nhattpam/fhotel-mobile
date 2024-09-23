@@ -5,6 +5,7 @@ import 'package:fhotel_1/presentation/home_destination_default/home_destination_
 import 'package:fhotel_1/presentation/home_hotel_region_empty/widgets/carouselunit_item_widget.dart';
 import 'package:fhotel_1/presentation/home_hotel_region_empty/widgets/maincontent_item_widget.dart';
 import 'package:fhotel_1/presentation/home_hotel_region_empty/widgets/maincontent_one_item_widget.dart';
+import 'package:fhotel_1/presentation/hotel_detail/hotel_detail_screen.dart';
 import 'package:fhotel_1/theme/app_decoration.dart';
 import 'package:fhotel_1/theme/custom_button_style.dart';
 import 'package:fhotel_1/theme/custom_text_style.dart';
@@ -120,7 +121,7 @@ class CategoryScreenState extends State<HomeHotelRegionEmptyScreen> {
   Widget _buildStackherobanner(BuildContext context) {
     return Align(
       alignment: Alignment.topCenter,
-      child: Container(
+      child: SizedBox(
         height: 96.h,
         child: Flexible(
           child: Stack(
@@ -413,8 +414,7 @@ class CategoryScreenState extends State<HomeHotelRegionEmptyScreen> {
                       SizedBox(height: 16.h),
                       CustomElevatedButton(
                         onPressed: () {
-                          print('a');
-                        },
+                          },
                         buttonStyle: CustomButtonStyles.fillBlue,
                         buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,
                         text: "Tìm kiếm",
