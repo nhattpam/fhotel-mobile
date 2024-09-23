@@ -1,4 +1,5 @@
 import 'package:fhotel_1/core/app_export.dart';
+import 'package:fhotel_1/presentation/hotel_listing_nearby_screen/hotel_listing_nearby_screen.dart';
 import 'package:flutter/material.dart';
 
 class MaincontentItemWidget extends StatelessWidget {
@@ -27,39 +28,51 @@ class MaincontentItemWidget extends StatelessWidget {
             imagePath: ImageConstant.imgIconWrapperPrimary,
             height: 24.h,
             width: 24.h,
+            color: Colors.lightBlue,
           ),
           SizedBox(width: 8.h),
-          Expanded(
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Padding(
-                padding: EdgeInsets.only(top: 2.h),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Khách sạn Pullman Vũng Tàu",
-                      style: CustomTextStyles.titleSmallPrimary.copyWith(
-                        color: Colors.blue
+          GestureDetector(
+            onTap: (){
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => HotelListingNearbyScreen()),
+              );
+            },
+            child: Expanded(
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: EdgeInsets.only(top: 2.h),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Khách sạn Pullman Vũng Tàu",
+                        style: CustomTextStyles.titleSmallPrimary.copyWith(
+                          color: Colors.blue
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 4.h),
-                    Text(
-                      "02/02/2022 - 04/02/2022",
-                      style: theme.textTheme.bodySmall,
-                    ),
-                    SizedBox(height: 4.h),
-                    Flexible(
-                      child: Text(
-                        "2 phòng, 2 người lớn, 1 trẻ em",
+                      SizedBox(height: 4.h),
+                      Text(
+                        "02/02/2022 - 04/02/2022",
                         style: theme.textTheme.bodySmall,
                       ),
-                    )
-                  ],
+                      SizedBox(height: 4.h),
+                      Flexible(
+                        child: Text(
+                          "2 phòng, 2 người lớn, 1 trẻ em",
+                          style: theme.textTheme.bodySmall,
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
-          )
+          ),
+          // const VerticalDivider(
+          //   color: Colors.grey,  // Set the color of the divider
+          //   thickness: 1,       // Add space at the bottom of the divider
+          // ),
         ],
       ),
     );

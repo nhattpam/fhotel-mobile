@@ -4,14 +4,20 @@ import 'package:flutter/material.dart';
 import '../../core/app_export.dart';
 
 // ignore_for_file: must_be_immutable
-class HotellistingFilterBottomsheet extends StatelessWidget {
-  HotellistingFilterBottomsheet({Key? key})
-      : super(
-          key: key,
-        );
+  class HotellistingFilterBottomsheet extends StatefulWidget {
+  const HotellistingFilterBottomsheet({Key? key}) : super(key: key);
+
+  @override
+  HotellistingFilterBottomsheetState createState() => HotellistingFilterBottomsheetState();
+  }
+
+// ignore_for_file: must_be_immutable
+  class HotellistingFilterBottomsheetState extends State<HotellistingFilterBottomsheet> {
 
   TextEditingController labeltwelveController = TextEditingController();
   TextEditingController labeloneController = TextEditingController();
+  bool plateone = false;
+
   bool minphhyphng = false;
   String loihnhni = "";
   bool khcone = false;
@@ -98,13 +104,15 @@ class HotellistingFilterBottomsheet extends StatelessWidget {
 
   Widget _buildLabeltwelve(BuildContext context) {
     return CustomTextFormField(
+      borderDecoration: OutlineInputBorder(
+          borderSide: BorderSide(color: appTheme.black900.withOpacity(0.15))),
       controller: labeltwelveController,
       hintText: "Nhập giá",
-      hintStyle: CustomTextStyles.bodyMediumGray600,
+      hintStyle: CustomTextStyles.bodyLargeBlack900_1,
       suffix: Padding(
-        padding: EdgeInsets.only(left: 16.h),
+        padding: EdgeInsets.only(right: 16.h),
         child: Text(
-          "đ",
+          "₫",
           style: TextStyle(
             color: theme.colorScheme.onPrimary,
             fontSize: 14.fSize,
@@ -122,14 +130,16 @@ class HotellistingFilterBottomsheet extends StatelessWidget {
 
   Widget _buildLabelone(BuildContext context) {
     return CustomTextFormField(
+      borderDecoration: OutlineInputBorder(
+          borderSide: BorderSide(color: appTheme.black900.withOpacity(0.15))),
       controller: labeloneController,
       hintText: "Nhập giá",
-      hintStyle: CustomTextStyles.bodyMediumGray600,
+      hintStyle: CustomTextStyles.bodyLargeBlack900_1,
       textInputAction: TextInputAction.done,
       suffix: Padding(
-        padding: EdgeInsets.only(left: 16.h),
+        padding: EdgeInsets.only(right: 16.h),
         child: Text(
-          "d",
+          "₫",
           style: TextStyle(
             color: theme.colorScheme.onPrimary,
             fontSize: 14.fSize,
@@ -220,17 +230,37 @@ class HotellistingFilterBottomsheet extends StatelessWidget {
             height: 32.h,
             width: 294.h,
             child: ListView.separated(
-                padding: EdgeInsets.only(right: 34.h),
-                scrollDirection: Axis.horizontal,
-                separatorBuilder: (context, index) {
-                  return SizedBox(
-                    width: 8.h,
-                  );
-                },
-                itemCount: 5,
-                itemBuilder: (context, index) {
-                  return SectioncontentiItemWidget();
-                }),
+              padding: EdgeInsets.only(right: 34.h),
+              scrollDirection: Axis.horizontal,
+              separatorBuilder: (context, index) {
+                return SizedBox(
+                  width: 8.h,
+                );
+              },
+              itemCount: 5,
+              itemBuilder: (context, index) {
+                return ChipTheme(
+                  data: ChipTheme.of(context).copyWith(
+                    backgroundColor: Colors.white,
+                    selectedColor: Colors.blue,
+                    disabledColor: Colors.grey,
+                    shape: RoundedRectangleBorder(
+                      side: const BorderSide(
+                        color: Colors.grey, // Border color
+                        width: 1, // Border width
+                      ),
+                      borderRadius:
+                      BorderRadius.circular(50), // Rounded corners
+                    ),
+                  ),
+                  child: const Chip(
+                    label: Text("1 sao"),
+                    // selected: false,
+                    // onSelected: (bool selected) {},
+                  ),
+                );
+              },
+            ),
           )
         ],
       ),
@@ -240,30 +270,53 @@ class HotellistingFilterBottomsheet extends StatelessWidget {
   Widget _buildSectionone(BuildContext context) {
     return Container(
       width: double.maxFinite,
-      padding: EdgeInsets.all(16.h),
+      padding: EdgeInsets.only(
+        left: 16.h,
+        top: 16.h,
+        bottom: 16.h,
+      ),
       decoration: BoxDecoration(
         color: appTheme.whiteA700,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            "Chính sách đặt phòng",
+            "Thanh toán",
             style: theme.textTheme.titleMedium,
           ),
-          SizedBox(height: 10.h),
-          SizedBox(
-            width: double.maxFinite,
-            child: CustomCheckboxButton(
-                text: "Miễn phí hủy phòng",
-                value: minphhyphng,
-                padding: EdgeInsets.fromLTRB(10.h, 8.h, 30.h, 8.h),
-                decoration: CustomCheckBoxStyleHelper.fillwhiteA,
-                onChange: (value) {
-                  minphhyphng = value;
-                }),
-          )
+          SizedBox(height: 24.h),
+          Row(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(bottom: 1.v),
+                child: Checkbox(
+                  fillColor: MaterialStateProperty.resolveWith(
+                        (states) {
+                      if (!states.contains(MaterialState.selected)) {
+                        return Colors.white;
+                      }
+                      return null;
+                    },
+                  ),
+                  checkColor: Colors.white,
+                  activeColor: Colors.blue,
+                  value: plateone,
+                  onChanged: (newValue) {
+                    setState(() {
+                      plateone = newValue!;
+                    });
+                  },
+                ),
+              ),
+              Text(
+                'Đặt trước, trả sau tại ngay nơi nghỉ',
+                textAlign: TextAlign.start,
+                style: theme.textTheme.bodyMedium,
+              ),
+            ],
+          ),
+          SizedBox(height: 10.h)
         ],
       ),
     );
@@ -291,7 +344,26 @@ class HotellistingFilterBottomsheet extends StatelessWidget {
               runSpacing: 8.h,
               spacing: 8.h,
               children: List<Widget>.generate(
-                  10, (index) => Sectioncontent2ItemWidget()),
+                  10, (index) => ChipTheme(
+                data: ChipTheme.of(context).copyWith(
+                  backgroundColor: Colors.white,
+                  selectedColor: Colors.blue,
+                  disabledColor: Colors.grey,
+                  shape: RoundedRectangleBorder(
+                    side: const BorderSide(
+                      color: Colors.grey, // Border color
+                      width: 1, // Border width
+                    ),
+                    borderRadius:
+                    BorderRadius.circular(50), // Rounded corners
+                  ),
+                ),
+                child: const Chip(
+                  label: Text("Wifi"),
+                  // selected: false,
+                  // onSelected: (bool selected) {},
+                ),
+              )),
             ),
           ),
         ],
@@ -310,7 +382,7 @@ class HotellistingFilterBottomsheet extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Loại hình nơi nghi ưu tiên",
+            "Loại hình nơi nghỉ ưu tiên",
             style: theme.textTheme.titleMedium,
           ),
           SizedBox(height: 22.h),
@@ -321,14 +393,15 @@ class HotellistingFilterBottomsheet extends StatelessWidget {
                 CustomRadioButton(
                   text: "Tất cả",
                   value: "Tất cả",
+                  padding: EdgeInsets.fromLTRB(10.h, 8.h, 30.h, 8.h),
                   groupValue: loihnhni,
                   onChange: (value) {
-                    loihnhni = value;
+                    setState(() {
+                      loihnhni = value;
+                    });
                   },
                 ),
-                Padding(
-                  padding: EdgeInsets.only(top: 10.h),
-                  child: CustomRadioButton(
+                CustomRadioButton(
                     text: "Thanh toán khi nhận phòng",
                     value: "Thanh toán khi nhận phòng",
                     groupValue: loihnhni,
@@ -337,7 +410,6 @@ class HotellistingFilterBottomsheet extends StatelessWidget {
                       loihnhni = value;
                     },
                   ),
-                ),
                 CustomRadioButton(
                   text: "Phù hợp gia đình",
                   value: "Phù hợp gia đình",
@@ -360,7 +432,7 @@ class HotellistingFilterBottomsheet extends StatelessWidget {
                   text: "Promo",
                   value: "Promo",
                   groupValue: loihnhni,
-                  padding: EdgeInsets.fromLTRB(10.h, 10.h, 30.h, 10.h),
+                  padding: EdgeInsets.fromLTRB(10.h, 8.h, 30.h, 8.h),
                   onChange: (value) {
                     loihnhni = value;
                   },
@@ -569,8 +641,8 @@ class HotellistingFilterBottomsheet extends StatelessWidget {
       child: CustomOutlinedButton(
         height: 40.h,
         text: "Xóa bộ lọc",
-        buttonStyle: CustomButtonStyles.outlinePrimary,
-        buttonTextStyle: CustomTextStyles.bodyLargePrimary,
+        buttonStyle: CustomButtonStyles.outlineBlue,
+        buttonTextStyle: CustomTextStyles.bodyLargeBlue,
       ),
     );
   }
@@ -578,7 +650,9 @@ class HotellistingFilterBottomsheet extends StatelessWidget {
   Widget _buildPdng(BuildContext context) {
     return Expanded(
       child: CustomElevatedButton(
-        text: "Ấp dụng",
+        text: "Áp dụng",
+        buttonStyle: CustomButtonStyles.fillBlue,
+        buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,
       ),
     );
   }
@@ -599,6 +673,8 @@ class HotellistingFilterBottomsheet extends StatelessWidget {
       child: Row(
         children: [
           _buildXabIc(context),
+          SizedBox(width: 8.h),
+          _buildPdng(context)
         ],
       ),
     );

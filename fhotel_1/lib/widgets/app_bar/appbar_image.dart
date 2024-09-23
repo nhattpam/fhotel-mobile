@@ -18,6 +18,7 @@ Widget build(BuildContext context) {
     child: Padding(
       padding: margin ?? EdgeInsets.zero,
       child: CustomImageView(
+        color: Colors.white,
         imagePath: imagePath!,
         height: 16.h,
         width: 16.h,

@@ -76,7 +76,7 @@ class ImageConstant {
   static String imgHerobanner = '$imagePath/pexels-pixabay-258154.jpg';
   static String imgIconWrapper = '$imagePath/img_icon_wrapper.svg';
   static String imgIconLeft = '$imagePath/ellipsis-h-solid.svg';
-  static String imgDivider = '$imagePath/img_divider.svg';
+  static String imgDivider = '$imagePath/circle-xmark-regular.svg';
   static String imgIconRight = '$imagePath/img_icon_right.svg';
   static String imgIconWrapperGray600 =
       '$imagePath/map-marker-alt-solid.svg';
@@ -108,19 +108,18 @@ class ImageConstant {
   static String imgIconWrapperWhiteA70020x20 =
       '$imagePath/img_icon_wrapper_white_a700_20x20.svg';
   static String imgArrowLeft = '$imagePath/img_arrow_left.svg';
-  static String imgChevronLeft = '$imagePath/img_chevron_left.svg';
-  static String imgIconWrapperWhiteA70024x24 =
-      '$imagePath/img_icon_wrapper_white_a700_24x24.svg';
-  static String imgIconWrapper9 = '$imagePath/img_icon_wrapper_9.svg';
-  static String imgIconWrapper10 = '$imagePath/img_icon_wrapper_10.svg';
-  static String imgIconWrapper11 = '$imagePath/img_icon_wrapper_11.svg';
+  static String imgChevronLeft = '$imagePath/chevron-left-solid.svg';
+  static String imgIconWrapperWhiteA70024x24 = '$imagePath/img_icon_wrapper_white_a700_24x24.svg';
+  static String imgIconWrapper9 = '$imagePath/moon-regular.svg';
+  static String imgIconWrapper10 = '$imagePath/door-open-solid.svg';
+  static String imgIconWrapper11 = '$imagePath/user-regular.svg';
   static String imgArrowDownWhiteA700 =
-      '$imagePath/img_arrow_down_white_a700.svg';
-  static String imgActionSort = '$imagePath/img_action_sort.svg';
-  static String imgImage120x120 = '$imagePath/img_image_120x120.png';
-  static String imgIconWrapper12 = '$imagePath/img_icon_wrapper_12.svg';
+      '$imagePath/angle-down-solid.svg';
+  static String imgActionSort = '$imagePath/sorting.svg';
+  static String imgImage120x120 = '$imagePath/Holiday-Inn-Hồ-Tràm-1.jpg';
+  static String imgIconWrapper12 = '$imagePath/thumbs-up-regular.svg';
   static String imgContentStar = '$imagePath/img_content_star.svg';
-  static String imgIconWrapper13 = '$imagePath/img_icon_wrapper_13.svg';
+  static String imgIconWrapper13 = '$imagePath/map-marker-alt-solid.svg';
   static String imgImage3 = '$imagePath/img_image_3.png';
   static String imgIcon = '$imagePath/img_icon.svg';
   static String imgNavigationClose = '$imagePath/img_navigation_close.svg';

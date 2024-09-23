@@ -154,6 +154,14 @@ class CustomTextStyles {
       theme.textTheme.titleSmall!.copyWith(
         color: theme.colorScheme.primary,
       );
+  static get titleSmallBlue =>
+      theme.textTheme.titleSmall!.copyWith(
+        color: Colors.blueAccent,
+      );
+  static get titleSmallWhite =>
+      theme.textTheme.titleSmall!.copyWith(
+        color: appTheme.black900.withOpacity(0.5),
+      );
 
   static get titleSmallPrimary_1 =>
       theme.textTheme.titleSmall!.copyWith(

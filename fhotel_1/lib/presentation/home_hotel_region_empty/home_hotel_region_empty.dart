@@ -83,6 +83,9 @@ class CategoryScreenState extends State<HomeHotelRegionEmptyScreen> {
           child: SingleChildScrollView(
             child: Container(
               height: 1032.h,
+              decoration: BoxDecoration(
+                color: appTheme.gray10001,
+              ),
               child: Stack(
                 alignment: Alignment.bottomCenter,
                 children: [
@@ -222,6 +225,7 @@ class CategoryScreenState extends State<HomeHotelRegionEmptyScreen> {
                               imagePath: ImageConstant.imgIconWrapperGray600,
                               height: 24.h,
                               width: 24.h,
+                              color: appTheme.black900.withOpacity(0.5),
                             ),
                             SizedBox(width: 6.h),
                             Expanded(
@@ -286,6 +290,7 @@ class CategoryScreenState extends State<HomeHotelRegionEmptyScreen> {
                                         .imgIconWrapperGray60024x24,
                                     height: 24.h,
                                     width: 24.h,
+                                    color: appTheme.black900.withOpacity(0.5),
                                     margin: EdgeInsets.only(top: 8.h),
                                   ),
                                   SizedBox(width: 8.h),
@@ -620,6 +625,7 @@ class CategoryScreenState extends State<HomeHotelRegionEmptyScreen> {
             imagePath: iconwrapper,
             height: 24.h,
             width: 24.h,
+            color: appTheme.black900.withOpacity(0.5),
           ),
           SizedBox(width: 8.h),
           Expanded(
@@ -679,6 +685,7 @@ class CategoryScreenState extends State<HomeHotelRegionEmptyScreen> {
             imagePath: iconwrapper,
             height: 24.h,
             width: 24.h,
+            color: appTheme.black900.withOpacity(0.5),
           ),
           SizedBox(width: 8.h),
           Expanded(

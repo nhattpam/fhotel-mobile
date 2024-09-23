@@ -14,7 +14,14 @@ class CustomButtonStyles {
   static ButtonStyle get fillBlue => ElevatedButton.styleFrom(
     backgroundColor: appTheme.blue600,
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(4.h),
+      borderRadius: BorderRadius.circular(8.h),
+    ),
+    elevation: 0,
+  );
+  static ButtonStyle get fillWhite => ElevatedButton.styleFrom(
+    backgroundColor: appTheme.whiteA700,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(14.h),
     ),
     elevation: 0,
   );
@@ -76,6 +83,26 @@ class CustomButtonStyles {
   backgroundColor: appTheme.whiteA700,
   side: BorderSide(
   color: theme.colorScheme.primary,
+  width: 1,
+  ),
+  shape: RoundedRectangleBorder (
+  borderRadius: BorderRadius.circular (16.h),
+  ),
+  );
+  static ButtonStyle get outlineBlueTL16 => OutlinedButton.styleFrom(
+  backgroundColor: appTheme.whiteA700,
+  side: const BorderSide(
+  color: Colors.blueAccent,
+  width: 1,
+  ),
+  shape: RoundedRectangleBorder (
+  borderRadius: BorderRadius.circular (16.h),
+  ),
+  );
+  static ButtonStyle get outlineWhiteTL16 => OutlinedButton.styleFrom(
+  backgroundColor: appTheme.whiteA700,
+  side: BorderSide(
+  color: appTheme.black900.withOpacity(0.15),
   width: 1,
   ),
   shape: RoundedRectangleBorder (

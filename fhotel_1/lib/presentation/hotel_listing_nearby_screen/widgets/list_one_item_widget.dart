@@ -46,22 +46,23 @@ class ListOneItemWidget extends StatelessWidget {
                     child: Align(
                       alignment: Alignment.bottomCenter,
                       child: Container(
-                        height: 60.h,
+                        height: 100.h,
                         padding: EdgeInsets.symmetric(vertical: 4.h),
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment(0.5, 0),
-                            end: Alignment(0.5, 1),
-                            colors: [
-                              appTheme.black900.withOpacity(0.6),
-                              appTheme.black900.withOpacity(0.6)
-                            ],
-                          ),
-                        ),
+                        // decoration: BoxDecoration(
+                        //   gradient: LinearGradient(
+                        //     begin: Alignment(0.5, 0),
+                        //     end: Alignment(0.5, 1),
+                        //     colors: [
+                        //       appTheme.black900.withOpacity(0.6),
+                        //       appTheme.black900.withOpacity(0.6)
+                        //     ],
+                        //   ),
+                        // ),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             CustomImageView(
+                              color: appTheme.whiteA700,
                               imagePath: ImageConstant.imgIconWrapper13,
                               height: 24.h,
                               width: 24.h,
@@ -96,8 +97,9 @@ class ListOneItemWidget extends StatelessWidget {
                 ),
                 SizedBox(height: 4.h),
                 CustomRatingBar(
+                  color: Colors.yellow,
                   ignoreGestures: true,
-                  initialRating: 0,
+                  initialRating: 5,
                 ),
                 SizedBox(height: 6.h),
                 SizedBox(
@@ -106,8 +108,9 @@ class ListOneItemWidget extends StatelessWidget {
                     children: [
                       CustomImageView(
                         imagePath: ImageConstant.imgIconWrapper12,
-                        height: 24.h,
-                        width: 24.h,
+                        color: Colors.blueAccent,
+                        height: 15.h,
+                        width: 15.h,
                       ),
                       Align(
                         alignment: Alignment.bottomCenter,
@@ -129,7 +132,7 @@ class ListOneItemWidget extends StatelessWidget {
                     children: [
                       Text(
                         "2.000.000 ₫",
-                        style: CustomTextStyles.titleSmallPrimary,
+                        style: CustomTextStyles.titleSmallBlue,
                       ),
                       Align(
                         alignment: Alignment.topCenter,

@@ -22,6 +22,7 @@ class AppbarIconbutton extends StatelessWidget {
           height: 16.h,
           width: 24.h,
           child: CustomImageView(
+            color: Colors.white,
             imagePath: ImageConstant.imgDivider,
           ),
         ),
