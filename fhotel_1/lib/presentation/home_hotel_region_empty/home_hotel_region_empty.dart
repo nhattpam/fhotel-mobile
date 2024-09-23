@@ -6,6 +6,7 @@ import 'package:fhotel_1/presentation/home_hotel_region_empty/widgets/carouselun
 import 'package:fhotel_1/presentation/home_hotel_region_empty/widgets/maincontent_item_widget.dart';
 import 'package:fhotel_1/presentation/home_hotel_region_empty/widgets/maincontent_one_item_widget.dart';
 import 'package:fhotel_1/theme/app_decoration.dart';
+import 'package:fhotel_1/theme/custom_button_style.dart';
 import 'package:fhotel_1/theme/custom_text_style.dart';
 import 'package:fhotel_1/widgets/custom_elevated_button.dart';
 import 'package:flutter/material.dart';
@@ -409,6 +410,8 @@ class CategoryScreenState extends State<HomeHotelRegionEmptyScreen> {
                         onPressed: () {
                           print('a');
                         },
+                        buttonStyle: CustomButtonStyles.fillBlue,
+                        buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,
                         text: "Tìm kiếm",
                       )
                     ],
