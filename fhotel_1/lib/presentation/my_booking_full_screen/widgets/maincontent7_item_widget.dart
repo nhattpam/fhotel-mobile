@@ -70,7 +70,7 @@ class Maincontent7ItemWidget extends StatelessWidget {
                   padding: EdgeInsets.only(top: 10.h),
                   child: Text(
                     "8.000.000 ₫",
-                    style: CustomTextStyles.titleSmallPrimary,
+                    style: CustomTextStyles.titleSmallBlue,
                   ),
                 )
               ],

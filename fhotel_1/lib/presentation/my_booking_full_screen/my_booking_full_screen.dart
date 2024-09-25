@@ -16,6 +16,7 @@ class MyBookingFullScreen extends StatelessWidget {
           width: double.maxFinite,
           child: SingleChildScrollView(
             child: Container(
+              color: appTheme.gray10001,
               width: double.maxFinite,
               padding: EdgeInsets.only(
                 left: 16.h,
@@ -188,7 +189,7 @@ class MyBookingFullScreen extends StatelessWidget {
                         padding: EdgeInsets.only(top: 10.h),
                         child: Text(
                           "8.000.000 ₫",
-                          style: CustomTextStyles.titleSmallPrimary,
+                          style: CustomTextStyles.titleSmallBlue,
                         ),
                       )
                     ],
