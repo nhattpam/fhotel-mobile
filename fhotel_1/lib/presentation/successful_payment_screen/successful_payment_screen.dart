@@ -1,3 +1,5 @@
+import 'package:fhotel_1/presentation/home_hotel_region_empty/home_hotel_region_empty.dart';
+import 'package:fhotel_1/presentation/my_booking_full_screen/my_booking_full_screen.dart';
 import 'package:flutter/material.dart';
 import '../../core/app_export.dart';
 
@@ -126,6 +128,11 @@ class SuccessfulPaymentScreen extends StatelessWidget {
               children: [
                 Expanded(
                   child: CustomOutlinedButton(
+                    onPressed: (){
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) =>  HomeHotelRegionEmptyScreen()),
+                      );
+                    },
                     height: 40.h,
                     text: "Về trang chủ",
                     buttonStyle: CustomButtonStyles.outlineBlue,
@@ -135,6 +142,11 @@ class SuccessfulPaymentScreen extends StatelessWidget {
                 SizedBox(width: 8.h),
                 Expanded(
                   child: CustomElevatedButton(
+                    onPressed: (){
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) =>  MyBookingFullScreen()),
+                      );
+                    },
                     text: "Chi tiết đặt chỗ",
                     buttonStyle: CustomButtonStyles.fillBlue,
                     buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,
