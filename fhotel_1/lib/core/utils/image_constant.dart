@@ -148,7 +148,7 @@ class ImageConstant {
   static String imgIconWrapper18 = '$imagePath/img_icon_wrapper_18.svg';
   static String imgIconWrapper19 = '$imagePath/img_icon_wrapper_19.svg';
   static String imgIconLeftOnprimary = '$imagePath/img_icon_left_onprimary.svg';
-  static String imgIconWrapper20 = '$imagePath/img_icon_wrapper_20.svg';
+  static String imgIconWrapper20 = '$imagePath/copy-solid.svg';
   static String imgArrowUp = '$imagePath/img_arrow_up.svg';
   static String imageNotFound = 'assets/images/image_not_found.png';
 }
