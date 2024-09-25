@@ -79,9 +79,9 @@ class CategoryScreenState extends State<HomeHotelRegionEmptyScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: SizedBox(
-          width: double.maxFinite,
-          child: SingleChildScrollView(
+        body: SingleChildScrollView(
+          child: SizedBox(
+            width: double.maxFinite,
             child: Container(
               height: 1032.h,
               decoration: BoxDecoration(
@@ -121,9 +121,9 @@ class CategoryScreenState extends State<HomeHotelRegionEmptyScreen> {
   Widget _buildStackherobanner(BuildContext context) {
     return Align(
       alignment: Alignment.topCenter,
-      child: SizedBox(
-        height: 96.h,
-        child: Flexible(
+      child: Flexible(
+        child: SizedBox(
+          height: 96.h,
           child: Stack(
             alignment: Alignment.center,
             children: [

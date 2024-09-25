@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../core/app_export.dart';
+import '../checkout/checkout.dart';
   class GuestInformationBookForOthersScreen extends StatefulWidget {
   const GuestInformationBookForOthersScreen({Key? key}) : super(key: key);
 
@@ -348,7 +349,7 @@ import '../../core/app_export.dart';
     return CustomElevatedButton(
       onPressed: (){
         Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) =>  GuestInformationBookForOthersScreen()),
+          MaterialPageRoute(builder: (context) =>  CheckoutScreen()),
         );
       },
       text: "Đặt phòng",
