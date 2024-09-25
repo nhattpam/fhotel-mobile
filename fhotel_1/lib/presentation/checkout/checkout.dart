@@ -1,4 +1,5 @@
 import 'package:fhotel_1/presentation/checkout/widgets/checkout_one_item_widget.dart';
+import 'package:fhotel_1/presentation/successful_payment_screen/successful_payment_screen.dart';
 import 'package:flutter/material.dart';
 import '../../core/app_export.dart';
 
@@ -704,10 +705,10 @@ class CheckoutScreen extends StatelessWidget {
             ),
           ),
           SizedBox(height: 6.h),
-          SizedBox(
-            width: double.maxFinite,
-            child: Divider(),
-          ),
+          // SizedBox(
+          //   width: double.maxFinite,
+          //   child: Divider(),
+          // ),
           SizedBox(height: 8.h),
           SizedBox(
             width: double.maxFinite,
@@ -719,10 +720,10 @@ class CheckoutScreen extends StatelessWidget {
             ),
           ),
           SizedBox(height: 6.h),
-          SizedBox(
-            width: double.maxFinite,
-            child: Divider(),
-          ),
+          // SizedBox(
+          //   width: double.maxFinite,
+          //   child: Divider(),
+          // ),
           SizedBox(height: 8.h),
           SizedBox(
             width: double.maxFinite,
@@ -733,19 +734,19 @@ class CheckoutScreen extends StatelessWidget {
             ),
           ),
           SizedBox(height: 6.h),
-          SizedBox(
-            width: double.maxFinite,
-            child: Divider(),
-          ),
-          SizedBox(height: 8.h),
-          SizedBox(
-            width: double.maxFinite,
-            child: _buildWrapperFive(
-              context,
-              labelguestTwo: "Tổng cộng",
-              datavalueone: "8.000.000 ₫",
-            ),
-          )
+          // SizedBox(
+          //   width: double.maxFinite,
+          //   child: Divider(),
+          // ),
+          // SizedBox(height: 8.h),
+          // SizedBox(
+          //   width: double.maxFinite,
+          //   child: _buildWrapperFive(
+          //     context,
+          //     labelguestTwo: "Tổng cộng",
+          //     datavalueone: "8.000.000 ₫",
+          //   ),
+          // )
         ],
       ),
     );
@@ -827,9 +828,9 @@ class CheckoutScreen extends StatelessWidget {
   Widget _buildChnphng(BuildContext context) {
     return CustomElevatedButton(
       onPressed: (){
-        // Navigator.of(context).push(
-        //   MaterialPageRoute(builder: (context) =>  GuestInformationBookForOthersScreen()),
-        // );
+        Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) =>  SuccessfulPaymentScreen()),
+        );
       },
       text: "Thanh toán",
       buttonStyle: CustomButtonStyles.fillBlue,

@@ -275,24 +275,29 @@ class ListtitleroomitItemWidget extends StatelessWidget {
                     textAlign: TextAlign.left,
                   ),
                 ),
-                Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 12.h,
-                    vertical: 2.h,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.blueAccent,
-                    borderRadius: BorderRadiusStyle.roundedBorder4,
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Đặt phòng",
-                        style: CustomTextStyles.bodySmallWhiteA700,
-                      )
-                    ],
+                GestureDetector(
+                  onTap: (){
+                    _showDetailModalBottomSheet(context);
+                  },
+                  child: Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 12.h,
+                      vertical: 2.h,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.blueAccent,
+                      borderRadius: BorderRadiusStyle.roundedBorder4,
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Đặt phòng",
+                          style: CustomTextStyles.bodySmallWhiteA700,
+                        )
+                      ],
+                    ),
                   ),
                 )
               ],

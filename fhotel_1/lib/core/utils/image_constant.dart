@@ -61,7 +61,7 @@ class ImageConstant {
   static String imgImg = '$imagePath/06ncktiwd6dc1694418196384.png';
 
 // Successful payment images
-  static String imgImage180x180 = '$imagePath/img_image_180x180.png';
+  static String imgImage180x180 = '$imagePath/5654931.png';
 
 // Failed payment images
   static String imgImage6 = '$imagePath/img_image_6.png';

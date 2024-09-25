@@ -164,6 +164,7 @@ class ListItemWidget extends StatelessWidget {
             child: Row(
               children: [
                 CustomImageView(
+                  color: Colors.green,
                   imagePath: ImageConstant.imgIconWrapperGreenA70024x24,
                   height: 24.h,
                   width: 24.h,
@@ -191,6 +192,7 @@ class ListItemWidget extends StatelessWidget {
             child: Row(
               children: [
                 CustomImageView(
+                  color: appTheme.black900.withOpacity(0.5),
                   imagePath: ImageConstant.imgIconWrapperBlack90024x24,
                   height: 24.h,
                   width: 24.h,
@@ -218,6 +220,7 @@ class ListItemWidget extends StatelessWidget {
             child: Row(
               children: [
                 CustomImageView(
+                  color: Colors.green,
                   imagePath: ImageConstant.imgIconWrapperGreenA70024x24,
                   height: 24.h,
                   width: 24.h,
@@ -270,26 +273,31 @@ class ListItemWidget extends StatelessWidget {
                     textAlign: TextAlign.left,
                   ),
                 ),
-                Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 12.h,
-                    vertical: 2.h,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.blueAccent,
-                    borderRadius: BorderRadiusStyle.roundedBorder4,
-                  ),
-                  child: const Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Đặt phòng",
-                        style: TextStyle(
-                          color: Colors.white
-                        ),
-                      )
-                    ],
+                GestureDetector(
+                  onTap: (){
+                    _showDetailModalBottomSheet(context);
+                  },
+                  child: Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 12.h,
+                      vertical: 2.h,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.blueAccent,
+                      borderRadius: BorderRadiusStyle.roundedBorder4,
+                    ),
+                    child: const Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Đặt phòng",
+                          style: TextStyle(
+                            color: Colors.white
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 )
               ],
