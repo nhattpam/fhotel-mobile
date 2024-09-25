@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/app_export.dart';
+import '../../choose_room_detail/choose_room_detail.dart';
 
 class ListItemWidget extends StatelessWidget {
   const ListItemWidget({Key? key})
       : super(
           key: key,
         );
+  void _showDetailModalBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return ChooseRoomRoomDetailScreen();
+      },
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -14,7 +23,7 @@ class ListItemWidget extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadiusStyle.roundedBorder8,
         border: Border.all(
-          color: theme.colorScheme.onPrimaryContainer,
+          color: appTheme.black900.withOpacity(0.2),
           width: 1.h,
         ),
       ),
@@ -72,6 +81,9 @@ class ListItemWidget extends StatelessWidget {
                 ),
                 SizedBox(width: 8.h),
                 CustomIconButton(
+                  onTap: (){
+                    _showDetailModalBottomSheet(context);
+                  },
                   height: 24.h,
                   width: 24.h,
                   padding: EdgeInsets.all(4.h),
@@ -247,7 +259,7 @@ class ListItemWidget extends StatelessWidget {
                       children: [
                         TextSpan(
                           text: "2.000.000 ₫ ",
-                          style: CustomTextStyles.titleSmallPrimary_1,
+                          style: CustomTextStyles.titleSmallBlue,
                         ),
                         TextSpan(
                           text: "/ phòng / đêm",
@@ -264,16 +276,18 @@ class ListItemWidget extends StatelessWidget {
                     vertical: 2.h,
                   ),
                   decoration: BoxDecoration(
-                    color: theme.colorScheme.primary,
+                    color: Colors.blueAccent,
                     borderRadius: BorderRadiusStyle.roundedBorder4,
                   ),
-                  child: Column(
+                  child: const Column(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "Dat phong",
-                        style: CustomTextStyles.bodySmallWhiteA700,
+                        "Đặt phòng",
+                        style: TextStyle(
+                          color: Colors.white
+                        ),
                       )
                     ],
                   ),

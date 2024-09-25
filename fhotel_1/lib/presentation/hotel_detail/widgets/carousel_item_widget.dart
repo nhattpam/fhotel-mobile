@@ -1,3 +1,5 @@
+import 'package:fhotel_1/presentation/choose_room/choose_room.dart';
+import 'package:fhotel_1/presentation/hotel_detail_facilities_screen/hotel_detail_facilities_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/app_export.dart';
@@ -280,7 +282,7 @@ class CarouselItemWidget extends StatelessWidget {
                                   // selected: false,
                                   // onSelected: (bool selected) {},
                                 ),
-                              );;
+                              );
                             },
                           ),
                         ),
@@ -317,6 +319,11 @@ class CarouselItemWidget extends StatelessWidget {
                                 style: CustomTextStyles.bodyMediumPrimary,
                               ),
                               CustomImageView(
+                                onTap: (){
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(builder: (context) => HotelDetailsFacilitiesScreen()),
+                                  );
+                                },
                                 color: Colors.blueAccent,
                                 imagePath: ImageConstant.imgArrowRight,
                                 height: 20.h,
@@ -735,6 +742,11 @@ class CarouselItemWidget extends StatelessWidget {
   }
   Widget _buildChnphng(BuildContext context) {
     return CustomElevatedButton(
+      onPressed: (){
+        Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => const ChooseRoomFullScreen()),
+        );
+      },
       text: "Chọn phòng",
       buttonStyle: CustomButtonStyles.fillBlue,
       buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,

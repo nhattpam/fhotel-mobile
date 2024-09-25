@@ -131,16 +131,16 @@ class ImageConstant {
   static String imgImage24x24 = '$imagePath/thumbs-up-regular.svg';
   static String imgIconWrapper14 = '$imagePath/clock-regular.svg';
   static String imgArrowdownPrimary = '$imagePath/img_arrowdown_primary.svg';
-  static String imgImage180x360 = '$imagePath/img_image_180x360.png';
-  static String imgImage40x40 = '$imagePath/img_image_40x40.png';
+  static String imgImage180x360 = '$imagePath/pexels-boonkong-boonpeng-442952-1134176.jpg';
+  static String imgImage40x40 = '$imagePath/pexels-boonkong-boonpeng-442952-1134176.jpg';
   static String imgArrowDownBlueGray700 =
-      '$imagePath/img_arrow_down_blue_gray_700.svg';
-  static String imgIconWrapper15 = '$imagePath/img_ icon_wrapper_15.svg';
-  static String imgIconWrapper16 = '$imagePath/img_icon_wrapper_16.svg';
+      '$imagePath/angle-down-solid.svg';
+  static String imgIconWrapper15 = '$imagePath/user-regular.svg';
+  static String imgIconWrapper16 = '$imagePath/bed-solid.svg';
   static String imgIconWrapperGreenA70024x24 =
-      '$imagePath/img_icon_wrapper_green_a700_24x24.svg';
+      '$imagePath/circle-check-regular.svg';
   static String imgIconWrapperBlack90024x24 =
-      '$imagePath/img_icon_wrapper_black_900_24x24.svg';
+      '$imagePath/circle-xmark-regular.svg';
   static String imgImage5 = '$imagePath/img_image_5.png';
   static String imgIconWrapperPrimary20x20 =
       '$imagePath/img_icon_wrapper_primary_20x20.svg';

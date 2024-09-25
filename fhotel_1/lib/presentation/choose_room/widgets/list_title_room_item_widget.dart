@@ -1,3 +1,4 @@
+import 'package:fhotel_1/presentation/choose_room_detail/choose_room_detail.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/app_export.dart';
@@ -7,6 +8,14 @@ class ListtitleroomitItemWidget extends StatelessWidget {
       : super(
           key: key,
         );
+  void _showDetailModalBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return ChooseRoomRoomDetailScreen();
+      },
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -14,7 +23,7 @@ class ListtitleroomitItemWidget extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadiusStyle.roundedBorder8,
         border: Border.all(
-          color: theme.colorScheme.onPrimaryContainer,
+        color: appTheme.black900.withOpacity(0.2),
           width: 1.h,
         ),
       ),
@@ -72,6 +81,9 @@ class ListtitleroomitItemWidget extends StatelessWidget {
                 ),
                 SizedBox(width: 8.h),
                 CustomIconButton(
+                  onTap: (){
+                    _showDetailModalBottomSheet(context);
+                  },
                   height: 24.h,
                   width: 24.h,
                   padding: EdgeInsets.all(4.h),
@@ -93,9 +105,10 @@ class ListtitleroomitItemWidget extends StatelessWidget {
             child: Row(
               children: [
                 CustomImageView(
+                  color: appTheme.black900.withOpacity(0.5),
                   imagePath: ImageConstant.imgIconWrapper15,
-                  height: 24.h,
-                  width: 24.h,
+                  height: 18.h,
+                  width: 18.h,
                 ),
                 Align(
                   alignment: Alignment.bottomCenter,
@@ -112,7 +125,7 @@ class ListtitleroomitItemWidget extends StatelessWidget {
           ),
           SizedBox(height: 8.h),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 16.h),
+            padding: EdgeInsets.symmetric(horizontal: 18.h),
             decoration: BoxDecoration(
               color: appTheme.whiteA700,
             ),
@@ -120,9 +133,10 @@ class ListtitleroomitItemWidget extends StatelessWidget {
             child: Row(
               children: [
                 CustomImageView(
+                  color: appTheme.black900.withOpacity(0.5),
                   imagePath: ImageConstant.imgIconWrapper16,
-                  height: 24.h,
-                  width: 24.h,
+                  height: 18.h,
+                  width: 18.h,
                 ),
                 Align(
                   alignment: Alignment.bottomCenter,
@@ -138,7 +152,7 @@ class ListtitleroomitItemWidget extends StatelessWidget {
             ),
           ),
           SizedBox(height: 8.h),
-          SizedBox(
+          const SizedBox(
             width: double.maxFinite,
             child: Divider(),
           ),
@@ -152,6 +166,7 @@ class ListtitleroomitItemWidget extends StatelessWidget {
             child: Row(
               children: [
                 CustomImageView(
+                  color: Colors.green,
                   imagePath: ImageConstant.imgIconWrapperGreenA70024x24,
                   height: 24.h,
                   width: 24.h,
@@ -179,6 +194,7 @@ class ListtitleroomitItemWidget extends StatelessWidget {
             child: Row(
               children: [
                 CustomImageView(
+                  color: appTheme.black900.withOpacity(0.2),
                   imagePath: ImageConstant.imgIconWrapperBlack90024x24,
                   height: 24.h,
                   width: 24.h,
@@ -206,6 +222,7 @@ class ListtitleroomitItemWidget extends StatelessWidget {
             child: Row(
               children: [
                 CustomImageView(
+                  color: Colors.green,
                   imagePath: ImageConstant.imgIconWrapperGreenA70024x24,
                   height: 24.h,
                   width: 24.h,
@@ -247,7 +264,7 @@ class ListtitleroomitItemWidget extends StatelessWidget {
                       children: [
                         TextSpan(
                           text: "2.000.000 ₫ ",
-                          style: CustomTextStyles.titleSmallPrimary_1,
+                          style: CustomTextStyles.titleSmallBlue,
                         ),
                         TextSpan(
                           text: "/ phòng / đêm",
@@ -264,7 +281,7 @@ class ListtitleroomitItemWidget extends StatelessWidget {
                     vertical: 2.h,
                   ),
                   decoration: BoxDecoration(
-                    color: theme.colorScheme.primary,
+                    color: Colors.blueAccent,
                     borderRadius: BorderRadiusStyle.roundedBorder4,
                   ),
                   child: Column(

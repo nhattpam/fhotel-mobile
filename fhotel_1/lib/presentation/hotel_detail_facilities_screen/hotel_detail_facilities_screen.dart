@@ -54,12 +54,11 @@ class HotelDetailsFacilitiesScreen extends StatelessWidget {
                     titleone: "Ấm thực",
                     descriptionOne: "Quầy bar\nQuãy bar bên hồ bơi \nBữa sáng",
                   ),
-                )
+                ),
               ],
             ),
           ),
         ),
-        bottomNavigationBar: _buildSectionfour(context),
       ),
     );
   }
@@ -77,7 +76,7 @@ class HotelDetailsFacilitiesScreen extends StatelessWidget {
       ),
       title: AppbarTitle(
         text: "Tiện ích",
-        margin: EdgeInsets.only(left: 8.h),
+        margin: EdgeInsets.only(left: 7.h),
       ),
       actions: [
         Container(
@@ -92,9 +91,9 @@ class HotelDetailsFacilitiesScreen extends StatelessWidget {
               12.h,
             ),
           ),
-          width: double.maxFinite,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
             children: [
               AppbarImage(
                 imagePath: ImageConstant.imgIconLeft,
@@ -117,46 +116,6 @@ class HotelDetailsFacilitiesScreen extends StatelessWidget {
         )
       ],
       styleType: Style.bgFill,
-    );
-  }
-
-  Widget _buildSectionfour(BuildContext context) {
-    return Container(
-      height: 112.h,
-      width: double.maxFinite,
-      padding: EdgeInsets.symmetric(horizontal: 16.h),
-      decoration: BoxDecoration(
-        color: appTheme.whiteA700,
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: EdgeInsets.only(top: 10.h),
-            child: Text(
-              "Các hoạt động",
-              style: theme.textTheme.titleSmall,
-            ),
-          ),
-          SizedBox(height: 10.h),
-          SizedBox(
-            width: double.maxFinite,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                CustomTextFormField(
-                  controller: listmasteroneController,
-                  hintText: "Quay bar\nQuãy bar bên hồ bơi \nBữa sáng",
-                  hintStyle: theme.textTheme.bodyMedium!,
-                  contentPadding: EdgeInsets.fromLTRB(12.h, 12.h, 12.h, 8.h),
-                  borderDecoration: TextFormFieldStyleHelper.outlineBlack,
-                )
-              ],
-            ),
-          )
-        ],
-      ),
     );
   }
 
