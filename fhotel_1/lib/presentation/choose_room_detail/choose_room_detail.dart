@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../core/app_export.dart';
+import '../guest_information_book/guest_information_book.dart';
 
 class ChooseRoomRoomDetailScreen extends StatelessWidget {
   const ChooseRoomRoomDetailScreen({Key? key})
@@ -624,9 +625,9 @@ class ChooseRoomRoomDetailScreen extends StatelessWidget {
   Widget _buildChnphng(BuildContext context) {
     return CustomElevatedButton(
       onPressed: (){
-        // Navigator.of(context).push(
-        //   MaterialPageRoute(builder: (context) => const ChooseRoomFullScreen()),
-        // );
+        Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) =>  GuestInformationBookForOthersScreen()),
+        );
       },
       text: "Đặt phòng",
       buttonStyle: CustomButtonStyles.fillBlue,

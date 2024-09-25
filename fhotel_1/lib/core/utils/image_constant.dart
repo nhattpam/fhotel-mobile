@@ -144,7 +144,7 @@ class ImageConstant {
   static String imgImage5 = '$imagePath/img_image_5.png';
   static String imgIconWrapperPrimary20x20 =
       '$imagePath/img_icon_wrapper_primary_20x20.svg';
-  static String imgIconWrapper17 = '$imagePath/img_icon_wrapper_17.svg';
+  static String imgIconWrapper17 = '$imagePath/circle-exclamation-solid.svg';
   static String imgIconWrapper18 = '$imagePath/img_icon_wrapper_18.svg';
   static String imgIconWrapper19 = '$imagePath/img_icon_wrapper_19.svg';
   static String imgIconLeftOnprimary = '$imagePath/img_icon_left_onprimary.svg';

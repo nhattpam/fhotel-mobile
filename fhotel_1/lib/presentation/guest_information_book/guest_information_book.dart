@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
-
 import '../../core/app_export.dart';
+  class GuestInformationBookForOthersScreen extends StatefulWidget {
+  const GuestInformationBookForOthersScreen({Key? key}) : super(key: key);
 
-class GuestInformationBookForOthersScreen extends StatelessWidget {
-  GuestInformationBookForOthersScreen({Key? key})
-      : super(
-          key: key,
-        );
+  @override
+  GuestInformationBookForOthersScreenState createState() =>
+  GuestInformationBookForOthersScreenState();
+  }
+
+  class GuestInformationBookForOthersScreenState extends State<GuestInformationBookForOthersScreen>{
+
   TextEditingController inputoneController = TextEditingController();
   TextEditingController inputthreeController = TextEditingController();
   TextEditingController inputfiveController = TextEditingController();
@@ -15,6 +18,8 @@ class GuestInformationBookForOthersScreen extends StatelessWidget {
   TextEditingController inputsevenController = TextEditingController();
   TextEditingController inputnineController = TextEditingController();
   TextEditingController inputelevenController = TextEditingController();
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +60,7 @@ class GuestInformationBookForOthersScreen extends StatelessWidget {
       ),
       title: AppbarTitle(
         text: "Thông tin khách",
-        margin: EdgeInsets.only(left: 8.h),
+        margin: EdgeInsets.only(left: 7.h),
       ),
       actions: [
         Container(
@@ -83,19 +88,13 @@ class GuestInformationBookForOthersScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 8.h),
-              AppbarImage(
+              AppbarIconbutton(
                 imagePath: ImageConstant.imgDivider,
-                margin: EdgeInsets.only(
-                  left: 8.h,
-                  top: 4.h,
-                  bottom: 4.h,
+                margin: EdgeInsets.symmetric(
+                  horizontal: 8.h,
+                  vertical: 4.h,
                 ),
-              ),
-              SizedBox(width: 8.h),
-              AppbarImage(
-                imagePath: ImageConstant.imgIconRight,
-                margin: EdgeInsets.fromLTRB(7.h, 4.h, 8.h, 4.h),
-              ),
+              )
             ],
           ),
         )
@@ -278,7 +277,9 @@ class GuestInformationBookForOthersScreen extends StatelessWidget {
                       CustomSwitch(
                         value: isSelectedSwitch,
                         onChange: (value) {
-                          isSelectedSwitch = value;
+                          setState(() {
+                            isSelectedSwitch = value;
+                          });
                         },
                       )
                     ],
@@ -288,6 +289,7 @@ class GuestInformationBookForOthersScreen extends StatelessWidget {
             ),
           ),
           SizedBox(height: 8.h),
+          if(isSelectedSwitch == true)
           Container(
             width: double.maxFinite,
             padding: EdgeInsets.symmetric(
@@ -342,16 +344,23 @@ class GuestInformationBookForOthersScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildTiptc(BuildContext context) {
+  Widget _buildChnphng(BuildContext context) {
     return CustomElevatedButton(
-      text: "Tiếp tục",
+      onPressed: (){
+        Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) =>  GuestInformationBookForOthersScreen()),
+        );
+      },
+      text: "Đặt phòng",
+      buttonStyle: CustomButtonStyles.fillBlue,
+      buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,
     );
   }
 
   /// Section Widget
   Widget _buildSumsectionat(BuildContext context) {
     return Container(
-      height: 114.h,
+      height: 115.h,
       width: double.maxFinite,
       decoration: BoxDecoration(
         color: appTheme.whiteA700,
@@ -377,9 +386,9 @@ class GuestInformationBookForOthersScreen extends StatelessWidget {
               children: [
                 Container(
                   width: double.maxFinite,
-                  margin: EdgeInsets.only(top: 8.h),
+                  margin: EdgeInsets.only(top: 10.h),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Align(
                         alignment: Alignment.topCenter,
@@ -393,10 +402,11 @@ class GuestInformationBookForOthersScreen extends StatelessWidget {
                         alignment: Alignment.bottomCenter,
                         child: Text(
                           "8.000.000 ₫",
-                          style: CustomTextStyles.titleSmallPrimary,
+                          style: CustomTextStyles.titleSmallBlue,
                         ),
                       ),
                       CustomImageView(
+                        color: appTheme.black900.withOpacity(0.3),
                         imagePath: ImageConstant.imgIconWrapper17,
                         height: 24.h,
                         width: 24.h,
@@ -413,7 +423,9 @@ class GuestInformationBookForOthersScreen extends StatelessWidget {
             padding: EdgeInsets.only(right: 14.h),
             child: Text(
               "Đã bao gồm thuế",
-              style: theme.textTheme.bodySmall,
+              style: TextStyle(
+                color: appTheme.black900.withOpacity(0.5)
+              ),
             ),
           ),
           SizedBox(height: 4.h),
@@ -421,11 +433,19 @@ class GuestInformationBookForOthersScreen extends StatelessWidget {
             width: double.maxFinite,
             padding: EdgeInsets.symmetric(
               horizontal: 16.h,
-              vertical: 8.h,
+              vertical: 4.h,
+            ),
+            decoration: BoxDecoration(
+              color: appTheme.whiteA700,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [_buildChnphng(context)],
             ),
           )
         ],
       ),
     );
   }
-}
+
+  }

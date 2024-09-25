@@ -52,8 +52,12 @@ class CustomTextStyles {
 
   static get bodyMediumGray600 =>
       theme.textTheme.bodyMedium!.copyWith(
-        color: appTheme.gray600,
+        color: appTheme.black900.withOpacity(0.3),
       );
+  // static get bodyMediumGray600 =>
+  //     theme.textTheme.bodyMedium!.copyWith(
+  //       color: appTheme.gray600,
+  //     );
 
   static get bodyMediumPrimary =>
       theme.textTheme.bodyMedium!.copyWith(
