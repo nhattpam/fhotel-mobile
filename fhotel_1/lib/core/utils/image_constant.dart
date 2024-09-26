@@ -57,7 +57,7 @@ class ImageConstant {
 
 // Checkout images
   static String imgArrowRightGray600 =
-      '$imagePath/img_arrow_right_gray_600.svg';
+      '$imagePath/chevron-right-solid.svg';
   static String imgImg = '$imagePath/06ncktiwd6dc1694418196384.png';
 
 // Successful payment images

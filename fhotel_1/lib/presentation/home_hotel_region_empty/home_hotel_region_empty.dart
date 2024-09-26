@@ -120,8 +120,7 @@ class CategoryScreenState extends State<HomeHotelRegionEmptyScreen> {
 
   Widget _buildStackherobanner(BuildContext context) {
     return Align(
-      alignment: Alignment.topCenter,
-      child: Flexible(
+        alignment: Alignment.topCenter,
         child: SizedBox(
           height: 96.h,
           child: Stack(
@@ -132,57 +131,9 @@ class CategoryScreenState extends State<HomeHotelRegionEmptyScreen> {
                 height: 96.h,
                 width: double.maxFinite,
               ),
-              // CustomAppBar(
-              //   height: 32.h,
-              //   title: AppbarTitle(
-              //     text: "Logo",
-              //     margin: EdgeInsets.only(left: 16.h),
-              //   ),
-              //   actions: [
-              //     AppbarTrailingIconbutton(
-              //         imagePath: ImageConstant.imgIconWrapper,
-              //       ),
-              //     Flexible(
-              //       child: Container(
-              //         margin: EdgeInsets.fromLTRB(8.h, 4.h, 16.h, 4.h),
-              //         decoration: BoxDecoration(
-              //           color: appTheme.black900.withOpacity(0.2),
-              //           borderRadius: BorderRadius.circular(
-              //             12.h,
-              //           ),
-              //         ),
-              //         width: double.maxFinite,
-              //         child: Row(
-              //           children: [
-              //             AppbarImage(
-              //               imagePath: ImageConstant.imgIconLeft,
-              //               margin:
-              //                   EdgeInsets.only(left: 8.h, top: 4.h, bottom: 4.h),
-              //             ),
-              //             SizedBox(width: 8.h),
-              //             AppbarImage(
-              //               imagePath: ImageConstant.imgDivider,
-              //               margin: EdgeInsets.only(
-              //                 left: 8.h,
-              //                 top: 4.h,
-              //                 bottom: 4.h,
-              //               ),
-              //             ),
-              //             SizedBox(width: 8.h),
-              //             AppbarImage(
-              //               imagePath: ImageConstant.imgIconRight,
-              //               margin: EdgeInsets.fromLTRB(7.h, 4.h, 8.h, 4.h),
-              //             )
-              //           ],
-              //         ),
-              //       ),
-              //     ),
-              //   ],
-              // ),
             ],
           ),
         ),
-      ),
     );
   }
 
@@ -523,10 +474,12 @@ class CategoryScreenState extends State<HomeHotelRegionEmptyScreen> {
                 enableInfiniteScroll: true,
                 scrollDirection: Axis.horizontal,
                 onPageChanged: (index, reason) {
-                  sliderIndex = index;
+                  setState(() {
+                    sliderIndex = index;
+                  });
                 },
               ),
-              itemCount: 1,
+              itemCount: 5,
               itemBuilder: (context, index, realIndex) {
                 return CarouselunitItemWidget();
               },
@@ -541,7 +494,7 @@ class CategoryScreenState extends State<HomeHotelRegionEmptyScreen> {
                 SizedBox(
                   height: 2.h,
                   child: AnimatedSmoothIndicator(
-                    activeIndex: 0,
+                    activeIndex: sliderIndex,
                     count: 5,
                     effect: ScrollingDotsEffect(
                       spacing: 4,

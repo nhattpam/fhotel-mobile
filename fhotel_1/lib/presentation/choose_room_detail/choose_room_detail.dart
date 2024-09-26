@@ -9,8 +9,8 @@ class ChooseRoomRoomDetailScreen extends StatelessWidget {
   );
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Expanded(
+    return Scaffold(
+      body: SingleChildScrollView(
         child: Stack(
           alignment: Alignment.bottomCenter,
           children: [

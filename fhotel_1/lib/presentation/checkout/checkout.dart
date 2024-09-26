@@ -513,6 +513,7 @@ class CheckoutScreen extends StatelessWidget {
                   style: theme.textTheme.titleMedium,
                 ),
                 CustomImageView(
+                  color: appTheme.black900.withOpacity(0.5),
                   imagePath: ImageConstant.imgArrowRightGray600,
                   height: 24.h,
                   width: 24.h,
