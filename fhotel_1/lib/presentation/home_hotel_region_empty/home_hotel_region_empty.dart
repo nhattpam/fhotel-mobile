@@ -211,20 +211,7 @@ class CategoryScreenState extends State<HomeHotelRegionEmptyScreen> {
                               ),
                             ),
                             SizedBox(width: 6.h),
-                            // Padding(
-                            //   padding: EdgeInsets.only(top: 10.h),
-                            //   child: CustomIconButton(
-                            //     height: 24.h,
-                            //     width: 24.h,
-                            //     padding: EdgeInsets.all(4.h),
-                            //     decoration: IconButtonStyleHelper.fillBlackTL12,
-                            //     child: CustomImageView(
-                            //       imagePath:
-                            //           ImageConstant.imgIconWrapperBlueGray700,
-                            //     ),
-                            //   ),
-                            // )
-                          ],
+                           ],
                         ),
                       ),
                       SizedBox(height: 6.h),

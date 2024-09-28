@@ -1,4 +1,5 @@
 import 'package:fhotel_1/core/app_export.dart';
+import 'package:fhotel_1/presentation/hotel_edit_search/hotel_edit_search.dart';
 import 'package:fhotel_1/presentation/hotel_listing_filter_bottomsheet/hotel_listing_filter_bottomsheet.dart';
 import 'package:fhotel_1/presentation/hotel_listing_nearby_screen/widgets/list_one_item_widget.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,14 @@ class HotelListingNearbyScreen extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return const HotellistingFilterBottomsheet();
+      },
+    );
+  }
+  void _showEditSearchModalBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return const EditSearchBottomsheet();
       },
     );
   }
@@ -203,6 +212,9 @@ class HotelListingNearbyScreen extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(left: 20.h),
             child: CustomIconButton(
+              onTap: (){
+                _showEditSearchModalBottomSheet(context);
+              },
               height: 24.h,
               width: 24.h,
               padding: EdgeInsets.all(4.h),
