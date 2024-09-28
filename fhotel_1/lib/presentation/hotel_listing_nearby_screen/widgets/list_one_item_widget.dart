@@ -19,7 +19,10 @@ class ListOneItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        _showDetailModalBottomSheet(context);
+        // _showDetailModalBottomSheet(context);
+        Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) =>  CarouselItemWidget()),
+        );
       },
       child: Container(
         padding: EdgeInsets.symmetric(

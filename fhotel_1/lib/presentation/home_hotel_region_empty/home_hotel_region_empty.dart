@@ -462,7 +462,52 @@ class CategoryScreenState extends State<HomeHotelRegionEmptyScreen> {
               ),
             ),
           ),
-          CarouselunitItemWidget(),
+          SizedBox(height: 14.h),
+          SizedBox(
+            width: double.maxFinite,
+            child: CarouselSlider.builder(
+              options: CarouselOptions(
+                height: 108.h,
+                initialPage: 0,
+                autoPlay: true,
+                viewportFraction: 1.0,
+                enableInfiniteScroll: true,
+                scrollDirection: Axis.horizontal,
+                onPageChanged: (index, reason) {
+                  setState(() {
+                    sliderIndex = index;
+                  });
+                },
+              ),
+              itemCount: 5,
+              itemBuilder: (context, index, realIndex) {
+                return CarouselunitItemWidget();
+              },
+            ),
+          ),
+          SizedBox(height: 14.h),
+          Container(
+            width: double.maxFinite,
+            margin: EdgeInsets.symmetric(horizontal: 16.h),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 2.h,
+                  child: AnimatedSmoothIndicator(
+                    activeIndex: sliderIndex,
+                    count: 5,
+                    effect: ScrollingDotsEffect(
+                      spacing: 4,
+                      activeDotColor: theme.colorScheme.primary,
+                      dotColor: appTheme.black900.withOpacity(0.1),
+                      dotHeight: 2.h,
+                      dotWidth: 16.h,
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
         ],
       ),
     );

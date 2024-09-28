@@ -12,7 +12,7 @@ class HotelListingNearbyScreen extends StatelessWidget {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return HotellistingFilterBottomsheet();
+        return const HotellistingFilterBottomsheet();
       },
     );
   }
@@ -273,7 +273,7 @@ class HotelListingNearbyScreen extends StatelessWidget {
   Widget _buildListOne(BuildContext context) {
     return ListView.separated(
       padding: EdgeInsets.zero,
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       separatorBuilder: (context, index) {
         return SizedBox(
@@ -282,7 +282,7 @@ class HotelListingNearbyScreen extends StatelessWidget {
       },
       itemCount: 5,
       itemBuilder: (context, index) {
-        return ListOneItemWidget();
+        return const ListOneItemWidget();
       },
     );
   }

@@ -144,7 +144,7 @@ class SuccessfulPaymentScreen extends StatelessWidget {
                   child: CustomElevatedButton(
                     onPressed: (){
                       Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) =>  MyBookingFullScreen()),
+                        MaterialPageRoute(builder: (context) =>  const MyBookingFullScreen()),
                       );
                     },
                     text: "Chi tiết đặt chỗ",
@@ -194,7 +194,7 @@ class SuccessfulPaymentScreen extends StatelessWidget {
             ),
           ),
           SizedBox(height: 6.h),
-          SizedBox(
+          const SizedBox(
             width: double.maxFinite,
             child: Divider(),
           )
