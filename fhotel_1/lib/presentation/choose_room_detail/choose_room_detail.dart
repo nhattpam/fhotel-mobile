@@ -1,3 +1,4 @@
+import 'package:fhotel_1/presentation/home_hotel_region_empty/widgets/carouselunit_item_widget.dart';
 import 'package:flutter/material.dart';
 import '../../core/app_export.dart';
 import '../guest_information_book/guest_information_book.dart';
@@ -14,18 +15,6 @@ class ChooseRoomRoomDetailScreen extends StatelessWidget {
         child: Stack(
           alignment: Alignment.bottomCenter,
           children: [
-            // CustomImageView(
-            //   imagePath: ImageConstant.imgImage156x360,
-            //   height: 156.h,
-            //   width: double.maxFinite,
-            //   alignment: Alignment.topCenter,
-            // ),
-            // CustomImageView(
-            //   imagePath: ImageConstant.imgTopGradient,
-            //   height: 56.h,
-            //   width: double.maxFinite,
-            //   alignment: Alignment.topCenter,
-            // ),
             Align(
               alignment: Alignment.topCenter,
               child: Container(
@@ -43,6 +32,8 @@ class ChooseRoomRoomDetailScreen extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  _buildSheetheader(context),
+                  CarouselunitItemWidget(),
                   Container(
                     width: double.maxFinite,
                     padding: EdgeInsets.symmetric(
@@ -381,70 +372,6 @@ class ChooseRoomRoomDetailScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  // SizedBox(height: 8.h),
-                  // Container(
-                  //   width: double.maxFinite,
-                  //   padding: EdgeInsets.symmetric(
-                  //     horizontal: 16.h,
-                  //     vertical: 12.h,
-                  //   ),
-                  //   decoration: BoxDecoration(
-                  //     color: appTheme.whiteA700,
-                  //   ),
-                  //   child: Column(
-                  //     crossAxisAlignment: CrossAxisAlignment.start,
-                  //     mainAxisAlignment: MainAxisAlignment.center,
-                  //     children: [
-                  //       Text(
-                  //         "Mô tả khách sạn",
-                  //         style: theme.textTheme.titleMedium,
-                  //       ),
-                  //       SizedBox(height: 10.h),
-                  //       Container(
-                  //         width: double.maxFinite,
-                  //         decoration: BoxDecoration(
-                  //           color: appTheme.whiteA700,
-                  //         ),
-                  //         child: Column(
-                  //           children: [
-                  //             SizedBox(
-                  //               width: 324.h,
-                  //               child: Text(
-                  //                 "Nảm dọc theo bãi biển Mỹ Khê cát trắng trải dài thơ mộng, khu nghỉ dưỡng dành cho gia đình sang trọng bật nhất thế giới Premier Village Danang được ưu ái tọa lạc ở vị trí đặc biệtđặc biệtđặc biệtđặc biệtđặc biệtđặc biệtđặc biệtđặc biệtđặc biệtđặc biệtđặc biệtđặc biệtđặc biệtđặc biệtđặc biệtđặc biệtđặc biệtđặc biệtđặc biệtđặc biệtđặc biệt",
-                  //                 maxLines: 5,
-                  //                 overflow: TextOverflow.ellipsis,
-                  //                 style: theme.textTheme.bodyMedium!.copyWith(
-                  //                   height: 1.50,
-                  //                 ),
-                  //               ),
-                  //             ),
-                  //             // SizedBox(height: 16.h),
-                  //             // CustomDropDown(
-                  //             //   width: 94.h,
-                  //             //   icon: Container(
-                  //             //     margin: EdgeInsets.only(left: 8.h),
-                  //             //     child: CustomImageView(
-                  //             //       imagePath: ImageConstant.imgArrowdownPrimary,
-                  //             //       height: 20.h,
-                  //             //       width: 20.h,
-                  //             //       fit: BoxFit.contain,
-                  //             //     ),
-                  //             //   ),
-                  //             //   iconSize: 20.h,
-                  //             //   hintText: "Xem thêm",
-                  //             //   hintStyle: CustomTextStyles.bodyMediumPrimary,
-                  //             //   items: dropdownItemList,
-                  //             //   contentPadding: EdgeInsets.all(12.h),
-                  //             //   onChanged: (value) {},
-                  //             // ),
-                  //             SizedBox(height: 16.h)
-                  //           ],
-                  //         ),
-                  //       ),
-                  //       SizedBox(height: 16.h),
-                  //     ],
-                  //   ),
-                  // ),
                   SizedBox(height: 8.h),
                   _buildSumsectionat(context),
                 ],
@@ -549,6 +476,44 @@ class ChooseRoomRoomDetailScreen extends StatelessWidget {
           ]),
     );
   }
+
+  Widget _buildSheetheader(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.fromLTRB(16.h, 6.h, 16.h, 4.h),
+      decoration: BoxDecoration(
+        color: appTheme.whiteA700,
+        border: Border(
+          bottom: BorderSide(
+            color: appTheme.blueGray50,
+            width: 1.h,
+          ),
+        ),
+      ),
+      width: double.maxFinite,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Align(
+            alignment: Alignment.center,
+            child: Padding(
+              padding: EdgeInsets.only(left: 110.h),
+              child: Text(
+                textAlign: TextAlign.center,
+                "Chi tiết phòng",
+                style: theme.textTheme.titleMedium,
+              ),
+            ),
+          ),
+          CustomImageView(
+            imagePath: ImageConstant.imgCloseIcon,
+            height: 24.h,
+            width: 24.h,
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildSumsectionat(BuildContext context) {
     return Container(
       height: 115.h,

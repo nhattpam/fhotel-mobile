@@ -1,16 +1,21 @@
+import 'package:carousel_slider_plus/carousel_slider_plus.dart';
 import 'package:fhotel_1/presentation/choose_room/choose_room.dart';
+import 'package:fhotel_1/presentation/home_hotel_region_empty/widgets/carouselunit_item_widget.dart';
 import 'package:fhotel_1/presentation/hotel_detail_facilities_screen/hotel_detail_facilities_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../core/app_export.dart';
 import '../../hotel_rating_and_reviews/hotel_rating_and_reviews.dart';
+class CarouselItemWidget extends StatefulWidget {
+  CarouselItemWidget({Key? key}) : super(key: key);
 
-// ignore_for_file: must_be_immutable
-class CarouselItemWidget extends StatelessWidget {
-  CarouselItemWidget({Key? key})
-      : super(
-          key: key,
-        );
+  @override
+  CarouselItemWidgetState createState() => CarouselItemWidgetState();
+}
+class CarouselItemWidgetState extends State<CarouselItemWidget> {
+  int sliderIndex = 1;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,18 +23,6 @@ class CarouselItemWidget extends StatelessWidget {
           child: Stack(
             alignment: Alignment.bottomCenter,
             children: [
-              // CustomImageView(
-              //   imagePath: ImageConstant.imgImage156x360,
-              //   height: 156.h,
-              //   width: double.maxFinite,
-              //   alignment: Alignment.topCenter,
-              // ),
-              // CustomImageView(
-              //   imagePath: ImageConstant.imgTopGradient,
-              //   height: 56.h,
-              //   width: double.maxFinite,
-              //   alignment: Alignment.topCenter,
-              // ),
               Align(
                 alignment: Alignment.topCenter,
                 child: Container(
@@ -47,6 +40,8 @@ class CarouselItemWidget extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
+                    _buildSheetheader(context),
+                    CarouselunitItemWidget(),
                     Container(
                       width: double.maxFinite,
                       padding: EdgeInsets.symmetric(
@@ -531,6 +526,42 @@ class CarouselItemWidget extends StatelessWidget {
     );
   }
 
+  Widget _buildSheetheader(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.fromLTRB(16.h, 6.h, 16.h, 4.h),
+      decoration: BoxDecoration(
+        color: appTheme.whiteA700,
+        border: Border(
+          bottom: BorderSide(
+            color: appTheme.blueGray50,
+            width: 1.h,
+          ),
+        ),
+      ),
+      width: double.maxFinite,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding: EdgeInsets.only(left: 100.h),
+              child: Text(
+                "Chi tiết khách sạn",
+                style: theme.textTheme.titleMedium,
+              ),
+            ),
+          ),
+          CustomImageView(
+            imagePath: ImageConstant.imgCloseIcon,
+            height: 24.h,
+            width: 24.h,
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildColumndescripti(BuildContext context) {
     return Container(
       width: 488.h,
@@ -635,7 +666,6 @@ class CarouselItemWidget extends StatelessWidget {
     );
   }
 
-  /// Section Widget
   Widget _buildChipone(BuildContext context) {
     return Expanded(
       child: CustomOutlinedButton(
@@ -646,7 +676,6 @@ class CarouselItemWidget extends StatelessWidget {
     );
   }
 
-  /// Section Widget
   Widget _buildChiptwo(BuildContext context) {
     return Expanded(
       child: CustomOutlinedButton(
@@ -657,7 +686,6 @@ class CarouselItemWidget extends StatelessWidget {
     );
   }
 
-  /// Section Widget
   Widget _buildChipthree(BuildContext context) {
     return Expanded(
       child: CustomOutlinedButton(
@@ -667,6 +695,7 @@ class CarouselItemWidget extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildSumsectionat(BuildContext context) {
     return Container(
       height: 115.h,
@@ -740,6 +769,7 @@ class CarouselItemWidget extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildChnphng(BuildContext context) {
     return CustomElevatedButton(
       onPressed: (){
