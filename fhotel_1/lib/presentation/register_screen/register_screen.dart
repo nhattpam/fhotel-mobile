@@ -1,16 +1,17 @@
-import 'package:fhotel_1/presentation/register_screen/register_screen.dart';
+import 'package:fhotel_1/presentation/login_screen/login_screen.dart';
 import 'package:flutter/material.dart';
 import '../../core/app_export.dart';
 import '../home_hotel_region_empty/home_hotel_region_empty.dart';
 
 // ignore_for_file: must_be_immutable
-class LoginScreen extends StatelessWidget {
-  LoginScreen({Key? key})
+class RegisterScreen extends StatelessWidget {
+  RegisterScreen({Key? key})
       : super(
     key: key,
   );
   TextEditingController emailInputController = TextEditingController();
   TextEditingController passwordInputController = TextEditingController();
+  TextEditingController repasswordInputController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -36,15 +37,15 @@ class LoginScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
-                  "Login here",
+                  "Create Account",
                   style: TextStyle(
-                    fontSize: 25,
-                    color: Colors.indigoAccent
+                      fontSize: 25,
+                      color: Colors.indigoAccent
                   ),
                 ),
                 SizedBox(height: 24.h),
                 Text(
-                  "Welcome back you've\nbeen missed!",
+                  "Create an account so you can book hotel!",
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.center,
@@ -54,17 +55,8 @@ class LoginScreen extends StatelessWidget {
                 _buildEmailInput(context),
                 SizedBox(height: 28.h),
                 _buildPasswordInput(context),
-                SizedBox(height: 30.h),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: Padding(
-                    padding: EdgeInsets.only(right: 8.h),
-                    child: Text(
-                      "Forgot your password?",
-                      style: CustomTextStyles.bodyLargeBlue,
-                    ),
-                  ),
-                ),
+                SizedBox(height: 28.h),
+                _buildRePasswordInput(context),
                 SizedBox(height: 30.h),
                 _buildSignInButton(context),
                 SizedBox(height: 30.h),
@@ -147,6 +139,23 @@ class LoginScreen extends StatelessWidget {
       ),
     );
   }
+  Widget _buildRePasswordInput(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(right: 8.h),
+      child: CustomTextFormField(
+        fillColor: appTheme.blue50,
+        controller: repasswordInputController,
+        hintText: "Confirm Password",
+        hintStyle: const TextStyle(
+          color: Colors.grey,
+        ),
+        textInputAction: TextInputAction.done,
+        textInputType: TextInputType.visiblePassword,
+        obscureText: true,
+        contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+      ),
+    );
+  }
 
   /// Section Widget
   Widget _buildSignInButton(BuildContext context) {
@@ -158,7 +167,7 @@ class LoginScreen extends StatelessWidget {
       },
       buttonStyle: CustomButtonStyles.fillBlue,
       buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,
-      text: "Sign in",
+      text: "Sign up",
       margin: EdgeInsets.only(right: 8.h),
     );
   }
@@ -166,7 +175,7 @@ class LoginScreen extends StatelessWidget {
   Widget _buildCreateAccountButton(BuildContext context) {
     return CustomElevatedButton(
         height: 40.h,
-        text: "Create new account",
+        text: "Already have an account",
         margin: EdgeInsets.only(right: 8.h),
         buttonStyle: CustomButtonStyles.fillwhiteA,
         buttonTextStyle: CustomTextStyles.bodySmallBlack900,
@@ -178,6 +187,7 @@ class LoginScreen extends StatelessWidget {
   /// Navigates to the registerScreen when the action is triggered.
   onTapCreateAccountButton(BuildContext context) {
     Navigator.of(context).push(
-      MaterialPageRoute(builder: (context) =>  RegisterScreen()),
-    );}
+      MaterialPageRoute(builder: (context) =>  LoginScreen()),
+    );
+  }
 }
