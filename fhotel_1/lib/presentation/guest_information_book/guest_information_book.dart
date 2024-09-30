@@ -1,3 +1,4 @@
+import 'package:fhotel_1/widgets/custom_text_form_field_for_guest.dart';
 import 'package:flutter/material.dart';
 import '../../core/app_export.dart';
 import '../checkout/checkout.dart';
@@ -106,7 +107,7 @@ import '../checkout/checkout.dart';
 
   /// Section Widget
   Widget _buildInputone(BuildContext context) {
-    return CustomTextFormField(
+    return CustomTextFormFieldForGuest(
       controller: inputoneController,
       hintText: "Vi du: NGUYEN",
       hintStyle: CustomTextStyles.bodyMediumGray600,
@@ -118,7 +119,7 @@ import '../checkout/checkout.dart';
   }
 
   Widget _buildInputthree(BuildContext context) {
-    return CustomTextFormField(
+    return CustomTextFormFieldForGuest(
       controller: inputthreeController,
       hintText: "Ví dụ: VAN ANH",
       hintStyle: CustomTextStyles.bodyMediumGray600,
@@ -131,7 +132,7 @@ import '../checkout/checkout.dart';
 
   /// Section Widget
   Widget _buildInputfive(BuildContext context) {
-    return CustomTextFormField(
+    return CustomTextFormFieldForGuest(
       controller: inputfiveController,
       hintText: "Ví dụ: 0900123456",
       hintStyle: CustomTextStyles.bodyMediumGray600,
@@ -144,7 +145,7 @@ import '../checkout/checkout.dart';
 
   /// Section Widget
   Widget _buildEmail(BuildContext context) {
-    return CustomTextFormField(
+    return CustomTextFormFieldForGuest(
       controller: emailController,
       hintText: "Ví du: nguyenvananh@gmail.com",
       hintStyle: CustomTextStyles.bodyMediumGray600,
@@ -215,7 +216,7 @@ import '../checkout/checkout.dart';
   }
 
   Widget _buildInputseven(BuildContext context) {
-    return CustomTextFormField(
+    return CustomTextFormFieldForGuest(
       controller: inputsevenController,
       hintText: "Ví dụ: NGUYEN",
       hintStyle: CustomTextStyles.bodyMediumGray600,
@@ -228,7 +229,7 @@ import '../checkout/checkout.dart';
 
   /// Section Widget
   Widget _buildInputnine(BuildContext context) {
-    return CustomTextFormField(
+    return CustomTextFormFieldForGuest(
       controller: inputnineController,
       hintText: "Ví dụ: VAN ANH",
       hintStyle: CustomTextStyles.bodyMediumGray600,
@@ -241,7 +242,7 @@ import '../checkout/checkout.dart';
 
   /// Section Widget
   Widget _buildInputeleven(BuildContext context) {
-    return CustomTextFormField(
+    return CustomTextFormFieldForGuest(
       controller: inputelevenController,
       hintText: "Ví dụ: 0900123456",
       hintStyle: CustomTextStyles.bodyMediumGray600,
