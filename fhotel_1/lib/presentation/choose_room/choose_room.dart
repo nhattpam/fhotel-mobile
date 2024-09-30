@@ -5,12 +5,21 @@ import 'package:fhotel_1/presentation/choose_room_detail/choose_room_detail.dart
 import 'package:flutter/material.dart';
 
 import '../../core/app_export.dart';
+import '../hotel_edit_search/hotel_edit_search.dart';
 
 class ChooseRoomFullScreen extends StatelessWidget {
   const ChooseRoomFullScreen({Key? key})
       : super(
           key: key,
         );
+  void _showEditSearchModalBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return const EditSearchBottomsheet();
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -218,6 +227,9 @@ class ChooseRoomFullScreen extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(left: 20.h),
             child: CustomIconButton(
+              onTap: (){
+                _showEditSearchModalBottomSheet(context);
+              },
               height: 24.h,
               width: 24.h,
               padding: EdgeInsets.all(4.h),

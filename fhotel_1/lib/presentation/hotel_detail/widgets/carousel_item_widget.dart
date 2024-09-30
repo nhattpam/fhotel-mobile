@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../core/app_export.dart';
+import '../../hotel_edit_search/hotel_edit_search.dart';
 import '../../hotel_rating_and_reviews/hotel_rating_and_reviews.dart';
 class CarouselItemWidget extends StatefulWidget {
   CarouselItemWidget({Key? key}) : super(key: key);
@@ -50,7 +51,14 @@ class CarouselItemWidgetState extends State<CarouselItemWidget> with TickerProvi
           duration: const Duration(seconds: 1), curve: Curves.easeOut);
     }
   }
-
+  void _showEditSearchModalBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return const EditSearchBottomsheet();
+      },
+    );
+  }
   @override
   void dispose() {
     tabviewController.dispose();
@@ -701,6 +709,9 @@ class CarouselItemWidgetState extends State<CarouselItemWidget> with TickerProvi
           Padding(
             padding: EdgeInsets.only(left: 20.h),
             child: CustomIconButton(
+              onTap: (){
+                _showEditSearchModalBottomSheet(context);
+              },
               height: 24.h,
               width: 24.h,
               padding: EdgeInsets.all(4.h),
