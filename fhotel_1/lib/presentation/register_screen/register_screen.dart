@@ -1,4 +1,5 @@
 import 'package:fhotel_1/presentation/login_screen/login_screen.dart';
+import 'package:fhotel_1/presentation/otp_signup_screen/otp_signup_screen.dart';
 import 'package:flutter/material.dart';
 import '../../core/app_export.dart';
 import '../home_hotel_region_empty/home_hotel_region_empty.dart';
@@ -121,7 +122,6 @@ class RegisterScreen extends StatelessWidget {
     );
   }
 
-  /// Section Widget
   Widget _buildPasswordInput(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(right: 8.h),
@@ -139,6 +139,7 @@ class RegisterScreen extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildRePasswordInput(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(right: 8.h),
@@ -157,12 +158,11 @@ class RegisterScreen extends StatelessWidget {
     );
   }
 
-  /// Section Widget
   Widget _buildSignInButton(BuildContext context) {
     return CustomElevatedButton(
       onPressed: (){
         Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) =>  HomeHotelRegionEmptyScreen()),
+          MaterialPageRoute(builder: (context) =>  OTPScreen()),
         );
       },
       buttonStyle: CustomButtonStyles.fillBlue,
@@ -184,7 +184,6 @@ class RegisterScreen extends StatelessWidget {
         });
   }
 
-  /// Navigates to the registerScreen when the action is triggered.
   onTapCreateAccountButton(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute(builder: (context) =>  LoginScreen()),
