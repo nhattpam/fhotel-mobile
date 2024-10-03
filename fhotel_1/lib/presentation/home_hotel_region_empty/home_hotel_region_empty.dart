@@ -6,6 +6,7 @@ import 'package:fhotel_1/presentation/home_hotel_region_empty/widgets/carouselun
 import 'package:fhotel_1/presentation/home_hotel_region_empty/widgets/maincontent_item_widget.dart';
 import 'package:fhotel_1/presentation/home_hotel_region_empty/widgets/maincontent_one_item_widget.dart';
 import 'package:fhotel_1/presentation/hotel_detail/hotel_detail_screen.dart';
+import 'package:fhotel_1/presentation/service_listing_screen/service_listing_screen.dart';
 import 'package:fhotel_1/theme/app_decoration.dart';
 import 'package:fhotel_1/theme/custom_button_style.dart';
 import 'package:fhotel_1/theme/custom_text_style.dart';
@@ -24,97 +25,158 @@ class HomeHotelRegionEmptyScreen extends StatefulWidget {
   HomeHotelRegionEmptyScreen({Key? key}) : super(key: key);
 
   @override
-  CategoryScreenState createState() => CategoryScreenState();
-}
-
-void _showModalBottomSheet(BuildContext context) {
-  showModalBottomSheet(
-    context: context,
-    builder: (BuildContext context) {
-      return HomeDestinationDefaultBottomsheet();
-    },
-  );
-}
-
-void _showCalendarModalBottomSheet(BuildContext context) {
-  showModalBottomSheet(
-    context: context,
-    builder: (BuildContext context) {
-      return HomeCheckInDateDefaultBottomsheet();
-    },
-  );
-}
-void _showDurationModalBottomSheet(BuildContext context) {
-  showModalBottomSheet(
-    context: context,
-    builder: (BuildContext context) {
-      return const HomeDurationBottomsheet();
-    },
-  );
-}
-
-void _showRoomAndGuestModalBottomSheet(BuildContext context) {
-  showModalBottomSheet(
-    context: context,
-    builder: (BuildContext context) {
-      return HomeRoomGuestFilledBottomsheet();
-    },
-  );
-}
-
-void _showFilterModalBottomSheet(BuildContext context) {
-  showModalBottomSheet(
-    context: context,
-    builder: (BuildContext context) {
-      return HomeFilterBottomsheet();
-    },
-  );
+  HomeHotelRegionEmptyScreenState createState() => HomeHotelRegionEmptyScreenState();
 }
 
 
-class CategoryScreenState extends State<HomeHotelRegionEmptyScreen> {
+
+class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen> {
   int sliderIndex = 1;
+  int _currentIndex = 0;
 
+  void _showModalBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return HomeDestinationDefaultBottomsheet();
+      },
+    );
+  }
+
+  void _showCalendarModalBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return HomeCheckInDateDefaultBottomsheet();
+      },
+    );
+  }
+
+  void _showDurationModalBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return const HomeDurationBottomsheet();
+      },
+    );
+  }
+
+  void _showRoomAndGuestModalBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return HomeRoomGuestFilledBottomsheet();
+      },
+    );
+  }
+
+  void _showFilterModalBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return HomeFilterBottomsheet();
+      },
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        body: SingleChildScrollView(
-          child: SizedBox(
-            width: double.maxFinite,
-            child: Container(
-              height: 1032.h,
-              decoration: BoxDecoration(
-                color: appTheme.gray10001,
-              ),
-              child: Stack(
-                alignment: Alignment.bottomCenter,
-                children: [
-                  _buildStackherobanner(context),
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      _buildColumniconwrapp(context),
-                      SizedBox(height: 16.h),
-                      _buildSection(context),
-                      SizedBox(height: 12.h),
-                      _buildSectionone(context),
-                      Container(
-                        height: 8.h,
-                        width: double.maxFinite,
-                        decoration: BoxDecoration(
-                          color: appTheme.gray10001,
+        child: Scaffold(
+          body: SingleChildScrollView(
+            child: SizedBox(
+              width: double.maxFinite,
+              child: Container(
+                height: 1032.h,
+                decoration: BoxDecoration(
+                  color: appTheme.gray10001,
+                ),
+                child: Stack(
+                  alignment: Alignment.bottomCenter,
+                  children: [
+                    _buildStackherobanner(context),
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        _buildColumniconwrapp(context),
+                        SizedBox(height: 16.h),
+                        _buildSection(context),
+                        SizedBox(height: 12.h),
+                        _buildSectionone(context),
+                        Container(
+                          height: 8.h,
+                          width: double.maxFinite,
+                          decoration: BoxDecoration(
+                            color: appTheme.gray10001,
+                          ),
                         ),
-                      ),
-                      _buildColumntitleone(context)
-                    ],
-                  ),
-                ],
+                        _buildColumntitleone(context)
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
-        ),
-      ),
+          bottomNavigationBar: BottomNavigationBar(
+            currentIndex: _currentIndex,
+            onTap: (index) {
+              setState(() {
+                _currentIndex = index;
+              });
+              if (index == 0) {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => HomeHotelRegionEmptyScreen()),
+                );
+              }
+              if (index == 1) {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => ServiceListingScreen()),
+                );
+              }
+              if (index == 2) {
+                // Navigator.of(context).push(
+                //   MaterialPageRoute(builder: (context) => HomeV3Screen()),
+                // );
+              }
+              if (index == 3) {
+                // Navigator.of(context).push(
+                //   MaterialPageRoute(builder: (context) => TransactionsPage()),
+                // );
+              }
+              if (index == 4) {
+                // Navigator.of(context).push(
+                //   MaterialPageRoute(builder: (context) => ProfilesPage()),
+                // );
+              }
+            },
+            items: [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: 'Hotel',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.book),
+                label: 'Service',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.chat),
+                label: 'Forum',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.wallet),
+                label: 'Transaction',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.person),
+                label: 'Profile',
+              ),
+            ],
+            selectedFontSize: 12,
+            selectedLabelStyle: CustomTextStyles.bodyLargeGray600,
+            selectedItemColor: Color(0xbbff9300),
+            unselectedItemColor: Color(0xffff9300),
+          ),
+        )
     );
   }
 

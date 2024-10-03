@@ -93,7 +93,7 @@ class ImageConstant {
   static String imgImage = '$imagePath/photo-1542314831-068cd1dbfeeb.jfif';
   static String imgImage108x328 = '$imagePath/pexels-thorsten-technoman-109353-338504.jpg';
   static String imgCloseIcon = '$imagePath/xmark-solid.svg';
-  static String imgSearch = '$imagePath/img_search.svg';
+  static String imgSearch = '$imagePath/magnifying-glass-solid.svg';
   static String imgImage160x160 = '$imagePath/img_image_160x160.png';
   static String imgIconWrapper4 = '$imagePath/img_icon_wrapper_4.svg';
   static String imgCircle = '$imagePath/img_circle.svg';

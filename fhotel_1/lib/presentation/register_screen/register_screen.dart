@@ -105,7 +105,6 @@ class RegisterScreen extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(right: 8.h),
       child: CustomTextFormField(
-
         textStyle: const TextStyle(
           color: Colors.black,
         ),
