@@ -5,6 +5,7 @@ class ImageConstant {
 
 // Home - Hotel & region - Empty images
   static String imgImage170x128 = '$imagePath/pexels-pixabay-53464.jpg';
+  static String imgImage170x129 = '$imagePath/pizza-5179939_960_720-1200x545_c.jpg';
 
   static String imgImage1 = '$imagePath/img_image_1.png';
 

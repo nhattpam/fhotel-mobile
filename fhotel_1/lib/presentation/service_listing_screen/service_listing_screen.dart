@@ -1,7 +1,9 @@
 import 'package:fhotel_1/widgets/custom_search_view.dart';
 import 'package:flutter/material.dart';
+
 import '../../core/app_export.dart';
 import '../home_hotel_region_empty/home_hotel_region_empty.dart';
+import '../service_detail_screen/service_detail_screen.dart';
 import 'widgets/listpizza_one_item_widget.dart';
 
 // ignore_for_file: must_be_immutable
@@ -53,35 +55,42 @@ class ServiceListingScreenState extends State<ServiceListingScreen> {
                       child: ListView.builder(
                         itemCount: 10,
                         itemBuilder: (BuildContext context, int index) {
-                          return Container(
-                            margin: EdgeInsets.only(bottom: 10.h),
-                            padding: EdgeInsets.all(12.h),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10.h),
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                CustomImageView(
-                                  imagePath: ImageConstant.imgImage170x128,
-                                  height: 140.h,
-                                  width: double.maxFinite,
-                                  radius: BorderRadius.circular(10.h),
-                                ),
-                                SizedBox(height: 6.h),
-                                Text(
-                                  "Rose Garden Restaurant",
-                                  style: CustomTextStyles.titleSmallGray600,
-                                ),
-                                SizedBox(height: 2.h),
-                                Text(
-                                  "Burger - Chicken - Riche - Wings",
-                                  style: Theme.of(context).textTheme.bodyMedium,
-                                ),
-                                SizedBox(height: 12.h),
-                                _buildRowszone(context),
-                              ],
+                          return GestureDetector(
+                            onTap: (){
+                              Navigator.of(context).push(
+                                MaterialPageRoute(builder: (context) => ServiceDetailScreen()),
+                              );
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(bottom: 10.h),
+                              padding: EdgeInsets.all(12.h),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10.h),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  CustomImageView(
+                                    imagePath: ImageConstant.imgImage170x128,
+                                    height: 140.h,
+                                    width: double.maxFinite,
+                                    radius: BorderRadius.circular(10.h),
+                                  ),
+                                  SizedBox(height: 6.h),
+                                  Text(
+                                    "Rose Garden Restaurant",
+                                    style: CustomTextStyles.titleSmallGray600,
+                                  ),
+                                  SizedBox(height: 2.h),
+                                  Text(
+                                    "Burger - Chicken - Riche - Wings",
+                                    style: Theme.of(context).textTheme.bodyMedium,
+                                  ),
+                                  SizedBox(height: 12.h),
+                                  _buildRowszone(context),
+                                ],
+                              ),
                             ),
                           );
                         },
@@ -132,7 +141,7 @@ class ServiceListingScreenState extends State<ServiceListingScreen> {
               label: 'Hotel',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.book),
+              icon: Icon(Icons.fastfood_outlined),
               label: 'Service',
             ),
             BottomNavigationBarItem(
@@ -150,8 +159,8 @@ class ServiceListingScreenState extends State<ServiceListingScreen> {
           ],
           selectedFontSize: 12,
           selectedLabelStyle: CustomTextStyles.bodyLargeGray600,
-          selectedItemColor: Color(0xbbff9300),
-          unselectedItemColor: Color(0xffff9300),
+          selectedItemColor: Colors.blueAccent,
+          unselectedItemColor: Colors.blue,
         ),
       ),
     );
@@ -233,35 +242,35 @@ class ServiceListingScreenState extends State<ServiceListingScreen> {
               ],
             ),
           ),
-          SizedBox(width: 12.h),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              CustomImageView(
-                imagePath: ImageConstant.imgImage170x128,
-                height: 16.h,
-                width: 22.h,
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: 8.h),
-                child: Text(
-                  "Free",
-                  style: CustomTextStyles.titleSmallGray600,
-                ),
-              )
-            ],
-          ),
+          // SizedBox(width: 12.h),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.end,
+          //   mainAxisSize: MainAxisSize.min,
+          //   children: [
+          //     CustomImageView(
+          //       imagePath: ImageConstant.imgImage170x128,
+          //       height: 16.h,
+          //       width: 22.h,
+          //     ),
+          //     Padding(
+          //       padding: EdgeInsets.only(left: 8.h),
+          //       child: Text(
+          //         "Free",
+          //         style: CustomTextStyles.titleSmallGray600,
+          //       ),
+          //     )
+          //   ],
+          // ),
           SizedBox(width: 12.h),
           Expanded(
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 12.h),
               child: Row(
                 children: [
-                  CustomImageView(
-                    imagePath: ImageConstant.imgImage170x128,
-                    height: 20.h,
-                    width: 20.h,
+                  Icon(
+                    Icons.watch_later_outlined,             // Star icon
+                    color: Colors.grey,    // Set the color to yellow
+                    size: 20.h,              // Adjust the size according to your requirement
                   ),
                   Align(
                     alignment: Alignment.bottomCenter,

@@ -155,7 +155,7 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen> 
                 label: 'Hotel',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.book),
+                icon: Icon(Icons.fastfood_outlined),
                 label: 'Service',
               ),
               BottomNavigationBarItem(
@@ -173,8 +173,8 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen> 
             ],
             selectedFontSize: 12,
             selectedLabelStyle: CustomTextStyles.bodyLargeGray600,
-            selectedItemColor: Color(0xbbff9300),
-            unselectedItemColor: Color(0xffff9300),
+            selectedItemColor: Colors.blueAccent,
+            unselectedItemColor: Colors.blue,
           ),
         )
     );

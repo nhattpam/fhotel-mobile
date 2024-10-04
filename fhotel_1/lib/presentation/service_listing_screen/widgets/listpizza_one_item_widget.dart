@@ -39,7 +39,7 @@ class ListpizzaOneItemWidget extends StatelessWidget {
                   alignment: Alignment.center,
                   children: [
                     CustomImageView(
-                      imagePath: ImageConstant.imgImage170x128,
+                      imagePath: ImageConstant.imgImage170x129,
                       height: 80.h,
                       width: 96.h,
                       radius: BorderRadius.circular(
