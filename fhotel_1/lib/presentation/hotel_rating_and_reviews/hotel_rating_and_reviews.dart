@@ -1,5 +1,3 @@
-import 'package:fhotel_1/presentation/home_duration_bottomsheet/home_duration_bottomsheet.dart';
-import 'package:fhotel_1/presentation/home_hotel_region_empty/home_hotel_region_empty.dart';
 import 'package:fhotel_1/presentation/hotel_rating_and_reviews/widgets/list_label_item_value_widget.dart';
 import 'package:flutter/material.dart';
 

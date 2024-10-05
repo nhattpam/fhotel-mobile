@@ -5,7 +5,6 @@ import 'package:fhotel_1/presentation/home_destination_default/home_destination_
 import 'package:fhotel_1/presentation/home_hotel_region_empty/widgets/carouselunit_item_widget.dart';
 import 'package:fhotel_1/presentation/home_hotel_region_empty/widgets/maincontent_item_widget.dart';
 import 'package:fhotel_1/presentation/home_hotel_region_empty/widgets/maincontent_one_item_widget.dart';
-import 'package:fhotel_1/presentation/hotel_detail/hotel_detail_screen.dart';
 import 'package:fhotel_1/presentation/service_listing_screen/service_listing_screen.dart';
 import 'package:fhotel_1/theme/app_decoration.dart';
 import 'package:fhotel_1/theme/custom_button_style.dart';
@@ -117,68 +116,71 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen> 
               ),
             ),
           ),
-          bottomNavigationBar: BottomNavigationBar(
-            currentIndex: _currentIndex,
-            onTap: (index) {
-              setState(() {
-                _currentIndex = index;
-              });
-              if (index == 0) {
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => HomeHotelRegionEmptyScreen()),
-                );
-              }
-              if (index == 1) {
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => ServiceListingScreen()),
-                );
-              }
-              if (index == 2) {
-                // Navigator.of(context).push(
-                //   MaterialPageRoute(builder: (context) => HomeV3Screen()),
-                // );
-              }
-              if (index == 3) {
-                // Navigator.of(context).push(
-                //   MaterialPageRoute(builder: (context) => TransactionsPage()),
-                // );
-              }
-              if (index == 4) {
-                // Navigator.of(context).push(
-                //   MaterialPageRoute(builder: (context) => ProfilesPage()),
-                // );
-              }
-            },
-            items: [
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Hotel',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.fastfood_outlined),
-                label: 'Service',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.chat),
-                label: 'Forum',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.wallet),
-                label: 'Transaction',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.person),
-                label: 'Profile',
-              ),
-            ],
-            selectedFontSize: 12,
-            selectedLabelStyle: CustomTextStyles.bodyLargeGray600,
-            selectedItemColor: Colors.blueAccent,
-            unselectedItemColor: Colors.blue,
-          ),
+          bottomNavigationBar: _buildBottomNavigationBar(context)
         )
     );
   }
+
+  Widget _buildBottomNavigationBar(BuildContext context) {
+    return BottomNavigationBar(
+      currentIndex: _currentIndex,
+      onTap: (index) {
+        setState(() {
+          _currentIndex = index;
+        });
+
+        switch (index) {
+          case 0:
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                  builder: (context) => HomeHotelRegionEmptyScreen()),
+            );
+            break;
+          case 1:
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => ServiceListingScreen()),
+            );
+            break;
+          case 2:
+          // Add navigation logic for index 2
+            break;
+          case 3:
+          // Add navigation logic for index 3
+            break;
+          case 4:
+          // Add navigation logic for index 4
+            break;
+        }
+      },
+      items: const [
+        BottomNavigationBarItem(
+          icon: Icon(Icons.home),
+          label: 'Hotel',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.fastfood_outlined),
+          label: 'Service',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.chat),
+          label: 'Forum',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.wallet),
+          label: 'Transaction',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.person),
+          label: 'Profile',
+        ),
+      ],
+      selectedFontSize: 12,
+      selectedLabelStyle: CustomTextStyles.bodyLargeGray600,
+      selectedItemColor: Colors.blueAccent,
+      unselectedItemColor: Colors.blue,
+    );
+  }
+
 
   Widget _buildStackherobanner(BuildContext context) {
     return Align(

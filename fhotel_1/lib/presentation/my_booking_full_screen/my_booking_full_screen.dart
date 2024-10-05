@@ -1,6 +1,7 @@
 import 'package:fhotel_1/presentation/my_booking_details/my_booking_details.dart';
 import 'package:fhotel_1/presentation/my_booking_full_screen/widgets/maincontent7_item_widget.dart';
 import 'package:flutter/material.dart';
+
 import '../../core/app_export.dart';
 
 class MyBookingFullScreen extends StatelessWidget {

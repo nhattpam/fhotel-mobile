@@ -1,9 +1,7 @@
-import 'package:carousel_slider_plus/carousel_slider_plus.dart';
 import 'package:fhotel_1/presentation/choose_room/choose_room.dart';
 import 'package:fhotel_1/presentation/home_hotel_region_empty/widgets/carouselunit_item_widget.dart';
 import 'package:fhotel_1/presentation/hotel_detail_facilities_screen/hotel_detail_facilities_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../core/app_export.dart';
 import '../../hotel_edit_search/hotel_edit_search.dart';

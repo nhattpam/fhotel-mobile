@@ -1,7 +1,6 @@
-import 'package:fhotel_1/presentation/service_detail_screen/widgets/service_detail_item_widget.dart';
 import 'package:flutter/material.dart';
+
 import '../../core/app_export.dart';
-import '../../widgets/app_bar/appbar_subtitle_one.dart';
 
 class ServiceDetailScreen extends StatelessWidget {
   const ServiceDetailScreen({Key? key})

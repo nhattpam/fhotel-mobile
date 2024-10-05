@@ -1,8 +1,8 @@
 import 'package:fhotel_1/presentation/login_screen/login_screen.dart';
 import 'package:fhotel_1/presentation/otp_signup_screen/otp_signup_screen.dart';
 import 'package:flutter/material.dart';
+
 import '../../core/app_export.dart';
-import '../home_hotel_region_empty/home_hotel_region_empty.dart';
 
 // ignore_for_file: must_be_immutable
 class RegisterScreen extends StatelessWidget {

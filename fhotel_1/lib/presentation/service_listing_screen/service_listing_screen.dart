@@ -1,6 +1,7 @@
+import 'package:fhotel_1/presentation/search_service_result/search_service_result.dart';
 import 'package:fhotel_1/widgets/custom_search_view.dart';
 import 'package:flutter/material.dart';
-
+import 'package:badges/badges.dart' as badges; // Alias the badges package
 import '../../core/app_export.dart';
 import '../home_hotel_region_empty/home_hotel_region_empty.dart';
 import '../service_detail_screen/service_detail_screen.dart';
@@ -18,11 +19,12 @@ class ServiceListingScreen extends StatefulWidget {
 class ServiceListingScreenState extends State<ServiceListingScreen> {
   TextEditingController searchController = TextEditingController();
   int _currentIndex = 1;
-
+  int cartItemCount = 5;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: _buildAppbar(context),
         resizeToAvoidBottomInset: false,
         backgroundColor: appTheme.gray10001,
         body: SizedBox(
@@ -58,7 +60,7 @@ class ServiceListingScreenState extends State<ServiceListingScreen> {
                           return GestureDetector(
                             onTap: (){
                               Navigator.of(context).push(
-                                MaterialPageRoute(builder: (context) => ServiceDetailScreen()),
+                                MaterialPageRoute(builder: (context) => const ServiceDetailScreen()),
                               );
                             },
                             child: Container(
@@ -102,67 +104,110 @@ class ServiceListingScreenState extends State<ServiceListingScreen> {
             ),
           ),
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _currentIndex,
-          onTap: (index) {
-            setState(() {
-              _currentIndex = index;
-            });
-            if (index == 0) {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                    builder: (context) => HomeHotelRegionEmptyScreen()),
-              );
-            }
-            if (index == 1) {
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => ServiceListingScreen()),
-              );
-            }
-            if (index == 2) {
-              // Navigator.of(context).push(
-              //   MaterialPageRoute(builder: (context) => HomeV3Screen()),
-              // );
-            }
-            if (index == 3) {
-              // Navigator.of(context).push(
-              //   MaterialPageRoute(builder: (context) => TransactionsPage()),
-              // );
-            }
-            if (index == 4) {
-              // Navigator.of(context).push(
-              //   MaterialPageRoute(builder: (context) => ProfilesPage()),
-              // );
-            }
-          },
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Hotel',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.fastfood_outlined),
-              label: 'Service',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.chat),
-              label: 'Forum',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.wallet),
-              label: 'Transaction',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'Profile',
-            ),
-          ],
-          selectedFontSize: 12,
-          selectedLabelStyle: CustomTextStyles.bodyLargeGray600,
-          selectedItemColor: Colors.blueAccent,
-          unselectedItemColor: Colors.blue,
-        ),
+        bottomNavigationBar: _buildBottomNavigationBar(context)
       ),
+    );
+  }
+  PreferredSizeWidget _buildAppbar(BuildContext context) {
+    return CustomAppBar(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween, // Adjusts alignment
+          children: [
+            AppbarTitle(
+              text: "Danh sách dịch vụ",
+              margin: EdgeInsets.only(left: 8.h),
+            ),
+            _buildCartIconWithBadge(cartItemCount)
+          ],
+        ),
+        styleType: Style.bgFill
+    );
+  }
+  Widget _buildCartIconWithBadge(int cartItemCount) {
+    return Container(
+      margin: EdgeInsets.only(
+        top: 16.h,
+        right: 16.h,
+        bottom: 16.h,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // AppbarImage or an icon for shopping cart
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 8.h, vertical: 4.h),
+            child: badges.Badge(
+              badgeColor: Colors.redAccent,// Use the alias for the badge
+              badgeContent: Text( // Use 'badge' instead of 'badgeContent'
+                cartItemCount.toString(),
+                style: const TextStyle(color: Colors.white),
+              ),
+              child: Icon(Icons.shopping_bag_outlined, size: 28.h, color: Colors.white,),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBottomNavigationBar(BuildContext context) {
+    return BottomNavigationBar(
+      currentIndex: _currentIndex,
+      onTap: (index) {
+        setState(() {
+          _currentIndex = index;
+        });
+
+        switch (index) {
+          case 0:
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                  builder: (context) => HomeHotelRegionEmptyScreen()),
+            );
+            break;
+          case 1:
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => ServiceListingScreen()),
+            );
+            break;
+          case 2:
+          // Add navigation logic for index 2
+            break;
+          case 3:
+          // Add navigation logic for index 3
+            break;
+          case 4:
+          // Add navigation logic for index 4
+            break;
+        }
+      },
+      items: const [
+        BottomNavigationBarItem(
+          icon: Icon(Icons.home),
+          label: 'Hotel',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.fastfood_outlined),
+          label: 'Service',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.chat),
+          label: 'Forum',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.wallet),
+          label: 'Transaction',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.person),
+          label: 'Profile',
+        ),
+      ],
+      selectedFontSize: 12,
+      selectedLabelStyle: CustomTextStyles.bodyLargeGray600,
+      selectedItemColor: Colors.blueAccent,
+      unselectedItemColor: Colors.blue,
     );
   }
 
@@ -209,7 +254,13 @@ class ServiceListingScreenState extends State<ServiceListingScreen> {
             children: List.generate(
               3,
               (index) {
-                return ListpizzaOneItemWidget();
+                return GestureDetector(
+                  onTap: (){
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) =>  SearchServiceResult()),
+                    );
+                  },
+                    child: const ListpizzaOneItemWidget());
               },
             ),
           ),
@@ -306,7 +357,7 @@ class ServiceListingScreenState extends State<ServiceListingScreen> {
             style: theme.textTheme.titleMedium,
           ),
         ),
-        Spacer(),
+        const Spacer(),
         Text(
           seeallone,
           style:

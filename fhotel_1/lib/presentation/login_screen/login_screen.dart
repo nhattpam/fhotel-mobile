@@ -1,5 +1,6 @@
 import 'package:fhotel_1/presentation/register_screen/register_screen.dart';
 import 'package:flutter/material.dart';
+
 import '../../core/app_export.dart';
 import '../home_hotel_region_empty/home_hotel_region_empty.dart';
 

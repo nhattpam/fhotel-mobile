@@ -1,5 +1,5 @@
-import 'package:fhotel_1/presentation/successful_payment_screen/successful_payment_screen.dart';
 import 'package:flutter/material.dart';
+
 import '../../core/app_export.dart';
 
 // ignore_for_file: must be_ immutable
