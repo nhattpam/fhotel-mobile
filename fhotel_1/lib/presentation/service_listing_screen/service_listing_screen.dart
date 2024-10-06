@@ -1,4 +1,5 @@
 import 'package:fhotel_1/presentation/search_service_result/search_service_result.dart';
+import 'package:fhotel_1/presentation/service_cart/service_cart.dart';
 import 'package:fhotel_1/widgets/custom_search_view.dart';
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart' as badges; // Alias the badges package
@@ -124,29 +125,36 @@ class ServiceListingScreenState extends State<ServiceListingScreen> {
     );
   }
   Widget _buildCartIconWithBadge(int cartItemCount) {
-    return Container(
-      margin: EdgeInsets.only(
-        top: 16.h,
-        right: 16.h,
-        bottom: 16.h,
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          // AppbarImage or an icon for shopping cart
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8.h, vertical: 4.h),
-            child: badges.Badge(
-              badgeColor: Colors.redAccent,// Use the alias for the badge
-              badgeContent: Text( // Use 'badge' instead of 'badgeContent'
-                cartItemCount.toString(),
-                style: const TextStyle(color: Colors.white),
+    return GestureDetector(
+      onTap: (){
+        Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) =>  MyCartScreen()),
+        );
+      },
+      child: Container(
+        margin: EdgeInsets.only(
+          top: 16.h,
+          right: 16.h,
+          bottom: 16.h,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // AppbarImage or an icon for shopping cart
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8.h, vertical: 4.h),
+              child: badges.Badge(
+                badgeColor: Colors.redAccent,// Use the alias for the badge
+                badgeContent: Text( // Use 'badge' instead of 'badgeContent'
+                  cartItemCount.toString(),
+                  style: const TextStyle(color: Colors.white),
+                ),
+                child: Icon(Icons.shopping_bag_outlined, size: 28.h, color: Colors.white,),
               ),
-              child: Icon(Icons.shopping_bag_outlined, size: 28.h, color: Colors.white,),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
