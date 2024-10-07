@@ -13,7 +13,7 @@ class MyBookingFullScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: _buildAppbar(context),
+        // appBar: _buildAppbar(context),
         body: SizedBox(
           width: double.maxFinite,
           child: SingleChildScrollView(

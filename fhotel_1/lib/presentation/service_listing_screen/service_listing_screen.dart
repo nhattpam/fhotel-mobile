@@ -6,6 +6,7 @@ import 'package:badges/badges.dart' as badges; // Alias the badges package
 import '../../core/app_export.dart';
 import '../home_hotel_region_empty/home_hotel_region_empty.dart';
 import '../service_detail_screen/service_detail_screen.dart';
+import '../tabbar_booking_and_service/tabbar_booking_and_service.dart';
 import 'widgets/listpizza_one_item_widget.dart';
 
 // ignore_for_file: must_be_immutable
@@ -180,7 +181,9 @@ class ServiceListingScreenState extends State<ServiceListingScreen> {
             );
             break;
           case 2:
-          // Add navigation logic for index 2
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => TabbarBookingAndService()),
+            );
             break;
           case 3:
           // Add navigation logic for index 3
@@ -200,8 +203,8 @@ class ServiceListingScreenState extends State<ServiceListingScreen> {
           label: 'Service',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.chat),
-          label: 'Forum',
+          icon: FaIcon(FontAwesomeIcons.moneyBill1),
+          label: 'My Booking',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.wallet),
@@ -218,6 +221,7 @@ class ServiceListingScreenState extends State<ServiceListingScreen> {
       unselectedItemColor: Colors.blue,
     );
   }
+
 
   Widget _buildColumnheyhalalg(BuildContext context) {
     return Container(

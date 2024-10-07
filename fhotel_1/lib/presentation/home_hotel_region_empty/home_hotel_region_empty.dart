@@ -1,24 +1,17 @@
 import 'package:carousel_slider_plus/carousel_slider_plus.dart';
-import 'package:fhotel_1/core/utils/size_utils.dart';
 import 'package:fhotel_1/presentation/home_check_in_date_default/home_check_in_date_default.dart';
 import 'package:fhotel_1/presentation/home_destination_default/home_destination_default.dart';
 import 'package:fhotel_1/presentation/home_hotel_region_empty/widgets/carouselunit_item_widget.dart';
 import 'package:fhotel_1/presentation/home_hotel_region_empty/widgets/maincontent_item_widget.dart';
 import 'package:fhotel_1/presentation/home_hotel_region_empty/widgets/maincontent_one_item_widget.dart';
 import 'package:fhotel_1/presentation/service_listing_screen/service_listing_screen.dart';
-import 'package:fhotel_1/theme/app_decoration.dart';
-import 'package:fhotel_1/theme/custom_button_style.dart';
-import 'package:fhotel_1/theme/custom_text_style.dart';
-import 'package:fhotel_1/widgets/custom_elevated_button.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
-import '../../core/utils/image_constant.dart';
-import '../../theme/theme_helper.dart';
-import '../../widgets/custom_image_view.dart';
+import '../../core/app_export.dart';
 import '../home_duration_bottomsheet/home_duration_bottomsheet.dart';
 import '../home_filter_bottomsheet/home_filter_bottomsheet.dart';
 import '../home_room_guest_default/home_room_guest_default.dart';
+import '../tabbar_booking_and_service/tabbar_booking_and_service.dart';
 
 class HomeHotelRegionEmptyScreen extends StatefulWidget {
   HomeHotelRegionEmptyScreen({Key? key}) : super(key: key);
@@ -142,7 +135,9 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen> 
             );
             break;
           case 2:
-          // Add navigation logic for index 2
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => TabbarBookingAndService()),
+            );
             break;
           case 3:
           // Add navigation logic for index 3
@@ -162,8 +157,8 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen> 
           label: 'Service',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.chat),
-          label: 'Forum',
+          icon: FaIcon(FontAwesomeIcons.moneyBill1),
+          label: 'My Booking',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.wallet),
