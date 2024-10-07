@@ -5,6 +5,7 @@ import 'package:fhotel_1/presentation/home_hotel_region_empty/widgets/carouselun
 import 'package:fhotel_1/presentation/home_hotel_region_empty/widgets/maincontent_item_widget.dart';
 import 'package:fhotel_1/presentation/home_hotel_region_empty/widgets/maincontent_one_item_widget.dart';
 import 'package:fhotel_1/presentation/service_listing_screen/service_listing_screen.dart';
+import 'package:fhotel_1/presentation/user_profile/user_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../core/app_export.dart';
@@ -140,6 +141,9 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen> 
             );
             break;
           case 3:
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => UserProfileScreen()),
+            );
           // Add navigation logic for index 3
             break;
           case 4:
@@ -160,10 +164,10 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen> 
           icon: FaIcon(FontAwesomeIcons.moneyBill1),
           label: 'My Booking',
         ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.wallet),
-          label: 'Transaction',
-        ),
+        // BottomNavigationBarItem(
+        //   icon: Icon(Icons.wallet),
+        //   label: 'Transaction',
+        // ),
         BottomNavigationBarItem(
           icon: Icon(Icons.person),
           label: 'Profile',

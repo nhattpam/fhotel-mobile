@@ -7,6 +7,7 @@ import '../../core/app_export.dart';
 import '../home_hotel_region_empty/home_hotel_region_empty.dart';
 import '../service_detail_screen/service_detail_screen.dart';
 import '../tabbar_booking_and_service/tabbar_booking_and_service.dart';
+import '../user_profile/user_profile.dart';
 import 'widgets/listpizza_one_item_widget.dart';
 
 // ignore_for_file: must_be_immutable
@@ -186,7 +187,10 @@ class ServiceListingScreenState extends State<ServiceListingScreen> {
             );
             break;
           case 3:
-          // Add navigation logic for index 3
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => UserProfileScreen()),
+            );
+            // Add navigation logic for index 3
             break;
           case 4:
           // Add navigation logic for index 4
@@ -206,10 +210,10 @@ class ServiceListingScreenState extends State<ServiceListingScreen> {
           icon: FaIcon(FontAwesomeIcons.moneyBill1),
           label: 'My Booking',
         ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.wallet),
-          label: 'Transaction',
-        ),
+        // BottomNavigationBarItem(
+        //   icon: Icon(Icons.wallet),
+        //   label: 'Transaction',
+        // ),
         BottomNavigationBarItem(
           icon: Icon(Icons.person),
           label: 'Profile',

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../../core/app_export.dart';
 import '../home_hotel_region_empty/home_hotel_region_empty.dart';
 import '../service_listing_screen/service_listing_screen.dart';
+import '../user_profile/user_profile.dart';
 
 class TabbarBookingAndService extends StatefulWidget {
   TabbarBookingAndService({Key? key}) : super(key: key);
@@ -112,7 +113,10 @@ class TabbarBookingAndServiceState extends State<TabbarBookingAndService>
             );
             break;
           case 3:
-          // Add navigation logic for index 3
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => UserProfileScreen()),
+            );
+            // Add navigation logic for index 3
             break;
           case 4:
           // Add navigation logic for index 4
@@ -132,10 +136,10 @@ class TabbarBookingAndServiceState extends State<TabbarBookingAndService>
           icon: FaIcon(FontAwesomeIcons.moneyBill1),
           label: 'My Booking',
         ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.wallet),
-          label: 'Transaction',
-        ),
+        // BottomNavigationBarItem(
+        //   icon: Icon(Icons.wallet),
+        //   label: 'Transaction',
+        // ),
         BottomNavigationBarItem(
           icon: Icon(Icons.person),
           label: 'Profile',

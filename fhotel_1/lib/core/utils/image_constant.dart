@@ -11,6 +11,10 @@ class ImageConstant {
 
   static String imgImage2 = '$imagePath/img_image_2.png';
 
+  static String imgImage11 = '$imagePath/gear-solid.svg';
+  static String imgImage12 = '$imagePath/circle-question-regular.svg';
+  static String imgImage13 = '$imagePath/arrow-right-from-bracket-solid.svg';
+
 // 1.1.0.z Home - Destination - Scrolling images
   static String imgIconWrapper2 = 'SimagePath/img_icon_wrapper_2.svg';
 
