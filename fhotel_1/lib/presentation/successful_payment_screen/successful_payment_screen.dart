@@ -130,9 +130,7 @@ class SuccessfulPaymentScreen extends StatelessWidget {
                 Expanded(
                   child: CustomOutlinedButton(
                     onPressed: (){
-                      Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) =>  HomeHotelRegionEmptyScreen()),
-                      );
+                      Navigator.pushNamed(context, AppRoutes.homePage);
                     },
                     height: 40.h,
                     text: "Về trang chủ",

@@ -1,10 +1,8 @@
 import 'package:fhotel_1/presentation/my_booking_full_screen/my_booking_full_screen.dart';
 import 'package:fhotel_1/presentation/my_service/my_service.dart';
 import 'package:flutter/material.dart';
+
 import '../../core/app_export.dart';
-import '../home_hotel_region_empty/home_hotel_region_empty.dart';
-import '../service_listing_screen/service_listing_screen.dart';
-import '../user_profile/user_profile.dart';
 
 class TabbarBookingAndService extends StatefulWidget {
   TabbarBookingAndService({Key? key}) : super(key: key);
@@ -97,29 +95,16 @@ class TabbarBookingAndServiceState extends State<TabbarBookingAndService>
 
         switch (index) {
           case 0:
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                  builder: (context) => HomeHotelRegionEmptyScreen()),
-            );
+            Navigator.pushNamed(context, AppRoutes.homePage);
             break;
           case 1:
-            Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => ServiceListingScreen()),
-            );
+            Navigator.pushNamed(context, AppRoutes.servicePage);
             break;
           case 2:
-            Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => TabbarBookingAndService()),
-            );
+            Navigator.pushNamed(context, AppRoutes.myOrderPageAndServicePage);
             break;
           case 3:
-            Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => UserProfileScreen()),
-            );
-            // Add navigation logic for index 3
-            break;
-          case 4:
-          // Add navigation logic for index 4
+            Navigator.pushNamed(context, AppRoutes.userPage);
             break;
         }
       },

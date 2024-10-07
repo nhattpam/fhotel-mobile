@@ -12,9 +12,7 @@ class MaincontentItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => HotelListingNearbyScreen()),
-        );
+        Navigator.pushNamed(context, AppRoutes.hotelListing);
       },
       child: Container(
         width: 260.h,

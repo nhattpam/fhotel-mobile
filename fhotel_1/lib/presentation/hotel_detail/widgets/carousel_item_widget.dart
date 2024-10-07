@@ -221,9 +221,7 @@ class CarouselItemWidgetState extends State<CarouselItemWidget> with TickerProvi
                                                     ),
                                                     CustomImageView(
                                                       onTap: (){
-                                                        Navigator.of(context).push(
-                                                          MaterialPageRoute(builder: (context) => const HotelDetailsRatingsReviewsScreen()),
-                                                        );
+                                                        Navigator.pushNamed(context, AppRoutes.hotelRatingAndReviews);
                                                       },
                                                       color: Colors.blueAccent,
                                                       imagePath: ImageConstant.imgArrowRight,
@@ -366,9 +364,7 @@ class CarouselItemWidgetState extends State<CarouselItemWidget> with TickerProvi
                                           ),
                                           CustomImageView(
                                             onTap: (){
-                                              Navigator.of(context).push(
-                                                MaterialPageRoute(builder: (context) => HotelDetailsFacilitiesScreen()),
-                                              );
+                                              Navigator.pushNamed(context, AppRoutes.hotelFacilities);
                                             },
                                             color: Colors.blueAccent,
                                             imagePath: ImageConstant.imgArrowRight,
@@ -971,9 +967,7 @@ class CarouselItemWidgetState extends State<CarouselItemWidget> with TickerProvi
   Widget _buildChnphng(BuildContext context) {
     return CustomElevatedButton(
       onPressed: (){
-        Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => const ChooseRoomFullScreen()),
-        );
+        Navigator.pushNamed(context, AppRoutes.roomListing);
       },
       text: "Chọn phòng",
       buttonStyle: CustomButtonStyles.fillBlue,

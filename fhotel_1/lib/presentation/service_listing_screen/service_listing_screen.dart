@@ -1,13 +1,11 @@
+import 'package:badges/badges.dart' as badges; // Alias the badges package
 import 'package:fhotel_1/presentation/search_service_result/search_service_result.dart';
 import 'package:fhotel_1/presentation/service_cart/service_cart.dart';
 import 'package:fhotel_1/widgets/custom_search_view.dart';
 import 'package:flutter/material.dart';
-import 'package:badges/badges.dart' as badges; // Alias the badges package
+
 import '../../core/app_export.dart';
-import '../home_hotel_region_empty/home_hotel_region_empty.dart';
 import '../service_detail_screen/service_detail_screen.dart';
-import '../tabbar_booking_and_service/tabbar_booking_and_service.dart';
-import '../user_profile/user_profile.dart';
 import 'widgets/listpizza_one_item_widget.dart';
 
 // ignore_for_file: must_be_immutable
@@ -171,29 +169,16 @@ class ServiceListingScreenState extends State<ServiceListingScreen> {
 
         switch (index) {
           case 0:
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                  builder: (context) => HomeHotelRegionEmptyScreen()),
-            );
+            Navigator.pushNamed(context, AppRoutes.homePage);
             break;
           case 1:
-            Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => ServiceListingScreen()),
-            );
+            Navigator.pushNamed(context, AppRoutes.servicePage);
             break;
           case 2:
-            Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => TabbarBookingAndService()),
-            );
+            Navigator.pushNamed(context, AppRoutes.myOrderPageAndServicePage);
             break;
           case 3:
-            Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => UserProfileScreen()),
-            );
-            // Add navigation logic for index 3
-            break;
-          case 4:
-          // Add navigation logic for index 4
+            Navigator.pushNamed(context, AppRoutes.userPage);
             break;
         }
       },

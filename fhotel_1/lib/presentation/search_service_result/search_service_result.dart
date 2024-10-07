@@ -1,8 +1,8 @@
+import 'package:badges/badges.dart' as badges; // Alias the badges package
 import 'package:fhotel_1/core/app_export.dart';
 import 'package:fhotel_1/presentation/search_service_result/widgets/search_service_result_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_grid_list/responsive_grid_list.dart';
-import 'package:badges/badges.dart' as badges; // Alias the badges package
 
 class SearchServiceResult extends StatelessWidget {
   SearchServiceResult({Key? key})

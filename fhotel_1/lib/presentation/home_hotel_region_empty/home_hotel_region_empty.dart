@@ -4,15 +4,14 @@ import 'package:fhotel_1/presentation/home_destination_default/home_destination_
 import 'package:fhotel_1/presentation/home_hotel_region_empty/widgets/carouselunit_item_widget.dart';
 import 'package:fhotel_1/presentation/home_hotel_region_empty/widgets/maincontent_item_widget.dart';
 import 'package:fhotel_1/presentation/home_hotel_region_empty/widgets/maincontent_one_item_widget.dart';
-import 'package:fhotel_1/presentation/service_listing_screen/service_listing_screen.dart';
-import 'package:fhotel_1/presentation/user_profile/user_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+
 import '../../core/app_export.dart';
 import '../home_duration_bottomsheet/home_duration_bottomsheet.dart';
 import '../home_filter_bottomsheet/home_filter_bottomsheet.dart';
 import '../home_room_guest_default/home_room_guest_default.dart';
-import '../tabbar_booking_and_service/tabbar_booking_and_service.dart';
+
 
 class HomeHotelRegionEmptyScreen extends StatefulWidget {
   HomeHotelRegionEmptyScreen({Key? key}) : super(key: key);
@@ -125,29 +124,16 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen> 
 
         switch (index) {
           case 0:
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                  builder: (context) => HomeHotelRegionEmptyScreen()),
-            );
+            Navigator.pushNamed(context, AppRoutes.homePage);
             break;
           case 1:
-            Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => ServiceListingScreen()),
-            );
+            Navigator.pushNamed(context, AppRoutes.servicePage);
             break;
           case 2:
-            Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => TabbarBookingAndService()),
-            );
+            Navigator.pushNamed(context, AppRoutes.myOrderPageAndServicePage);
             break;
           case 3:
-            Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => UserProfileScreen()),
-            );
-          // Add navigation logic for index 3
-            break;
-          case 4:
-          // Add navigation logic for index 4
+            Navigator.pushNamed(context, AppRoutes.userPage);
             break;
         }
       },
@@ -415,6 +401,7 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen> 
                       SizedBox(height: 16.h),
                       CustomElevatedButton(
                         onPressed: () {
+                          Navigator.pushNamed(context, AppRoutes.hotelListing);
                           },
                         buttonStyle: CustomButtonStyles.fillBlue,
                         buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,

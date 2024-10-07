@@ -350,9 +350,7 @@ import '../checkout/checkout.dart';
   Widget _buildChnphng(BuildContext context) {
     return CustomElevatedButton(
       onPressed: (){
-        Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) =>  CheckoutScreen()),
-        );
+        Navigator.pushNamed(context, AppRoutes.guestCheckout);
       },
       text: "Đặt phòng",
       buttonStyle: CustomButtonStyles.fillBlue,

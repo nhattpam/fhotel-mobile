@@ -591,9 +591,7 @@ class ChooseRoomRoomDetailScreen extends StatelessWidget {
   Widget _buildChnphng(BuildContext context) {
     return CustomElevatedButton(
       onPressed: (){
-        Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) =>  GuestInformationBookForOthersScreen()),
-        );
+        Navigator.pushNamed(context, AppRoutes.guestInformation);
       },
       text: "Đặt phòng",
       buttonStyle: CustomButtonStyles.fillBlue,
