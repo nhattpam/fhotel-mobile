@@ -1,11 +1,8 @@
-import 'package:fhotel_1/presentation/choose_room/choose_room.dart';
 import 'package:fhotel_1/presentation/home_hotel_region_empty/widgets/carouselunit_item_widget.dart';
-import 'package:fhotel_1/presentation/hotel_detail_facilities_screen/hotel_detail_facilities_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/app_export.dart';
 import '../../hotel_edit_search/hotel_edit_search.dart';
-import '../../hotel_rating_and_reviews/hotel_rating_and_reviews.dart';
 class CarouselItemWidget extends StatefulWidget {
   CarouselItemWidget({Key? key}) : super(key: key);
 

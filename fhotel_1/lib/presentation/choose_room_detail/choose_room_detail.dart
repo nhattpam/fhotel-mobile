@@ -2,7 +2,6 @@ import 'package:fhotel_1/presentation/home_hotel_region_empty/widgets/carouselun
 import 'package:flutter/material.dart';
 
 import '../../core/app_export.dart';
-import '../guest_information_book/guest_information_book.dart';
 
 class ChooseRoomRoomDetailScreen extends StatelessWidget {
   const ChooseRoomRoomDetailScreen({Key? key})

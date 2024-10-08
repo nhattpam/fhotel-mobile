@@ -1,5 +1,4 @@
 import 'package:fhotel_1/core/app_export.dart';
-import 'package:fhotel_1/presentation/hotel_listing_nearby_screen/hotel_listing_nearby_screen.dart';
 import 'package:flutter/material.dart';
 
 class MaincontentItemWidget extends StatelessWidget {

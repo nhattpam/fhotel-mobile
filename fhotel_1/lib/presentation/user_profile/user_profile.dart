@@ -1,4 +1,5 @@
 import 'package:fhotel_1/core/app_export.dart';
+import 'package:fhotel_1/presentation/edit_user_profile/edit_user_profile.dart';
 import 'package:fhotel_1/presentation/login_screen/login_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -161,7 +162,7 @@ import 'package:flutter/material.dart';
           SizedBox(
             width: double.maxFinite,
             child: _buildAddress(
-              targetScreen: LoginScreen(),
+              route: AppRoutes.userProfile,
               color: Colors.orangeAccent,
               context,
               userOne: ImageConstant.imgCircle24x24,
@@ -251,7 +252,7 @@ import 'package:flutter/material.dart';
           SizedBox(
             width: double.maxFinite,
             child: _buildAddress(
-              targetScreen: LoginScreen(),
+              route: AppRoutes.initialRoute,
               color: Colors.red,
               context,
               userOne: ImageConstant.imgImage12,
@@ -262,7 +263,7 @@ import 'package:flutter/material.dart';
           SizedBox(
             width: double.maxFinite,
             child: _buildAddress(
-              targetScreen: LoginScreen(),
+              route: AppRoutes.initialRoute,
               color: Colors.blueAccent,
               context,
               userOne: ImageConstant.imgImage11,
@@ -273,7 +274,7 @@ import 'package:flutter/material.dart';
           SizedBox(
             width: double.maxFinite,
             child: _buildAddress(
-              targetScreen: LoginScreen(),
+              route: AppRoutes.initialRoute,
               color: Colors.purple,
               context,
               userOne: ImageConstant.imgImage13,
@@ -290,7 +291,7 @@ import 'package:flutter/material.dart';
         required String userOne,
         required String addressesOne,
         required Color color,
-        required Widget targetScreen
+        required String route,
       }) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -313,9 +314,7 @@ import 'package:flutter/material.dart';
         Spacer(),
         GestureDetector(
           onTap: (){
-            Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => targetScreen),
-            );
+            Navigator.of(context).pushNamed(route);
           },
           child: CustomImageView(
             color: Colors.grey,

@@ -2,7 +2,6 @@ import 'package:fhotel_1/widgets/custom_text_form_field_for_guest.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/app_export.dart';
-import '../checkout/checkout.dart';
   class GuestInformationBookForOthersScreen extends StatefulWidget {
   const GuestInformationBookForOthersScreen({Key? key}) : super(key: key);
 

@@ -1,5 +1,6 @@
 import 'package:fhotel_1/presentation/checkout/checkout.dart';
 import 'package:fhotel_1/presentation/choose_room/choose_room.dart';
+import 'package:fhotel_1/presentation/edit_user_profile/edit_user_profile.dart';
 import 'package:fhotel_1/presentation/home_destination_default/home_destination_default.dart';
 import 'package:fhotel_1/presentation/home_hotel_region_empty/home_hotel_region_empty.dart';
 import 'package:fhotel_1/presentation/hotel_detail_facilities_screen/hotel_detail_facilities_screen.dart';
@@ -34,6 +35,7 @@ class AppRoutes {
   static const String guestInformation = '/guest_information_book';
   static const String guestCheckout = '/checkout';
   static const String guestPayment = '/successful_payment_screen';
+  static const String userProfile = '/edit_user_profile';
   static Map<String, WidgetBuilder> routes = {
     ///Navigation bar
     initialRoute: (context) => LoginScreen(),
@@ -53,6 +55,7 @@ class AppRoutes {
     guestInformation: (context) => GuestInformationBookForOthersScreen(),
     guestCheckout: (context) => CheckoutScreen(),
     guestPayment: (context) => SuccessfulPaymentScreen(),
+    userProfile: (context) => EditProfileScreen(),
 
   };
 }
