@@ -25,17 +25,12 @@ class AuthService {
       final jwtToken = responseData['data'];
 
       Map<String, dynamic> payload = Jwt.parseJwt(jwtToken);
-      // Print the payload
-      print("This is payload " + payload.toString());
-      // Print one of its property(example: email):
+
       final userId = payload['Id'].toString();
+
       final userRole = payload['role'].toString();
-      await SessionManager().init();
-      // Set the userId in session
-      print("This is userId " + userId.toString());
       if (userRole.toString() == 'Customer') {
         SessionManager().setUserId(userId);
-        print(SessionManager().getUserId());
         return User.fromJson(responseData);
       } else {
         throw Exception('You are not allowed to login.');
