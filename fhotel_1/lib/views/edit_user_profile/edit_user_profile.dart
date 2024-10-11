@@ -1,17 +1,34 @@
+import 'package:fhotel_1/presenters/user_profile_presenter.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/app_export.dart';
+import '../../data/models/user.dart';
+import '../user_profile/user_profile_view.dart';
 
-// ignore_for_file: must_be_immutable
-class EditProfileScreen extends StatelessWidget {
-  EditProfileScreen({Key? key})
-      : super(
-          key: key,
-        );
+  class EditProfileScreen extends StatefulWidget {
+  EditProfileScreen({Key? key}) : super(key: key);
+
+  @override
+  EditProfileScreenState createState() => EditProfileScreenState();
+  }
+
+  class EditProfileScreenState extends State<EditProfileScreen>
+  implements UserProfileView {
   TextEditingController fullNameController = TextEditingController();
   TextEditingController emailoneController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController ilovefastController = TextEditingController();
+
+  late UserProfilePresenter _presenter;
+  User? _customer;
+  String? _error;
+
+  @override
+  void initState() {
+    super.initState();
+    _presenter = UserProfilePresenter(this); // Initialize the presenter
+    _presenter.getCustomerById(); // Fetch customer data
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -147,7 +164,7 @@ class EditProfileScreen extends StatelessWidget {
           ),
           CustomTextFormField(
             controller: fullNameController,
-            hintText: "Nguyen Van A",
+            hintText: "${_customer?.firstName} ${_customer?.lastName}",
             hintStyle: CustomTextStyles.bodyLargeGray600,
             contentPadding: EdgeInsets.all(20.h),
           )
@@ -171,7 +188,7 @@ class EditProfileScreen extends StatelessWidget {
           ),
           CustomTextFormField(
             controller: emailoneController,
-            hintText: "nguyenvana@gmail.com",
+            hintText: "${_customer?.email}",
             hintStyle: CustomTextStyles.bodyLargeGray600,
             textInputType: TextInputType.emailAddress,
             contentPadding: EdgeInsets.all(20.h),
@@ -196,7 +213,7 @@ class EditProfileScreen extends StatelessWidget {
           ),
           CustomTextFormField(
             controller: phoneNumberController,
-            hintText: "Nguyen Van A",
+            hintText: "${_customer?.phoneNumber}",
             hintStyle: CustomTextStyles.bodyLargeGray600,
             contentPadding: EdgeInsets.all(20.h),
           )
@@ -221,5 +238,20 @@ class EditProfileScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+  @override
+  void onGetCustomerSuccess(User customer) {
+    setState(() {
+      _customer = customer;
+      _error = null;
+    });
+  }
+
+  @override
+  void onGetCustomerError(String error) {
+    setState(() {
+      _error = error;
+      _customer = null;
+    });
   }
 }
