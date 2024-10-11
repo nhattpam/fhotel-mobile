@@ -1,20 +1,20 @@
-import 'package:fhotel_1/presentation/checkout/checkout.dart';
-import 'package:fhotel_1/presentation/choose_room/choose_room.dart';
-import 'package:fhotel_1/presentation/edit_user_profile/edit_user_profile.dart';
-import 'package:fhotel_1/presentation/home_destination_default/home_destination_default.dart';
-import 'package:fhotel_1/presentation/home_hotel_region_empty/home_hotel_region_empty.dart';
-import 'package:fhotel_1/presentation/hotel_detail_facilities_screen/hotel_detail_facilities_screen.dart';
-import 'package:fhotel_1/presentation/hotel_listing_nearby_screen/hotel_listing_nearby_screen.dart';
-import 'package:fhotel_1/presentation/hotel_rating_and_reviews/hotel_rating_and_reviews.dart';
-import 'package:fhotel_1/presentation/login_screen/login_screen.dart';
-import 'package:fhotel_1/presentation/service_listing_screen/service_listing_screen.dart';
-import 'package:fhotel_1/presentation/successful_payment_screen/successful_payment_screen.dart';
-import 'package:fhotel_1/presentation/user_profile/user_profile.dart';
+import 'package:fhotel_1/views/checkout/checkout.dart';
+import 'package:fhotel_1/views/choose_room/choose_room.dart';
+import 'package:fhotel_1/views/edit_user_profile/edit_user_profile.dart';
+import 'package:fhotel_1/views/home_destination_default/home_destination_default.dart';
+import 'package:fhotel_1/views/home_hotel_region_empty/home_hotel_region_empty.dart';
+import 'package:fhotel_1/views/hotel_detail_facilities_screen/hotel_detail_facilities_screen.dart';
+import 'package:fhotel_1/views/hotel_listing_nearby_screen/hotel_listing_nearby_screen.dart';
+import 'package:fhotel_1/views/hotel_rating_and_reviews/hotel_rating_and_reviews.dart';
+import 'package:fhotel_1/views/login_screen/login_screen.dart';
+import 'package:fhotel_1/views/service_listing_screen/service_listing_screen.dart';
+import 'package:fhotel_1/views/successful_payment_screen/successful_payment_screen.dart';
+import 'package:fhotel_1/views/user_profile/user_profile.dart';
 import 'package:flutter/material.dart';
 
-import '../presentation/guest_information_book/guest_information_book.dart';
-import '../presentation/hotel_detail/widgets/carousel_item_widget.dart';
-import '../presentation/tabbar_booking_and_service/tabbar_booking_and_service.dart';
+import '../views/guest_information_book/guest_information_book.dart';
+import '../views/hotel_detail/widgets/carousel_item_widget.dart';
+import '../views/tabbar_booking_and_service/tabbar_booking_and_service.dart';
 class AppRoutes {
   ///Navigation bar
   static const String initialRoute = '/initialRoute';
