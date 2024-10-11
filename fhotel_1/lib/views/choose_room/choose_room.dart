@@ -10,6 +10,7 @@ class ChooseRoomFullScreen extends StatelessWidget {
       : super(
           key: key,
         );
+
   void _showEditSearchModalBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -225,7 +226,7 @@ class ChooseRoomFullScreen extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(left: 20.h),
             child: CustomIconButton(
-              onTap: (){
+              onTap: () {
                 _showEditSearchModalBottomSheet(context);
               },
               height: 24.h,

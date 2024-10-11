@@ -6,14 +6,15 @@ import '../../../core/app_export.dart';
 class Maincontent7ItemWidget extends StatelessWidget {
   const Maincontent7ItemWidget({Key? key})
       : super(
-    key: key,
-  );
+          key: key,
+        );
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) =>  MyBookingDetailsScreen()),
+          MaterialPageRoute(builder: (context) => MyBookingDetailsScreen()),
         );
       },
       child: Container(

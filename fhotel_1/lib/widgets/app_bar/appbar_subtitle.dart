@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 
 import '../../core/app_export.dart';
+
 class AppbarSubtitle extends StatelessWidget {
   AppbarSubtitle({Key? key, required this.text, this.margin, this.onTap})
       : super(
-    key: key,
-  );
+          key: key,
+        );
   final String text;
   final EdgeInsetsGeometry? margin;
   final Function? onTap;
+
   @override
   Widget build(BuildContext context) {
-    return GestureDetector (
+    return GestureDetector(
       onTap: () {
         onTap?.call();
       },

@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 class HomeDurationItemWidget extends StatefulWidget {
   final Function(bool) onSelectionChanged;
 
-  const HomeDurationItemWidget({Key? key, required this.onSelectionChanged}) : super(key: key);
+  const HomeDurationItemWidget({Key? key, required this.onSelectionChanged})
+      : super(key: key);
 
   @override
   _HomeDurationItemWidgetState createState() => _HomeDurationItemWidgetState();
@@ -45,7 +46,6 @@ class _HomeDurationItemWidgetState extends State<HomeDurationItemWidget> {
               ],
             ),
           ),
-
         ),
         Spacer(),
         Text(
@@ -56,4 +56,3 @@ class _HomeDurationItemWidgetState extends State<HomeDurationItemWidget> {
     );
   }
 }
-

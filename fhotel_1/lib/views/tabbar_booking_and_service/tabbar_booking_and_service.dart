@@ -85,6 +85,7 @@ class TabbarBookingAndServiceState extends State<TabbarBookingAndService>
       ),
     );
   }
+
   Widget _buildBottomNavigationBar(BuildContext context) {
     return BottomNavigationBar(
       currentIndex: _currentIndex,
@@ -136,5 +137,4 @@ class TabbarBookingAndServiceState extends State<TabbarBookingAndService>
       unselectedItemColor: Colors.blue,
     );
   }
-
 }

@@ -21,98 +21,104 @@ class ServiceListingScreenState extends State<ServiceListingScreen> {
   TextEditingController searchController = TextEditingController();
   int _currentIndex = 1;
   int cartItemCount = 5;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: _buildAppbar(context),
-        resizeToAvoidBottomInset: false,
-        backgroundColor: appTheme.gray10001,
-        body: SizedBox(
-          width: double.maxFinite,
-          child: SingleChildScrollView(
-            child: SizedBox(
-              width: double.maxFinite,
-              child: Column(
-                children: [
-                  SizedBox(height: 22.h),
-                  _buildColumnheyhalalg(context),
-                  SizedBox(height: 16.h),
-                  _buildListpizzaone(context),
-                  SizedBox(height: 38.h),
-                  Container(
-                    margin: EdgeInsets.fromLTRB(20.h, 0, 20.h, 0),
-                    child: _buildRowopen(
-                      context,
-                      openone: "Open Restaurants",
-                      seeallone: "See All",
-                    ),
-                  ),
-                  Container(
-                    width: double.maxFinite,
-                    margin: EdgeInsets.symmetric(horizontal: 12.h),
-                    padding: EdgeInsets.symmetric(horizontal: 10.h),
-                    // Provide a fixed height to the ListView.builder
-                    child: SizedBox(
-                      height: 300.h, // You can adjust the height as needed
-                      child: ListView.builder(
-                        itemCount: 10,
-                        itemBuilder: (BuildContext context, int index) {
-                          return GestureDetector(
-                            onTap: (){
-                              Navigator.of(context).push(
-                                MaterialPageRoute(builder: (context) => const ServiceDetailScreen()),
-                              );
-                            },
-                            child: Container(
-                              margin: EdgeInsets.only(bottom: 10.h),
-                              padding: EdgeInsets.all(12.h),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(10.h),
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  CustomImageView(
-                                    imagePath: ImageConstant.imgImage170x128,
-                                    height: 140.h,
-                                    width: double.maxFinite,
-                                    radius: BorderRadius.circular(10.h),
-                                  ),
-                                  SizedBox(height: 6.h),
-                                  Text(
-                                    "Rose Garden Restaurant",
-                                    style: CustomTextStyles.titleSmallGray600,
-                                  ),
-                                  SizedBox(height: 2.h),
-                                  Text(
-                                    "Burger - Chicken - Riche - Wings",
-                                    style: Theme.of(context).textTheme.bodyMedium,
-                                  ),
-                                  SizedBox(height: 12.h),
-                                  _buildRowszone(context),
-                                ],
-                              ),
-                            ),
-                          );
-                        },
+          appBar: _buildAppbar(context),
+          resizeToAvoidBottomInset: false,
+          backgroundColor: appTheme.gray10001,
+          body: SizedBox(
+            width: double.maxFinite,
+            child: SingleChildScrollView(
+              child: SizedBox(
+                width: double.maxFinite,
+                child: Column(
+                  children: [
+                    SizedBox(height: 22.h),
+                    _buildColumnheyhalalg(context),
+                    SizedBox(height: 16.h),
+                    _buildListpizzaone(context),
+                    SizedBox(height: 38.h),
+                    Container(
+                      margin: EdgeInsets.fromLTRB(20.h, 0, 20.h, 0),
+                      child: _buildRowopen(
+                        context,
+                        openone: "Open Restaurants",
+                        seeallone: "See All",
                       ),
                     ),
-                  ),
-                ],
+                    Container(
+                      width: double.maxFinite,
+                      margin: EdgeInsets.symmetric(horizontal: 12.h),
+                      padding: EdgeInsets.symmetric(horizontal: 10.h),
+                      // Provide a fixed height to the ListView.builder
+                      child: SizedBox(
+                        height: 300.h, // You can adjust the height as needed
+                        child: ListView.builder(
+                          itemCount: 10,
+                          itemBuilder: (BuildContext context, int index) {
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const ServiceDetailScreen()),
+                                );
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(bottom: 10.h),
+                                padding: EdgeInsets.all(12.h),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10.h),
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    CustomImageView(
+                                      imagePath: ImageConstant.imgImage170x128,
+                                      height: 140.h,
+                                      width: double.maxFinite,
+                                      radius: BorderRadius.circular(10.h),
+                                    ),
+                                    SizedBox(height: 6.h),
+                                    Text(
+                                      "Rose Garden Restaurant",
+                                      style: CustomTextStyles.titleSmallGray600,
+                                    ),
+                                    SizedBox(height: 2.h),
+                                    Text(
+                                      "Burger - Chicken - Riche - Wings",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium,
+                                    ),
+                                    SizedBox(height: 12.h),
+                                    _buildRowszone(context),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
-        ),
-        bottomNavigationBar: _buildBottomNavigationBar(context)
-      ),
+          bottomNavigationBar: _buildBottomNavigationBar(context)),
     );
   }
+
   PreferredSizeWidget _buildAppbar(BuildContext context) {
     return CustomAppBar(
         title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween, // Adjusts alignment
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          // Adjusts alignment
           children: [
             AppbarTitle(
               text: "Danh sách dịch vụ",
@@ -121,14 +127,14 @@ class ServiceListingScreenState extends State<ServiceListingScreen> {
             _buildCartIconWithBadge(cartItemCount)
           ],
         ),
-        styleType: Style.bgFill
-    );
+        styleType: Style.bgFill);
   }
+
   Widget _buildCartIconWithBadge(int cartItemCount) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) =>  MyCartScreen()),
+          MaterialPageRoute(builder: (context) => MyCartScreen()),
         );
       },
       child: Container(
@@ -145,12 +151,17 @@ class ServiceListingScreenState extends State<ServiceListingScreen> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 8.h, vertical: 4.h),
               child: badges.Badge(
-                badgeColor: Colors.redAccent,// Use the alias for the badge
-                badgeContent: Text( // Use 'badge' instead of 'badgeContent'
+                badgeColor: Colors.redAccent, // Use the alias for the badge
+                badgeContent: Text(
+                  // Use 'badge' instead of 'badgeContent'
                   cartItemCount.toString(),
                   style: const TextStyle(color: Colors.white),
                 ),
-                child: Icon(Icons.shopping_bag_outlined, size: 28.h, color: Colors.white,),
+                child: Icon(
+                  Icons.shopping_bag_outlined,
+                  size: 28.h,
+                  color: Colors.white,
+                ),
               ),
             ),
           ],
@@ -211,7 +222,6 @@ class ServiceListingScreenState extends State<ServiceListingScreen> {
     );
   }
 
-
   Widget _buildColumnheyhalalg(BuildContext context) {
     return Container(
       width: double.maxFinite,
@@ -256,11 +266,12 @@ class ServiceListingScreenState extends State<ServiceListingScreen> {
               3,
               (index) {
                 return GestureDetector(
-                  onTap: (){
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) =>  SearchServiceResult()),
-                    );
-                  },
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (context) => SearchServiceResult()),
+                      );
+                    },
                     child: const ListpizzaOneItemWidget());
               },
             ),
@@ -320,9 +331,9 @@ class ServiceListingScreenState extends State<ServiceListingScreen> {
               child: Row(
                 children: [
                   Icon(
-                    Icons.watch_later_outlined,             // Star icon
-                    color: Colors.grey,    // Set the color to yellow
-                    size: 20.h,              // Adjust the size according to your requirement
+                    Icons.watch_later_outlined, // Star icon
+                    color: Colors.grey, // Set the color to yellow
+                    size: 20.h, // Adjust the size according to your requirement
                   ),
                   Align(
                     alignment: Alignment.bottomCenter,

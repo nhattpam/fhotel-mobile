@@ -7,8 +7,8 @@ import '../../widgets/custom_search_view.dart';
 class HomeDestinationDefaultBottomsheet extends StatelessWidget {
   HomeDestinationDefaultBottomsheet({Key? key})
       : super(
-    key: key,
-  );
+          key: key,
+        );
   TextEditingController searchController = TextEditingController();
 
   @override
@@ -23,21 +23,22 @@ class HomeDestinationDefaultBottomsheet extends StatelessWidget {
             borderRadius: BorderRadiusStyle.customBorderTL8,
           ),
           child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
+            mainAxisSize: MainAxisSize.min,
+            children: [
               _buildSheetheader(context),
-            CustomSearchView(
-            controller: searchController,
-            hintText: "Tìm khách sạn, điểm đến",
-            contentPadding: EdgeInsets.fromLTRB(32.h, 16.h, 12.h, 16.h),
-            ),
-            SizedBox(height: 448.h)
+              CustomSearchView(
+                controller: searchController,
+                hintText: "Tìm khách sạn, điểm đến",
+                contentPadding: EdgeInsets.fromLTRB(32.h, 16.h, 12.h, 16.h),
+              ),
+              SizedBox(height: 448.h)
             ],
           ),
         ),
       ),
     );
   }
+
   Widget _buildSheetheader(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(

@@ -5,11 +5,12 @@ import '../../core/app_export.dart';
 class AppbarTitleImage extends StatelessWidget {
   AppbarTitleImage({Key? key, this.imagePath, this.margin, this.onTap})
       : super(
-    key: key,
-  );
+          key: key,
+        );
   final String? imagePath;
   final EdgeInsetsGeometry? margin;
   final Function? onTap;
+
   @override
   Widget build(BuildContext context) {
     return InkWell(

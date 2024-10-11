@@ -1,53 +1,66 @@
 import 'package:fhotel_1/core/app_export.dart';
+import 'package:fhotel_1/data/models/user.dart';
+import 'package:fhotel_1/presenters/user_profile_presenter.dart';
+import 'package:fhotel_1/views/user_profile/user_profile_view.dart';
 import 'package:flutter/material.dart';
 
-  class UserProfileScreen extends StatefulWidget {
+class UserProfileScreen extends StatefulWidget {
   UserProfileScreen({Key? key}) : super(key: key);
 
   @override
   UserProfileScreenState createState() => UserProfileScreenState();
-  }
+}
 
-
-
-  class UserProfileScreenState extends State<UserProfileScreen> {
+class UserProfileScreenState extends State<UserProfileScreen>
+    implements UserProfileView {
   int sliderIndex = 1;
   int _currentIndex = 3;
+
+  late UserProfilePresenter _presenter;
+  User? _customer;
+  String? _error;
+
+  @override
+  void initState() {
+    super.initState();
+    _presenter = UserProfilePresenter(this); // Initialize the presenter
+    _presenter.getCustomerById(); // Fetch customer data
+  }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        // appBar: _buildAppbar(context),
-        body: SizedBox(
-          width: double.maxFinite,
-          child: SingleChildScrollView(
-            child: Container(
-              width: double.maxFinite,
-              padding: EdgeInsets.only(
-                left: 24.h,
-                top: 18.h,
-                right: 24.h,
-              ),
-              child: Column(
-                children: [
-                  _buildProfilesix(context),
-                  SizedBox(height: 32.h),
-                  _buildOne(context),
-                  SizedBox(height: 20.h),
-                  // _buildTwo(context),
-                  // SizedBox(height: 18.h),
-                  _buildThree(context),
-                  SizedBox(height: 18.h),
-                ],
+          // appBar: _buildAppbar(context),
+          body: SizedBox(
+            width: double.maxFinite,
+            child: SingleChildScrollView(
+              child: Container(
+                width: double.maxFinite,
+                padding: EdgeInsets.only(
+                  left: 24.h,
+                  top: 18.h,
+                  right: 24.h,
+                ),
+                child: Column(
+                  children: [
+                    _buildProfilesix(context),
+                    SizedBox(height: 32.h),
+                    _buildOne(context),
+                    SizedBox(height: 20.h),
+                    // _buildTwo(context),
+                    // SizedBox(height: 18.h),
+                    _buildThree(context),
+                    SizedBox(height: 18.h),
+                  ],
+                ),
               ),
             ),
           ),
-        ),
-        bottomNavigationBar: _buildBottomNavigationBar(context)
-      ),
+          bottomNavigationBar: _buildBottomNavigationBar(context)),
     );
   }
+
   Widget _buildBottomNavigationBar(BuildContext context) {
     return BottomNavigationBar(
       currentIndex: _currentIndex,
@@ -130,12 +143,12 @@ import 'package:flutter/material.dart';
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Nguyen Van A",
+                  "${_customer?.firstName} ${_customer?.lastName}",
                   style: CustomTextStyles.titleSmallGray600,
                 ),
                 SizedBox(height: 8.h),
                 Text(
-                  "I love fast food",
+                  "${_customer?.email}",
                   style: theme.textTheme.bodyMedium,
                 )
               ],
@@ -285,12 +298,12 @@ import 'package:flutter/material.dart';
   }
 
   Widget _buildAddress(
-      BuildContext context, {
-        required String userOne,
-        required String addressesOne,
-        required Color color,
-        required String route,
-      }) {
+    BuildContext context, {
+    required String userOne,
+    required String addressesOne,
+    required Color color,
+    required String route,
+  }) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -311,7 +324,7 @@ import 'package:flutter/material.dart';
         ),
         Spacer(),
         GestureDetector(
-          onTap: (){
+          onTap: () {
             Navigator.of(context).pushNamed(route);
           },
           child: CustomImageView(
@@ -326,12 +339,12 @@ import 'package:flutter/material.dart';
   }
 
   Widget _buildLogout(
-      BuildContext context, {
-        required String userOne,
-        required String addressesOne,
-        required Color color,
-        required String route,
-      }) {
+    BuildContext context, {
+    required String userOne,
+    required String addressesOne,
+    required Color color,
+    required String route,
+  }) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -352,7 +365,7 @@ import 'package:flutter/material.dart';
         ),
         Spacer(),
         GestureDetector(
-          onTap: (){
+          onTap: () {
             Navigator.of(context).pushNamed(route);
             SessionManager().clearSession();
           },
@@ -367,4 +380,19 @@ import 'package:flutter/material.dart';
     );
   }
 
+  @override
+  void onGetCustomerSuccess(User customer) {
+    setState(() {
+      _customer = customer;
+      _error = null;
+    });
+  }
+
+  @override
+  void onGetCustomerError(String error) {
+    setState(() {
+      _error = error;
+      _customer = null;
+    });
+  }
 }

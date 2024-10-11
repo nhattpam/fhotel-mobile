@@ -7,14 +7,19 @@ import '../../core/app_export.dart';
 class HomeCheckInDateDefaultBottomsheet extends StatefulWidget {
   HomeCheckInDateDefaultBottomsheet({Key? key})
       : super(
-    key: key,
-  );
+          key: key,
+        );
+
   @override
-  _HomeCheckInDateDefaultBottomsheet createState() => _HomeCheckInDateDefaultBottomsheet();
+  _HomeCheckInDateDefaultBottomsheet createState() =>
+      _HomeCheckInDateDefaultBottomsheet();
 }
-class _HomeCheckInDateDefaultBottomsheet extends State<HomeCheckInDateDefaultBottomsheet> {
+
+class _HomeCheckInDateDefaultBottomsheet
+    extends State<HomeCheckInDateDefaultBottomsheet> {
   List<DateTime?> selectedDatesFromCalendar = [];
   static bool choose = false;
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -44,8 +49,7 @@ class _HomeCheckInDateDefaultBottomsheet extends State<HomeCheckInDateDefaultBot
     );
   }
 
-  Widget
-  _buildSheetheader(BuildContext context) {
+  Widget _buildSheetheader(BuildContext context) {
     return Container(
       padding: EdgeInsets.fromLTRB(16.h, 6.h, 16.h, 4.h),
       decoration: BoxDecoration(
@@ -90,12 +94,8 @@ class _HomeCheckInDateDefaultBottomsheet extends State<HomeCheckInDateDefaultBot
       child: CalendarDatePicker2(
           config: CalendarDatePicker2Config(
             calendarType: CalendarDatePicker2Type.single,
-            firstDate: DateTime(DateTime
-                .now()
-                .year - 5),
-            lastDate: DateTime(DateTime
-                .now()
-                .year + 5),
+            firstDate: DateTime(DateTime.now().year - 5),
+            lastDate: DateTime(DateTime.now().year + 5),
             selectedDayHighlightColor: Color(0XFF1A94FF),
             firstDayOfWeek: 0,
             todayTextStyle: TextStyle(
@@ -123,12 +123,12 @@ class _HomeCheckInDateDefaultBottomsheet extends State<HomeCheckInDateDefaultBot
               selectedDatesFromCalendar = dates;
               choose = true;
             });
-              print(dates);
-          }
-      ),
+            print(dates);
+          }),
     );
   }
-  Widget _buildButtonbar (BuildContext context) {
+
+  Widget _buildButtonbar(BuildContext context) {
     return Container(
       width: double.maxFinite,
       padding: EdgeInsets.fromLTRB(16.h, 6.h, 16.h, 8.h),
@@ -144,13 +144,13 @@ class _HomeCheckInDateDefaultBottomsheet extends State<HomeCheckInDateDefaultBot
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          if(choose == true)
+          if (choose == true)
             CustomElevatedButton(
               text: "Hoàn tất",
               buttonStyle: CustomButtonStyles.fillBlue,
               buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,
             ),
-          if(choose == false)
+          if (choose == false)
             CustomElevatedButton(
               text: "Hoàn tất",
               buttonStyle: CustomButtonStyles.fillBlack,

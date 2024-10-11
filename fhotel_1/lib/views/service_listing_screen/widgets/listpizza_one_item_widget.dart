@@ -5,8 +5,9 @@ import '../../../core/app_export.dart';
 class ListpizzaOneItemWidget extends StatelessWidget {
   const ListpizzaOneItemWidget({Key? key})
       : super(
-    key: key,
-  );
+          key: key,
+        );
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(

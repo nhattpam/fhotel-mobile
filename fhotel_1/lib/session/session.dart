@@ -26,7 +26,6 @@ class SessionManager {
     return _preferences?.getString('userId');
   }
 
-
   // Clear user session data (logout)
   void clearSession() {
     _preferences?.clear();

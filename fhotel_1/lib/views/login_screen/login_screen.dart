@@ -4,11 +4,7 @@ import 'package:flutter/material.dart';
 import '../../core/app_export.dart';
 import '../../data/models/user.dart';
 import '../../presenters/login_presenter.dart';
-
-abstract class LoginView {
-  void onLoginSuccess(User user);
-  void onLoginError(String error);
-}
+import 'login_view.dart';
 
 // ignore_for_file: must_be_immutable
 class LoginScreen extends StatefulWidget {
@@ -24,8 +20,10 @@ class _LoginScreenState extends State<LoginScreen> implements LoginView {
   @override
   void initState() {
     super.initState();
-    _presenter = LoginPresenter(this); // Initialize presenter with the current view
+    _presenter =
+        LoginPresenter(this); // Initialize presenter with the current view
   }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -43,10 +41,7 @@ class _LoginScreenState extends State<LoginScreen> implements LoginView {
               children: [
                 const Text(
                   "Login here",
-                  style: TextStyle(
-                    fontSize: 25,
-                    color: Colors.indigoAccent
-                  ),
+                  style: TextStyle(fontSize: 25, color: Colors.indigoAccent),
                 ),
                 SizedBox(height: 24.h),
                 Text(
@@ -75,6 +70,7 @@ class _LoginScreenState extends State<LoginScreen> implements LoginView {
                 _buildSignInButton(context),
                 SizedBox(height: 30.h),
                 _buildCreateAccountButton(context),
+
                 ///If Login by Facebook or Apple
                 // SizedBox(height: 64.h),
                 // Text(
@@ -128,7 +124,8 @@ class _LoginScreenState extends State<LoginScreen> implements LoginView {
           color: Colors.grey,
         ),
         textInputType: TextInputType.emailAddress,
-        contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
       ),
     );
   }
@@ -147,7 +144,8 @@ class _LoginScreenState extends State<LoginScreen> implements LoginView {
         textInputAction: TextInputAction.done,
         textInputType: TextInputType.visiblePassword,
         obscureText: true,
-        contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
       ),
     );
   }
@@ -155,8 +153,9 @@ class _LoginScreenState extends State<LoginScreen> implements LoginView {
   /// Section Widget
   Widget _buildSignInButton(BuildContext context) {
     return CustomElevatedButton(
-      onPressed: (){
-        _presenter.authenticateUser(emailInputController.text, passwordInputController.text);
+      onPressed: () {
+        _presenter.authenticateUser(
+            emailInputController.text, passwordInputController.text);
       },
       buttonStyle: CustomButtonStyles.fillBlue,
       buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,
@@ -177,7 +176,7 @@ class _LoginScreenState extends State<LoginScreen> implements LoginView {
         });
   }
 
-  /// Navigates to the registerScreen 
+  /// Navigates to the registerScreen
 
   @override
   void onLoginSuccess(User user) {
@@ -194,6 +193,7 @@ class _LoginScreenState extends State<LoginScreen> implements LoginView {
 
   onTapCreateAccountButton(BuildContext context) {
     Navigator.of(context).push(
-      MaterialPageRoute(builder: (context) =>  RegisterScreen()),
-    );}
+      MaterialPageRoute(builder: (context) => RegisterScreen()),
+    );
+  }
 }

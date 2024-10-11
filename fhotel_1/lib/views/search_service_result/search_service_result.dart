@@ -7,8 +7,8 @@ import 'package:responsive_grid_list/responsive_grid_list.dart';
 class SearchServiceResult extends StatelessWidget {
   SearchServiceResult({Key? key})
       : super(
-    key: key,
-  );
+          key: key,
+        );
   int cartItemCount = 5;
 
   @override
@@ -37,10 +37,12 @@ class SearchServiceResult extends StatelessWidget {
       ),
     );
   }
+
   PreferredSizeWidget _buildAppbar(BuildContext context) {
     return CustomAppBar(
         title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween, // Adjusts alignment
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          // Adjusts alignment
           children: [
             AppbarTitle(
               text: "Danh sách Pizza",
@@ -49,9 +51,9 @@ class SearchServiceResult extends StatelessWidget {
             _buildCartIconWithBadge(cartItemCount)
           ],
         ),
-        styleType: Style.bgFill
-    );
+        styleType: Style.bgFill);
   }
+
   Widget _buildCartIconWithBadge(int cartItemCount) {
     return Container(
       margin: EdgeInsets.only(
@@ -67,12 +69,17 @@ class SearchServiceResult extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 8.h, vertical: 4.h),
             child: badges.Badge(
-              badgeColor: Colors.redAccent,// Use the alias for the badge
-              badgeContent: Text( // Use 'badge' instead of 'badgeContent'
+              badgeColor: Colors.redAccent, // Use the alias for the badge
+              badgeContent: Text(
+                // Use 'badge' instead of 'badgeContent'
                 cartItemCount.toString(),
                 style: const TextStyle(color: Colors.white),
               ),
-              child: Icon(Icons.shopping_bag_outlined, size: 28.h, color: Colors.white,),
+              child: Icon(
+                Icons.shopping_bag_outlined,
+                size: 28.h,
+                color: Colors.white,
+              ),
             ),
           ),
         ],
@@ -104,7 +111,7 @@ class SearchServiceResult extends StatelessWidget {
             ),
             gridItems: List.generate(
               4,
-                  (index) {
+              (index) {
                 return FoodBurgersItemWidget();
               },
             ),
@@ -113,5 +120,4 @@ class SearchServiceResult extends StatelessWidget {
       ),
     );
   }
-
 }

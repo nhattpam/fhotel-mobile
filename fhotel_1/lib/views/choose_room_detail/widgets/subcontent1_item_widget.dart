@@ -5,8 +5,9 @@ import '../../../core/app_export.dart';
 class SubcontentiItemWidget extends StatelessWidget {
   const SubcontentiItemWidget({Key? key})
       : super(
-    key: key,
-  );
+          key: key,
+        );
+
   @override
   Widget build(BuildContext context) {
     return Container(

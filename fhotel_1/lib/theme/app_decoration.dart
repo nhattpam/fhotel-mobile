@@ -254,31 +254,37 @@ class AppDecoration {
           )
         ],
       );
-
 }
+
 class BorderRadiusStyle {
   // Circle borders
-  static BorderRadius get circleBorder12 => BorderRadius. circular(
-    12.h,
-  );
+  static BorderRadius get circleBorder12 => BorderRadius.circular(
+        12.h,
+      );
+
   static BorderRadius get circleBorder16 => BorderRadius.circular(
-      16.h,
-  );
+        16.h,
+      );
+
   static BorderRadius get circleBorder50 => BorderRadius.circular(
-      50.h,
-  );
+        50.h,
+      );
+
 // Custom borders
   static BorderRadius get customBorderTL16 => BorderRadius.vertical(
-  top: Radius.circular(16.h),
-  );
+        top: Radius.circular(16.h),
+      );
+
   static BorderRadius get customBorderTL8 => BorderRadius.vertical(
-    top: Radius.circular(8.h),
-  );
+        top: Radius.circular(8.h),
+      );
+
 // Rounded borders
   static BorderRadius get roundedBorder4 => BorderRadius.circular(
-    4.h,
-  );
-  static BorderRadius get roundedBorder8 => BorderRadius. circular(
-  8.h,
-  );
+        4.h,
+      );
+
+  static BorderRadius get roundedBorder8 => BorderRadius.circular(
+        8.h,
+      );
 }

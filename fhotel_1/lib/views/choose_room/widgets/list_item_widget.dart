@@ -8,6 +8,7 @@ class ListItemWidget extends StatelessWidget {
       : super(
           key: key,
         );
+
   void _showDetailModalBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -16,6 +17,7 @@ class ListItemWidget extends StatelessWidget {
       },
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -81,7 +83,7 @@ class ListItemWidget extends StatelessWidget {
                 ),
                 SizedBox(width: 8.h),
                 CustomIconButton(
-                  onTap: (){
+                  onTap: () {
                     _showDetailModalBottomSheet(context);
                   },
                   height: 24.h,
@@ -274,7 +276,7 @@ class ListItemWidget extends StatelessWidget {
                   ),
                 ),
                 GestureDetector(
-                  onTap: (){
+                  onTap: () {
                     _showDetailModalBottomSheet(context);
                   },
                   child: Container(
@@ -292,9 +294,7 @@ class ListItemWidget extends StatelessWidget {
                       children: [
                         Text(
                           "Đặt phòng",
-                          style: TextStyle(
-                            color: Colors.white
-                          ),
+                          style: TextStyle(color: Colors.white),
                         )
                       ],
                     ),

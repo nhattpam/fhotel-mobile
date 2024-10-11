@@ -8,11 +8,12 @@ import '../../core/app_export.dart';
 class RegisterScreen extends StatelessWidget {
   RegisterScreen({Key? key})
       : super(
-    key: key,
-  );
+          key: key,
+        );
   TextEditingController emailInputController = TextEditingController();
   TextEditingController passwordInputController = TextEditingController();
   TextEditingController repasswordInputController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -39,10 +40,7 @@ class RegisterScreen extends StatelessWidget {
               children: [
                 const Text(
                   "Create Account",
-                  style: TextStyle(
-                      fontSize: 25,
-                      color: Colors.indigoAccent
-                  ),
+                  style: TextStyle(fontSize: 25, color: Colors.indigoAccent),
                 ),
                 SizedBox(height: 24.h),
                 Text(
@@ -62,6 +60,7 @@ class RegisterScreen extends StatelessWidget {
                 _buildSignInButton(context),
                 SizedBox(height: 30.h),
                 _buildCreateAccountButton(context),
+
                 ///If Login by Facebook or Apple
                 // SizedBox(height: 64.h),
                 // Text(
@@ -115,8 +114,8 @@ class RegisterScreen extends StatelessWidget {
           color: Colors.grey,
         ),
         textInputType: TextInputType.emailAddress,
-        contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
       ),
     );
   }
@@ -134,7 +133,8 @@ class RegisterScreen extends StatelessWidget {
         textInputAction: TextInputAction.done,
         textInputType: TextInputType.visiblePassword,
         obscureText: true,
-        contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
       ),
     );
   }
@@ -152,16 +152,17 @@ class RegisterScreen extends StatelessWidget {
         textInputAction: TextInputAction.done,
         textInputType: TextInputType.visiblePassword,
         obscureText: true,
-        contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
       ),
     );
   }
 
   Widget _buildSignInButton(BuildContext context) {
     return CustomElevatedButton(
-      onPressed: (){
+      onPressed: () {
         Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) =>  OTPScreen()),
+          MaterialPageRoute(builder: (context) => OTPScreen()),
         );
       },
       buttonStyle: CustomButtonStyles.fillBlue,
@@ -185,7 +186,7 @@ class RegisterScreen extends StatelessWidget {
 
   onTapCreateAccountButton(BuildContext context) {
     Navigator.of(context).push(
-      MaterialPageRoute(builder: (context) =>  LoginScreen()),
+      MaterialPageRoute(builder: (context) => LoginScreen()),
     );
   }
 }

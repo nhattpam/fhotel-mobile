@@ -10,22 +10,23 @@ extension CustomCheckBoxStyleHelper on CustomCheckboxButton {
 
 // ignore_for_file: must_be_immutable
 class CustomCheckboxButton extends StatelessWidget {
-  CustomCheckboxButton({Key? key,
-    this.decoration,
-    this.alignment,
-    this.isRightCheck,
-    this.iconSize,
-    this.value,
-    this.text,
-    this.width,
-    this.padding,
-    this.textStyle,
-    this.textAlignment,
-    this.isExpandedText = false,
-    required this.onChange})
+  CustomCheckboxButton(
+      {Key? key,
+      this.decoration,
+      this.alignment,
+      this.isRightCheck,
+      this.iconSize,
+      this.value,
+      this.text,
+      this.width,
+      this.padding,
+      this.textStyle,
+      this.textAlignment,
+      this.isExpandedText = false,
+      required this.onChange})
       : super(
-    key: key,
-  );
+          key: key,
+        );
   final BoxDecoration? decoration;
   final Alignment? alignment;
   final bool? isRightCheck;
@@ -43,13 +44,12 @@ class CustomCheckboxButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return alignment != null
         ? Align(
-        alignment: alignment ?? Alignment.center,
-        child: buildCheckBoxWidget)
+            alignment: alignment ?? Alignment.center,
+            child: buildCheckBoxWidget)
         : buildCheckBoxWidget;
   }
 
-  Widget get buildCheckBoxWidget =>
-      GestureDetector(
+  Widget get buildCheckBoxWidget => GestureDetector(
         onTap: () {
           value = !(value!);
           onChange(value!);
@@ -62,8 +62,7 @@ class CustomCheckboxButton extends StatelessWidget {
         ),
       );
 
-  Widget get leftSideCheckbox =>
-      Row(
+  Widget get leftSideCheckbox => Row(
         children: [
           Padding(
             child: checkboxWidget,
@@ -73,8 +72,7 @@ class CustomCheckboxButton extends StatelessWidget {
         ],
       );
 
-  Widget get rightSideCheckbox =>
-      Row(
+  Widget get rightSideCheckbox => Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           isExpandedText ? Expanded(child: textWidget) : textWidget,
@@ -85,15 +83,13 @@ class CustomCheckboxButton extends StatelessWidget {
         ],
       );
 
-  Widget get textWidget =>
-      Text(
+  Widget get textWidget => Text(
         text ?? "",
         textAlign: textAlignment ?? TextAlign.start,
         style: textStyle ?? theme.textTheme.bodyMedium,
       );
 
-  Widget get checkboxWidget =>
-      SizedBox(
+  Widget get checkboxWidget => SizedBox(
         height: iconSize ?? 20.h,
         width: iconSize ?? 20.h,
         child: Checkbox(

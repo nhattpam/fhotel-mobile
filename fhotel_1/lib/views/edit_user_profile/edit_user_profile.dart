@@ -6,12 +6,13 @@ import '../../core/app_export.dart';
 class EditProfileScreen extends StatelessWidget {
   EditProfileScreen({Key? key})
       : super(
-    key: key,
-  );
+          key: key,
+        );
   TextEditingController fullNameController = TextEditingController();
   TextEditingController emailoneController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController ilovefastController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -65,6 +66,7 @@ class EditProfileScreen extends StatelessWidget {
       ),
     );
   }
+
   PreferredSizeWidget _buildAppbar(BuildContext context) {
     return CustomAppBar(
         leadingWidth: 40.h,
@@ -127,8 +129,7 @@ class EditProfileScreen extends StatelessWidget {
         //     ),
         //   )
         // ],
-        styleType: Style.bgFill
-    );
+        styleType: Style.bgFill);
   }
 
   Widget _buildName(BuildContext context) {
@@ -216,7 +217,6 @@ class EditProfileScreen extends StatelessWidget {
             margin: EdgeInsets.only(bottom: 12.h),
             buttonStyle: CustomButtonStyles.fillBlue,
             buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,
-
           )
         ],
       ),

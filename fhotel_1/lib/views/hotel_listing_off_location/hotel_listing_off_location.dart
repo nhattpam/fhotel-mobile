@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 
 import '../../core/app_export.dart';
+
 class HotelListingOffLocationScreen extends StatelessWidget {
   const HotelListingOffLocationScreen({Key? key})
       : super(
-  key: key,
-  );
+          key: key,
+        );
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar:
-        _buildAppbar(context),
+        appBar: _buildAppbar(context),
         body: SizedBox(
           width: double.maxFinite,
           child: Column(
@@ -27,6 +28,7 @@ class HotelListingOffLocationScreen extends StatelessWidget {
       ),
     );
   }
+
   PreferredSizeWidget _buildAppbar(BuildContext context) {
     return CustomAppBar(
       leadingWidth: 40.h,
@@ -82,6 +84,7 @@ class HotelListingOffLocationScreen extends StatelessWidget {
       styleType: Style.bgFill,
     );
   }
+
   Widget _buildContent(BuildContext context) {
     return Container(
       padding: EdgeInsets.fromLTRB(16.h, 6.h, 16.h, 8.h),
@@ -167,6 +170,7 @@ class HotelListingOffLocationScreen extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildFiltersort(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(
@@ -212,6 +216,7 @@ class HotelListingOffLocationScreen extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildColumncontentno(BuildContext context) {
     return Container(
       width: double.maxFinite,
@@ -243,8 +248,7 @@ class HotelListingOffLocationScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 10.h),
                 CustomElevatedButton(
-                  text:
-                  "Bật định vị",
+                  text: "Bật định vị",
                 )
               ],
             ),

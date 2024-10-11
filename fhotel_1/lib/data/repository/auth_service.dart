@@ -32,14 +32,12 @@ class AuthService {
       final userRole = payload['role'].toString();
       await SessionManager().init();
       // Set the userId in session
-      print("This is userId "+ userId.toString());
-      if(userRole.toString() == 'Customer')
-        {
-          SessionManager().setUserId(userId);
-          print(SessionManager().getUserId());
-          return User.fromJson(responseData);
-        }
-      else{
+      print("This is userId " + userId.toString());
+      if (userRole.toString() == 'Customer') {
+        SessionManager().setUserId(userId);
+        print(SessionManager().getUserId());
+        return User.fromJson(responseData);
+      } else {
         throw Exception('You are not allowed to login.');
       }
     } else {

@@ -24,17 +24,18 @@ class _CarouselunitItemWidgetState extends State<CarouselunitItemWidget> {
   List<Widget> generateImagesTiles() {
     return images
         .map((element) => GestureDetector(
-      onTap: () {
-        _showZoomableImageDialog(context, element); // Open zoomable dialog
-      },
-      child: Container(
-        width: 350,
-        child: Image.asset(
-          element,
-          fit: BoxFit.fitWidth,
-        ),
-      ),
-    ))
+              onTap: () {
+                _showZoomableImageDialog(
+                    context, element); // Open zoomable dialog
+              },
+              child: Container(
+                width: 350,
+                child: Image.asset(
+                  element,
+                  fit: BoxFit.fitWidth,
+                ),
+              ),
+            ))
         .toList();
   }
 
@@ -54,7 +55,8 @@ class _CarouselunitItemWidgetState extends State<CarouselunitItemWidget> {
               autoPlay: true,
               viewportFraction: 1,
               enableInfiniteScroll: true,
-              onPageChanged: (index, reason) => setState(() => activeIndex = index),
+              onPageChanged: (index, reason) =>
+                  setState(() => activeIndex = index),
             ),
           ),
           SizedBox(height: 14.h),
@@ -93,7 +95,8 @@ class _CarouselunitItemWidgetState extends State<CarouselunitItemWidget> {
         backgroundColor: Colors.transparent,
         child: Center(
           child: Container(
-            width: MediaQuery.of(context).size.width * 0.8, // Set dialog width to 90% of screen width
+            width: MediaQuery.of(context).size.width * 0.8,
+            // Set dialog width to 90% of screen width
             // height: MediaQuery.of(context).size.height * 0.9, // Set dialog height to 80% of screen height
             child: InteractiveViewer(
               panEnabled: false, // Enable panning inside the dialog

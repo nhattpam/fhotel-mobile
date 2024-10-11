@@ -469,7 +469,7 @@ class MyBookingDetailsScreen extends StatelessWidget {
                   width: double.maxFinite,
                   child: Row(
                     children: [
-                      Expanded (
+                      Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [

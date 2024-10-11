@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/app_export.dart';
+
 class SectioncontentiItemWidget extends StatelessWidget {
   const SectioncontentiItemWidget({Key? key})
       : super(
-    key: key,
-  ) ;
+          key: key,
+        );
+
   @override
   Widget build(BuildContext context) {
     return Container(

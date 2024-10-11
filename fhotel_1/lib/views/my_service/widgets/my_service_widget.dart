@@ -5,8 +5,9 @@ import '../../../core/app_export.dart';
 class MyServiceWidget extends StatelessWidget {
   const MyServiceWidget({Key? key})
       : super(
-    key: key,
-  );
+          key: key,
+        );
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -72,8 +73,7 @@ class MyServiceWidget extends StatelessWidget {
                             ),
                             Text(
                               "#162432",
-                              style:
-                              CustomTextStyles.bodyLargeGray600.copyWith(
+                              style: CustomTextStyles.bodyLargeGray600.copyWith(
                                 decoration: TextDecoration.underline,
                               ),
                             )
@@ -149,7 +149,6 @@ class MyServiceWidget extends StatelessWidget {
                   text: "Rate",
                   buttonStyle: CustomButtonStyles.outlineBlue,
                   buttonTextStyle: CustomTextStyles.bodyLargeBlue,
-
                 ),
                 CustomElevatedButton(
                   height: 38.h,

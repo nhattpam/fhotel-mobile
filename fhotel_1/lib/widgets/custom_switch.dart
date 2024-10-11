@@ -7,21 +7,22 @@ import '../core/app_export.dart';
 class CustomSwitch extends StatelessWidget {
   CustomSwitch(
       {Key? key,
-        required this.onChange,
-        this.alignment,
-        this.value,
-        this.width,
-        this.height,
-        this.margin})
+      required this.onChange,
+      this.alignment,
+      this.value,
+      this.width,
+      this.height,
+      this.margin})
       : super(
-    key: key,
-  );
+          key: key,
+        );
   final Alignment? alignment;
   bool? value;
   final Function(bool) onChange;
   final double? width;
   final double? height;
   final EdgeInsetsGeometry? margin;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -30,22 +31,22 @@ class CustomSwitch extends StatelessWidget {
         margin: margin,
         child: alignment != null
             ? Align(
-            alignment: alignment ?? Alignment.center, child: switchWidget)
+                alignment: alignment ?? Alignment.center, child: switchWidget)
             : switchWidget);
   }
 
   Widget get switchWidget => FlutterSwitch(
-    value: value ?? false,
-    height: 24.h,
-    width: 40.h,
-    toggleSize: 20,
-    borderRadius: 12.h,
-    activeColor: theme.colorScheme.primary,
-    activeToggleColor: appTheme.whiteA700,
-    inactiveColor: appTheme.gray400,
-    inactiveToggleColor: appTheme.whiteA700,
-    onToggle: (value) {
-      onChange(value);
-    },
-  );
+        value: value ?? false,
+        height: 24.h,
+        width: 40.h,
+        toggleSize: 20,
+        borderRadius: 12.h,
+        activeColor: theme.colorScheme.primary,
+        activeToggleColor: appTheme.whiteA700,
+        inactiveColor: appTheme.gray400,
+        inactiveToggleColor: appTheme.whiteA700,
+        onToggle: (value) {
+          onChange(value);
+        },
+      );
 }

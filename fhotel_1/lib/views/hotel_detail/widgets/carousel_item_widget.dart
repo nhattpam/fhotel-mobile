@@ -3,15 +3,19 @@ import 'package:flutter/material.dart';
 
 import '../../../core/app_export.dart';
 import '../../hotel_edit_search/hotel_edit_search.dart';
+
 class CarouselItemWidget extends StatefulWidget {
   CarouselItemWidget({Key? key}) : super(key: key);
 
   @override
   CarouselItemWidgetState createState() => CarouselItemWidgetState();
 }
-class CarouselItemWidgetState extends State<CarouselItemWidget> with TickerProviderStateMixin {
+
+class CarouselItemWidgetState extends State<CarouselItemWidget>
+    with TickerProviderStateMixin {
   int sliderIndex = 1;
   late TabController tabviewController;
+
   // GlobalKeys for sections
   final GlobalKey overviewKey = GlobalKey();
   final GlobalKey reviewsKey = GlobalKey();
@@ -39,6 +43,7 @@ class CarouselItemWidgetState extends State<CarouselItemWidget> with TickerProvi
       }
     });
   }
+
   void _scrollToSection(GlobalKey key) {
     final context = key.currentContext;
     if (context != null) {
@@ -46,6 +51,7 @@ class CarouselItemWidgetState extends State<CarouselItemWidget> with TickerProvi
           duration: const Duration(seconds: 1), curve: Curves.easeOut);
     }
   }
+
   void _showEditSearchModalBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -54,11 +60,13 @@ class CarouselItemWidgetState extends State<CarouselItemWidget> with TickerProvi
       },
     );
   }
+
   @override
   void dispose() {
     tabviewController.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -113,7 +121,8 @@ class CarouselItemWidgetState extends State<CarouselItemWidget> with TickerProvi
                                         color: appTheme.whiteA700,
                                       ),
                                       child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Container(
                                             width: 150.h,
@@ -123,15 +132,17 @@ class CarouselItemWidgetState extends State<CarouselItemWidget> with TickerProvi
                                             ),
                                             decoration: BoxDecoration(
                                               color: appTheme.gray100,
-                                              borderRadius: BorderRadiusStyle.roundedBorder8,
+                                              borderRadius: BorderRadiusStyle
+                                                  .roundedBorder8,
                                             ),
                                             child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
                                               children: [
                                                 Text(
                                                   "Khách sạn",
-                                                  style:
-                                                  CustomTextStyles.bodySmallOnPrimary10,
+                                                  style: CustomTextStyles
+                                                      .bodySmallOnPrimary10,
                                                 ),
                                                 SizedBox(width: 4.h),
                                                 CustomRatingBar(
@@ -149,11 +160,14 @@ class CarouselItemWidgetState extends State<CarouselItemWidget> with TickerProvi
                                             ),
                                             width: double.maxFinite,
                                             child: Row(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: [
                                                 CustomImageView(
-                                                  color: appTheme.black900.withOpacity(0.5),
-                                                  imagePath: ImageConstant.imgIconWrapperGray600,
+                                                  color: appTheme.black900
+                                                      .withOpacity(0.5),
+                                                  imagePath: ImageConstant
+                                                      .imgIconWrapperGray600,
                                                   height: 24.h,
                                                   width: 24.h,
                                                 ),
@@ -165,8 +179,10 @@ class CarouselItemWidgetState extends State<CarouselItemWidget> with TickerProvi
                                                     child: Text(
                                                       "15 Thi Sách, Phường Thẳng Tam, Vũng Tàu, Bà Rịa - Vũng Tàu, Việt Nam",
                                                       maxLines: 2,
-                                                      overflow: TextOverflow.ellipsis,
-                                                      style: theme.textTheme.bodyMedium!
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      style: theme
+                                                          .textTheme.bodyMedium!
                                                           .copyWith(
                                                         height: 1.50,
                                                       ),
@@ -199,32 +215,41 @@ class CarouselItemWidgetState extends State<CarouselItemWidget> with TickerProvi
                                       child: Align(
                                         alignment: Alignment.center,
                                         child: Padding(
-                                          padding: EdgeInsets.symmetric(horizontal: 16.h),
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 16.h),
                                           child: Column(
                                             children: [
                                               SizedBox(
                                                 width: double.maxFinite,
                                                 child: Row(
-                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
                                                   children: [
                                                     Text(
                                                       "Xếp hạng và đánh giá",
-                                                      style: theme.textTheme.titleMedium,
+                                                      style: theme.textTheme
+                                                          .titleMedium,
                                                     ),
                                                     const Spacer(),
                                                     Text(
                                                       "Xem tất cả",
-                                                      style: CustomTextStyles.bodyMediumPrimary,
+                                                      style: CustomTextStyles
+                                                          .bodyMediumPrimary,
                                                     ),
                                                     CustomImageView(
-                                                      onTap: (){
-                                                        Navigator.pushNamed(context, AppRoutes.hotelRatingAndReviews);
+                                                      onTap: () {
+                                                        Navigator.pushNamed(
+                                                            context,
+                                                            AppRoutes
+                                                                .hotelRatingAndReviews);
                                                       },
                                                       color: Colors.blueAccent,
-                                                      imagePath: ImageConstant.imgArrowRight,
+                                                      imagePath: ImageConstant
+                                                          .imgArrowRight,
                                                       height: 20.h,
                                                       width: 20.h,
-                                                      margin: EdgeInsets.only(left: 8.h),
+                                                      margin: EdgeInsets.only(
+                                                          left: 8.h),
                                                     )
                                                   ],
                                                 ),
@@ -233,35 +258,44 @@ class CarouselItemWidgetState extends State<CarouselItemWidget> with TickerProvi
                                               SizedBox(
                                                 width: double.maxFinite,
                                                 child: Row(
-                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
                                                   children: [
                                                     const Text(
                                                       "8,6",
                                                       style: TextStyle(
                                                           fontSize: 30,
-                                                          color: Colors.blueAccent,
-                                                          fontWeight: FontWeight.bold
-                                                      ),
+                                                          color:
+                                                              Colors.blueAccent,
+                                                          fontWeight:
+                                                              FontWeight.bold),
                                                     ),
                                                     SizedBox(width: 8.h),
                                                     Expanded(
                                                       child: Column(
                                                         crossAxisAlignment:
-                                                        CrossAxisAlignment.start,
+                                                            CrossAxisAlignment
+                                                                .start,
                                                         children: [
                                                           SizedBox(
-                                                            width: double.maxFinite,
+                                                            width: double
+                                                                .maxFinite,
                                                             child: Row(
                                                               children: [
                                                                 CustomImageView(
-                                                                  color: Colors.blueAccent,
-                                                                  imagePath: ImageConstant.imgImage24x24,
+                                                                  color: Colors
+                                                                      .blueAccent,
+                                                                  imagePath:
+                                                                      ImageConstant
+                                                                          .imgImage24x24,
                                                                   height: 24.h,
                                                                   width: 24.h,
                                                                 ),
                                                                 Padding(
-                                                                  padding: EdgeInsets.only(
-                                                                      left: 8.h),
+                                                                  padding: EdgeInsets
+                                                                      .only(
+                                                                          left:
+                                                                              8.h),
                                                                   child: Text(
                                                                     "Ấn tượng",
                                                                     style: CustomTextStyles
@@ -273,7 +307,9 @@ class CarouselItemWidgetState extends State<CarouselItemWidget> with TickerProvi
                                                           ),
                                                           Text(
                                                             "từ 288 lượt đánh giá",
-                                                            style: theme.textTheme.bodySmall,
+                                                            style: theme
+                                                                .textTheme
+                                                                .bodySmall,
                                                           )
                                                         ],
                                                       ),
@@ -301,17 +337,20 @@ class CarouselItemWidgetState extends State<CarouselItemWidget> with TickerProvi
                                         itemCount: 3,
                                         itemBuilder: (context, index) {
                                           return ChipTheme(
-                                            data: ChipTheme.of(context).copyWith(
+                                            data:
+                                                ChipTheme.of(context).copyWith(
                                               backgroundColor: Colors.white,
                                               selectedColor: Colors.blue,
                                               disabledColor: Colors.grey,
                                               shape: RoundedRectangleBorder(
                                                 side: const BorderSide(
-                                                  color: Colors.grey, // Border color
+                                                  color: Colors.grey,
+                                                  // Border color
                                                   width: 1, // Border width
                                                 ),
                                                 borderRadius:
-                                                BorderRadius.circular(50), // Rounded corners
+                                                    BorderRadius.circular(
+                                                        50), // Rounded corners
                                               ),
                                             ),
                                             child: const Chip(
@@ -348,7 +387,8 @@ class CarouselItemWidgetState extends State<CarouselItemWidget> with TickerProvi
                                     SizedBox(
                                       width: double.maxFinite,
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
                                           Text(
                                             "Tiện nghi",
@@ -357,14 +397,17 @@ class CarouselItemWidgetState extends State<CarouselItemWidget> with TickerProvi
                                           const Spacer(),
                                           Text(
                                             "Xem tất cả",
-                                            style: CustomTextStyles.bodyMediumPrimary,
+                                            style: CustomTextStyles
+                                                .bodyMediumPrimary,
                                           ),
                                           CustomImageView(
-                                            onTap: (){
-                                              Navigator.pushNamed(context, AppRoutes.hotelFacilities);
+                                            onTap: () {
+                                              Navigator.pushNamed(context,
+                                                  AppRoutes.hotelFacilities);
                                             },
                                             color: Colors.blueAccent,
-                                            imagePath: ImageConstant.imgArrowRight,
+                                            imagePath:
+                                                ImageConstant.imgArrowRight,
                                             height: 20.h,
                                             width: 20.h,
                                             margin: EdgeInsets.only(left: 8.h),
@@ -433,28 +476,35 @@ class CarouselItemWidgetState extends State<CarouselItemWidget> with TickerProvi
                                           SizedBox(
                                             width: double.maxFinite,
                                             child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
                                               children: [
                                                 CustomImageView(
-                                                  color: appTheme.black900.withOpacity(0.5),
-                                                  imagePath: ImageConstant.imgIconWrapper14,
+                                                  color: appTheme.black900
+                                                      .withOpacity(0.5),
+                                                  imagePath: ImageConstant
+                                                      .imgIconWrapper14,
                                                   height: 24.h,
                                                   width: 24.h,
                                                 ),
                                                 Align(
-                                                  alignment: Alignment.bottomCenter,
+                                                  alignment:
+                                                      Alignment.bottomCenter,
                                                   child: Padding(
-                                                    padding: EdgeInsets.only(left: 8.h),
+                                                    padding: EdgeInsets.only(
+                                                        left: 8.h),
                                                     child: Text(
                                                       "Nhận phòng",
-                                                      style: theme.textTheme.bodyMedium,
+                                                      style: theme
+                                                          .textTheme.bodyMedium,
                                                     ),
                                                   ),
                                                 ),
                                                 const Spacer(),
                                                 Text(
                                                   "15:00 - 03:00",
-                                                  style: theme.textTheme.titleSmall,
+                                                  style: theme
+                                                      .textTheme.titleSmall,
                                                 )
                                               ],
                                             ),
@@ -463,28 +513,35 @@ class CarouselItemWidgetState extends State<CarouselItemWidget> with TickerProvi
                                           SizedBox(
                                             width: double.maxFinite,
                                             child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
                                               children: [
                                                 CustomImageView(
-                                                  color: appTheme.black900.withOpacity(0.5),
-                                                  imagePath: ImageConstant.imgIconWrapper14,
+                                                  color: appTheme.black900
+                                                      .withOpacity(0.5),
+                                                  imagePath: ImageConstant
+                                                      .imgIconWrapper14,
                                                   height: 24.h,
                                                   width: 24.h,
                                                 ),
                                                 Align(
-                                                  alignment: Alignment.bottomCenter,
+                                                  alignment:
+                                                      Alignment.bottomCenter,
                                                   child: Padding(
-                                                    padding: EdgeInsets.only(left: 8.h),
+                                                    padding: EdgeInsets.only(
+                                                        left: 8.h),
                                                     child: Text(
                                                       "Trả phòng",
-                                                      style: theme.textTheme.bodyMedium,
+                                                      style: theme
+                                                          .textTheme.bodyMedium,
                                                     ),
                                                   ),
                                                 ),
                                                 const Spacer(),
                                                 Text(
                                                   "trước 11:00",
-                                                  style: theme.textTheme.titleSmall,
+                                                  style: theme
+                                                      .textTheme.titleSmall,
                                                 ),
                                               ],
                                             ),
@@ -528,7 +585,8 @@ class CarouselItemWidgetState extends State<CarouselItemWidget> with TickerProvi
                                               "Nảm dọc theo bãi biển Mỹ Khê cát trắng trải dài thơ mộng, khu nghỉ dưỡng dành cho gia đình sang trọng bật nhất thế giới Premier Village Danang được ưu ái tọa lạc ở vị trí đặc biệtđặc biệtđặc biệtđặc biệtđặc biệtđặc biệtđặc biệtđặc biệtđặc biệtđặc biệtđặc biệtđặc biệtđặc biệtđặc biệtđặc biệtđặc biệtđặc biệtđặc biệtđặc biệtđặc biệtđặc biệt",
                                               maxLines: 5,
                                               overflow: TextOverflow.ellipsis,
-                                              style: theme.textTheme.bodyMedium!.copyWith(
+                                              style: theme.textTheme.bodyMedium!
+                                                  .copyWith(
                                                 height: 1.50,
                                               ),
                                             ),
@@ -557,6 +615,7 @@ class CarouselItemWidgetState extends State<CarouselItemWidget> with TickerProvi
       ),
     );
   }
+
   PreferredSizeWidget _buildAppbar(BuildContext context) {
     return CustomAppBar(
         leadingWidth: 40.h,
@@ -599,13 +658,10 @@ class CarouselItemWidgetState extends State<CarouselItemWidget> with TickerProvi
                 ),
                 // SizedBox(width: 8.h),
                 Padding(
-                  padding:
-                  EdgeInsets.only(left: 17.h),
+                  padding: EdgeInsets.only(left: 17.h),
                   child: const Text(
                     "|",
-                    style: TextStyle(
-                        color: Colors.black
-                    ),
+                    style: TextStyle(color: Colors.black),
                   ),
                 ),
                 AppbarIconbutton(
@@ -619,8 +675,7 @@ class CarouselItemWidgetState extends State<CarouselItemWidget> with TickerProvi
             ),
           )
         ],
-        styleType: Style.bgFill
-    );
+        styleType: Style.bgFill);
   }
 
   Widget _buildContent(BuildContext context) {
@@ -700,7 +755,7 @@ class CarouselItemWidgetState extends State<CarouselItemWidget> with TickerProvi
           Padding(
             padding: EdgeInsets.only(left: 20.h),
             child: CustomIconButton(
-              onTap: (){
+              onTap: () {
                 _showEditSearchModalBottomSheet(context);
               },
               height: 24.h,
@@ -757,18 +812,17 @@ class CarouselItemWidgetState extends State<CarouselItemWidget> with TickerProvi
     return Container(
       width: 488.h,
       margin: EdgeInsets.only(left: 14.h),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-         Column(
-            children: [
-              Text(
-                "Đánh giá hàng đầu",
-                maxLines: 1,
-                textAlign: TextAlign.start,
-                style: theme.textTheme.titleSmall,
-              ),
-            ],
-          ),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Column(
+          children: [
+            Text(
+              "Đánh giá hàng đầu",
+              maxLines: 1,
+              textAlign: TextAlign.start,
+              style: theme.textTheme.titleSmall,
+            ),
+          ],
+        ),
         SizedBox(height: 6.h),
         SizedBox(
           width: double.maxFinite,
@@ -963,7 +1017,7 @@ class CarouselItemWidgetState extends State<CarouselItemWidget> with TickerProvi
 
   Widget _buildChnphng(BuildContext context) {
     return CustomElevatedButton(
-      onPressed: (){
+      onPressed: () {
         Navigator.pushNamed(context, AppRoutes.roomListing);
       },
       text: "Chọn phòng",
@@ -975,7 +1029,7 @@ class CarouselItemWidgetState extends State<CarouselItemWidget> with TickerProvi
   Widget _buildFiltersort(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: appTheme .whiteA700,
+        color: appTheme.whiteA700,
       ),
       width: double.maxFinite,
       child: TabBar(
@@ -1022,5 +1076,4 @@ class CarouselItemWidgetState extends State<CarouselItemWidget> with TickerProvi
       ),
     );
   }
-
 }

@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 
 import '../../core/app_export.dart';
+
 class HotellistingFilterBottomsheet extends StatefulWidget {
   const HotellistingFilterBottomsheet({Key? key}) : super(key: key);
 
   @override
-  HotellistingFilterBottomsheetState createState() => HotellistingFilterBottomsheetState();
-  }
+  HotellistingFilterBottomsheetState createState() =>
+      HotellistingFilterBottomsheetState();
+}
 
-class HotellistingFilterBottomsheetState extends State<HotellistingFilterBottomsheet> {
-
+class HotellistingFilterBottomsheetState
+    extends State<HotellistingFilterBottomsheet> {
   TextEditingController labeltwelveController = TextEditingController();
   TextEditingController labeloneController = TextEditingController();
   bool plateone = false;
@@ -246,7 +248,7 @@ class HotellistingFilterBottomsheetState extends State<HotellistingFilterBottoms
                         width: 1, // Border width
                       ),
                       borderRadius:
-                      BorderRadius.circular(50), // Rounded corners
+                          BorderRadius.circular(50), // Rounded corners
                     ),
                   ),
                   child: const Chip(
@@ -288,7 +290,7 @@ class HotellistingFilterBottomsheetState extends State<HotellistingFilterBottoms
                 padding: EdgeInsets.only(bottom: 1.v),
                 child: Checkbox(
                   fillColor: MaterialStateProperty.resolveWith(
-                        (states) {
+                    (states) {
                       if (!states.contains(MaterialState.selected)) {
                         return Colors.white;
                       }
@@ -340,26 +342,27 @@ class HotellistingFilterBottomsheetState extends State<HotellistingFilterBottoms
               runSpacing: 8.h,
               spacing: 8.h,
               children: List<Widget>.generate(
-                  10, (index) => ChipTheme(
-                data: ChipTheme.of(context).copyWith(
-                  backgroundColor: Colors.white,
-                  selectedColor: Colors.blue,
-                  disabledColor: Colors.grey,
-                  shape: RoundedRectangleBorder(
-                    side: const BorderSide(
-                      color: Colors.grey, // Border color
-                      width: 1, // Border width
-                    ),
-                    borderRadius:
-                    BorderRadius.circular(50), // Rounded corners
-                  ),
-                ),
-                child: const Chip(
-                  label: Text("Wifi"),
-                  // selected: false,
-                  // onSelected: (bool selected) {},
-                ),
-              )),
+                  10,
+                  (index) => ChipTheme(
+                        data: ChipTheme.of(context).copyWith(
+                          backgroundColor: Colors.white,
+                          selectedColor: Colors.blue,
+                          disabledColor: Colors.grey,
+                          shape: RoundedRectangleBorder(
+                            side: const BorderSide(
+                              color: Colors.grey, // Border color
+                              width: 1, // Border width
+                            ),
+                            borderRadius:
+                                BorderRadius.circular(50), // Rounded corners
+                          ),
+                        ),
+                        child: const Chip(
+                          label: Text("Wifi"),
+                          // selected: false,
+                          // onSelected: (bool selected) {},
+                        ),
+                      )),
             ),
           ),
         ],
@@ -398,14 +401,14 @@ class HotellistingFilterBottomsheetState extends State<HotellistingFilterBottoms
                   },
                 ),
                 CustomRadioButton(
-                    text: "Thanh toán khi nhận phòng",
-                    value: "Thanh toán khi nhận phòng",
-                    groupValue: loihnhni,
-                    padding: EdgeInsets.fromLTRB(10.h, 8.h, 30.h, 8.h),
-                    onChange: (value) {
-                      loihnhni = value;
-                    },
-                  ),
+                  text: "Thanh toán khi nhận phòng",
+                  value: "Thanh toán khi nhận phòng",
+                  groupValue: loihnhni,
+                  padding: EdgeInsets.fromLTRB(10.h, 8.h, 30.h, 8.h),
+                  onChange: (value) {
+                    loihnhni = value;
+                  },
+                ),
                 CustomRadioButton(
                   text: "Phù hợp gia đình",
                   value: "Phù hợp gia đình",

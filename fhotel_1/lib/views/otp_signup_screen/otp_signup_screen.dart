@@ -107,8 +107,7 @@ class OTPScreen extends StatelessWidget {
           text: "OTP Verify",
           margin: EdgeInsets.only(left: 8.h),
         ),
-        styleType: Style.bgFill
-    );
+        styleType: Style.bgFill);
   }
 
   Widget _buildSubmitSection(BuildContext context) {

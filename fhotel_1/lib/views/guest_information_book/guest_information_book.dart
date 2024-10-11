@@ -2,16 +2,17 @@ import 'package:fhotel_1/widgets/custom_text_form_field_for_guest.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/app_export.dart';
-  class GuestInformationBookForOthersScreen extends StatefulWidget {
+
+class GuestInformationBookForOthersScreen extends StatefulWidget {
   const GuestInformationBookForOthersScreen({Key? key}) : super(key: key);
 
   @override
   GuestInformationBookForOthersScreenState createState() =>
-  GuestInformationBookForOthersScreenState();
-  }
+      GuestInformationBookForOthersScreenState();
+}
 
-  class GuestInformationBookForOthersScreenState extends State<GuestInformationBookForOthersScreen>{
-
+class GuestInformationBookForOthersScreenState
+    extends State<GuestInformationBookForOthersScreen> {
   TextEditingController inputoneController = TextEditingController();
   TextEditingController inputthreeController = TextEditingController();
   TextEditingController inputfiveController = TextEditingController();
@@ -20,8 +21,6 @@ import '../../core/app_export.dart';
   TextEditingController inputsevenController = TextEditingController();
   TextEditingController inputnineController = TextEditingController();
   TextEditingController inputelevenController = TextEditingController();
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -291,56 +290,56 @@ import '../../core/app_export.dart';
             ),
           ),
           SizedBox(height: 8.h),
-          if(isSelectedSwitch == true)
-          Container(
-            width: double.maxFinite,
-            padding: EdgeInsets.symmetric(
-              horizontal: 16.h,
-              vertical: 12.h,
-            ),
-            decoration: BoxDecoration(
-              color: appTheme.whiteA700,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Thông tin khách lưu trú",
-                  style: theme.textTheme.titleMedium,
-                ),
-                SizedBox(height: 12.h),
-                SizedBox(
-                  width: double.maxFinite,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Họ",
-                        style: theme.textTheme.titleSmall,
-                      ),
-                      SizedBox(height: 2.h),
-                      _buildInputseven(context),
-                      SizedBox(height: 18.h),
-                      Text(
-                        "Tên đệm và tên",
-                        style: theme.textTheme.titleSmall,
-                      ),
-                      SizedBox(height: 2.h),
-                      _buildInputnine(context),
-                      SizedBox(height: 18.h),
-                      Text(
-                        "Số điện thoại",
-                        style: theme.textTheme.titleSmall,
-                      ),
-                      SizedBox(height: 2.h),
-                      _buildInputeleven(context)
-                    ],
+          if (isSelectedSwitch == true)
+            Container(
+              width: double.maxFinite,
+              padding: EdgeInsets.symmetric(
+                horizontal: 16.h,
+                vertical: 12.h,
+              ),
+              decoration: BoxDecoration(
+                color: appTheme.whiteA700,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Thông tin khách lưu trú",
+                    style: theme.textTheme.titleMedium,
                   ),
-                )
-              ],
-            ),
-          )
+                  SizedBox(height: 12.h),
+                  SizedBox(
+                    width: double.maxFinite,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Họ",
+                          style: theme.textTheme.titleSmall,
+                        ),
+                        SizedBox(height: 2.h),
+                        _buildInputseven(context),
+                        SizedBox(height: 18.h),
+                        Text(
+                          "Tên đệm và tên",
+                          style: theme.textTheme.titleSmall,
+                        ),
+                        SizedBox(height: 2.h),
+                        _buildInputnine(context),
+                        SizedBox(height: 18.h),
+                        Text(
+                          "Số điện thoại",
+                          style: theme.textTheme.titleSmall,
+                        ),
+                        SizedBox(height: 2.h),
+                        _buildInputeleven(context)
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            )
         ],
       ),
     );
@@ -348,7 +347,7 @@ import '../../core/app_export.dart';
 
   Widget _buildChnphng(BuildContext context) {
     return CustomElevatedButton(
-      onPressed: (){
+      onPressed: () {
         Navigator.pushNamed(context, AppRoutes.guestCheckout);
       },
       text: "Đặt phòng",
@@ -423,9 +422,7 @@ import '../../core/app_export.dart';
             padding: EdgeInsets.only(right: 14.h),
             child: Text(
               "Đã bao gồm thuế",
-              style: TextStyle(
-                color: appTheme.black900.withOpacity(0.5)
-              ),
+              style: TextStyle(color: appTheme.black900.withOpacity(0.5)),
             ),
           ),
           SizedBox(height: 4.h),
@@ -447,5 +444,4 @@ import '../../core/app_export.dart';
       ),
     );
   }
-
-  }
+}

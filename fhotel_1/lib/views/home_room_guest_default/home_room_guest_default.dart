@@ -5,12 +5,13 @@ import '../../core/app_export.dart';
 class HomeRoomGuestFilledBottomsheet extends StatelessWidget {
   HomeRoomGuestFilledBottomsheet({Key? key})
       : super(
-    key: key,
-  );
+          key: key,
+        );
   TextEditingController inputOneController = TextEditingController();
   TextEditingController inputThreeController = TextEditingController();
   TextEditingController inputFiveController = TextEditingController();
   List<String> dropdownItemList = ["Item One", "Item Two", "Item Three"];
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -54,6 +55,7 @@ class HomeRoomGuestFilledBottomsheet extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _buildColumniconwrapp(context),
+
                     /// In case have to design for kid
                     // SizedBox(height: 16.h),
                     // Text(
@@ -123,7 +125,9 @@ class HomeRoomGuestFilledBottomsheet extends StatelessWidget {
   Widget _buildInputone(BuildContext context) {
     return Expanded(
       child: CustomTextFormField(
-        borderDecoration: OutlineInputBorder(borderSide: BorderSide(color: appTheme.black900.withOpacity(0.15), width: 2)),
+        borderDecoration: OutlineInputBorder(
+            borderSide: BorderSide(
+                color: appTheme.black900.withOpacity(0.15), width: 2)),
         readOnly: true,
         controller: inputOneController,
         hintText: "1",
@@ -140,7 +144,9 @@ class HomeRoomGuestFilledBottomsheet extends StatelessWidget {
   Widget _buildInputthree(BuildContext context) {
     return Expanded(
       child: CustomTextFormField(
-        borderDecoration: OutlineInputBorder(borderSide: BorderSide(color: appTheme.black900.withOpacity(0.15), width: 2)),
+        borderDecoration: OutlineInputBorder(
+            borderSide: BorderSide(
+                color: appTheme.black900.withOpacity(0.15), width: 2)),
         readOnly: true,
         controller: inputThreeController,
         hintText: "1",
@@ -157,7 +163,9 @@ class HomeRoomGuestFilledBottomsheet extends StatelessWidget {
   Widget _buildInputfive(BuildContext context) {
     return Expanded(
       child: CustomTextFormField(
-        borderDecoration: OutlineInputBorder(borderSide: BorderSide(color: appTheme.black900.withOpacity(0.15), width: 2)),
+        borderDecoration: OutlineInputBorder(
+            borderSide: BorderSide(
+                color: appTheme.black900.withOpacity(0.15), width: 2)),
         alignment: Alignment.center,
         readOnly: true,
         controller: inputFiveController,
@@ -492,19 +500,17 @@ class HomeRoomGuestFilledBottomsheet extends StatelessWidget {
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        children: [
-          _buildHontt(context)
-        ],
+        children: [_buildHontt(context)],
       ),
     );
   }
 
   Widget _buildWrapperThree(
-      BuildContext context, {
-        required String iconwrapper,
-        required String labelchildone,
-        required String descriptionone,
-      }) {
+    BuildContext context, {
+    required String iconwrapper,
+    required String labelchildone,
+    required String descriptionone,
+  }) {
     return Container(
       decoration: BoxDecoration(
         color: appTheme.whiteA700,

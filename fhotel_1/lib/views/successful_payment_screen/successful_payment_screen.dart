@@ -6,8 +6,9 @@ import '../../core/app_export.dart';
 class SuccessfulPaymentScreen extends StatelessWidget {
   const SuccessfulPaymentScreen({Key? key})
       : super(
-    key: key,
-  );
+          key: key,
+        );
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -128,7 +129,7 @@ class SuccessfulPaymentScreen extends StatelessWidget {
               children: [
                 Expanded(
                   child: CustomOutlinedButton(
-                    onPressed: (){
+                    onPressed: () {
                       Navigator.pushNamed(context, AppRoutes.homePage);
                     },
                     height: 40.h,
@@ -140,9 +141,10 @@ class SuccessfulPaymentScreen extends StatelessWidget {
                 SizedBox(width: 8.h),
                 Expanded(
                   child: CustomElevatedButton(
-                    onPressed: (){
+                    onPressed: () {
                       Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) =>  const MyBookingFullScreen()),
+                        MaterialPageRoute(
+                            builder: (context) => const MyBookingFullScreen()),
                       );
                     },
                     text: "Chi tiết đặt chỗ",
@@ -159,10 +161,10 @@ class SuccessfulPaymentScreen extends StatelessWidget {
   }
 
   Widget _buildListmasterOne(
-      BuildContext context, {
-        required String labelpayment,
-        required String datavalueone,
-      }) {
+    BuildContext context, {
+    required String labelpayment,
+    required String datavalueone,
+  }) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.h),
       decoration: BoxDecoration(

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/app_export.dart';
+
 // ignore_for_file: must_be_immutable
 class ListphNgOneItemWidget extends StatelessWidget {
   ListphNgOneItemWidget({Key? key})
       : super(
-    key: key,
-  );
+          key: key,
+        );
   TextEditingController inputOneController = TextEditingController();
 
   @override
@@ -78,9 +79,7 @@ class ListphNgOneItemWidget extends StatelessWidget {
                 _buildInputone(context),
                 SizedBox(width: 4.h),
                 GestureDetector(
-                  onTap: () {
-
-                  },
+                  onTap: () {},
                   child: Container(
                     height: 40.h,
                     width: 40.h,
@@ -111,17 +110,18 @@ class ListphNgOneItemWidget extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildInputone(BuildContext context) {
-    return Expanded (
-        child: CustomTextFormField(
+    return Expanded(
+      child: CustomTextFormField(
         readOnly: true,
         controller: inputOneController,
         hintText: "1",
         contentPadding: EdgeInsets.symmetric(
-        horizontal: 20.h,
-        vertical: 8.h,
-    ),
-    ),
+          horizontal: 20.h,
+          vertical: 8.h,
+        ),
+      ),
     );
   }
 }

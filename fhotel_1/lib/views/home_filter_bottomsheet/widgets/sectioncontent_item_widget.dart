@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/app_export.dart';
+
 class SectioncontentItemWidget extends StatelessWidget {
   const SectioncontentItemWidget({Key? key})
       : super(
-    key: key,
-  );
+          key: key,
+        );
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -23,10 +25,11 @@ class SectioncontentItemWidget extends StatelessWidget {
         ),
       ),
       child: Chip(
-        label: Text("sao",
-        textAlign: TextAlign.center,
-        style: theme.textTheme.bodyMedium,
-      ),
+        label: Text(
+          "sao",
+          textAlign: TextAlign.center,
+          style: theme.textTheme.bodyMedium,
+        ),
       ),
     );
   }

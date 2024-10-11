@@ -24,6 +24,7 @@ class ServiceDetailScreen extends StatelessWidget {
       ),
     );
   }
+
   PreferredSizeWidget _buildAppbar(BuildContext context) {
     return CustomAppBar(
         leadingWidth: 40.h,
@@ -66,13 +67,10 @@ class ServiceDetailScreen extends StatelessWidget {
                 ),
                 // SizedBox(width: 8.h),
                 Padding(
-                  padding:
-                  EdgeInsets.only(left: 17.h),
+                  padding: EdgeInsets.only(left: 17.h),
                   child: const Text(
                     "|",
-                    style: TextStyle(
-                        color: Colors.black
-                    ),
+                    style: TextStyle(color: Colors.black),
                   ),
                 ),
                 AppbarIconbutton(
@@ -86,10 +84,8 @@ class ServiceDetailScreen extends StatelessWidget {
             ),
           )
         ],
-        styleType: Style.bgFill
-    );
+        styleType: Style.bgFill);
   }
-
 
   Widget _buildscrollview(BuildContext context) {
     return Expanded(
@@ -136,9 +132,10 @@ class ServiceDetailScreen extends StatelessWidget {
                 child: Row(
                   children: [
                     Icon(
-                      Icons.star,             // Star icon
-                      color: Colors.yellow,    // Set the color to yellow
-                      size: 20.h,              // Adjust the size according to your requirement
+                      Icons.star, // Star icon
+                      color: Colors.yellow, // Set the color to yellow
+                      size:
+                          20.h, // Adjust the size according to your requirement
                     ),
                     Padding(
                       padding: EdgeInsets.only(left: 10.h),
@@ -166,9 +163,10 @@ class ServiceDetailScreen extends StatelessWidget {
                       flex: 26,
                     ),
                     Icon(
-                      Icons.watch_later_outlined,             // Star icon
-                      color: Colors.grey,    // Set the color to yellow
-                      size: 20.h,              // Adjust the size according to your requirement
+                      Icons.watch_later_outlined, // Star icon
+                      color: Colors.grey, // Set the color to yellow
+                      size:
+                          20.h, // Adjust the size according to your requirement
                     ),
                     Padding(
                       padding: EdgeInsets.only(left: 10.h),
@@ -363,7 +361,7 @@ class ServiceDetailScreen extends StatelessWidget {
   Widget _buildHeadingImage(BuildContext context) {
     return Container(
       width: double.maxFinite,
-      height: 200.h,  // Set the height explicitly so the Stack has enough space
+      height: 200.h, // Set the height explicitly so the Stack has enough space
       decoration: BoxDecoration(
         borderRadius: BorderRadiusStyle.roundedBorder8,
       ),
@@ -375,7 +373,8 @@ class ServiceDetailScreen extends StatelessWidget {
             height: double.maxFinite,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage(ImageConstant.imgImage170x129),  // Your image path here
+                image: AssetImage(ImageConstant.imgImage170x129),
+                // Your image path here
                 fit: BoxFit.cover,
               ),
               borderRadius: BorderRadiusStyle.roundedBorder8,
@@ -383,7 +382,7 @@ class ServiceDetailScreen extends StatelessWidget {
           ),
           // Overlaying Icon Button
           Positioned(
-            right: 20.h,  // Position it slightly away from the right edge
+            right: 20.h, // Position it slightly away from the right edge
             bottom: 20.h, // Position it slightly away from the bottom edge
             child: CustomIconButton(
               height: 36.h,
@@ -391,9 +390,9 @@ class ServiceDetailScreen extends StatelessWidget {
               padding: EdgeInsets.all(10.h),
               decoration: IconButtonStyleHelper.fillBlack,
               child: Icon(
-                Icons.favorite,   // Heart icon
+                Icons.favorite, // Heart icon
                 color: Colors.red, // Change the color to red for the heart icon
-                size: 24.h,       // Adjust the size if needed
+                size: 24.h, // Adjust the size if needed
               ),
             ),
           ),
@@ -401,7 +400,6 @@ class ServiceDetailScreen extends StatelessWidget {
       ),
     );
   }
-
 
   Widget _buildAddcart(BuildContext context) {
     return Container(
@@ -468,9 +466,7 @@ class ServiceDetailScreen extends StatelessWidget {
             padding: EdgeInsets.only(right: 14.h),
             child: Text(
               "Đã bao gồm thuế",
-              style: TextStyle(
-                  color: appTheme.black900.withOpacity(0.5)
-              ),
+              style: TextStyle(color: appTheme.black900.withOpacity(0.5)),
             ),
           ),
           SizedBox(height: 4.h),

@@ -5,8 +5,8 @@ import '../../../core/app_export.dart';
 class FoodBurgersItemWidget extends StatelessWidget {
   const FoodBurgersItemWidget({Key? key})
       : super(
-    key: key,
-  );
+          key: key,
+        );
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +64,8 @@ class FoodBurgersItemWidget extends StatelessWidget {
                         padding: EdgeInsets.all(8.h),
                         decoration: BoxDecoration(
                           color: Colors.blue, // Set background color to blue
-                          shape: BoxShape.circle, // Optional: If you want a circular button
+                          shape: BoxShape
+                              .circle, // Optional: If you want a circular button
                         ),
                         child: CustomImageView(
                           imagePath: ImageConstant.imgIconWrapper6,

@@ -9,6 +9,7 @@ class HotelListingNearbyScreen extends StatelessWidget {
       : super(
           key: key,
         );
+
   void _showHotelFilterModalBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -17,6 +18,7 @@ class HotelListingNearbyScreen extends StatelessWidget {
       },
     );
   }
+
   void _showEditSearchModalBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -25,6 +27,7 @@ class HotelListingNearbyScreen extends StatelessWidget {
       },
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -71,68 +74,64 @@ class HotelListingNearbyScreen extends StatelessWidget {
 
   PreferredSizeWidget _buildAppbar(BuildContext context) {
     return CustomAppBar(
-      leadingWidth: 40.h,
-      leading: AppbarLeadingImage(
-        imagePath: ImageConstant.imgChevronLeft,
-        margin: EdgeInsets.only(
-          left: 16.h,
-          top: 16.h,
-          bottom: 16.h,
-        ),
-      ),
-      title: AppbarTitle(
-        text: "Khách sạn gần bạn",
-        margin: EdgeInsets.only(left: 8.h),
-      ),
-      actions: [
-        Container(
+        leadingWidth: 40.h,
+        leading: AppbarLeadingImage(
+          imagePath: ImageConstant.imgChevronLeft,
           margin: EdgeInsets.only(
+            left: 16.h,
             top: 16.h,
-            right: 16.h,
             bottom: 16.h,
           ),
-          decoration: BoxDecoration(
-            color: appTheme.black900.withOpacity(0.2),
-            borderRadius: BorderRadius.circular(
-              12.h,
+        ),
+        title: AppbarTitle(
+          text: "Khách sạn gần bạn",
+          margin: EdgeInsets.only(left: 8.h),
+        ),
+        actions: [
+          Container(
+            margin: EdgeInsets.only(
+              top: 16.h,
+              right: 16.h,
+              bottom: 16.h,
             ),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              AppbarImage(
-                imagePath: ImageConstant.imgIconLeft,
-                margin: EdgeInsets.only(
-                  left: 8.h,
-                  top: 4.h,
-                  bottom: 4.h,
-                ),
+            decoration: BoxDecoration(
+              color: appTheme.black900.withOpacity(0.2),
+              borderRadius: BorderRadius.circular(
+                12.h,
               ),
-              // SizedBox(width: 8.h),
-              Padding(
-                padding:
-                EdgeInsets.only(left: 17.h),
-                child: const Text(
-                  "|",
-                  style: TextStyle(
-                    color: Colors.black
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                AppbarImage(
+                  imagePath: ImageConstant.imgIconLeft,
+                  margin: EdgeInsets.only(
+                    left: 8.h,
+                    top: 4.h,
+                    bottom: 4.h,
                   ),
                 ),
-              ),
-              AppbarIconbutton(
-                imagePath: ImageConstant.imgDivider,
-                margin: EdgeInsets.symmetric(
-                  horizontal: 8.h,
-                  vertical: 4.h,
+                // SizedBox(width: 8.h),
+                Padding(
+                  padding: EdgeInsets.only(left: 17.h),
+                  child: const Text(
+                    "|",
+                    style: TextStyle(color: Colors.black),
+                  ),
                 ),
-              ),
-            ],
-          ),
-        )
-      ],
-      styleType: Style.bgFill
-    );
+                AppbarIconbutton(
+                  imagePath: ImageConstant.imgDivider,
+                  margin: EdgeInsets.symmetric(
+                    horizontal: 8.h,
+                    vertical: 4.h,
+                  ),
+                ),
+              ],
+            ),
+          )
+        ],
+        styleType: Style.bgFill);
   }
 
   Widget _buildContent(BuildContext context) {
@@ -212,7 +211,7 @@ class HotelListingNearbyScreen extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(left: 20.h),
             child: CustomIconButton(
-              onTap: (){
+              onTap: () {
                 _showEditSearchModalBottomSheet(context);
               },
               height: 24.h,
@@ -243,7 +242,7 @@ class HotelListingNearbyScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           CustomOutlinedButton(
-            onPressed: (){
+            onPressed: () {
               _showHotelFilterModalBottomSheet(context);
             },
             buttonStyle: CustomButtonStyles.outlineWhiteTL16,
@@ -298,143 +297,143 @@ class HotelListingNearbyScreen extends StatelessWidget {
       },
     );
   }
-  // Widget _buildSubcontent(BuildContext context) {
-  //   return Container(
-  //     width: double.maxFinite,
-  //     margin: EdgeInsets.only(right: 12.h),
-  //     child: Row(
-  //       crossAxisAlignment: CrossAxisAlignment.start,
-  //       children: [
-  //         Align(
-  //           alignment: Alignment.center,
-  //           child: Container(
-  //             height: 144.h,
-  //             width: 144.h,
-  //             decoration: BoxDecoration(
-  //               color: appTheme.whiteA700,
-  //               borderRadius: BorderRadiusStyle.circleBorder16,
-  //             ),
-  //             child: Stack(
-  //               alignment: Alignment.center,
-  //               children: [
-  //                 Card(
-  //                   clipBehavior: Clip.antiAlias,
-  //                   elevation: 0,
-  //                   margin: EdgeInsets.zero,
-  //                   shape: RoundedRectangleBorder(
-  //                     borderRadius: BorderRadiusStyle.roundedBorder8,
-  //                   ),
-  //                   child: Container(
-  //                     height: 120.h,
-  //                     width: 120.h,
-  //                     decoration: BoxDecoration(
-  //                       borderRadius: BorderRadiusStyle.roundedBorder8,
-  //                     ),
-  //                     child: Stack(
-  //                       alignment: Alignment.center,
-  //                       children: [
-  //                         CustomImageView(
-  //                           imagePath: ImageConstant.imgImage120x120,
-  //                           height: 120.h,
-  //                           width: double.maxFinite,
-  //                           radius: BorderRadius.circular(
-  //                             8.h,
-  //                           ),
-  //                         ),
-  //                         IntrinsicHeight(
-  //                           child: Align(
-  //                             alignment: Alignment.bottomCenter,
-  //                             child: Container(
-  //                               height: 60.h,
-  //                               padding: EdgeInsets.symmetric(vertical: 4.h),
-  //                               decoration: BoxDecoration(
-  //                                 gradient: LinearGradient(
-  //                                   begin: Alignment(0.5, 0),
-  //                                   end: Alignment(0.5, 1),
-  //                                   colors: [
-  //                                     appTheme.black900.withOpacity(0.6),
-  //                                     appTheme.black900.withOpacity(0.6)
-  //                                   ],
-  //                                 ),
-  //                               ),
-  //                               child: Row(
-  //                                 crossAxisAlignment: CrossAxisAlignment.end,
-  //                                 children: [
-  //                                   CustomImageView(
-  //                                     imagePath: ImageConstant.imgIconWrapper13,
-  //                                     height: 24.h,
-  //                                     width: 24.h,
-  //                                     margin: EdgeInsets.only(top: 28.h),
-  //                                   ),
-  //                                   Padding(
-  //                                     padding: EdgeInsets.only(bottom: 2.h),
-  //                                     child: Text(
-  //                                       "380m",
-  //                                       style:
-  //                                       CustomTextStyles.bodySmallWhiteA700,
-  //                                     ),
-  //                                   )
-  //                                 ],
-  //                               ),
-  //                             ),
-  //                           ),
-  //                         )
-  //                       ],
-  //                     ),
-  //                   ),
-  //                 ),
-  //               ],
-  //             ),
-  //           ),
-  //         ),
-  //         Expanded(
-  //           child: Padding(
-  //             padding: EdgeInsets.only(top: 12.h),
-  //             child: Column(
-  //               children: [
-  //                 Text(
-  //                   "Tên khách sạn được hiển thị tối đa 2 dòng",
-  //                   style: theme.textTheme.bodyMedium,
-  //                 ),
-  //                 SizedBox(height: 6.h),
-  //                 SizedBox(
-  //                   width: double.maxFinite,
-  //                   child: Row(
-  //                     children: [
-  //                       CustomImageView(
-  //                         imagePath: ImageConstant.imgContentStar,
-  //                         height: 16.h,
-  //                         width: 16.h,
-  //                       ),
-  //                       CustomImageView(
-  //                         imagePath: ImageConstant.imgContentStar,
-  //                         height: 16.h,
-  //                         width: 16.h,
-  //                       ),
-  //                       CustomImageView(
-  //                         imagePath: ImageConstant.imgContentStar,
-  //                         height: 16.h,
-  //                         width: 16.h,
-  //                       ),
-  //                       CustomImageView(
-  //                         imagePath: ImageConstant.imgContentStar,
-  //                         height: 16.h,
-  //                         width: 16.h,
-  //                       ),
-  //                       CustomImageView(
-  //                         imagePath: ImageConstant.imgContentStar,
-  //                         height: 16.h,
-  //                         width: 16.h,
-  //                       )
-  //                     ],
-  //                   ),
-  //                 )
-  //               ],
-  //             ),
-  //           ),
-  //         )
-  //       ],
-  //     ),
-  //   );
-  // }
+// Widget _buildSubcontent(BuildContext context) {
+//   return Container(
+//     width: double.maxFinite,
+//     margin: EdgeInsets.only(right: 12.h),
+//     child: Row(
+//       crossAxisAlignment: CrossAxisAlignment.start,
+//       children: [
+//         Align(
+//           alignment: Alignment.center,
+//           child: Container(
+//             height: 144.h,
+//             width: 144.h,
+//             decoration: BoxDecoration(
+//               color: appTheme.whiteA700,
+//               borderRadius: BorderRadiusStyle.circleBorder16,
+//             ),
+//             child: Stack(
+//               alignment: Alignment.center,
+//               children: [
+//                 Card(
+//                   clipBehavior: Clip.antiAlias,
+//                   elevation: 0,
+//                   margin: EdgeInsets.zero,
+//                   shape: RoundedRectangleBorder(
+//                     borderRadius: BorderRadiusStyle.roundedBorder8,
+//                   ),
+//                   child: Container(
+//                     height: 120.h,
+//                     width: 120.h,
+//                     decoration: BoxDecoration(
+//                       borderRadius: BorderRadiusStyle.roundedBorder8,
+//                     ),
+//                     child: Stack(
+//                       alignment: Alignment.center,
+//                       children: [
+//                         CustomImageView(
+//                           imagePath: ImageConstant.imgImage120x120,
+//                           height: 120.h,
+//                           width: double.maxFinite,
+//                           radius: BorderRadius.circular(
+//                             8.h,
+//                           ),
+//                         ),
+//                         IntrinsicHeight(
+//                           child: Align(
+//                             alignment: Alignment.bottomCenter,
+//                             child: Container(
+//                               height: 60.h,
+//                               padding: EdgeInsets.symmetric(vertical: 4.h),
+//                               decoration: BoxDecoration(
+//                                 gradient: LinearGradient(
+//                                   begin: Alignment(0.5, 0),
+//                                   end: Alignment(0.5, 1),
+//                                   colors: [
+//                                     appTheme.black900.withOpacity(0.6),
+//                                     appTheme.black900.withOpacity(0.6)
+//                                   ],
+//                                 ),
+//                               ),
+//                               child: Row(
+//                                 crossAxisAlignment: CrossAxisAlignment.end,
+//                                 children: [
+//                                   CustomImageView(
+//                                     imagePath: ImageConstant.imgIconWrapper13,
+//                                     height: 24.h,
+//                                     width: 24.h,
+//                                     margin: EdgeInsets.only(top: 28.h),
+//                                   ),
+//                                   Padding(
+//                                     padding: EdgeInsets.only(bottom: 2.h),
+//                                     child: Text(
+//                                       "380m",
+//                                       style:
+//                                       CustomTextStyles.bodySmallWhiteA700,
+//                                     ),
+//                                   )
+//                                 ],
+//                               ),
+//                             ),
+//                           ),
+//                         )
+//                       ],
+//                     ),
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           ),
+//         ),
+//         Expanded(
+//           child: Padding(
+//             padding: EdgeInsets.only(top: 12.h),
+//             child: Column(
+//               children: [
+//                 Text(
+//                   "Tên khách sạn được hiển thị tối đa 2 dòng",
+//                   style: theme.textTheme.bodyMedium,
+//                 ),
+//                 SizedBox(height: 6.h),
+//                 SizedBox(
+//                   width: double.maxFinite,
+//                   child: Row(
+//                     children: [
+//                       CustomImageView(
+//                         imagePath: ImageConstant.imgContentStar,
+//                         height: 16.h,
+//                         width: 16.h,
+//                       ),
+//                       CustomImageView(
+//                         imagePath: ImageConstant.imgContentStar,
+//                         height: 16.h,
+//                         width: 16.h,
+//                       ),
+//                       CustomImageView(
+//                         imagePath: ImageConstant.imgContentStar,
+//                         height: 16.h,
+//                         width: 16.h,
+//                       ),
+//                       CustomImageView(
+//                         imagePath: ImageConstant.imgContentStar,
+//                         height: 16.h,
+//                         width: 16.h,
+//                       ),
+//                       CustomImageView(
+//                         imagePath: ImageConstant.imgContentStar,
+//                         height: 16.h,
+//                         width: 16.h,
+//                       )
+//                     ],
+//                   ),
+//                 )
+//               ],
+//             ),
+//           ),
+//         )
+//       ],
+//     ),
+//   );
+// }
 }

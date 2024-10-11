@@ -12,7 +12,11 @@ class _MyCartScreenState extends State<MyCartScreen> {
   TextEditingController addressController = TextEditingController();
 
   // List to keep track of items and their corresponding quantities
-  List<String> items = ["Pizza Calzone European", "Spaghetti Bolognese", "Lasagna"];
+  List<String> items = [
+    "Pizza Calzone European",
+    "Spaghetti Bolognese",
+    "Lasagna"
+  ];
   List<int> quantities = [1, 1, 1]; // Initialize all quantities to 1
 
   @override
@@ -87,7 +91,8 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                 SizedBox(
                                   width: double.maxFinite,
                                   child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Align(
                                         alignment: Alignment.center,
@@ -97,7 +102,8 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                             items[index],
                                             maxLines: 2,
                                             overflow: TextOverflow.ellipsis,
-                                            style: CustomTextStyles.titleSmallGray600,
+                                            style: CustomTextStyles
+                                                .titleSmallGray600,
                                           ),
                                         ),
                                       ),
@@ -110,7 +116,8 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                             quantities.removeAt(index);
                                           });
                                         },
-                                        child: Icon(Icons.close, color: Colors.red, size: 26.h),
+                                        child: Icon(Icons.close,
+                                            color: Colors.red, size: 26.h),
                                       ),
                                     ],
                                   ),
@@ -127,7 +134,8 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                     children: [
                                       Expanded(
                                         child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
                                             // Decrease quantity button
                                             GestureDetector(
@@ -142,15 +150,19 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                                 height: 22.h,
                                                 width: 22.h,
                                                 decoration: BoxDecoration(
-                                                  color: appTheme.whiteA700.withOpacity(0.2),
-                                                  borderRadius: BorderRadiusStyle.roundedBorder8,
+                                                  color: appTheme.whiteA700
+                                                      .withOpacity(0.2),
+                                                  borderRadius:
+                                                      BorderRadiusStyle
+                                                          .roundedBorder8,
                                                 ),
                                                 child: Stack(
                                                   alignment: Alignment.center,
                                                   children: [
                                                     CustomImageView(
                                                       color: Colors.grey,
-                                                      imagePath: ImageConstant.imgContentMinus,
+                                                      imagePath: ImageConstant
+                                                          .imgContentMinus,
                                                       height: 16.h,
                                                       width: 16.h,
                                                     ),
@@ -160,10 +172,12 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                             ),
                                             // Display quantity
                                             Padding(
-                                              padding: EdgeInsets.only(left: 18.h),
+                                              padding:
+                                                  EdgeInsets.only(left: 18.h),
                                               child: Text(
                                                 quantities[index].toString(),
-                                                style: theme.textTheme.titleMedium,
+                                                style:
+                                                    theme.textTheme.titleMedium,
                                               ),
                                             ),
                                             // Increase quantity button
@@ -176,13 +190,15 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                               child: Container(
                                                 height: 22.h,
                                                 width: 22.h,
-                                                margin: EdgeInsets.only(left: 18.h),
+                                                margin:
+                                                    EdgeInsets.only(left: 18.h),
                                                 child: Stack(
                                                   alignment: Alignment.center,
                                                   children: [
                                                     CustomImageView(
                                                       color: Colors.grey,
-                                                      imagePath: ImageConstant.imgIconWrapper6,
+                                                      imagePath: ImageConstant
+                                                          .imgIconWrapper6,
                                                       height: 16.h,
                                                       width: 16.h,
                                                     ),

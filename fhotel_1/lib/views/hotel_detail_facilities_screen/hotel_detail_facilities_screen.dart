@@ -9,6 +9,7 @@ class HotelDetailsFacilitiesScreen extends StatelessWidget {
           key: key,
         );
   TextEditingController listmasteroneController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(

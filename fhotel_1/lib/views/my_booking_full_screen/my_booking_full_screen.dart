@@ -7,8 +7,9 @@ import '../../core/app_export.dart';
 class MyBookingFullScreen extends StatelessWidget {
   const MyBookingFullScreen({Key? key})
       : super(
-    key: key,
-  );
+          key: key,
+        );
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -130,9 +131,10 @@ class MyBookingFullScreen extends StatelessWidget {
           ),
           SizedBox(height: 10.h),
           GestureDetector(
-            onTap: (){
+            onTap: () {
               Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) =>  MyBookingDetailsScreen()),
+                MaterialPageRoute(
+                    builder: (context) => MyBookingDetailsScreen()),
               );
             },
             child: Container(
@@ -211,6 +213,7 @@ class MyBookingFullScreen extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildMaincontent(BuildContext context) {
     return ListView.separated(
       padding: EdgeInsets.zero,

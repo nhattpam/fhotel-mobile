@@ -12,17 +12,16 @@ import '../home_duration_bottomsheet/home_duration_bottomsheet.dart';
 import '../home_filter_bottomsheet/home_filter_bottomsheet.dart';
 import '../home_room_guest_default/home_room_guest_default.dart';
 
-
 class HomeHotelRegionEmptyScreen extends StatefulWidget {
   HomeHotelRegionEmptyScreen({Key? key}) : super(key: key);
 
   @override
-  HomeHotelRegionEmptyScreenState createState() => HomeHotelRegionEmptyScreenState();
+  HomeHotelRegionEmptyScreenState createState() =>
+      HomeHotelRegionEmptyScreenState();
 }
 
-
-
-class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen> {
+class HomeHotelRegionEmptyScreenState
+    extends State<HomeHotelRegionEmptyScreen> {
   int sliderIndex = 1;
   int _currentIndex = 0;
 
@@ -70,48 +69,47 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen> 
       },
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-          body: SingleChildScrollView(
-            child: SizedBox(
-              width: double.maxFinite,
-              child: Container(
-                height: 1032.h,
-                decoration: BoxDecoration(
-                  color: appTheme.gray10001,
-                ),
-                child: Stack(
-                  alignment: Alignment.bottomCenter,
-                  children: [
-                    _buildStackherobanner(context),
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        _buildColumniconwrapp(context),
-                        SizedBox(height: 16.h),
-                        _buildSection(context),
-                        SizedBox(height: 12.h),
-                        _buildSectionone(context),
-                        Container(
-                          height: 8.h,
-                          width: double.maxFinite,
-                          decoration: BoxDecoration(
-                            color: appTheme.gray10001,
+            body: SingleChildScrollView(
+              child: SizedBox(
+                width: double.maxFinite,
+                child: Container(
+                  height: 1032.h,
+                  decoration: BoxDecoration(
+                    color: appTheme.gray10001,
+                  ),
+                  child: Stack(
+                    alignment: Alignment.bottomCenter,
+                    children: [
+                      _buildStackherobanner(context),
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          _buildColumniconwrapp(context),
+                          SizedBox(height: 16.h),
+                          _buildSection(context),
+                          SizedBox(height: 12.h),
+                          _buildSectionone(context),
+                          Container(
+                            height: 8.h,
+                            width: double.maxFinite,
+                            decoration: BoxDecoration(
+                              color: appTheme.gray10001,
+                            ),
                           ),
-                        ),
-                        _buildColumntitleone(context)
-                      ],
-                    ),
-                  ],
+                          _buildColumntitleone(context)
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-          bottomNavigationBar: _buildBottomNavigationBar(context)
-        )
-    );
+            bottomNavigationBar: _buildBottomNavigationBar(context)));
   }
 
   Widget _buildBottomNavigationBar(BuildContext context) {
@@ -166,23 +164,22 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen> 
     );
   }
 
-
   Widget _buildStackherobanner(BuildContext context) {
     return Align(
-        alignment: Alignment.topCenter,
-        child: SizedBox(
-          height: 96.h,
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              CustomImageView(
-                imagePath: ImageConstant.imgHerobanner,
-                height: 96.h,
-                width: double.maxFinite,
-              ),
-            ],
-          ),
+      alignment: Alignment.topCenter,
+      child: SizedBox(
+        height: 96.h,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            CustomImageView(
+              imagePath: ImageConstant.imgHerobanner,
+              height: 96.h,
+              width: double.maxFinite,
+            ),
+          ],
         ),
+      ),
     );
   }
 
@@ -241,26 +238,25 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen> 
                                     ),
                                     SizedBox(height: 6.h),
                                     ElevatedButton(
-                                        onPressed: () =>
-                                            _showModalBottomSheet(context),
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor: Colors.transparent,
-                                          // Set background to transparent
-                                          elevation:
-                                              0, // Remove shadow/elevation
-                                        ),
-                                        child: Text(
-                                          "Nhập điểm đến, khách sạn",
-                                          style: CustomTextStyles
-                                              .titleSmallGray600,
-                                        ),
+                                      onPressed: () =>
+                                          _showModalBottomSheet(context),
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.transparent,
+                                        // Set background to transparent
+                                        elevation: 0, // Remove shadow/elevation
                                       ),
+                                      child: Text(
+                                        "Nhập điểm đến, khách sạn",
+                                        style:
+                                            CustomTextStyles.titleSmallGray600,
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
                             ),
                             SizedBox(width: 6.h),
-                           ],
+                          ],
                         ),
                       ),
                       SizedBox(height: 6.h),
@@ -298,7 +294,8 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen> 
                                             SizedBox(height: 4.h),
                                             ElevatedButton(
                                               onPressed: () {
-                                                _showCalendarModalBottomSheet(context);
+                                                _showCalendarModalBottomSheet(
+                                                    context);
                                               },
                                               style: ElevatedButton.styleFrom(
                                                 backgroundColor:
@@ -309,7 +306,8 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen> 
                                               ),
                                               child: Text(
                                                 "Thứ Tư,02/02/2022",
-                                                style: theme.textTheme.titleSmall,
+                                                style:
+                                                    theme.textTheme.titleSmall,
                                               ),
                                             ),
                                           ],
@@ -334,11 +332,9 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen> 
                                     _showDurationModalBottomSheet(context);
                                   },
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor:
-                                    Colors.transparent,
+                                    backgroundColor: Colors.transparent,
                                     // Set background to transparent
-                                    elevation:
-                                    0, // Remove shadow/elevation
+                                    elevation: 0, // Remove shadow/elevation
                                   ),
                                   child: Text(
                                     "1 đêm",
@@ -402,7 +398,7 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen> 
                       CustomElevatedButton(
                         onPressed: () {
                           Navigator.pushNamed(context, AppRoutes.hotelListing);
-                          },
+                        },
                         buttonStyle: CustomButtonStyles.fillBlue,
                         buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,
                         text: "Tìm kiếm",
@@ -634,23 +630,20 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen> 
                     ),
                     SizedBox(height: 6.h),
                     ElevatedButton(
-                      onPressed: () {
-                        _showRoomAndGuestModalBottomSheet(context);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor:
-                        Colors.transparent,
-                        // Set background to transparent
-                        elevation:
-                        0, // Remove shadow/elevation
-                      ),
-                      child: Text(
-                        placeholderOne,
-                        style: CustomTextStyles.titleSmallGray600.copyWith(
-                          color: appTheme.gray600,
+                        onPressed: () {
+                          _showRoomAndGuestModalBottomSheet(context);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.transparent,
+                          // Set background to transparent
+                          elevation: 0, // Remove shadow/elevation
                         ),
-                      )
-                    ),
+                        child: Text(
+                          placeholderOne,
+                          style: CustomTextStyles.titleSmallGray600.copyWith(
+                            color: appTheme.gray600,
+                          ),
+                        )),
                   ],
                 ),
               ),
@@ -660,6 +653,7 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen> 
       ),
     );
   }
+
   Widget _buildListmasterTwo(
     BuildContext context, {
     required String iconwrapper,
@@ -694,23 +688,20 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen> 
                     ),
                     SizedBox(height: 6.h),
                     ElevatedButton(
-                      onPressed: () {
-                        _showFilterModalBottomSheet(context);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor:
-                        Colors.transparent,
-                        // Set background to transparent
-                        elevation:
-                        0, // Remove shadow/elevation
-                      ),
-                      child: Text(
-                        placeholderOne,
-                        style: CustomTextStyles.titleSmallGray600.copyWith(
-                          color: appTheme.gray600,
+                        onPressed: () {
+                          _showFilterModalBottomSheet(context);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.transparent,
+                          // Set background to transparent
+                          elevation: 0, // Remove shadow/elevation
                         ),
-                      )
-                    ),
+                        child: Text(
+                          placeholderOne,
+                          style: CustomTextStyles.titleSmallGray600.copyWith(
+                            color: appTheme.gray600,
+                          ),
+                        )),
                   ],
                 ),
               ),

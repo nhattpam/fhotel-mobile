@@ -825,9 +825,10 @@ class CheckoutScreen extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildChnphng(BuildContext context) {
     return CustomElevatedButton(
-      onPressed: (){
+      onPressed: () {
         Navigator.pushNamed(context, AppRoutes.guestPayment);
       },
       text: "Thanh toán",

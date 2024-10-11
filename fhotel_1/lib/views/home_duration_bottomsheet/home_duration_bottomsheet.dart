@@ -7,7 +7,8 @@ class HomeDurationBottomsheet extends StatefulWidget {
   const HomeDurationBottomsheet({Key? key}) : super(key: key);
 
   @override
-  _HomeDurationBottomsheetState createState() => _HomeDurationBottomsheetState();
+  _HomeDurationBottomsheetState createState() =>
+      _HomeDurationBottomsheetState();
 }
 
 class _HomeDurationBottomsheetState extends State<HomeDurationBottomsheet> {
@@ -44,7 +45,9 @@ class _HomeDurationBottomsheetState extends State<HomeDurationBottomsheet> {
                   ],
                 ),
               ),
-              SizedBox(height: 18.h,),
+              SizedBox(
+                height: 18.h,
+              ),
               SizedBox(
                 height: 456.h,
                 width: double.maxFinite,
@@ -56,11 +59,12 @@ class _HomeDurationBottomsheetState extends State<HomeDurationBottomsheet> {
                       child: Padding(
                         padding: EdgeInsets.symmetric(horizontal: 16.h),
                         child: Column(
-                          mainAxisSize: MainAxisSize.min, children: [
-                          _buildHomeduration(context),
-                          SizedBox(height: 8.h),
-                          Divider(),
-                        ],
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            _buildHomeduration(context),
+                            SizedBox(height: 8.h),
+                            Divider(),
+                          ],
                         ),
                       ),
                     ),
@@ -141,7 +145,6 @@ class _HomeDurationBottomsheetState extends State<HomeDurationBottomsheet> {
     );
   }
 
-
   // Widget _buildwrapper(BuildContext context) {
   //   return SizedBox(
   //     width: double.maxFinite,
@@ -173,7 +176,7 @@ class _HomeDurationBottomsheetState extends State<HomeDurationBottomsheet> {
   //   );
   // }
 
-  Widget _buildButtonbar (BuildContext context) {
+  Widget _buildButtonbar(BuildContext context) {
     return Container(
       width: double.maxFinite,
       padding: EdgeInsets.fromLTRB(16.h, 6.h, 16.h, 8.h),
@@ -189,13 +192,13 @@ class _HomeDurationBottomsheetState extends State<HomeDurationBottomsheet> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          if(choose == true)
+          if (choose == true)
             CustomElevatedButton(
               text: "Hoàn tất",
               buttonStyle: CustomButtonStyles.fillBlue,
               buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,
             ),
-          if(choose == false)
+          if (choose == false)
             CustomElevatedButton(
               text: "Hoàn tất",
               buttonStyle: CustomButtonStyles.fillBlack,
@@ -205,5 +208,4 @@ class _HomeDurationBottomsheetState extends State<HomeDurationBottomsheet> {
       ),
     );
   }
-
 }

@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 
 import '../../core/app_export.dart';
+
 class AppbarLeadingIconbutton extends StatelessWidget {
   AppbarLeadingIconbutton({Key? key, this.imagePath, this.margin, this.onTap})
       : super(
-  key: key,
-  );
+          key: key,
+        );
   final String? imagePath;
   final EdgeInsetsGeometry? margin;
   final Function? onTap;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(

@@ -5,11 +5,12 @@ import '../../core/app_export.dart';
 class AppbarSubtitleOne extends StatelessWidget {
   AppbarSubtitleOne({Key? key, required this.text, this.onTap, this.margin})
       : super(
-    key: key,
-  );
+          key: key,
+        );
   final String text;
   final Function? onTap;
   final EdgeInsetsGeometry? margin;
+
   @override
   Widget build(BuildContext context) {
     return Padding(

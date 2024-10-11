@@ -83,6 +83,7 @@ class CustomDropDown extends StatelessWidget {
               onChanged!(value.toString());
             }),
       );
+
   InputDecoration get decoration => InputDecoration(
         prefixIcon: prefix,
         prefixIconConstraints: prefixConstraints,

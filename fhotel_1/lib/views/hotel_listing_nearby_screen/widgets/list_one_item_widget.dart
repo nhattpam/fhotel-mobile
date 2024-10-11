@@ -2,11 +2,13 @@ import 'package:fhotel_1/views/hotel_detail/widgets/carousel_item_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/app_export.dart';
+
 class ListOneItemWidget extends StatelessWidget {
   const ListOneItemWidget({Key? key})
-      : super (
-    key: key,
-  );
+      : super(
+          key: key,
+        );
+
   void _showDetailModalBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -15,13 +17,14 @@ class ListOneItemWidget extends StatelessWidget {
       },
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         // _showDetailModalBottomSheet(context);
         Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) =>  CarouselItemWidget()),
+          MaterialPageRoute(builder: (context) => CarouselItemWidget()),
         );
       },
       child: Container(
@@ -85,8 +88,10 @@ class ListOneItemWidget extends StatelessWidget {
                                 width: 24.h,
                                 margin: EdgeInsets.only(top: 28.h),
                               ),
-                              Padding(padding: EdgeInsets.only(bottom: 2.h),
-                                child: Text("380m",
+                              Padding(
+                                padding: EdgeInsets.only(bottom: 2.h),
+                                child: Text(
+                                  "380m",
                                   style: CustomTextStyles.bodySmallWhiteA700,
                                 ),
                               )

@@ -5,7 +5,8 @@ class ImageConstant {
 
 // Home - Hotel & region - Empty images
   static String imgImage170x128 = '$imagePath/pexels-pixabay-53464.jpg';
-  static String imgImage170x129 = '$imagePath/pizza-5179939_960_720-1200x545_c.jpg';
+  static String imgImage170x129 =
+      '$imagePath/pizza-5179939_960_720-1200x545_c.jpg';
 
   static String imgImage1 = '$imagePath/img_image_1.png';
 
@@ -21,8 +22,7 @@ class ImageConstant {
   static String imgIconWrapper3 = 'SimagePath/img_icon_wrapper_3.svg';
 
 // Home - Room & Guest - Default images
-  static String imgIconWrapperBlack900 =
-      '$imagePath/minus-solid.svg';
+  static String imgIconWrapperBlack900 = '$imagePath/minus-solid.svg';
 
 // Home - Room & Guest - Quantity images
   static String imgIconWrapperwhiteA700 =
@@ -61,8 +61,7 @@ class ImageConstant {
   static String imgCloseBlack900 = '$imagePath/img_close_black_900.svg';
 
 // Checkout images
-  static String imgArrowRightGray600 =
-      '$imagePath/chevron-right-solid.svg';
+  static String imgArrowRightGray600 = '$imagePath/chevron-right-solid.svg';
   static String imgImg = '$imagePath/06ncktiwd6dc1694418196384.png';
 
 // Successful payment images
@@ -83,20 +82,18 @@ class ImageConstant {
   static String imgIconLeft = '$imagePath/ellipsis-h-solid.svg';
   static String imgDivider = '$imagePath/circle-xmark-regular.svg';
   static String imgIconRight = '$imagePath/img_icon_right.svg';
-  static String imgIconWrapperGray600 =
-      '$imagePath/map-marker-alt-solid.svg';
+  static String imgIconWrapperGray600 = '$imagePath/map-marker-alt-solid.svg';
   static String imgIconWrapperBlueGray700 =
       '$imagePath/img_icon_wrapper_blue_gray_700.svg';
-  static String imgIconWrapperGray60024x24 =
-      '$imagePath/calendar-regular.svg';
+  static String imgIconWrapperGray60024x24 = '$imagePath/calendar-regular.svg';
   static String imgIconWrapper24x24 = '$imagePath/door-open-solid.svg';
   static String imgIconWrapper1 = '$imagePath/filter-solid.svg';
-  static String imgIconWrapperPrimary =
-      '$imagePath/hotel-solid.svg';
+  static String imgIconWrapperPrimary = '$imagePath/hotel-solid.svg';
   static String imgIconWrapperPrimary24x24 =
       '$imagePath/img_icon_wrapper_primary_24x24.svg';
   static String imgImage = '$imagePath/photo-1542314831-068cd1dbfeeb.jfif';
-  static String imgImage108x328 = '$imagePath/pexels-thorsten-technoman-109353-338504.jpg';
+  static String imgImage108x328 =
+      '$imagePath/pexels-thorsten-technoman-109353-338504.jpg';
   static String imgCloseIcon = '$imagePath/xmark-solid.svg';
   static String imgSearch = '$imagePath/magnifying-glass-solid.svg';
   static String imgImage160x160 = '$imagePath/img_image_160x160.png';
@@ -114,12 +111,12 @@ class ImageConstant {
       '$imagePath/img_icon_wrapper_white_a700_20x20.svg';
   static String imgArrowLeft = '$imagePath/img_arrow_left.svg';
   static String imgChevronLeft = '$imagePath/chevron-left-solid.svg';
-  static String imgIconWrapperWhiteA70024x24 = '$imagePath/img_icon_wrapper_white_a700_24x24.svg';
+  static String imgIconWrapperWhiteA70024x24 =
+      '$imagePath/img_icon_wrapper_white_a700_24x24.svg';
   static String imgIconWrapper9 = '$imagePath/moon-regular.svg';
   static String imgIconWrapper10 = '$imagePath/door-open-solid.svg';
   static String imgIconWrapper11 = '$imagePath/user-regular.svg';
-  static String imgArrowDownWhiteA700 =
-      '$imagePath/angle-down-solid.svg';
+  static String imgArrowDownWhiteA700 = '$imagePath/angle-down-solid.svg';
   static String imgActionSort = '$imagePath/sorting.svg';
   static String imgImage120x120 = '$imagePath/Holiday-Inn-Hồ-Tràm-1.jpg';
   static String imgIconWrapper12 = '$imagePath/thumbs-up-regular.svg';
@@ -136,10 +133,11 @@ class ImageConstant {
   static String imgImage24x24 = '$imagePath/thumbs-up-regular.svg';
   static String imgIconWrapper14 = '$imagePath/clock-regular.svg';
   static String imgArrowdownPrimary = '$imagePath/img_arrowdown_primary.svg';
-  static String imgImage180x360 = '$imagePath/pexels-boonkong-boonpeng-442952-1134176.jpg';
-  static String imgImage40x40 = '$imagePath/pexels-boonkong-boonpeng-442952-1134176.jpg';
-  static String imgArrowDownBlueGray700 =
-      '$imagePath/angle-down-solid.svg';
+  static String imgImage180x360 =
+      '$imagePath/pexels-boonkong-boonpeng-442952-1134176.jpg';
+  static String imgImage40x40 =
+      '$imagePath/pexels-boonkong-boonpeng-442952-1134176.jpg';
+  static String imgArrowDownBlueGray700 = '$imagePath/angle-down-solid.svg';
   static String imgIconWrapper15 = '$imagePath/user-regular.svg';
   static String imgIconWrapper16 = '$imagePath/bed-solid.svg';
   static String imgIconWrapperGreenA70024x24 =

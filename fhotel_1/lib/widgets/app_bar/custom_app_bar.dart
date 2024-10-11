@@ -4,17 +4,18 @@ import 'package:flutter/material.dart';
 enum Style { bgFill_1, bgFill }
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  CustomAppBar({Key? key,
-    this.height,
-    this.styleType,
-    this.leadingWidth,
-    this.leading,
-    this.title,
-    this.centerTitle,
-    this.actions})
+  CustomAppBar(
+      {Key? key,
+      this.height,
+      this.styleType,
+      this.leadingWidth,
+      this.leading,
+      this.title,
+      this.centerTitle,
+      this.actions})
       : super(
-    key: key,
-  );
+          key: key,
+        );
   final double? height;
   final Style? styleType;
   final double? leadingWidth;
@@ -41,8 +42,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize =>
-      Size(
+  Size get preferredSize => Size(
         SizeUtils.width,
         height ?? 56.h,
       );

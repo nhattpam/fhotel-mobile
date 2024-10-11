@@ -6,8 +6,9 @@ import '../../core/app_export.dart';
 class ChooseRoomRoomDetailScreen extends StatelessWidget {
   const ChooseRoomRoomDetailScreen({Key? key})
       : super(
-    key: key,
-  );
+          key: key,
+        );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -114,7 +115,8 @@ class ChooseRoomRoomDetailScreen extends StatelessWidget {
                                           overflow: TextOverflow.ellipsis,
                                           style: theme.textTheme.bodyMedium!
                                               .copyWith(
-                                            color: appTheme.black900.withOpacity(0.5),
+                                            color: appTheme.black900
+                                                .withOpacity(0.5),
                                             fontSize: 12,
                                             height: 1.50,
                                           ),
@@ -195,7 +197,7 @@ class ChooseRoomRoomDetailScreen extends StatelessWidget {
                           context,
                           titleone: "Tiện nghi chung",
                           descriptionOne:
-                          "Bãi gửi xe\nKhu vực hút thuốc \nTiệc chiêu đãi \nSân thượng/ sân hiên",
+                              "Bãi gửi xe\nKhu vực hút thuốc \nTiệc chiêu đãi \nSân thượng/ sân hiên",
                         ),
                       ),
                       SizedBox(
@@ -204,7 +206,7 @@ class ChooseRoomRoomDetailScreen extends StatelessWidget {
                           context,
                           titleone: "Tiện nghi văn phòng",
                           descriptionOne:
-                          "Phòng hội nghị \nPhòng họp \nDịch vụ văn phòng \nPhòng hội nghị \nMáy tính",
+                              "Phòng hội nghị \nPhòng họp \nDịch vụ văn phòng \nPhòng hội nghị \nMáy tính",
                         ),
                       ),
                       SizedBox(
@@ -213,7 +215,7 @@ class ChooseRoomRoomDetailScreen extends StatelessWidget {
                           context,
                           titleone: "Tiện nghi công cộng",
                           descriptionOne:
-                          "Tiệm cà phê\nThang máy \nNhà hàng \nKét an toàn",
+                              "Tiệm cà phê\nThang máy \nNhà hàng \nKét an toàn",
                         ),
                       ),
                       SizedBox(
@@ -221,7 +223,8 @@ class ChooseRoomRoomDetailScreen extends StatelessWidget {
                         child: _buildSectionOne(
                           context,
                           titleone: "Ấm thực",
-                          descriptionOne: "Quầy bar\nQuãy bar bên hồ bơi \nBữa sáng",
+                          descriptionOne:
+                              "Quầy bar\nQuãy bar bên hồ bơi \nBữa sáng",
                         ),
                       ),
                     ],
@@ -387,93 +390,92 @@ class ChooseRoomRoomDetailScreen extends StatelessWidget {
     return Container(
       width: 488.h,
       margin: EdgeInsets.only(left: 14.h),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Column(
           children: [
-            Column(
-              children: [
-                Text(
-                  "Đánh giá hàng đầu",
-                  maxLines: 1,
-                  textAlign: TextAlign.start,
-                  style: theme.textTheme.titleSmall,
-                ),
-              ],
+            Text(
+              "Đánh giá hàng đầu",
+              maxLines: 1,
+              textAlign: TextAlign.start,
+              style: theme.textTheme.titleSmall,
             ),
-            SizedBox(height: 6.h),
-            SizedBox(
-              width: double.maxFinite,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      width: double.maxFinite,
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 16.h,
-                        vertical: 6.h,
-                      ),
-                      decoration: BoxDecoration(
-                        color: appTheme.gray10001,
-                        borderRadius: BorderRadiusStyle.roundedBorder8,
-                      ),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Khách sạn mới và đẹp, gần biển đi lại thuận tiện nhân viên nhiệt tình và thân thiện. Xung...",
-                            maxLines: 3,
-                            overflow: TextOverflow.ellipsis,
-                            style: theme.textTheme.bodyMedium!.copyWith(
-                              height: 1.50,
-                            ),
-                          ),
-                          SizedBox(height: 4.h),
-                          Text(
-                            "Nguyen V.A.",
-                            style: theme.textTheme.bodySmall,
-                          ),
-                        ],
-                      ),
-                    ),
+          ],
+        ),
+        SizedBox(height: 6.h),
+        SizedBox(
+          width: double.maxFinite,
+          child: Row(
+            children: [
+              Expanded(
+                child: Container(
+                  width: double.maxFinite,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 16.h,
+                    vertical: 6.h,
                   ),
-                  SizedBox(width: 8.h),
-                  Expanded(
-                    child: Container(
-                      width: double.maxFinite,
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 16.h,
-                        vertical: 8.h,
+                  decoration: BoxDecoration(
+                    color: appTheme.gray10001,
+                    borderRadius: BorderRadiusStyle.roundedBorder8,
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Khách sạn mới và đẹp, gần biển đi lại thuận tiện nhân viên nhiệt tình và thân thiện. Xung...",
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                        style: theme.textTheme.bodyMedium!.copyWith(
+                          height: 1.50,
+                        ),
                       ),
-                      decoration: BoxDecoration(
-                        color: appTheme.gray10001,
-                        borderRadius: BorderRadiusStyle.roundedBorder8,
+                      SizedBox(height: 4.h),
+                      Text(
+                        "Nguyen V.A.",
+                        style: theme.textTheme.bodySmall,
                       ),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Khách sạn mới và đẹp, gần biển đi lại thuận tiện nhân viên nhiệt tình và thân thiện. Xung ",
-                            overflow: TextOverflow.ellipsis,
-                            style: theme.textTheme.bodyMedium!.copyWith(
-                              height: 1.50,
-                            ),
-                            maxLines: 3,
-                          ),
-                          SizedBox(height: 2.h),
-                          Text(
-                            "Tran V.B.",
-                            style: theme.textTheme.bodySmall,
-                          )
-                        ],
-                      ),
-                    ),
-                  )
-                ],
+                    ],
+                  ),
+                ),
               ),
-            )
-          ]),
+              SizedBox(width: 8.h),
+              Expanded(
+                child: Container(
+                  width: double.maxFinite,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 16.h,
+                    vertical: 8.h,
+                  ),
+                  decoration: BoxDecoration(
+                    color: appTheme.gray10001,
+                    borderRadius: BorderRadiusStyle.roundedBorder8,
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Khách sạn mới và đẹp, gần biển đi lại thuận tiện nhân viên nhiệt tình và thân thiện. Xung ",
+                        overflow: TextOverflow.ellipsis,
+                        style: theme.textTheme.bodyMedium!.copyWith(
+                          height: 1.50,
+                        ),
+                        maxLines: 3,
+                      ),
+                      SizedBox(height: 2.h),
+                      Text(
+                        "Tran V.B.",
+                        style: theme.textTheme.bodySmall,
+                      )
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
+        )
+      ]),
     );
   }
 
@@ -587,9 +589,10 @@ class ChooseRoomRoomDetailScreen extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildChnphng(BuildContext context) {
     return CustomElevatedButton(
-      onPressed: (){
+      onPressed: () {
         Navigator.pushNamed(context, AppRoutes.guestInformation);
       },
       text: "Đặt phòng",
@@ -597,11 +600,12 @@ class ChooseRoomRoomDetailScreen extends StatelessWidget {
       buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,
     );
   }
+
   Widget _buildSectionOne(
-      BuildContext context, {
-        required String titleone,
-        required String descriptionOne,
-      }) {
+    BuildContext context, {
+    required String titleone,
+    required String descriptionOne,
+  }) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.h),
       decoration: BoxDecoration(

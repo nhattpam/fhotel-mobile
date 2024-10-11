@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 
 class AppbarTrailingIconbutton extends StatelessWidget {
   AppbarTrailingIconbutton({Key? key, this.imagePath, this.margin, this.onTap})
-      : super(key: key,);
+      : super(
+          key: key,
+        );
   final String? imagePath;
   final EdgeInsetsGeometry? margin;
   final Function? onTap;

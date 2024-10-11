@@ -6,8 +6,9 @@ import '../../core/app_export.dart';
 class MyService extends StatefulWidget {
   const MyService({Key? key})
       : super(
-    key: key,
-  );
+          key: key,
+        );
+
   @override
   MyServiceState createState() => MyServiceState();
 }
@@ -16,6 +17,7 @@ class MyServiceState extends State<MyService>
     with AutomaticKeepAliveClientMixin<MyService> {
   @override
   bool get wantKeepAlive => true;
+
   @override
   Widget build(BuildContext context) {
     super.build(context);

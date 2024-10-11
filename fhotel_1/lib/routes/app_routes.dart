@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 import '../views/guest_information_book/guest_information_book.dart';
 import '../views/hotel_detail/widgets/carousel_item_widget.dart';
 import '../views/tabbar_booking_and_service/tabbar_booking_and_service.dart';
+
 class AppRoutes {
   ///Navigation bar
   static const String initialRoute = '/initialRoute';
@@ -24,13 +25,16 @@ class AppRoutes {
   static const String userPage = '/user_profile';
 
   static const String homeDestination = '/homeDestination';
+
   ///Hotel widgets
   static const String hotelListing = '/hotelListing';
   static const String hotelDetail = '/carousel_item_widget';
   static const String hotelRatingAndReviews = '/hotel_rating_and_reviews';
   static const String hotelFacilities = '/hotel_detail_facilities_screen';
+
   ///Room widgets
   static const String roomListing = '/choose_room';
+
   ///Guest fill information
   static const String guestInformation = '/guest_information_book';
   static const String guestCheckout = '/checkout';
@@ -43,19 +47,21 @@ class AppRoutes {
     servicePage: (context) => ServiceListingScreen(),
     myOrderPageAndServicePage: (context) => TabbarBookingAndService(),
     userPage: (context) => UserProfileScreen(),
+
     ///Hotel widgets
     homeDestination: (context) => HomeDestinationDefaultBottomsheet(),
     hotelListing: (context) => HotelListingNearbyScreen(),
     hotelDetail: (context) => CarouselItemWidget(),
     hotelRatingAndReviews: (context) => HotelDetailsRatingsReviewsScreen(),
     hotelFacilities: (context) => HotelDetailsFacilitiesScreen(),
+
     ///Room widgets
     roomListing: (context) => ChooseRoomFullScreen(),
+
     ///Guest fill information
     guestInformation: (context) => GuestInformationBookForOthersScreen(),
     guestCheckout: (context) => CheckoutScreen(),
     guestPayment: (context) => SuccessfulPaymentScreen(),
     userProfile: (context) => EditProfileScreen(),
-
   };
 }

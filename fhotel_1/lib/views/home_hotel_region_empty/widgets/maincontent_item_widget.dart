@@ -10,7 +10,7 @@ class MaincontentItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         Navigator.pushNamed(context, AppRoutes.hotelListing);
       },
       child: Container(
@@ -35,36 +35,35 @@ class MaincontentItemWidget extends StatelessWidget {
             ),
             SizedBox(width: 8.h),
             Expanded(
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 2.h),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Khách sạn Pullman Vũng Tàu",
-                          style: CustomTextStyles.titleSmallPrimary.copyWith(
-                            color: Colors.blue
-                          ),
-                        ),
-                        SizedBox(height: 4.h),
-                        Text(
-                          "02/02/2022 - 04/02/2022",
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: EdgeInsets.only(top: 2.h),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Khách sạn Pullman Vũng Tàu",
+                        style: CustomTextStyles.titleSmallPrimary
+                            .copyWith(color: Colors.blue),
+                      ),
+                      SizedBox(height: 4.h),
+                      Text(
+                        "02/02/2022 - 04/02/2022",
+                        style: theme.textTheme.bodySmall,
+                      ),
+                      SizedBox(height: 4.h),
+                      Flexible(
+                        child: Text(
+                          "2 phòng, 2 người lớn, 1 trẻ em",
                           style: theme.textTheme.bodySmall,
                         ),
-                        SizedBox(height: 4.h),
-                        Flexible(
-                          child: Text(
-                            "2 phòng, 2 người lớn, 1 trẻ em",
-                            style: theme.textTheme.bodySmall,
-                          ),
-                        )
-                      ],
-                    ),
+                      )
+                    ],
                   ),
                 ),
               ),
+            ),
             // const VerticalDivider(
             //   color: Colors.grey,  // Set the color of the divider
             //   thickness: 1,       // Add space at the bottom of the divider

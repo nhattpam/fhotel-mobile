@@ -8,6 +8,7 @@ class ListtitleroomitItemWidget extends StatelessWidget {
       : super(
           key: key,
         );
+
   void _showDetailModalBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -16,6 +17,7 @@ class ListtitleroomitItemWidget extends StatelessWidget {
       },
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -23,7 +25,7 @@ class ListtitleroomitItemWidget extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadiusStyle.roundedBorder8,
         border: Border.all(
-        color: appTheme.black900.withOpacity(0.2),
+          color: appTheme.black900.withOpacity(0.2),
           width: 1.h,
         ),
       ),
@@ -81,7 +83,7 @@ class ListtitleroomitItemWidget extends StatelessWidget {
                 ),
                 SizedBox(width: 8.h),
                 CustomIconButton(
-                  onTap: (){
+                  onTap: () {
                     _showDetailModalBottomSheet(context);
                   },
                   height: 24.h,
@@ -276,7 +278,7 @@ class ListtitleroomitItemWidget extends StatelessWidget {
                   ),
                 ),
                 GestureDetector(
-                  onTap: (){
+                  onTap: () {
                     _showDetailModalBottomSheet(context);
                   },
                   child: Container(
