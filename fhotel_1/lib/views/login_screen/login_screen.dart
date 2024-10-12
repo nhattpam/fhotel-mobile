@@ -221,8 +221,6 @@ class _LoginScreenState extends State<LoginScreen> implements LoginView {
   }
 
   void onTapCreateAccountButton(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(builder: (context) => RegisterScreen()),
-    );
+    Navigator.pushReplacementNamed(context, AppRoutes.registerPage);
   }
 }

@@ -57,12 +57,14 @@ class CustomDropDown extends StatelessWidget {
   Widget get dropDownWidget => Container(
         width: width ?? double.maxFinite,
         decoration: boxDecoration,
+        color: appTheme.blue50,
         child: DropdownButtonFormField(
+            dropdownColor: appTheme.blue50,
             focusNode: focusNode,
             icon: icon,
             iconSize: iconSize ?? 24,
             autofocus: autofocus!,
-            style: textStyle ?? theme.textTheme.bodyMedium,
+            // style: textStyle ?? theme.textTheme.bodyMedium,
             hint: Text(
               hintText ?? "",
               style: hintStyle ?? CustomTextStyles.bodyMediumGray600,
@@ -73,7 +75,7 @@ class CustomDropDown extends StatelessWidget {
                 child: Text(
                   value,
                   overflow: TextOverflow.ellipsis,
-                  style: hintStyle ?? CustomTextStyles.bodyMediumGray600,
+                  style: hintStyle ?? CustomTextStyles.titleMediumGreenA700,
                 ),
               );
             }).toList(),
@@ -89,25 +91,10 @@ class CustomDropDown extends StatelessWidget {
         prefixIconConstraints: prefixConstraints,
         isDense: true,
         contentPadding: contentPadding ?? EdgeInsets.all(8.h),
-        fillColor: fillColor ?? appTheme.whiteA700,
+        fillColor: fillColor ?? appTheme.blue50,
         filled: filled,
-        border: borderDecoration ??
-            OutlineInputBorder(
-              borderRadius: BorderRadius.circular(4.h),
-              borderSide: BorderSide(
-                color: theme.colorScheme.onPrimaryContainer,
-                width: 1,
-              ),
-            ),
-        focusedBorder: (borderDecoration ??
-                OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(4.h),
-                ))
-            .copyWith(
-          borderSide: BorderSide(
-            color: theme.colorScheme.primary,
-            width: 1,
-          ),
-        ),
+        border: InputBorder.none,
+        enabledBorder: InputBorder.none,
+        focusedBorder: InputBorder.none,
       );
 }

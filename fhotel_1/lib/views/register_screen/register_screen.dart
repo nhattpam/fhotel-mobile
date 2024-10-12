@@ -4,12 +4,11 @@ import 'package:flutter/material.dart';
 
 import '../../core/app_export.dart';
 
-// ignore_for_file: must_be_immutable
 class RegisterScreen extends StatelessWidget {
   RegisterScreen({Key? key})
       : super(
-          key: key,
-        );
+    key: key,
+  );
   TextEditingController emailInputController = TextEditingController();
   TextEditingController passwordInputController = TextEditingController();
   TextEditingController repasswordInputController = TextEditingController();
@@ -161,13 +160,21 @@ class RegisterScreen extends StatelessWidget {
   Widget _buildSignInButton(BuildContext context) {
     return CustomElevatedButton(
       onPressed: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => OTPScreen()),
+        Navigator.pushReplacementNamed(
+          context,
+          AppRoutes.registerFillInformation,
+          arguments: {
+            'email': emailInputController.text,
+            'password': passwordInputController.text
+          },
         );
+        // Navigator.of(context).push(
+        //   MaterialPageRoute(builder: (context) => OTPScreen()),
+        // );
       },
       buttonStyle: CustomButtonStyles.fillBlue,
       buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,
-      text: "Sign up",
+      text: "Next Step",
       margin: EdgeInsets.only(right: 8.h),
     );
   }
@@ -185,8 +192,6 @@ class RegisterScreen extends StatelessWidget {
   }
 
   onTapCreateAccountButton(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(builder: (context) => LoginScreen()),
-    );
+    Navigator.pushReplacementNamed(context, AppRoutes.initialRoute);
   }
 }
