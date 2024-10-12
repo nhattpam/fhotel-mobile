@@ -1,28 +1,23 @@
 import 'package:fhotel_1/views/hotel_detail/widgets/carousel_item_widget.dart';
 import 'package:flutter/material.dart';
-
 import '../../../core/app_export.dart';
 
-class ListOneItemWidget extends StatelessWidget {
-  const ListOneItemWidget({Key? key})
-      : super(
-          key: key,
-        );
+class ListHotelWidget extends StatefulWidget {
+  final String image;
+  final String name;
+  final int rate;
+  final int price;
+  const ListHotelWidget({super.key, required this.image, required this.name, required this.rate, required this.price});
 
-  void _showDetailModalBottomSheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return CarouselItemWidget();
-      },
-    );
-  }
+  @override
+  _ListHotelWidgetState createState() => _ListHotelWidgetState();
+}
 
+class _ListHotelWidgetState extends State<ListHotelWidget> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // _showDetailModalBottomSheet(context);
         Navigator.of(context).push(
           MaterialPageRoute(builder: (context) => CarouselItemWidget()),
         );
@@ -55,7 +50,7 @@ class ListOneItemWidget extends StatelessWidget {
                   alignment: Alignment.center,
                   children: [
                     CustomImageView(
-                      imagePath: ImageConstant.imgImage120x120,
+                      imagePath: widget.image,
                       height: 120.h,
                       width: double.maxFinite,
                       radius: BorderRadius.circular(
@@ -110,7 +105,7 @@ class ListOneItemWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Tên khách sạn được hiến thị tối đa 2 dòng",
+                    widget.name,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: theme.textTheme.bodyMedium!.copyWith(
@@ -121,7 +116,7 @@ class ListOneItemWidget extends StatelessWidget {
                   CustomRatingBar(
                     color: Colors.yellow,
                     ignoreGestures: true,
-                    initialRating: 5,
+                    initialRating: widget.rate.toDouble(),
                   ),
                   SizedBox(height: 6.h),
                   SizedBox(
@@ -177,4 +172,5 @@ class ListOneItemWidget extends StatelessWidget {
       ),
     );
   }
+
 }

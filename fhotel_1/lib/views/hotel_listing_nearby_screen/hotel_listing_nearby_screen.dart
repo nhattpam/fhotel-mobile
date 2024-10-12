@@ -1,14 +1,33 @@
 import 'package:fhotel_1/core/app_export.dart';
+import 'package:fhotel_1/core/utils/skeleton.dart';
 import 'package:fhotel_1/views/hotel_edit_search/hotel_edit_search.dart';
 import 'package:fhotel_1/views/hotel_listing_filter_bottomsheet/hotel_listing_filter_bottomsheet.dart';
 import 'package:fhotel_1/views/hotel_listing_nearby_screen/widgets/list_one_item_widget.dart';
 import 'package:flutter/material.dart';
+import '../../data/models/hotel.dart';
+import '../../data/repository/list_hotel_repo.dart';
+import '../../presenters/list_hotel_presenter.dart';
+import 'list_hotel_view.dart';
 
-class HotelListingNearbyScreen extends StatelessWidget {
-  const HotelListingNearbyScreen({Key? key})
-      : super(
-          key: key,
-        );
+class HotelListingNearbyScreen extends StatefulWidget {
+  @override
+  _HotelListingNearbyScreenState createState() =>
+      _HotelListingNearbyScreenState();
+}
+
+class _HotelListingNearbyScreenState extends State<HotelListingNearbyScreen>
+    implements ListHotelView {
+  late HotelPresenter _presenter;
+  bool _isLoading = false;
+  List<Hotel> _hotels = [];
+  String? _error;
+
+  @override
+  void initState() {
+    super.initState();
+    _presenter = HotelPresenter(this, ListHotelRepo());
+    _presenter.getHotels(); // Fetch the list of hotels when the screen loads
+  }
 
   void _showHotelFilterModalBottomSheet(BuildContext context) {
     showModalBottomSheet(
@@ -76,6 +95,9 @@ class HotelListingNearbyScreen extends StatelessWidget {
     return CustomAppBar(
         leadingWidth: 40.h,
         leading: AppbarLeadingImage(
+          onTap: (){
+            Navigator.pop(context);
+          },
           imagePath: ImageConstant.imgChevronLeft,
           margin: EdgeInsets.only(
             left: 16.h,
@@ -282,7 +304,8 @@ class HotelListingNearbyScreen extends StatelessWidget {
   }
 
   Widget _buildListOne(BuildContext context) {
-    return ListView.separated(
+    return _isLoading
+      ? ListView.separated(
       padding: EdgeInsets.zero,
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
@@ -291,12 +314,42 @@ class HotelListingNearbyScreen extends StatelessWidget {
           height: 12.h,
         );
       },
-      itemCount: 5,
+      itemCount: 4,
       itemBuilder: (context, index) {
-        return const ListOneItemWidget();
+        return Container(
+            padding: EdgeInsets.symmetric(
+              horizontal: 12.h,
+              vertical: 10.h,
+            ),
+            child: const Skeleton(
+              height: 120,
+              width: 120,
+            ));
+      },
+    )
+      : ListView.separated(
+      padding: EdgeInsets.zero,
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      separatorBuilder: (context, index) {
+        return SizedBox(
+          height: 12.h,
+        );
+      },
+      itemCount: _hotels.length,
+      itemBuilder: (context, index) {
+        return _hotels[index].isActive ?? false
+          ? ListHotelWidget(
+          image: _hotels[index].image.toString(),
+          name: _hotels[index].hotelName.toString(),
+          rate: _hotels[index]?.star ?? 0,
+          price: 0,
+        )
+          : Container();
       },
     );
   }
+
 // Widget _buildSubcontent(BuildContext context) {
 //   return Container(
 //     width: double.maxFinite,
@@ -436,4 +489,36 @@ class HotelListingNearbyScreen extends StatelessWidget {
 //     ),
 //   );
 // }
+  // Show loading indicator
+  @override
+  void showLoading() {
+    setState(() {
+      _isLoading = true;
+    });
+  }
+
+  // Hide loading indicator
+  @override
+  void hideLoading() {
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  // Handle success: display list of hotels
+  @override
+  void onGetHotelsSuccess(List<Hotel> hotels) {
+    setState(() {
+      _hotels = hotels;
+      _error = null;
+    });
+  }
+
+  // Handle error: display error message
+  @override
+  void onGetHotelsError(String error) {
+    setState(() {
+      _error = error;
+    });
+  }
 }
