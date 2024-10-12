@@ -1,4 +1,5 @@
 import 'package:fhotel_1/core/app_export.dart';
+import 'package:fhotel_1/core/utils/skeleton.dart';
 import 'package:fhotel_1/data/models/user.dart';
 import 'package:fhotel_1/presenters/user_profile_presenter.dart';
 import 'package:fhotel_1/views/user_profile/user_profile_view.dart';
@@ -19,6 +20,7 @@ class UserProfileScreenState extends State<UserProfileScreen>
   late UserProfilePresenter _presenter;
   User? _customer;
   String? _error;
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -142,15 +144,25 @@ class UserProfileScreenState extends State<UserProfileScreen>
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  "${_customer?.firstName} ${_customer?.lastName}",
-                  style: CustomTextStyles.titleSmallGray600,
-                ),
+                _isLoading
+                    ? const Skeleton(
+                        width: 120,
+                        height: 30,
+                      )
+                    : Text(
+                        "${_customer?.firstName} ${_customer?.lastName}",
+                        style: CustomTextStyles.titleSmallGray600,
+                      ),
                 SizedBox(height: 8.h),
-                Text(
-                  "${_customer?.email}",
-                  style: theme.textTheme.bodyMedium,
-                )
+                _isLoading
+                    ? const Skeleton(
+                        width: 150,
+                        height: 30,
+                      )
+                    : Text(
+                        "${_customer?.email}",
+                        style: theme.textTheme.bodyMedium,
+                      )
               ],
             ),
           )
@@ -378,6 +390,22 @@ class UserProfileScreenState extends State<UserProfileScreen>
         )
       ],
     );
+  }
+
+// Show loading indicator
+  @override
+  void showLoading() {
+    setState(() {
+      _isLoading = true;
+    });
+  }
+
+  // Hide loading indicator
+  @override
+  void hideLoading() {
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override

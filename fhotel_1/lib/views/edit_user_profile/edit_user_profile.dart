@@ -22,6 +22,7 @@ import '../user_profile/user_profile_view.dart';
   late UserProfilePresenter _presenter;
   User? _customer;
   String? _error;
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -238,6 +239,21 @@ import '../user_profile/user_profile_view.dart';
         ],
       ),
     );
+  }
+  // Show loading indicator
+  @override
+  void showLoading() {
+    setState(() {
+      _isLoading = true;
+    });
+  }
+
+  // Hide loading indicator
+  @override
+  void hideLoading() {
+    setState(() {
+      _isLoading = false;
+    });
   }
   @override
   void onGetCustomerSuccess(User customer) {
