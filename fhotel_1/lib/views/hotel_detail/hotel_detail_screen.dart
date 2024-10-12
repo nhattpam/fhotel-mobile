@@ -66,7 +66,7 @@ class HotelDetailsScreen extends StatelessWidget {
   }
 
   Widget _buildCarousel(BuildContext context) {
-    return CarouselItemWidget();
+    return HotelDetailScreen();
   }
 
   PreferredSizeWidget _buildAppbar(BuildContext context) {

@@ -340,6 +340,7 @@ class _HotelListingNearbyScreenState extends State<HotelListingNearbyScreen>
       itemBuilder: (context, index) {
         return _hotels[index].isActive ?? false
           ? ListHotelWidget(
+          hotelId: _hotels[index].hotelId.toString(),
           image: _hotels[index].image.toString(),
           name: _hotels[index].hotelName.toString(),
           rate: _hotels[index]?.star ?? 0,

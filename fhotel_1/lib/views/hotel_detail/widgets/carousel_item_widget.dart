@@ -1,18 +1,21 @@
+import 'package:fhotel_1/presenters/hotel_detail_presenter.dart';
 import 'package:fhotel_1/views/home_hotel_region_empty/widgets/carouselunit_item_widget.dart';
+import 'package:fhotel_1/views/hotel_detail/hotel_detail_view.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/app_export.dart';
+import '../../../data/models/hotel.dart';
 import '../../hotel_edit_search/hotel_edit_search.dart';
 
-class CarouselItemWidget extends StatefulWidget {
-  CarouselItemWidget({Key? key}) : super(key: key);
+class HotelDetailScreen extends StatefulWidget {
 
   @override
-  CarouselItemWidgetState createState() => CarouselItemWidgetState();
+  HotelDetailScreenState createState() => HotelDetailScreenState();
 }
 
-class CarouselItemWidgetState extends State<CarouselItemWidget>
-    with TickerProviderStateMixin {
+class HotelDetailScreenState extends State<HotelDetailScreen>
+    with TickerProviderStateMixin implements HotelDetailView{
+
   int sliderIndex = 1;
   late TabController tabviewController;
 
@@ -22,9 +25,16 @@ class CarouselItemWidgetState extends State<CarouselItemWidget>
   final GlobalKey amenitiesKey = GlobalKey();
   final GlobalKey descriptionKey = GlobalKey();
 
+  late HotelDetailPresenter _presenter;
+  bool _isLoading = false;
+  Hotel? _hotel;
+  String? _error;
+  late String hotelId;
+
   @override
   void initState() {
     super.initState();
+
     tabviewController = TabController(length: 4, vsync: this);
     tabviewController.addListener(() {
       switch (tabviewController.index) {
@@ -42,6 +52,19 @@ class CarouselItemWidgetState extends State<CarouselItemWidget>
           break;
       }
     });
+    _presenter = HotelDetailPresenter(this);
+
+  }
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    // Retrieve the arguments passed safely in didChangeDependencies
+    final Map<String, dynamic> args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    hotelId = args['hotelId'];
+
+    // Fetch the hotel details using the presenter
+    _presenter.getHotelById(hotelId);
   }
 
   void _scrollToSection(GlobalKey key) {
@@ -111,7 +134,7 @@ class CarouselItemWidgetState extends State<CarouselItemWidget>
                                   children: [
                                     SizedBox(height: 2.h),
                                     Text(
-                                      "Khách sạn Pullman Vũng Tàu",
+                                      _hotel?.hotelName.toString() ?? '',
                                       style: theme.textTheme.titleMedium,
                                     ),
                                     SizedBox(height: 10.h),
@@ -148,7 +171,7 @@ class CarouselItemWidgetState extends State<CarouselItemWidget>
                                                 CustomRatingBar(
                                                   color: Colors.yellow,
                                                   ignoreGestures: true,
-                                                  initialRating: 5,
+                                                  initialRating: _hotel?.star?.toDouble() ?? 0,
                                                 ),
                                               ],
                                             ),
@@ -177,7 +200,7 @@ class CarouselItemWidgetState extends State<CarouselItemWidget>
                                                   child: SizedBox(
                                                     width: 260.h,
                                                     child: Text(
-                                                      "15 Thi Sách, Phường Thẳng Tam, Vũng Tàu, Bà Rịa - Vũng Tàu, Việt Nam",
+                                                      _hotel?.description.toString() ?? '',
                                                       maxLines: 2,
                                                       overflow:
                                                           TextOverflow.ellipsis,
@@ -1075,5 +1098,37 @@ class CarouselItemWidgetState extends State<CarouselItemWidget>
         ],
       ),
     );
+  }
+  // Show loading indicator
+  @override
+  void showLoading() {
+    setState(() {
+      _isLoading = true;
+    });
+  }
+
+  // Hide loading indicator
+  @override
+  void hideLoading() {
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  // Handle success: display hotel details
+  @override
+  void onGetHotelSuccess(Hotel hotel) {
+    setState(() {
+      _hotel = hotel;
+      _error = null;
+    });
+  }
+
+  // Handle error: display error message
+  @override
+  void onGetHotelError(String error) {
+    setState(() {
+      _error = error;
+    });
   }
 }

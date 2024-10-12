@@ -51,7 +51,7 @@ class AppRoutes {
     ///Hotel widgets
     homeDestination: (context) => HomeDestinationDefaultBottomsheet(),
     hotelListing: (context) => HotelListingNearbyScreen(),
-    hotelDetail: (context) => CarouselItemWidget(),
+    hotelDetail: (context) => HotelDetailScreen(),
     hotelRatingAndReviews: (context) => HotelDetailsRatingsReviewsScreen(),
     hotelFacilities: (context) => HotelDetailsFacilitiesScreen(),
 

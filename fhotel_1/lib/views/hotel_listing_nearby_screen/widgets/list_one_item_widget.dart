@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import '../../../core/app_export.dart';
 
 class ListHotelWidget extends StatefulWidget {
+  final String hotelId;
   final String image;
   final String name;
   final int rate;
   final int price;
-  const ListHotelWidget({super.key, required this.image, required this.name, required this.rate, required this.price});
+  const ListHotelWidget({super.key, required this.hotelId ,required this.image, required this.name, required this.rate, required this.price});
 
   @override
   _ListHotelWidgetState createState() => _ListHotelWidgetState();
@@ -18,8 +19,12 @@ class _ListHotelWidgetState extends State<ListHotelWidget> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => CarouselItemWidget()),
+        Navigator.pushReplacementNamed(
+            context,
+            AppRoutes.hotelDetail,
+          arguments: {
+            'hotelId': widget.hotelId,
+          },
         );
       },
       child: Container(
