@@ -31,6 +31,15 @@ class RegisterPresenter {
     }
     return null; // Password is valid
   }
+  String? validateRePassword(String? password, String? repassword) {
+    if (repassword == null || repassword.isEmpty) {
+      return 'Password cannot be empty';
+    }
+    if (password != repassword ) {
+      return 'Passwords do not match';
+    }
+    return null; // Password is valid
+  }
 
   // This method will call the authenticate API and handle the result
   Future<void> registerUser(String email,
@@ -42,19 +51,6 @@ class RegisterPresenter {
       String idNumber,
       String phoneNumber,
       String imageUrl) async {
-    // Validate the form
-    final emailError = validateEmail(email);
-    final passwordError = validatePassword(password);
-
-    if (emailError != null) {
-      _view.showValidationError('email', emailError);
-      return;
-    }
-    if (passwordError != null) {
-      _view.showValidationError('password', passwordError);
-      return;
-    }
-
     try {
       // Call the authenticate method from the network layer
       User user = User(email: email, password: password, firstName: firstName, lastName: lastName, address: address, identificationNumber: idNumber, image: imageUrl, phoneNumber: phoneNumber, sex: gender);
@@ -67,5 +63,28 @@ class RegisterPresenter {
       // If there's an error, notify the view of the failure
       _view.onRegisterError("Your account already register");
     }
+  }
+  void registerValidation(String email, String password, String confirmPassword) {
+    // Validate inputs
+    final emailError = validateEmail(email);
+    final passwordError = validatePassword(password);
+    final repasswordError = validateRePassword(password,confirmPassword);
+
+    if (emailError != null) {
+      _view.showValidationError('email', emailError);
+      return;
+    }
+    if (passwordError != null) {
+      _view.showValidationError('password',passwordError);
+      return;
+    }
+    if (repasswordError != null) {
+      _view.showValidationError('repassword',repasswordError);
+      return;
+    }
+
+    _view.onRegisterSuccess();
+
+    // If validation passes, navigate to the next screen
   }
 }

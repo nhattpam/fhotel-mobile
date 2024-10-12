@@ -1,6 +1,6 @@
 abstract class RegisterFillInformationView {
 
-  void showValidationError(String field, String message);
+  void showValidationError(String field,String message);
 
   void onRegisterSuccess();
 
