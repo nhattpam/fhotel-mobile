@@ -32,8 +32,6 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
   ];
 
   late RegisterPresenter _registerpresenter;
-  User? _hotel;
-  String? _error;
   late ImagePresenter _imagePresenter;
   String _imagePath = "";
   final picker = ImagePicker();
@@ -41,6 +39,11 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
   String? _imageUrl;
   late String email;
   late String password;
+  String? firstNameError;
+  String? lastNameError;
+  String? idNumberError;
+  String? phoneNumberError;
+  String? addressError;
 
   @override
   void initState() {
@@ -81,8 +84,7 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
         extendBody: true,
         extendBodyBehindAppBar: true,
         resizeToAvoidBottomInset: false,
-        body: SingleChildScrollView(
-          child: SizedBox(
+        body: SizedBox(
             width: double.maxFinite,
             height: SizeUtils.height,
             // decoration: BoxDecoration(
@@ -96,227 +98,341 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
             // ),
             child: Container(
               padding: EdgeInsets.all(30.h),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    "Fill Your Information",
-                    style: TextStyle(fontSize: 25, color: Colors.indigoAccent),
-                  ),
-                  SizedBox(height: 24.h),
-                  Text(
-                    "Create an account so you can book hotel!",
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.center,
-                    style: CustomTextStyles.titleSmallMedium,
-                  ),
-                  SizedBox(height: 20.h),
-                  Container(
-                    height: 100.h,
-                    width: 100.h,
-                    decoration: BoxDecoration(
-                      color: appTheme.gray10002,
-                      borderRadius: BorderRadiusStyle.circleBorder50,
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      "Fill Your Information",
+                      style: TextStyle(fontSize: 25, color: Colors.indigoAccent),
                     ),
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        if (_imageUrl != null)
-                          ClipOval( // Use ClipOval to ensure the image stays circular
-                            child: Image.network(
-                              _imageUrl!,
-                              fit: BoxFit.cover, // Adjust the fit as necessary
-                              height: 100.h, // Set height to match the container
-                              width: 100.h,  // Set width to match the container
-                            ),
-                          ),
-                        if(_imageUrl == null)
-                        GestureDetector(
-                          onTap: _pickImage,
-                        )
-                      ],
+                    SizedBox(height: 24.h),
+                    Text(
+                      "Create an account so you can book hotel!",
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
+                      style: CustomTextStyles.titleSmallMedium,
                     ),
-                  ),
-                  SizedBox(height: 28.h),
-                  _buildFirstNameInput(context),
-                  SizedBox(height: 28.h),
-                  _buildLastNameInput(context),
-                  SizedBox(height: 28.h),
-                  _buildIDNumberInput(context),
-                  SizedBox(height: 28.h),
-                  _buildPhoneNumberInput(context),
-                  SizedBox(height: 28.h),
-                  _buildAddressInput(context),
-                  SizedBox(height: 28.h),
-                  Container(
-                    child: CustomDropDown(
-                      // validator: validateGender,
-                      hintText: "Gender",
-                      hintStyle: const TextStyle(
-                        color: Colors.grey,
+                    SizedBox(height: 20.h),
+                    Container(
+                      height: 100.h,
+                      width: 100.h,
+                      decoration: BoxDecoration(
+                        color: appTheme.gray10002,
+                        borderRadius: BorderRadiusStyle.circleBorder50,
                       ),
-                      items: dropdownItemList,
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          selectedGender = newValue;
-                        });
-                      },
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          if (_imageUrl != null)
+                            ClipOval( // Use ClipOval to ensure the image stays circular
+                              child: Image.network(
+                                _imageUrl!,
+                                fit: BoxFit.cover, // Adjust the fit as necessary
+                                height: 100.h, // Set height to match the container
+                                width: 100.h,  // Set width to match the container
+                              ),
+                            ),
+                          if(_imageUrl == null)
+                          GestureDetector(
+                            onTap: _pickImage,
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 30.h),
-                  _buildSignInButton(context),
-
-                  ///If Login by Facebook or Apple
-                  // SizedBox(height: 64.h),
-                  // Text(
-                  //   "Or continue with",
-                  //   style: theme.textTheme.titleSmall,
-                  // ),
-                  // SizedBox(height: 20.h),
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.center,
-                  //   mainAxisSize: MainAxisSize.min,
-                  //   children: [
-                  //     CustomIconButton(
-                  //       height: 44.h,
-                  //       width: 60.h,
-                  //       padding: EdgeInsets.all(10.h),
-                  //       child: CustomImageView(
-                  //         imagePath: ImageConstant.imgIcSharpFacebook,
-                  //       ),
-                  //     ),
-                  //     SizedBox(width: 10.h),
-                  //     CustomIconButton(
-                  //       height: 44.h,
-                  //       width: 60.h,
-                  //       padding: EdgeInsets.all(10.h),
-                  //       child: CustomImageView(
-                  //         imagePath: ImageConstant.imgIcBaselineApple,
-                  //       ),
-                  //     )
-                  //   ],
-                  // ),
-                  SizedBox(height: 8.h)
-                ],
+                    SizedBox(height: 28.h),
+                    _buildFirstNameInput(context),
+                    SizedBox(height: 28.h),
+                    _buildLastNameInput(context),
+                    SizedBox(height: 28.h),
+                    _buildIDNumberInput(context),
+                    SizedBox(height: 28.h),
+                    _buildPhoneNumberInput(context),
+                    SizedBox(height: 28.h),
+                    _buildAddressInput(context),
+                    SizedBox(height: 28.h),
+                    Container(
+                      child: CustomDropDown(
+                        // validator: validateGender,
+                        hintText: "Gender",
+                        hintStyle: const TextStyle(
+                          color: Colors.grey,
+                        ),
+                        items: dropdownItemList,
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            selectedGender = newValue;
+                          });
+                        },
+                      ),
+                    ),
+                    SizedBox(height: 30.h),
+                    _buildSignInButton(context),
+                
+                    ///If Login by Facebook or Apple
+                    // SizedBox(height: 64.h),
+                    // Text(
+                    //   "Or continue with",
+                    //   style: theme.textTheme.titleSmall,
+                    // ),
+                    // SizedBox(height: 20.h),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.center,
+                    //   mainAxisSize: MainAxisSize.min,
+                    //   children: [
+                    //     CustomIconButton(
+                    //       height: 44.h,
+                    //       width: 60.h,
+                    //       padding: EdgeInsets.all(10.h),
+                    //       child: CustomImageView(
+                    //         imagePath: ImageConstant.imgIcSharpFacebook,
+                    //       ),
+                    //     ),
+                    //     SizedBox(width: 10.h),
+                    //     CustomIconButton(
+                    //       height: 44.h,
+                    //       width: 60.h,
+                    //       padding: EdgeInsets.all(10.h),
+                    //       child: CustomImageView(
+                    //         imagePath: ImageConstant.imgIcBaselineApple,
+                    //       ),
+                    //     )
+                    //   ],
+                    // ),
+                    SizedBox(height: 8.h)
+                  ],
+                ),
               ),
             ),
           ),
         ),
-      ),
     );
   }
 
   Widget _buildFirstNameInput(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(right: 8.h),
-      child: CustomTextFormField(
-        textStyle: const TextStyle(
-          color: Colors.black,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (firstNameError != null)
+          Text(
+            firstNameError!,
+            style: TextStyle(color: Colors.red),
+          ),
+        Padding(
+          padding: EdgeInsets.only(right: 8.h),
+          child: CustomTextFormField(
+            textStyle: const TextStyle(
+              color: Colors.black,
+            ),
+            fillColor: appTheme.blue50,
+            controller: firstNameInputController,
+            hintText: "First Name",
+            hintStyle: const TextStyle(
+              color: Colors.grey,
+            ),
+            textInputType: TextInputType.emailAddress,
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+            onChanged: (value) {
+              final error = _registerpresenter.validateFirstName(value); // Validate password on change
+              setState(() {
+                firstNameError = error; // Clear the error if validation passes
+              });
+            },
+          ),
         ),
-        fillColor: appTheme.blue50,
-        controller: firstNameInputController,
-        hintText: "First Name",
-        hintStyle: const TextStyle(
-          color: Colors.grey,
-        ),
-        textInputType: TextInputType.emailAddress,
-        contentPadding:
-            const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-      ),
+      ],
     );
   }
 
   Widget _buildLastNameInput(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(right: 8.h),
-      child: CustomTextFormField(
-        textStyle: const TextStyle(
-          color: Colors.black,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (lastNameError != null)
+          Text(
+            lastNameError!,
+            style: TextStyle(color: Colors.red),
+          ),
+        Padding(
+          padding: EdgeInsets.only(right: 8.h),
+          child: CustomTextFormField(
+            textStyle: const TextStyle(
+              color: Colors.black,
+            ),
+            fillColor: appTheme.blue50,
+            controller: lastNameInputController,
+            hintText: "Last Name",
+            hintStyle: const TextStyle(
+              color: Colors.grey,
+            ),
+            textInputType: TextInputType.emailAddress,
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+            onChanged: (value) {
+              final error = _registerpresenter.validateLastName(value); // Validate password on change
+              setState(() {
+                lastNameError = error; // Clear the error if validation passes
+              });
+            },
+          ),
         ),
-        fillColor: appTheme.blue50,
-        controller: lastNameInputController,
-        hintText: "Last Name",
-        hintStyle: const TextStyle(
-          color: Colors.grey,
-        ),
-        textInputType: TextInputType.emailAddress,
-        contentPadding:
-            const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-      ),
+      ],
     );
   }
 
   Widget _buildIDNumberInput(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(right: 8.h),
-      child: CustomTextFormField(
-        textStyle: const TextStyle(
-          color: Colors.black,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (idNumberError != null)
+          Text(
+            idNumberError!,
+            style: TextStyle(color: Colors.red),
+          ),
+        Padding(
+          padding: EdgeInsets.only(right: 8.h),
+          child: CustomTextFormField(
+            textStyle: const TextStyle(
+              color: Colors.black,
+            ),
+            fillColor: appTheme.blue50,
+            controller: iDNumberInputController,
+            hintText: "Identification Number",
+            hintStyle: const TextStyle(
+              color: Colors.grey,
+            ),
+            textInputType: TextInputType.emailAddress,
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+            onChanged: (value) {
+              final error = _registerpresenter.validateIdNumber(value); // Validate password on change
+              setState(() {
+                idNumberError = error; // Clear the error if validation passes
+              });
+            },
+          ),
         ),
-        fillColor: appTheme.blue50,
-        controller: iDNumberInputController,
-        hintText: "Identification Number",
-        hintStyle: const TextStyle(
-          color: Colors.grey,
-        ),
-        textInputType: TextInputType.emailAddress,
-        contentPadding:
-            const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-      ),
+      ],
     );
   }
 
   Widget _buildPhoneNumberInput(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(right: 8.h),
-      child: CustomTextFormField(
-        textStyle: const TextStyle(
-          color: Colors.black,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (phoneNumberError != null)
+          Text(
+            phoneNumberError!,
+            style: TextStyle(color: Colors.red),
+          ),
+        Padding(
+          padding: EdgeInsets.only(right: 8.h),
+          child: CustomTextFormField(
+            textStyle: const TextStyle(
+              color: Colors.black,
+            ),
+            fillColor: appTheme.blue50,
+            controller: phoneNumberInputController,
+            hintText: "Phone Number",
+            hintStyle: const TextStyle(
+              color: Colors.grey,
+            ),
+            textInputType: TextInputType.emailAddress,
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+            onChanged: (value) {
+              final error = _registerpresenter.validatePhoneNumber(value); // Validate password on change
+              setState(() {
+                phoneNumberError = error; // Clear the error if validation passes
+              });
+            },
+          ),
         ),
-        fillColor: appTheme.blue50,
-        controller: phoneNumberInputController,
-        hintText: "Phone Number",
-        hintStyle: const TextStyle(
-          color: Colors.grey,
-        ),
-        textInputType: TextInputType.emailAddress,
-        contentPadding:
-            const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-      ),
+      ],
     );
   }
 
   Widget _buildAddressInput(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(right: 8.h),
-      child: CustomTextFormField(
-        textStyle: const TextStyle(
-          color: Colors.black,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (addressError != null)
+          Text(
+            addressError!,
+            style: TextStyle(color: Colors.red),
+          ),
+        Padding(
+          padding: EdgeInsets.only(right: 8.h),
+          child: CustomTextFormField(
+            textStyle: const TextStyle(
+              color: Colors.black,
+            ),
+            fillColor: appTheme.blue50,
+            controller: addressInputController,
+            hintText: "Address",
+            hintStyle: const TextStyle(
+              color: Colors.grey,
+            ),
+            textInputType: TextInputType.emailAddress,
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+            onChanged: (value) {
+              final error = _registerpresenter.validateAddress(value); // Validate password on change
+              setState(() {
+                addressError = error; // Clear the error if validation passes
+              });
+            },
+          ),
         ),
-        fillColor: appTheme.blue50,
-        controller: addressInputController,
-        hintText: "Address",
-        hintStyle: const TextStyle(
-          color: Colors.grey,
-        ),
-        textInputType: TextInputType.emailAddress,
-        contentPadding:
-            const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-      ),
+      ],
     );
   }
 
   Widget _buildSignInButton(BuildContext context) {
     return CustomElevatedButton(
       onPressed: () {
-        Navigator.pushReplacementNamed(
-          context,
-          AppRoutes.initialRoute,
-        );
-        // Navigator.of(context).push(
-        //   MaterialPageRoute(builder: (context) => OTPScreen()),
-        // );
+        final firstName = firstNameInputController.text;
+        final lastName = lastNameInputController.text;
+        final idNumber = iDNumberInputController.text;
+        final phoneNumber = phoneNumberInputController.text;
+        final address = addressInputController.text;
+        bool genderValue = selectedGender == 'Male' ? true : false;
+        if (firstName.isEmpty) {
+          setState(() {
+            firstNameError = 'FirstName cannot be empty';
+          });
+        }
+        if (lastName.isEmpty) {
+          setState(() {
+            lastNameError = 'Last Name cannot be empty';
+          });
+        }
+        if (idNumber.isEmpty) {
+          setState(() {
+            idNumberError = 'Identification Number cannot be empty';
+          });
+        }
+        if (phoneNumber.isEmpty) {
+          setState(() {
+            phoneNumberError = 'Phone Number cannot be empty';
+          });
+        }
+        if (address.isEmpty) {
+          setState(() {
+            addressError = 'Address cannot be empty';
+          });
+        }
+
+        if (firstNameError == null && lastNameError == null && idNumberError == null && phoneNumberError == null && addressError == null) {
+          _registerpresenter.registerUser(email, password, firstName, lastName, address, genderValue, idNumber, phoneNumber, _imagePath);
+
+          Navigator.pushReplacementNamed(
+            context,
+            AppRoutes.initialRoute,
+          );
+        }
       },
       buttonStyle: CustomButtonStyles.fillBlue,
       buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,
@@ -328,10 +444,16 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
   @override
   void showValidationError(String field, String message) {
     setState(() {
-      if (field == 'email') {
-        // emailError = message;
-      } else if (field == 'password') {
-        // passwordError = message;
+      if (field == 'firstName') {
+        firstNameError = message;
+      } else if (field == 'lastName') {
+        lastNameError = message;
+      } else if (field == 'idNumber') {
+        idNumberError = message;
+      } else if (field == 'phoneNumber') {
+        phoneNumberError = message;
+      } else if (field == 'address') {
+        addressError = message;
       }
     });
   }

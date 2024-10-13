@@ -18,6 +18,8 @@ class RegisterCustomerRepo {
       body: json.encode(user.toJson()),
     );
 
+    final jsonResponse = jsonDecode(response.body);
+    print(jsonResponse);
     if (response.statusCode != 201) {
       throw Exception('Failed to register user');
     }
