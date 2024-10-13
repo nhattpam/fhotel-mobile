@@ -426,7 +426,7 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
         }
 
         if (firstNameError == null && lastNameError == null && idNumberError == null && phoneNumberError == null && addressError == null) {
-          _registerpresenter.registerUser(email, password, firstName, lastName, address, genderValue, idNumber, phoneNumber, _imagePath);
+          _registerpresenter.registerUser(email, password, firstName, lastName, address, genderValue, idNumber, phoneNumber, _imageUrl.toString());
 
           Navigator.pushReplacementNamed(
             context,

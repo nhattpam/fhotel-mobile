@@ -1,4 +1,3 @@
-import 'package:fhotel_1/views/hotel_detail/widgets/carousel_item_widget.dart';
 import 'package:flutter/material.dart';
 import '../../../core/app_export.dart';
 

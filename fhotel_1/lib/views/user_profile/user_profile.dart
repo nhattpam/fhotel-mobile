@@ -131,11 +131,13 @@ class UserProfileScreenState extends State<UserProfileScreen>
             child: Stack(
               alignment: Alignment.center,
               children: [
-                // CustomImageView(
-                //   imagePath: ImageConstant.imageNotFound,
-                //   height: 100.h,
-                //   width: double.maxFinite,
-                // )
+                if(_customer?.image != null)
+                Image.network(
+                  _customer?.image ?? '',
+                  fit: BoxFit.cover, // Adjust the fit as necessary
+                  height: 100.h, // Set height to match the container
+                  width: 100.h,  // Set width to match the container
+                ),
               ],
             ),
           ),
