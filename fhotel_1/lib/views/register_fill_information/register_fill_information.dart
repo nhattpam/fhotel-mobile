@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:fhotel_1/views/register_fill_information/register_fill_information_view.dart';
 import 'package:fhotel_1/views/register_fill_information/upload_image_view.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 
 import '../../core/app_export.dart';
 import '../../data/repository/upload_image_service.dart';
@@ -437,11 +436,26 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
 
         if (firstNameError == null && lastNameError == null && idNumberError == null && phoneNumberError == null && addressError == null) {
           _registerpresenter.registerUser(email, password, firstName, lastName, address, genderValue, idNumber, phoneNumber, _imageUrl.toString());
+          AwesomeDialog(
+            context: context,
+            animType: AnimType.scale,
+            dialogType: DialogType.success,
+            body: const Center(
+              child: Text(
+                'Please check your mail to active account!!!',
+                style: TextStyle(fontStyle: FontStyle.italic),
+              ),
+            ),
+            // title: 'Warning',
+            // desc:   'This is also Ignored',
+            btnOkOnPress: () {
+              Navigator.pushReplacementNamed(
+                context,
+                AppRoutes.initialRoute,
+              );
+            },
+          ).show();
 
-          Navigator.pushReplacementNamed(
-            context,
-            AppRoutes.initialRoute,
-          );
         }
       },
       buttonStyle: CustomButtonStyles.fillBlue,

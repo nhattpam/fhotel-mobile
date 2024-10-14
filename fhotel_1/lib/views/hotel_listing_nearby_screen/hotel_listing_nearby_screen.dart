@@ -4,6 +4,7 @@ import 'package:fhotel_1/views/hotel_edit_search/hotel_edit_search.dart';
 import 'package:fhotel_1/views/hotel_listing_filter_bottomsheet/hotel_listing_filter_bottomsheet.dart';
 import 'package:fhotel_1/views/hotel_listing_nearby_screen/widgets/list_one_item_widget.dart';
 import 'package:flutter/material.dart';
+
 import '../../data/models/hotel.dart';
 import '../../data/repository/list_hotel_repo.dart';
 import '../../presenters/list_hotel_presenter.dart';

@@ -510,6 +510,22 @@ class EditProfileScreenState extends State<EditProfileScreen>
                       idNumber,
                       phoneNumber,
                       _customer!.image.toString());
+                  AwesomeDialog(
+                    context: context,
+                    animType: AnimType.scale,
+                    dialogType: DialogType.success,
+                    body: const Center(
+                      child: Text(
+                        'Edit Account Success!!!',
+                        style: TextStyle(fontStyle: FontStyle.italic),
+                      ),
+                    ),
+                    // title: 'Warning',
+                    // desc:   'This is also Ignored',
+                    btnOkOnPress: () {
+                      Navigator.pushReplacementNamed(context, AppRoutes.homePage);
+                    },
+                  ).show();
                 }else {
                   await _presenter.updateCustomer(
                       _customer!.userId.toString(),
@@ -522,12 +538,27 @@ class EditProfileScreenState extends State<EditProfileScreen>
                       idNumber,
                       phoneNumber,
                       _imageUrl.toString());
+                  AwesomeDialog(
+                    context: context,
+                    animType: AnimType.scale,
+                    dialogType: DialogType.success,
+                    body: const Center(
+                      child: Text(
+                        'Edit Account Success!!!',
+                        style: TextStyle(fontStyle: FontStyle.italic),
+                      ),
+                    ),
+                    // title: 'Warning',
+                    // desc:   'This is also Ignored',
+                    btnOkOnPress: () {
+                      Navigator.pushReplacementNamed(context, AppRoutes.homePage);
+                    },
+                  ).show();
                 }
                  setState(() {
                    _isLoading = false; // Stop the loading indicator
                  });
 
-                 Navigator.pushReplacementNamed(context, AppRoutes.homePage);
               }
             },
             text: "Save".toUpperCase(),

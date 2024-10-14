@@ -1,4 +1,5 @@
 import 'package:fhotel_1/views/hotel_listing_nearby_screen/list_hotel_view.dart';
+
 import '../data/models/hotel.dart';
 import '../data/repository/list_hotel_repo.dart';
 

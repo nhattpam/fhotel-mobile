@@ -1,5 +1,6 @@
 import 'package:fhotel_1/data/repository/register_customer_repo.dart';
 import 'package:fhotel_1/views/register_fill_information/register_fill_information_view.dart';
+
 import '../data/models/user.dart';
 
 class RegisterPresenter {

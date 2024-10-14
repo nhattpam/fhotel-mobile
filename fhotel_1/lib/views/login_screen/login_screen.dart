@@ -1,4 +1,3 @@
-import 'package:fhotel_1/views/register_screen/register_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/app_export.dart';
