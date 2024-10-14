@@ -5,17 +5,16 @@ import '../../core/app_export.dart';
 
 // ignore_for_file: must_be_immutable
 class HomeCheckInDateDefaultBottomsheet extends StatefulWidget {
-  HomeCheckInDateDefaultBottomsheet({Key? key})
-      : super(
-          key: key,
-        );
+  final Function(DateTime?) onDateSelected; // Callback to return selected date
+
+  HomeCheckInDateDefaultBottomsheet({Key? key, required this.onDateSelected})
+      : super(key: key);
 
   @override
-  _HomeCheckInDateDefaultBottomsheet createState() =>
-      _HomeCheckInDateDefaultBottomsheet();
+  _HomeCheckInDateDefaultBottomsheetState createState() => _HomeCheckInDateDefaultBottomsheetState();
 }
 
-class _HomeCheckInDateDefaultBottomsheet
+class _HomeCheckInDateDefaultBottomsheetState
     extends State<HomeCheckInDateDefaultBottomsheet> {
   List<DateTime?> selectedDatesFromCalendar = [];
   static bool choose = false;
@@ -45,6 +44,43 @@ class _HomeCheckInDateDefaultBottomsheet
             _buildButtonbar(context)
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildButtonbar(BuildContext context) {
+    return Container(
+      width: double.maxFinite,
+      padding: EdgeInsets.fromLTRB(16.h, 6.h, 16.h, 8.h),
+      decoration: BoxDecoration(
+        color: appTheme.whiteA700,
+        border: Border(
+          top: BorderSide(
+            color: appTheme.blueGray50,
+            width: 1.h,
+          ),
+        ),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          CustomElevatedButton(
+            text: "Hoàn tất",
+            buttonStyle: choose
+                ? CustomButtonStyles.fillBlue
+                : CustomButtonStyles.fillBlack,
+            buttonTextStyle: choose
+                ? CustomTextStyles.bodyMediumwhiteA700
+                : CustomTextStyles.bodyLargeBlack900_1,
+            onPressed: () {
+              // Return the selected date when button is pressed
+              if (selectedDatesFromCalendar.isNotEmpty) {
+                widget.onDateSelected(selectedDatesFromCalendar.first);
+              }
+              Navigator.pop(context); // Close the bottom sheet
+            },
+          ),
+        ],
       ),
     );
   }
@@ -128,36 +164,4 @@ class _HomeCheckInDateDefaultBottomsheet
     );
   }
 
-  Widget _buildButtonbar(BuildContext context) {
-    return Container(
-      width: double.maxFinite,
-      padding: EdgeInsets.fromLTRB(16.h, 6.h, 16.h, 8.h),
-      decoration: BoxDecoration(
-        color: appTheme.whiteA700,
-        border: Border(
-          top: BorderSide(
-            color: appTheme.blueGray50,
-            width: 1.h,
-          ),
-        ),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (choose == true)
-            CustomElevatedButton(
-              text: "Hoàn tất",
-              buttonStyle: CustomButtonStyles.fillBlue,
-              buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,
-            ),
-          if (choose == false)
-            CustomElevatedButton(
-              text: "Hoàn tất",
-              buttonStyle: CustomButtonStyles.fillBlack,
-              buttonTextStyle: CustomTextStyles.bodyLargeBlack900_1,
-            )
-        ],
-      ),
-    );
-  }
 }

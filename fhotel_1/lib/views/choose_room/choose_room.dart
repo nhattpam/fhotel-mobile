@@ -15,7 +15,7 @@ class ChooseRoomFullScreen extends StatelessWidget {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return const EditSearchBottomsheet();
+        return  EditSearchBottomsheet();
       },
     );
   }

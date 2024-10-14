@@ -1,4 +1,5 @@
 import 'package:fhotel_1/data/repository/register_customer_repo.dart';
+import 'package:fhotel_1/data/repository/search_service.dart';
 import 'package:fhotel_1/views/register_fill_information/register_fill_information_view.dart';
 
 import '../data/models/user.dart';
@@ -8,12 +9,19 @@ class RegisterPresenter {
 
   final RegisterCustomerRepo _repository = RegisterCustomerRepo(); // Create an instance of the network class
 
+  final SearchService _searchService = SearchService(); // Create an instance of the network class
+
   RegisterPresenter(this._view); // Initialize with the view
 
   // Validate email logic
-  String? validateEmail(String? email) {
+  Future<String?> validateEmail(String? email) async {
+
     if (email == null || email.isEmpty) {
       return 'Email cannot be empty';
+    }
+    final exists = await _searchService.checkEmailExistence(query: email);
+    if (exists) {
+      return 'Email already exists'; // Notify that the email is already taken
     }
     RegExp regex = RegExp(
       r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$',
@@ -61,7 +69,12 @@ class RegisterPresenter {
   }
 
   // Validate Identification Number logic
-  String? validateIdNumber(String? idNumber) {
+  Future<String?> validateIdNumber(String? idNumber) async{
+    final exists = await _searchService.checkIdNumberExistence(query: idNumber);
+    if (exists) {
+      return 'This Identification Number already exists'; // Notify that the email is already taken
+    }
+
     if (idNumber == null || idNumber.isEmpty) {
       return 'Identification Number cannot be empty';
     }
@@ -72,7 +85,11 @@ class RegisterPresenter {
   }
 
   // Validate Phone Number logic
-  String? validatePhoneNumber(String? phoneNumber) {
+  Future<String?> validatePhoneNumber(String? phoneNumber) async {
+    final exists = await _searchService.checkIdNumberExistence(query: phoneNumber);
+    if (exists) {
+      return 'This Phone Number already exists'; // Notify that the email is already taken
+    }
     if (phoneNumber == null || phoneNumber.isEmpty) {
       return 'Phone Number cannot be empty';
     }
@@ -111,8 +128,8 @@ class RegisterPresenter {
     try {
       final firstNameError = validateFirstName(firstName);
       final lastNameError = validateLastName(lastName);
-      final idNumberError = validateIdNumber(idNumber);
-      final phoneNumberError = validatePhoneNumber(phoneNumber);
+      final idNumberError = await validateIdNumber(idNumber);
+      final phoneNumberError = await validatePhoneNumber(phoneNumber);
       final addressError = validateAddress(address);
       // final genderError = validateGender(gender);
 
@@ -148,9 +165,9 @@ class RegisterPresenter {
       _view.onRegisterError("Your account already register");
     }
   }
-  void registerValidation(String email, String password, String confirmPassword) {
+  void registerValidation(String email, String password, String confirmPassword) async {
     // Validate inputs
-    final emailError = validateEmail(email);
+    final emailError = await validateEmail(email);
     final passwordError = validatePassword(password);
     final repasswordError = validateRePassword(password,confirmPassword);
 

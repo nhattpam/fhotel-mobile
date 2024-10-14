@@ -43,7 +43,7 @@ class _HotelListingNearbyScreenState extends State<HotelListingNearbyScreen>
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return const EditSearchBottomsheet();
+        return  EditSearchBottomsheet();
       },
     );
   }

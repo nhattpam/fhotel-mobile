@@ -91,8 +91,8 @@ class _RegisterScreenState extends State<RegisterScreen>
             hintStyle: const TextStyle(color: Colors.grey),
             textInputType: TextInputType.emailAddress,
             contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-            onChanged: (value) {
-              final error = _presenter.validateEmail(value); // Validate email on change
+            onChanged: (value) async {
+              final error = await _presenter.validateEmail(value); // Validate email on change
               setState(() {
                 emailError = error; // Clear the error if validation passes
               });

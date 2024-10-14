@@ -79,7 +79,7 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return const EditSearchBottomsheet();
+        return  EditSearchBottomsheet();
       },
     );
   }

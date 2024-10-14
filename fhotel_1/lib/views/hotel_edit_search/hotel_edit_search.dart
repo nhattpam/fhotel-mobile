@@ -6,11 +6,15 @@ import '../home_check_in_date_default/home_check_in_date_default.dart';
 import '../home_duration_bottomsheet/home_duration_bottomsheet.dart';
 import '../home_room_guest_default/home_room_guest_default.dart';
 
-class EditSearchBottomsheet extends StatelessWidget {
-  const EditSearchBottomsheet({Key? key})
-      : super(
-          key: key,
-        );
+class EditSearchBottomsheet extends StatefulWidget {
+  EditSearchBottomsheet({Key? key}) : super(key: key);
+
+  @override
+  EditSearchBottomsheetState createState() => EditSearchBottomsheetState();
+}
+
+class EditSearchBottomsheetState extends State<EditSearchBottomsheet> {
+  String dateSelected = "Thứ Tư, 02/02/2022";
 
   void _showModalBottomSheet(BuildContext context) {
     showModalBottomSheet(
@@ -25,7 +29,18 @@ class EditSearchBottomsheet extends StatelessWidget {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return HomeCheckInDateDefaultBottomsheet();
+        return HomeCheckInDateDefaultBottomsheet(
+          onDateSelected: (selectedDate) {
+            if (selectedDate != null) {
+              // Update the state with the selected date
+              setState(() {
+                // Format the date as desired, here I’m using the default DateTime format
+                dateSelected =
+                    DateFormat('EEEE, dd/MM/yyyy').format(selectedDate);
+              });
+            }
+          },
+        );
       },
     );
   }

@@ -315,8 +315,8 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
             textInputType: TextInputType.number,
             contentPadding:
                 const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-            onChanged: (value) {
-              final error = _registerpresenter.validateIdNumber(value); // Validate password on change
+            onChanged: (value) async {
+              final error = await _registerpresenter.validateIdNumber(value); // Validate password on change
               setState(() {
                 idNumberError = error; // Clear the error if validation passes
               });
@@ -351,8 +351,8 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
             textInputType: TextInputType.phone,
             contentPadding:
                 const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-            onChanged: (value) {
-              final error = _registerpresenter.validatePhoneNumber(value); // Validate password on change
+            onChanged: (value) async {
+              final error = await _registerpresenter.validatePhoneNumber(value); // Validate password on change
               setState(() {
                 phoneNumberError = error; // Clear the error if validation passes
               });

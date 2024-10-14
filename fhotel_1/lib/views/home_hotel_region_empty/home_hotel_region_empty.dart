@@ -24,6 +24,7 @@ class HomeHotelRegionEmptyScreenState
     extends State<HomeHotelRegionEmptyScreen> {
   int sliderIndex = 1;
   int _currentIndex = 0;
+  String dateSelected = "Thứ Tư, 02/02/2022";
 
   void _showModalBottomSheet(BuildContext context) {
     showModalBottomSheet(
@@ -38,7 +39,17 @@ class HomeHotelRegionEmptyScreenState
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return HomeCheckInDateDefaultBottomsheet();
+        return HomeCheckInDateDefaultBottomsheet(
+          onDateSelected: (selectedDate) {
+            if (selectedDate != null) {
+              // Update the state with the selected date
+              setState(() {
+                // Format the date as desired, here I’m using the default DateTime format
+                dateSelected = DateFormat('EEEE, dd/MM/yyyy').format(selectedDate);
+              });
+            }
+          },
+        );
       },
     );
   }
@@ -305,7 +316,7 @@ class HomeHotelRegionEmptyScreenState
                                                     0, // Remove shadow/elevation
                                               ),
                                               child: Text(
-                                                "Thứ Tư,02/02/2022",
+                                                dateSelected,
                                                 style:
                                                     theme.textTheme.titleSmall,
                                               ),
