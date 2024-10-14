@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:fhotel_1/data/models/user.dart';
 import 'package:fhotel_1/views/register_fill_information/register_fill_information_view.dart';
 import 'package:fhotel_1/views/register_fill_information/upload_image_view.dart';
 import 'package:flutter/material.dart';
@@ -37,8 +36,10 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
   final picker = ImagePicker();
   bool _isLoading = false;
   String? _imageUrl;
+
   late String email;
   late String password;
+
   String? firstNameError;
   String? lastNameError;
   String? idNumberError;
@@ -53,6 +54,17 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
   }
 
   @override
+  void dispose() {
+    // Cancel any subscriptions or async operations here
+    firstNameInputController.dispose();
+    lastNameInputController.dispose();
+    iDNumberInputController.dispose();
+    phoneNumberInputController.dispose();
+    addressInputController.dispose();
+    super.dispose();
+  }
+
+  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     // Retrieve the arguments passed safely in didChangeDependencies
@@ -60,8 +72,6 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     email = args['email'];
     password = args['password'];
-    print(email);
-    print(password);
   }
 
   Future<void> _pickImage() async {
@@ -303,7 +313,7 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
             hintStyle: const TextStyle(
               color: Colors.grey,
             ),
-            textInputType: TextInputType.emailAddress,
+            textInputType: TextInputType.number,
             contentPadding:
                 const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
             onChanged: (value) {
@@ -339,7 +349,7 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
             hintStyle: const TextStyle(
               color: Colors.grey,
             ),
-            textInputType: TextInputType.emailAddress,
+            textInputType: TextInputType.phone,
             contentPadding:
                 const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
             onChanged: (value) {
@@ -473,6 +483,7 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
       content: Text('Registration failed: $error'),
     ));
   }
+
   @override
   void showLoading() {
     setState(() {

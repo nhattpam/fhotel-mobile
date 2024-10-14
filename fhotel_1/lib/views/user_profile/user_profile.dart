@@ -425,4 +425,9 @@ class UserProfileScreenState extends State<UserProfileScreen>
       _customer = null;
     });
   }
+
+  @override
+  void showValidationError(String field, String message) {
+    // TODO: implement showValidationError
+  }
 }

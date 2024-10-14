@@ -30,3 +30,4 @@ export '../../widgets/app_bar/appbar_tittle.dart';
 export '../../widgets/app_bar/custom_app_bar.dart';
 export '../../widgets/custom_icon_button.dart';
 export '../session/session.dart';
+export 'package:image_picker/image_picker.dart';

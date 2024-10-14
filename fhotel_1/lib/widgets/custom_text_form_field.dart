@@ -72,6 +72,7 @@ class CustomTextFormField extends StatelessWidget {
     child: TextFormField(
       scrollPadding:
       EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      readOnly: readOnly ?? false,
       controller: controller,
       focusNode: focusNode ?? FocusNode(),
       autofocus: autofocus!,
