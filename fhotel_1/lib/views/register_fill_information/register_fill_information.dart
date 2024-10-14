@@ -17,6 +17,7 @@ class RegisterFillInformation extends StatefulWidget {
 
 class RegisterFillInformationState extends State<RegisterFillInformation>
     implements RegisterFillInformationView, ImageView {
+  final List<FocusNode> focusNodes = List.generate(5, (index) => FocusNode());
   String? selectedGender;
   TextEditingController firstNameInputController = TextEditingController();
   TextEditingController lastNameInputController = TextEditingController();
@@ -54,6 +55,9 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
 
   @override
   void dispose() {
+    for (var node in focusNodes) {
+      node.dispose();
+    }
     // Cancel any subscriptions or async operations here
     firstNameInputController.dispose();
     lastNameInputController.dispose();
@@ -83,6 +87,14 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
       });
 
       await _imagePresenter.pickImageAndUpload(File(_imagePath));
+    }
+  }
+
+  void _unfocusAllExcept(int index) {
+    for (int i = 0; i < focusNodes.length; i++) {
+      if (i != index) {
+        focusNodes[i].unfocus();
+      }
     }
   }
 
@@ -234,6 +246,7 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
             textStyle: const TextStyle(
               color: Colors.black,
             ),
+            focusNode: focusNodes[0],
             fillColor: appTheme.blue50,
             controller: firstNameInputController,
             hintText: "First Name",
@@ -248,6 +261,9 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
               setState(() {
                 firstNameError = error; // Clear the error if validation passes
               });
+            },
+            onTap: () {
+              _unfocusAllExcept(0); // Unfocus all except the email field
             },
           ),
         ),
@@ -270,6 +286,7 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
             textStyle: const TextStyle(
               color: Colors.black,
             ),
+            focusNode: focusNodes[1],
             fillColor: appTheme.blue50,
             controller: lastNameInputController,
             hintText: "Last Name",
@@ -284,6 +301,9 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
               setState(() {
                 lastNameError = error; // Clear the error if validation passes
               });
+            },
+            onTap: () {
+              _unfocusAllExcept(1); // Unfocus all except the email field
             },
           ),
         ),
@@ -306,6 +326,7 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
             textStyle: const TextStyle(
               color: Colors.black,
             ),
+            focusNode: focusNodes[2],
             fillColor: appTheme.blue50,
             controller: iDNumberInputController,
             hintText: "Identification Number",
@@ -320,6 +341,9 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
               setState(() {
                 idNumberError = error; // Clear the error if validation passes
               });
+            },
+            onTap: () {
+              _unfocusAllExcept(2); // Unfocus all except the email field
             },
           ),
         ),
@@ -342,6 +366,7 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
             textStyle: const TextStyle(
               color: Colors.black,
             ),
+            focusNode: focusNodes[3],
             fillColor: appTheme.blue50,
             controller: phoneNumberInputController,
             hintText: "Phone Number",
@@ -356,6 +381,9 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
               setState(() {
                 phoneNumberError = error; // Clear the error if validation passes
               });
+            },
+            onTap: () {
+              _unfocusAllExcept(3); // Unfocus all except the email field
             },
           ),
         ),
@@ -378,6 +406,7 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
             textStyle: const TextStyle(
               color: Colors.black,
             ),
+            focusNode: focusNodes[4],
             fillColor: appTheme.blue50,
             controller: addressInputController,
             hintText: "Address",
@@ -392,6 +421,9 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
               setState(() {
                 addressError = error; // Clear the error if validation passes
               });
+            },
+            onTap: () {
+              _unfocusAllExcept(4); // Unfocus all except the email field
             },
           ),
         ),

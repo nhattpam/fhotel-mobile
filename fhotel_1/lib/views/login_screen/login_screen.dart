@@ -14,6 +14,9 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> implements LoginView {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  final FocusNode emailFocusNode = FocusNode();
+  final FocusNode passwordFocusNode = FocusNode();
+
   TextEditingController emailInputController = TextEditingController();
   TextEditingController passwordInputController = TextEditingController();
 
@@ -26,6 +29,15 @@ class _LoginScreenState extends State<LoginScreen> implements LoginView {
   void initState() {
     super.initState();
     _presenter = LoginPresenter(this); // Initialize presenter with the current view
+  }
+
+  @override
+  void dispose() {
+    emailFocusNode.dispose();
+    passwordFocusNode.dispose();
+    emailInputController.dispose();
+    passwordInputController.dispose();
+    super.dispose();
   }
 
   @override
@@ -101,6 +113,7 @@ class _LoginScreenState extends State<LoginScreen> implements LoginView {
             textStyle: const TextStyle(
               color: Colors.black,
             ),
+            focusNode: emailFocusNode,
             fillColor: appTheme.blue50,
             controller: emailInputController,
             hintText: "Email",
@@ -114,6 +127,9 @@ class _LoginScreenState extends State<LoginScreen> implements LoginView {
               setState(() {
                 emailError = error; // Clear the error if validation passes
               });
+            },
+            onTap: () {
+              passwordFocusNode.unfocus(); // Remove focus from password field
             },
           ),
         ),
@@ -133,6 +149,7 @@ class _LoginScreenState extends State<LoginScreen> implements LoginView {
         Padding(
           padding: EdgeInsets.only(right: 8.h),
           child: CustomTextFormField(
+            focusNode: passwordFocusNode,
             fillColor: appTheme.blue50,
             controller: passwordInputController,
             hintText: "Password",
@@ -148,6 +165,9 @@ class _LoginScreenState extends State<LoginScreen> implements LoginView {
               setState(() {
                 passwordError = error; // Clear the error if validation passes
               });
+            },
+            onTap: () {
+              emailFocusNode.unfocus(); // Remove focus from password field
             },
           ),
         ),

@@ -27,7 +27,8 @@ class CustomTextFormField extends StatelessWidget {
     this.fillColor,
     this.filled = true,
     this.validator,
-    this.onChanged, // Added the onChanged property
+    this.onChanged,
+    this.onTap// Added the onChanged property
   }) : super(
     key: key,
   );
@@ -56,6 +57,7 @@ class CustomTextFormField extends StatelessWidget {
   final bool? filled;
   final FormFieldValidator<String>? validator;
   final ValueChanged<String>? onChanged; // Added this callback to handle text input changes
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {

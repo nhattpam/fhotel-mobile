@@ -19,6 +19,7 @@ class EditProfileScreen extends StatefulWidget {
 
 class EditProfileScreenState extends State<EditProfileScreen>
     implements UserProfileView, ImageView {
+  final List<FocusNode> focusNodes = List.generate(5, (index) => FocusNode());
   String? selectedGender;
   TextEditingController emailInputController = TextEditingController();
   TextEditingController passwordInputController = TextEditingController();
@@ -57,6 +58,20 @@ class EditProfileScreenState extends State<EditProfileScreen>
     _presenter.getCustomerById(); // Fetch customer data
   }
 
+  @override
+  void dispose() {
+    for (var node in focusNodes) {
+      node.dispose();
+    }
+    // Cancel any subscriptions or async operations here
+    firstNameInputController.dispose();
+    lastNameInputController.dispose();
+    iDNumberInputController.dispose();
+    phoneNumberInputController.dispose();
+    addressInputController.dispose();
+    super.dispose();
+  }
+
   Future<void> _pickImage() async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
@@ -67,6 +82,14 @@ class EditProfileScreenState extends State<EditProfileScreen>
       });
 
       await _imagePresenter.pickImageAndUpload(File(_imagePath));
+    }
+  }
+
+  void _unfocusAllExcept(int index) {
+    for (int i = 0; i < focusNodes.length; i++) {
+      if (i != index) {
+        focusNodes[i].unfocus();
+      }
     }
   }
 
@@ -240,6 +263,7 @@ class EditProfileScreenState extends State<EditProfileScreen>
             height: 8.h,
           ),
           CustomTextFormField(
+            focusNode: focusNodes[0],
             controller: firstNameInputController,
             hintText: "${_customer?.firstName}",
             hintStyle: CustomTextStyles.bodyLargeGray600,
@@ -249,6 +273,9 @@ class EditProfileScreenState extends State<EditProfileScreen>
               setState(() {
                 firstNameError = error; // Clear the error if validation passes
               });
+            },
+            onTap: () {
+              _unfocusAllExcept(0); // Unfocus all except the email field
             },
           )
         ],
@@ -275,6 +302,7 @@ class EditProfileScreenState extends State<EditProfileScreen>
             height: 8.h,
           ),
           CustomTextFormField(
+            focusNode: focusNodes[1],
             controller: lastNameInputController,
             hintText: "${_customer?.lastName}",
             hintStyle: CustomTextStyles.bodyLargeGray600,
@@ -284,6 +312,9 @@ class EditProfileScreenState extends State<EditProfileScreen>
               setState(() {
                 lastNameError = error; // Clear the error if validation passes
               });
+            },
+            onTap: () {
+              _unfocusAllExcept(1); // Unfocus all except the email field
             },
           )
         ],
@@ -361,6 +392,7 @@ class EditProfileScreenState extends State<EditProfileScreen>
             height: 8.h,
           ),
           CustomTextFormField(
+            focusNode: focusNodes[2],
             controller: phoneNumberInputController,
             hintText: "${_customer?.phoneNumber}",
             hintStyle: CustomTextStyles.bodyLargeGray600,
@@ -371,6 +403,9 @@ class EditProfileScreenState extends State<EditProfileScreen>
               setState(() {
                 phoneNumberError = error; // Clear the error if validation passes
               });
+            },
+            onTap: () {
+              _unfocusAllExcept(2); // Unfocus all except the email field
             },
           )
         ],
@@ -397,6 +432,7 @@ class EditProfileScreenState extends State<EditProfileScreen>
             height: 8.h,
           ),
           CustomTextFormField(
+            focusNode: focusNodes[3],
             controller: iDNumberInputController,
             hintText: "${_customer?.identificationNumber}",
             hintStyle: CustomTextStyles.bodyLargeGray600,
@@ -407,6 +443,9 @@ class EditProfileScreenState extends State<EditProfileScreen>
               setState(() {
                 idNumberError = error; // Clear the error if validation passes
               });
+            },
+            onTap: () {
+              _unfocusAllExcept(3); // Unfocus all except the email field
             },
           )
         ],
@@ -433,6 +472,7 @@ class EditProfileScreenState extends State<EditProfileScreen>
             height: 8.h,
           ),
           CustomTextFormField(
+            focusNode: focusNodes[4],
             controller: addressInputController,
             hintText: "${_customer?.address}",
             hintStyle: CustomTextStyles.bodyLargeGray600,
@@ -442,6 +482,9 @@ class EditProfileScreenState extends State<EditProfileScreen>
               setState(() {
                 addressError = error; // Clear the error if validation passes
               });
+            },
+            onTap: () {
+              _unfocusAllExcept(4); // Unfocus all except the email field
             },
           )
         ],

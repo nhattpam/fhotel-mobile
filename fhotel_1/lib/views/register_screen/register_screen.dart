@@ -11,6 +11,9 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen>
     implements RegisterFillInformationView {
+
+  final List<FocusNode> focusNodes = List.generate(3, (index) => FocusNode());
+
   TextEditingController emailInputController = TextEditingController();
   TextEditingController passwordInputController = TextEditingController();
   TextEditingController repasswordInputController = TextEditingController();
@@ -26,6 +29,25 @@ class _RegisterScreenState extends State<RegisterScreen>
     _presenter = RegisterPresenter(this); // Initialize presenter with the current view
   }
 
+  void _unfocusAllExcept(int index) {
+    for (int i = 0; i < focusNodes.length; i++) {
+      if (i != index) {
+        focusNodes[i].unfocus();
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    for (var node in focusNodes) {
+      node.dispose();
+    }
+    emailInputController.dispose();
+    passwordInputController.dispose();
+    repasswordInputController.dispose();
+    // Dispose other controllers here
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -84,6 +106,7 @@ class _RegisterScreenState extends State<RegisterScreen>
         Padding(
           padding: EdgeInsets.only(right: 8.h),
           child: CustomTextFormField(
+            focusNode: focusNodes[0],
             textStyle: const TextStyle(color: Colors.black),
             fillColor: appTheme.blue50,
             controller: emailInputController,
@@ -96,6 +119,9 @@ class _RegisterScreenState extends State<RegisterScreen>
               setState(() {
                 emailError = error; // Clear the error if validation passes
               });
+            },
+            onTap: () {
+              _unfocusAllExcept(0); // Unfocus all except the email field
             },
           ),
         ),
@@ -115,6 +141,7 @@ class _RegisterScreenState extends State<RegisterScreen>
         Padding(
           padding: EdgeInsets.only(right: 8.h),
           child: CustomTextFormField(
+            focusNode: focusNodes[1],
             fillColor: appTheme.blue50,
             controller: passwordInputController,
             hintText: "Password",
@@ -128,6 +155,9 @@ class _RegisterScreenState extends State<RegisterScreen>
               setState(() {
                 passwordError = error; // Clear the error if validation passes
               });
+            },
+            onTap: () {
+              _unfocusAllExcept(1); // Unfocus all except the email field
             },
           ),
         ),
@@ -147,6 +177,7 @@ class _RegisterScreenState extends State<RegisterScreen>
         Padding(
           padding: EdgeInsets.only(right: 8.h),
           child: CustomTextFormField(
+            focusNode: focusNodes[2],
             fillColor: appTheme.blue50,
             controller: repasswordInputController,
             hintText: "Confirm Password",
@@ -161,6 +192,9 @@ class _RegisterScreenState extends State<RegisterScreen>
               setState(() {
                 repasswordError = error; // Clear the error if validation passes
               });
+            },
+            onTap: () {
+              _unfocusAllExcept(2); // Unfocus all except the email field
             },
           ),
         ),
