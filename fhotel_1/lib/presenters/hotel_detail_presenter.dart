@@ -21,4 +21,15 @@ class HotelDetailPresenter {
       _view.hideLoading();
     }
   }
+  void getHotelAmenities(String hotelId) async {
+    _view.showLoading();
+    try {
+      final amenities = await _repository.fetchAmenitiesByHotelId(hotelId);
+      _view.hideLoading();
+      _view.showAmenities(amenities);
+    } catch (e) {
+      _view.hideLoading();
+      // _view.showError('Failed to load amenities');
+    }
+  }
 }

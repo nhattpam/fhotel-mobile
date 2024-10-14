@@ -1,4 +1,6 @@
 import 'package:fhotel_1/data/models/hotel.dart';
+import '../models/hotel_amenity.dart';
+
 import 'package:http/http.dart' as http;
 
 import '../../core/app_export.dart';
@@ -23,6 +25,18 @@ class HotelDetailRepo {
       return Hotel.fromJson(responseData);
     } else {
       throw Exception('Failed to fetch hotel.');
+    }
+  }
+
+  Future<List<HotelAmenity>> fetchAmenitiesByHotelId(String hotelId) async {
+    final response = await http.get(Uri.parse('$_baseUrl/hotels/$hotelId/hotel-amenities'));
+    print(Uri.parse('$_baseUrl/hotel-amenities/$hotelId'));
+
+    if (response.statusCode == 200) {
+      List<dynamic> responseData = json.decode(response.body);
+      return responseData.map((data) => HotelAmenity.fromJson(data)).toList();
+    } else {
+      throw Exception('Failed to load amenities');
     }
   }
 }

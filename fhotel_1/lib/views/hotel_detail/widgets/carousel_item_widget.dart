@@ -1,3 +1,4 @@
+import 'package:fhotel_1/core/utils/skeleton.dart';
 import 'package:fhotel_1/presenters/hotel_detail_presenter.dart';
 import 'package:fhotel_1/views/home_hotel_region_empty/widgets/carouselunit_item_widget.dart';
 import 'package:fhotel_1/views/hotel_detail/hotel_detail_view.dart';
@@ -5,6 +6,7 @@ import 'package:flutter/material.dart';
 
 import '../../../core/app_export.dart';
 import '../../../data/models/hotel.dart';
+import '../../../data/models/hotel_amenity.dart';
 import '../../hotel_edit_search/hotel_edit_search.dart';
 
 class HotelDetailScreen extends StatefulWidget {
@@ -31,6 +33,8 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
   String? _error;
   late String hotelId;
 
+  List<HotelAmenity> _amenities = [];
+
   @override
   void initState() {
     super.initState();
@@ -53,7 +57,6 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
       }
     });
     _presenter = HotelDetailPresenter(this);
-
   }
   @override
   void didChangeDependencies() {
@@ -65,6 +68,7 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
 
     // Fetch the hotel details using the presenter
     _presenter.getHotelById(hotelId);
+    _presenter.getHotelAmenities(hotelId);
   }
 
   void _scrollToSection(GlobalKey key) {
@@ -117,7 +121,24 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
                           child: Column(
                             children: [
                               SizedBox(height: 12.h),
-                              const CarouselunitItemWidget(),
+                              _isLoading
+                              ?  const SizedBox(
+                                width: 350,
+                                child:  Skeleton(width: 350, height: 150),
+                              )
+                              : GestureDetector(
+                                onTap: () {
+                                  _showZoomableImageDialog(
+                                      context, _hotel?.image.toString() ?? ''); // Open zoomable dialog
+                                },
+                                child: Container(
+                                  width: 350,
+                                  child: Image.network(
+                                    _hotel?.image.toString() ?? '',
+                                    fit: BoxFit.fitWidth,
+                                  ),
+                                ),
+                              ),
                               Container(
                                 key: overviewKey,
                                 width: double.maxFinite,
@@ -441,31 +462,8 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
                                     SizedBox(height: 14.h),
                                     SizedBox(
                                       width: double.maxFinite,
-                                      child: Column(
-                                        children: [
-                                          SizedBox(
-                                            width: double.maxFinite,
-                                            child: Row(
-                                              children: [
-                                                _buildChip(context),
-                                                SizedBox(width: 8.h),
-                                                _buildChipone(context)
-                                              ],
-                                            ),
-                                          ),
-                                          SizedBox(height: 8.h),
-                                          SizedBox(
-                                            width: double.maxFinite,
-                                            child: Row(
-                                              children: [
-                                                _buildChiptwo(context),
-                                                SizedBox(width: 8.h),
-                                                _buildChipthree(context),
-                                              ],
-                                            ),
-                                          )
-                                        ],
-                                      ),
+                                      height: 120,
+                                      child: _buildGridView(context)
                                     )
                                   ],
                                 ),
@@ -643,6 +641,9 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
     return CustomAppBar(
         leadingWidth: 40.h,
         leading: AppbarLeadingImage(
+          onTap: (){
+            Navigator.pop(context);
+          },
           imagePath: ImageConstant.imgChevronLeft,
           margin: EdgeInsets.only(
             left: 16.h,
@@ -651,7 +652,7 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
           ),
         ),
         title: AppbarTitle(
-          text: "Khách sạn gần bạn",
+          text: "Chi tiết khách sạn",
           margin: EdgeInsets.only(left: 8.h),
         ),
         actions: [
@@ -923,44 +924,23 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
       ]),
     );
   }
-
-  Widget _buildChip(BuildContext context) {
-    return Expanded(
-      child: CustomOutlinedButton(
-        text: "Nhà hàng",
-        buttonStyle: CustomButtonStyles.outlineWhiteTL16,
-        buttonTextStyle: CustomTextStyles.titleSmallWhite,
+  Widget _buildGridView(BuildContext context) {
+    return GridView.builder(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3, // Adjust the number of columns
+        childAspectRatio: 3, // Adjust the aspect ratio if necessary
+        crossAxisSpacing: 10.0,
+        mainAxisSpacing: 10.0,
       ),
-    );
-  }
-
-  Widget _buildChipone(BuildContext context) {
-    return Expanded(
-      child: CustomOutlinedButton(
-        text: "Lễ tân 24h",
-        buttonStyle: CustomButtonStyles.outlineWhiteTL16,
-        buttonTextStyle: CustomTextStyles.titleSmallWhite,
-      ),
-    );
-  }
-
-  Widget _buildChiptwo(BuildContext context) {
-    return Expanded(
-      child: CustomOutlinedButton(
-        text: "Hồ bơi",
-        buttonStyle: CustomButtonStyles.outlineWhiteTL16,
-        buttonTextStyle: CustomTextStyles.titleSmallWhite,
-      ),
-    );
-  }
-
-  Widget _buildChipthree(BuildContext context) {
-    return Expanded(
-      child: CustomOutlinedButton(
-        text: "Wifi",
-        buttonStyle: CustomButtonStyles.outlineWhiteTL16,
-        buttonTextStyle: CustomTextStyles.titleSmallWhite,
-      ),
+      itemCount: _amenities.length, // Number of items in the grid
+      itemBuilder: (context, index) {
+        return Image.network(
+          _amenities[index].image.toString(),// Replace with your image asset path
+          width: 1, // Set the width of the image
+          height: 1, // Set the height of the image
+          // fit: BoxFit.cover,
+        );
+      },
     );
   }
 
@@ -1099,6 +1079,30 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
       ),
     );
   }
+  void _showZoomableImageDialog(BuildContext context, String imagePath) {
+    showDialog(
+      context: context,
+      builder: (context) => Dialog(
+        backgroundColor: Colors.transparent,
+        child: Center(
+          child: Container(
+            width: MediaQuery.of(context).size.width * 0.8,
+            // Set dialog width to 90% of screen width
+            // height: MediaQuery.of(context).size.height * 0.9, // Set dialog height to 80% of screen height
+            child: InteractiveViewer(
+              panEnabled: false, // Enable panning inside the dialog
+              minScale: 0.5,
+              maxScale: 4.0,
+              child: Image.network(
+                imagePath,
+                fit: BoxFit.contain,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
   // Show loading indicator
   @override
   void showLoading() {
@@ -1115,6 +1119,12 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
     });
   }
 
+  @override
+  void showAmenities(List<HotelAmenity> amenities) {
+    setState(() {
+      _amenities = amenities;
+    });
+  }
   // Handle success: display hotel details
   @override
   void onGetHotelSuccess(Hotel hotel) {
