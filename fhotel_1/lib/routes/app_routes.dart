@@ -1,3 +1,4 @@
+import 'package:fhotel_1/views/change_password/change_password.dart';
 import 'package:fhotel_1/views/checkout/checkout.dart';
 import 'package:fhotel_1/views/choose_room/choose_room.dart';
 import 'package:fhotel_1/views/edit_user_profile/edit_user_profile.dart';
@@ -40,10 +41,11 @@ class AppRoutes {
   static const String roomListing = '/choose_room';
 
   ///Guest fill information
-  static const String guestInformation = '/guest_information_book';
+  // static const String guestInformation = '/guest_information_book';
   static const String guestCheckout = '/checkout';
   static const String guestPayment = '/successful_payment_screen';
   static const String userProfile = '/edit_user_profile';
+  static const String userChangePassword = '/change_password';
   static Map<String, WidgetBuilder> routes = {
     ///Navigation bar
     initialRoute: (context) => LoginScreen(),
@@ -65,9 +67,10 @@ class AppRoutes {
     roomListing: (context) => ChooseRoomFullScreen(),
 
     ///Guest fill information
-    guestInformation: (context) => GuestInformationBookForOthersScreen(),
+    // guestInformation: (context) => GuestInformationBookForOthersScreen(),
     guestCheckout: (context) => CheckoutScreen(),
     guestPayment: (context) => SuccessfulPaymentScreen(),
     userProfile: (context) => EditProfileScreen(),
+    userChangePassword: (context) => ChangePasswordScreen(),
   };
 }

@@ -76,7 +76,9 @@ class HotelDetailsScreen extends StatelessWidget {
       leading: AppbarLeadingIconbutton(
         imagePath: ImageConstant.imgArrowLeftWhiteA700,
         margin: EdgeInsets.only(left: 16.h),
-        onTap: () {},
+        onTap: () {
+          Navigator.pop(context);
+        },
       ),
       actions: [
         Container(

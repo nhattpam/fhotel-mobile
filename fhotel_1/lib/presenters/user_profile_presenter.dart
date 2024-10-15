@@ -1,11 +1,13 @@
 import 'package:fhotel_1/data/repository/user_profile_repo.dart';
 
 import '../data/models/user.dart';
+import '../data/repository/search_service.dart';
 import '../views/user_profile/user_profile_view.dart';
 
 class UserProfilePresenter {
   final UserProfileView _view;
   final UserProfile _repository = UserProfile(); // Initialize the network model
+  final SearchService _searchService = SearchService(); // Create an instance of the network class
 
   UserProfilePresenter(this._view);
 
@@ -22,6 +24,40 @@ class UserProfilePresenter {
       return 'Please enter a valid email';
     }
     return null; // Email is valid
+  }
+
+  // Validate password logic
+  Future<String?> validateCurrentPassword(String? password) async{
+    final exists = await _searchService.checkPasswordExistence(query: password);
+    if (!exists) {
+      return 'This is not your current password'; // Notify that the email is already taken
+    }
+    if (password == null || password.isEmpty) {
+      return 'Current Password cannot be empty';
+    }
+    return null; // Password is valid
+  }
+
+  Future<String?> validatePassword(String? password) async{
+    final exists = await _searchService.checkPasswordExistence(query: password);
+    if (exists) {
+      return 'This is your current password'; // Notify that the email is already taken
+    }
+    if (password == null || password.isEmpty) {
+      return 'Password cannot be empty';
+    }
+    return null; // Password is valid
+  }
+
+  // Validate confirm password logic
+  String? validateRePassword(String? password, String? repassword) {
+    if (repassword == null || repassword.isEmpty) {
+      return 'Password cannot be empty';
+    }
+    if (password != repassword ) {
+      return 'Passwords do not match';
+    }
+    return null; // Password is valid
   }
 
   // Validate First Name logic
@@ -52,7 +88,11 @@ class UserProfilePresenter {
   }
 
   // Validate Phone Number logic
-  String? validatePhoneNumber(String? phoneNumber) {
+  Future<String?> validatePhoneNumber(String? phoneNumber) async {
+    final exists = await _searchService.checkIdNumberExistence(query: phoneNumber);
+    if (exists) {
+      return 'This Phone Number already exists'; // Notify that the email is already taken
+    }
     if (phoneNumber == null || phoneNumber.isEmpty) {
       return 'Phone Number cannot be empty';
     }
@@ -61,6 +101,7 @@ class UserProfilePresenter {
     }
     return null; // Phone Number is valid
   }
+
 
   // Validate Address logic
   String? validateAddress(String? address) {
@@ -97,14 +138,19 @@ class UserProfilePresenter {
       String phoneNumber,
       String imageUrl,) async {
     final firstNameError = validateFirstName(firstName);
+    final newPasswordError = await validatePassword(firstName);
     final lastNameError = validateLastName(lastName);
     final idNumberError = validateIdNumber(idNumber);
-    final phoneNumberError = validatePhoneNumber(phoneNumber);
+    final phoneNumberError = await validatePhoneNumber(phoneNumber);
     final addressError = validateAddress(address);
     // final genderError = validateGender(gender);
 
     if (firstNameError != null) {
       _view.showValidationError('firstName', firstNameError);
+      return;
+    }
+    if (newPasswordError != null) {
+      _view.showValidationError('password', newPasswordError);
       return;
     }
     if (lastNameError != null) {

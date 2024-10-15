@@ -360,14 +360,24 @@ class EditProfileScreenState extends State<EditProfileScreen>
           SizedBox(
             height: 8.h,
           ),
-          CustomTextFormField(
-            readOnly: true,
-            controller: passwordInputController,
-            hintText: "*******",
-            hintStyle: CustomTextStyles.bodyLargeGray600,
-            obscureText: true,
-            contentPadding: EdgeInsets.all(20.h),
-          )
+          GestureDetector(
+            onTap: () {
+              Navigator.pushReplacementNamed(
+                  context, AppRoutes.userChangePassword,
+                arguments: _customer
+              );
+            },
+            child: AbsorbPointer(
+              child: CustomTextFormField(
+                readOnly: true,
+                controller: passwordInputController,
+                hintText: "*******",
+                hintStyle: CustomTextStyles.bodyLargeGray600,
+                obscureText: true,
+                contentPadding: EdgeInsets.all(20.h),
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -398,8 +408,8 @@ class EditProfileScreenState extends State<EditProfileScreen>
             hintStyle: CustomTextStyles.bodyLargeGray600,
             textInputType: TextInputType.phone,
             contentPadding: EdgeInsets.all(20.h),
-            onChanged: (value) {
-              final error = _presenter.validatePhoneNumber(value); // Validate password on change
+            onChanged: (value) async {
+              final error = await _presenter.validatePhoneNumber(value); // Validate password on change
               setState(() {
                 phoneNumberError = error; // Clear the error if validation passes
               });
@@ -432,6 +442,7 @@ class EditProfileScreenState extends State<EditProfileScreen>
             height: 8.h,
           ),
           CustomTextFormField(
+            readOnly: true,
             focusNode: focusNodes[3],
             controller: iDNumberInputController,
             hintText: "${_customer?.identificationNumber}",

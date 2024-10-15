@@ -5,9 +5,10 @@ import '../../core/app_export.dart';
 
 // ignore_for_file: must_be_immutable
 class HomeCheckInDateDefaultBottomsheet extends StatefulWidget {
-  final Function(DateTime?) onDateSelected; // Callback to return selected date
+  final Function(DateTime?) onDateStarSelected; // Callback to return selected date
+  final Function(DateTime?) onDateEndSelected; // Callback to return selected date
 
-  HomeCheckInDateDefaultBottomsheet({Key? key, required this.onDateSelected})
+  HomeCheckInDateDefaultBottomsheet({Key? key, required this.onDateStarSelected, required this.onDateEndSelected})
       : super(key: key);
 
   @override
@@ -75,7 +76,8 @@ class _HomeCheckInDateDefaultBottomsheetState
             onPressed: () {
               // Return the selected date when button is pressed
               if (selectedDatesFromCalendar.isNotEmpty) {
-                widget.onDateSelected(selectedDatesFromCalendar.first);
+                widget.onDateStarSelected(selectedDatesFromCalendar.first);
+                widget.onDateEndSelected(selectedDatesFromCalendar.last);
               }
               Navigator.pop(context); // Close the bottom sheet
             },
@@ -129,7 +131,7 @@ class _HomeCheckInDateDefaultBottomsheetState
       width: 336.h,
       child: CalendarDatePicker2(
           config: CalendarDatePicker2Config(
-            calendarType: CalendarDatePicker2Type.single,
+            calendarType: CalendarDatePicker2Type.range,
             firstDate: DateTime(DateTime.now().year - 5),
             lastDate: DateTime(DateTime.now().year + 5),
             selectedDayHighlightColor: Color(0XFF1A94FF),
@@ -157,7 +159,7 @@ class _HomeCheckInDateDefaultBottomsheetState
           onValueChanged: (dates) {
             setState(() {
               selectedDatesFromCalendar = dates;
-              choose = true;
+              choose = selectedDatesFromCalendar.length == 2;
             });
             print(dates);
           }),

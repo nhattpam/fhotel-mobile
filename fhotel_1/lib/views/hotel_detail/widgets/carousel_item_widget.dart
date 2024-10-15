@@ -438,24 +438,25 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
                                             "Tiện nghi",
                                             style: theme.textTheme.titleMedium,
                                           ),
-                                          const Spacer(),
-                                          Text(
-                                            "Xem tất cả",
-                                            style: CustomTextStyles
-                                                .bodyMediumPrimary,
-                                          ),
-                                          CustomImageView(
-                                            onTap: () {
-                                              Navigator.pushNamed(context,
-                                                  AppRoutes.hotelFacilities);
-                                            },
-                                            color: Colors.blueAccent,
-                                            imagePath:
-                                                ImageConstant.imgArrowRight,
-                                            height: 20.h,
-                                            width: 20.h,
-                                            margin: EdgeInsets.only(left: 8.h),
-                                          )
+                                          ///Xem tất cả tiện nghi
+                                          // const Spacer(),
+                                          // Text(
+                                          //   "Xem tất cả",
+                                          //   style: CustomTextStyles
+                                          //       .bodyMediumPrimary,
+                                          // ),
+                                          // CustomImageView(
+                                          //   onTap: () {
+                                          //     Navigator.pushNamed(context,
+                                          //         AppRoutes.hotelFacilities);
+                                          //   },
+                                          //   color: Colors.blueAccent,
+                                          //   imagePath:
+                                          //       ImageConstant.imgArrowRight,
+                                          //   height: 20.h,
+                                          //   width: 20.h,
+                                          //   margin: EdgeInsets.only(left: 8.h),
+                                          // )
                                         ],
                                       ),
                                     ),

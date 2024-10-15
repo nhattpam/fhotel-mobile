@@ -4,10 +4,14 @@ import 'package:fhotel_1/views/home_destination_default/home_destination_default
 import 'package:fhotel_1/views/home_hotel_region_empty/widgets/carouselunit_item_widget.dart';
 import 'package:fhotel_1/views/home_hotel_region_empty/widgets/maincontent_item_widget.dart';
 import 'package:fhotel_1/views/home_hotel_region_empty/widgets/maincontent_one_item_widget.dart';
+import 'package:fhotel_1/views/hotel_listing_nearby_screen/list_hotel_view.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../core/app_export.dart';
+import '../../data/models/hotel.dart';
+import '../../data/repository/list_hotel_repo.dart';
+import '../../presenters/list_hotel_presenter.dart';
 import '../home_duration_bottomsheet/home_duration_bottomsheet.dart';
 import '../home_filter_bottomsheet/home_filter_bottomsheet.dart';
 import '../home_room_guest_default/home_room_guest_default.dart';
@@ -20,11 +24,24 @@ class HomeHotelRegionEmptyScreen extends StatefulWidget {
       HomeHotelRegionEmptyScreenState();
 }
 
-class HomeHotelRegionEmptyScreenState
-    extends State<HomeHotelRegionEmptyScreen> {
+class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
+    implements ListHotelView {
   int sliderIndex = 1;
   int _currentIndex = 0;
-  String dateSelected = "Thứ Tư, 02/02/2022";
+  String dateStarSelected = "Thứ Tư, 02/02/2022";
+  String dateEndSelected = "Thứ Tư, 02/02/2022";
+
+  late HotelPresenter _presenter;
+  bool _isLoading = false;
+  List<Hotel> _hotels = [];
+  String? _error;
+
+  @override
+  void initState() {
+    super.initState();
+    _presenter = HotelPresenter(this, ListHotelRepo());
+    _presenter.getHotels(); // Fetch the list of hotels when the screen loads
+  }
 
   void _showModalBottomSheet(BuildContext context) {
     showModalBottomSheet(
@@ -40,12 +57,23 @@ class HomeHotelRegionEmptyScreenState
       context: context,
       builder: (BuildContext context) {
         return HomeCheckInDateDefaultBottomsheet(
-          onDateSelected: (selectedDate) {
+          onDateStarSelected: (selectedDate) {
             if (selectedDate != null) {
               // Update the state with the selected date
               setState(() {
                 // Format the date as desired, here I’m using the default DateTime format
-                dateSelected = DateFormat('EEEE, dd/MM/yyyy').format(selectedDate);
+                dateStarSelected =
+                    DateFormat('EEEE, dd/MM/yyyy').format(selectedDate);
+              });
+            }
+          },
+          onDateEndSelected: (selectedDate) {
+            if (selectedDate != null) {
+              // Update the state with the selected date
+              setState(() {
+                // Format the date as desired, here I’m using the default DateTime format
+                dateEndSelected =
+                    DateFormat('EEEE, dd/MM/yyyy').format(selectedDate);
               });
             }
           },
@@ -89,7 +117,8 @@ class HomeHotelRegionEmptyScreenState
               child: SizedBox(
                 width: double.maxFinite,
                 child: Container(
-                  height: 1032.h,
+                  // height: 1032.h,
+                  height: 850.h,
                   decoration: BoxDecoration(
                     color: appTheme.gray10001,
                   ),
@@ -104,7 +133,7 @@ class HomeHotelRegionEmptyScreenState
                           SizedBox(height: 16.h),
                           _buildSection(context),
                           SizedBox(height: 12.h),
-                          _buildSectionone(context),
+                          // _buildSectionone(context),
                           Container(
                             height: 8.h,
                             width: double.maxFinite,
@@ -299,7 +328,7 @@ class HomeHotelRegionEmptyScreenState
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              "Ngày nhận phòng",
+                                              "Ngày nhận phòng:",
                                               style: theme.textTheme.bodyMedium,
                                             ),
                                             SizedBox(height: 4.h),
@@ -316,7 +345,54 @@ class HomeHotelRegionEmptyScreenState
                                                     0, // Remove shadow/elevation
                                               ),
                                               child: Text(
-                                                dateSelected,
+                                                dateStarSelected,
+                                                style:
+                                                    theme.textTheme.titleSmall,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 18.0, top: 8),
+                                    child: Container(
+                                      height: 70.0,
+                                      width: 1.0,
+                                      color: Colors.black,
+                                      // margin: const EdgeInsets.only(
+                                      //     right: 10.0),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Align(
+                                      alignment: Alignment.bottomLeft,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(top: 10.h),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "Ngày trả phòng:",
+                                              style: theme.textTheme.bodyMedium,
+                                            ),
+                                            SizedBox(height: 4.h),
+                                            ElevatedButton(
+                                              onPressed: () {
+                                                _showCalendarModalBottomSheet(
+                                                    context);
+                                              },
+                                              style: ElevatedButton.styleFrom(
+                                                backgroundColor:
+                                                    Colors.transparent,
+                                                // Set background to transparent
+                                                elevation:
+                                                    0, // Remove shadow/elevation
+                                              ),
+                                              child: Text(
+                                                dateStarSelected,
                                                 style:
                                                     theme.textTheme.titleSmall,
                                               ),
@@ -329,59 +405,63 @@ class HomeHotelRegionEmptyScreenState
                                 ],
                               ),
                             ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(height: 10.h),
-                                Text(
-                                  "Sõ đêm nghỉ",
-                                  style: theme.textTheme.bodyMedium,
-                                ),
-                                SizedBox(height: 4.h),
-                                ElevatedButton(
-                                  onPressed: () {
-                                    _showDurationModalBottomSheet(context);
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.transparent,
-                                    // Set background to transparent
-                                    elevation: 0, // Remove shadow/elevation
-                                  ),
-                                  child: Text(
-                                    "1 đêm",
-                                    style: theme.textTheme.titleSmall,
-                                  ),
-                                ),
-                              ],
-                            ),
+
+                            /// Số đêm nghỉ
+                            // Column(
+                            //   crossAxisAlignment: CrossAxisAlignment.start,
+                            //   children: [
+                            //     SizedBox(height: 10.h),
+                            //     Text(
+                            //       "Sõ đêm nghỉ",
+                            //       style: theme.textTheme.bodyMedium,
+                            //     ),
+                            //     SizedBox(height: 4.h),
+                            //     ElevatedButton(
+                            //       onPressed: () {
+                            //         _showDurationModalBottomSheet(context);
+                            //       },
+                            //       style: ElevatedButton.styleFrom(
+                            //         backgroundColor: Colors.transparent,
+                            //         // Set background to transparent
+                            //         elevation: 0, // Remove shadow/elevation
+                            //       ),
+                            //       child: Text(
+                            //         "1 đêm",
+                            //         style: theme.textTheme.titleSmall,
+                            //       ),
+                            //     ),
+                            //   ],
+                            // ),
                           ],
                         ),
                       ),
-                      SizedBox(height: 8.h),
-                      Container(
-                        width: double.maxFinite,
-                        margin: EdgeInsets.only(
-                          left: 32.h,
-                          right: 38.h,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Ngày trả phòng:",
-                              style: theme.textTheme.bodySmall,
-                            ),
-                            SizedBox(width: 4.h),
-                            Expanded(
-                              child: Text(
-                                "Thứ Năm, 03/02/2022",
-                                style: theme.textTheme.labelLarge,
-                                maxLines: 1,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+
+                      /// Ngày trả phòng dưới ngày nhận phòng
+                      // SizedBox(height: 8.h),
+                      // Container(
+                      //   width: double.maxFinite,
+                      //   margin: EdgeInsets.only(
+                      //     left: 32.h,
+                      //     right: 38.h,
+                      //   ),
+                      //   child: Row(
+                      //     mainAxisAlignment: MainAxisAlignment.center,
+                      //     children: [
+                      //       Text(
+                      //         "Ngày trả phòng:",
+                      //         style: theme.textTheme.bodySmall,
+                      //       ),
+                      //       SizedBox(width: 4.h),
+                      //       Expanded(
+                      //         child: Text(
+                      //           dateEndSelected,
+                      //           style: theme.textTheme.labelLarge,
+                      //           maxLines: 1,
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
                       SizedBox(height: 8.h),
                       SizedBox(width: double.maxFinite, child: Divider()),
                       SizedBox(height: 6.h),
@@ -595,9 +675,17 @@ class HomeHotelRegionEmptyScreenState
                   width: 8.h,
                 );
               },
-              itemCount: 3,
+              itemCount: _hotels.length,
               itemBuilder: (context, index) {
-                return MaincontentOneltemWidget();
+                return _hotels[index].isActive ?? false
+                    ? MaincontentOneltemWidget(
+                        hotelId: _hotels[index].hotelId.toString(),
+                        image: _hotels[index].image.toString(),
+                        name: _hotels[index].hotelName.toString(),
+                        rate: _hotels[index]?.star ?? 0,
+                        description: _hotels[index].description.toString(),
+                      )
+                    : Container();
               },
             ),
           )
@@ -721,5 +809,38 @@ class HomeHotelRegionEmptyScreenState
         ],
       ),
     );
+  }
+
+  // Show loading indicator
+  @override
+  void showLoading() {
+    setState(() {
+      _isLoading = true;
+    });
+  }
+
+  // Hide loading indicator
+  @override
+  void hideLoading() {
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  // Handle success: display list of hotels
+  @override
+  void onGetHotelsSuccess(List<Hotel> hotels) {
+    setState(() {
+      _hotels = hotels;
+      _error = null;
+    });
+  }
+
+  // Handle error: display error message
+  @override
+  void onGetHotelsError(String error) {
+    setState(() {
+      _error = error;
+    });
   }
 }

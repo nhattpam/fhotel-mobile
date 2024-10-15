@@ -56,6 +56,9 @@ class MyBookingDetailsScreen extends StatelessWidget {
     return CustomAppBar(
       leadingWidth: 40.h,
       leading: AppbarLeadingImage(
+        onTap: (){
+          Navigator.pop(context);
+        },
         imagePath: ImageConstant.imgChevronLeft,
         margin: EdgeInsets.only(
           left: 16.h,

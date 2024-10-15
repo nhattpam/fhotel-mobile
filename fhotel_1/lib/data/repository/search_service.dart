@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:fhotel_1/data/models/user.dart';
 import 'package:http/http.dart' as http;
 
+import '../../core/app_export.dart';
+
 class SearchService {
   final String _baseUrl = 'https://fhotelapi.azurewebsites.net/api';
 
@@ -83,6 +85,31 @@ class SearchService {
       }
     } catch (e) {
       print('error: $e');
+    }
+    return false; // Indicates failure
+  }
+  Future<bool> checkPasswordExistence({String? query}) async {
+    final customerId = SessionManager().getUserId();
+    final url = Uri.parse('$_baseUrl/users/$customerId');
+    print(url);
+
+    try {
+      final response = await http.get(url);
+      if (response.statusCode == 200) {
+        final responseData = json.decode(response.body) as Map<String, dynamic>;
+
+        // Parse the user from the JSON response
+        User user = User.fromJson(responseData);
+
+        // Check if query matches the user's password
+        if (query != null && user.password != null) {
+          return user.password!.toLowerCase() == query.toLowerCase();
+        }
+      } else {
+        print("Fetch error: ${response.statusCode}");
+      }
+    } catch (e) {
+      print('Error: $e');
     }
     return false; // Indicates failure
   }

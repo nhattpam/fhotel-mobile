@@ -25,25 +25,25 @@ class EditSearchBottomsheetState extends State<EditSearchBottomsheet> {
     );
   }
 
-  void _showCalendarModalBottomSheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return HomeCheckInDateDefaultBottomsheet(
-          onDateSelected: (selectedDate) {
-            if (selectedDate != null) {
-              // Update the state with the selected date
-              setState(() {
-                // Format the date as desired, here I’m using the default DateTime format
-                dateSelected =
-                    DateFormat('EEEE, dd/MM/yyyy').format(selectedDate);
-              });
-            }
-          },
-        );
-      },
-    );
-  }
+  // void _showCalendarModalBottomSheet(BuildContext context) {
+  //   showModalBottomSheet(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return HomeCheckInDateDefaultBottomsheet(
+  //         onDateSelected: (selectedDate) {
+  //           if (selectedDate != null) {
+  //             // Update the state with the selected date
+  //             setState(() {
+  //               // Format the date as desired, here I’m using the default DateTime format
+  //               dateSelected =
+  //                   DateFormat('EEEE, dd/MM/yyyy').format(selectedDate);
+  //             });
+  //           }
+  //         },
+  //       );
+  //     },
+  //   );
+  // }
 
   void _showDurationModalBottomSheet(BuildContext context) {
     showModalBottomSheet(
@@ -242,8 +242,8 @@ class EditSearchBottomsheetState extends State<EditSearchBottomsheet> {
                                                     SizedBox(height: 4.h),
                                                     ElevatedButton(
                                                       onPressed: () {
-                                                        _showCalendarModalBottomSheet(
-                                                            context);
+                                                        // _showCalendarModalBottomSheet(
+                                                        //     context);
                                                       },
                                                       style: ElevatedButton
                                                           .styleFrom(
