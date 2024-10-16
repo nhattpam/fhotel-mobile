@@ -1022,7 +1022,13 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
   Widget _buildChnphng(BuildContext context) {
     return CustomElevatedButton(
       onPressed: () {
-        Navigator.pushNamed(context, AppRoutes.roomListing);
+        Navigator.pushNamed(
+            context, AppRoutes.roomListing,
+          arguments: {
+            'hotelId': _hotel?.hotelId.toString(),
+          },
+        );
+
       },
       text: "Chọn phòng",
       buttonStyle: CustomButtonStyles.fillBlue,

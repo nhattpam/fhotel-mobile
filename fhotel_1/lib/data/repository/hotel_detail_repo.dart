@@ -30,7 +30,6 @@ class HotelDetailRepo {
 
   Future<List<HotelAmenity>> fetchAmenitiesByHotelId(String hotelId) async {
     final response = await http.get(Uri.parse('$_baseUrl/hotels/$hotelId/hotel-amenities'));
-    print(Uri.parse('$_baseUrl/hotel-amenities/$hotelId'));
 
     if (response.statusCode == 200) {
       List<dynamic> responseData = json.decode(response.body);

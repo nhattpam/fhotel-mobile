@@ -1,23 +1,54 @@
+import 'package:fhotel_1/data/models/hotel_amenity.dart';
+import 'package:fhotel_1/data/repository/list_room_type_repo.dart';
 import 'package:fhotel_1/views/choose_room/widgets/list_item_widget.dart';
 import 'package:fhotel_1/views/choose_room/widgets/list_title_room_item_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/app_export.dart';
+import '../../data/models/room_types.dart';
+import '../../presenters/list_room_type_presenter.dart';
 import '../hotel_edit_search/hotel_edit_search.dart';
+import 'choose_room_view.dart';
 
-class ChooseRoomFullScreen extends StatelessWidget {
-  const ChooseRoomFullScreen({Key? key})
-      : super(
-          key: key,
-        );
+class ChooseRoomFullScreen extends StatefulWidget {
+  @override
+  ChooseRoomFullScreenState createState() => ChooseRoomFullScreenState();
+}
+
+class ChooseRoomFullScreenState extends State<ChooseRoomFullScreen>
+    implements ChooseRoomView {
+  late String hotelId;
+  late ListRoomTypePresenter _presenter;
+  bool _isLoading = false;
+  RoomType? _roomType;
+  String? _error;
+
+  List<RoomType> _roomTypes = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _presenter = ListRoomTypePresenter(this, ListRoomTypeRepo());
+  }
 
   void _showEditSearchModalBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return  EditSearchBottomsheet();
+        return EditSearchBottomsheet();
       },
     );
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Retrieve the arguments passed safely in didChangeDependencies
+    final Map<String, dynamic> args =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    hotelId = args['hotelId'];
+    _presenter.getRoomTypes(hotelId);
+
   }
 
   @override
@@ -33,30 +64,9 @@ class ChooseRoomFullScreen extends StatelessWidget {
               children: [
                 _buildContent(context),
                 Container(
-                    color: appTheme.gray10001,
-                    child: _buildFiltereditems(context)),
-                Container(
-                  width: double.maxFinite,
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 16.h,
-                    vertical: 12.h,
-                  ),
-                  decoration: BoxDecoration(
-                    color: appTheme.whiteA700,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Superior 2 Twin Beds City View",
-                        style: theme.textTheme.titleMedium,
-                      ),
-                      SizedBox(height: 10.h),
-                      _buildListtitleroomit(context)
-                    ],
-                  ),
+                  color: appTheme.gray10001,
+                  // child: _buildFiltereditems(context)
                 ),
-                SizedBox(height: 8.h),
                 Container(
                   width: double.maxFinite,
                   padding: EdgeInsets.symmetric(
@@ -70,7 +80,7 @@ class ChooseRoomFullScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Superior 2 Twin Beds City View",
+                        "Danh sách các loại phòng:",
                         style: theme.textTheme.titleMedium,
                       ),
                       SizedBox(height: 10.h),
@@ -91,7 +101,7 @@ class ChooseRoomFullScreen extends StatelessWidget {
     return CustomAppBar(
         leadingWidth: 40.h,
         leading: AppbarLeadingImage(
-          onTap: (){
+          onTap: () {
             Navigator.pop(context);
           },
           imagePath: ImageConstant.imgChevronLeft,
@@ -246,64 +256,47 @@ class ChooseRoomFullScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildFiltereditems(BuildContext context) {
-    return SizedBox(
-      width: double.maxFinite,
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Padding(
-          padding: EdgeInsets.only(left: 16.h),
-          child: Wrap(
-            direction: Axis.horizontal,
-            runSpacing: 8.h,
-            spacing: 8.h,
-            children: List<Widget>.generate(
-              2,
-              (index) => ChipTheme(
-                data: ChipTheme.of(context).copyWith(
-                  backgroundColor: Colors.white,
-                  selectedColor: Colors.blue,
-                  disabledColor: Colors.grey,
-                  shape: RoundedRectangleBorder(
-                    side: const BorderSide(
-                      color: Colors.grey, // Border color
-                      width: 1, // Border width
-                    ),
-                    borderRadius: BorderRadius.circular(50), // Rounded corners
-                  ),
-                ),
-                child: const Chip(
-                  label: Text(
-                    "Wifi miễn phí",
-                    textAlign: TextAlign.center,
-                  ),
-                  // selected: false,
-                  // onSelected: (bool selected) {},
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildListtitleroomit(BuildContext context) {
-    return ListView.separated(
-      padding: EdgeInsets.zero,
-      physics: NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      separatorBuilder: (context, index) {
-        return SizedBox(
-          height: 12.h,
-        );
-      },
-      itemCount: 2,
-      itemBuilder: (context, index) {
-        return ListtitleroomitItemWidget();
-      },
-    );
-  }
+  // Widget _buildFiltereditems(BuildContext context) {
+  //   return SizedBox(
+  //     width: double.maxFinite,
+  //     child: SingleChildScrollView(
+  //       scrollDirection: Axis.horizontal,
+  //       child: Padding(
+  //         padding: EdgeInsets.only(left: 16.h),
+  //         child: Wrap(
+  //           direction: Axis.horizontal,
+  //           runSpacing: 8.h,
+  //           spacing: 8.h,
+  //           children: List<Widget>.generate(
+  //             2,
+  //             (index) => ChipTheme(
+  //               data: ChipTheme.of(context).copyWith(
+  //                 backgroundColor: Colors.white,
+  //                 selectedColor: Colors.blue,
+  //                 disabledColor: Colors.grey,
+  //                 shape: RoundedRectangleBorder(
+  //                   side: const BorderSide(
+  //                     color: Colors.grey, // Border color
+  //                     width: 1, // Border width
+  //                   ),
+  //                   borderRadius: BorderRadius.circular(50), // Rounded corners
+  //                 ),
+  //               ),
+  //               child: const Chip(
+  //                 label: Text(
+  //                   "Wifi miễn phí",
+  //                   textAlign: TextAlign.center,
+  //                 ),
+  //                 // selected: false,
+  //                 // onSelected: (bool selected) {},
+  //               ),
+  //             ),
+  //           ),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Widget _buildList(BuildContext context) {
     return ListView.separated(
@@ -315,10 +308,46 @@ class ChooseRoomFullScreen extends StatelessWidget {
           height: 12.h,
         );
       },
-      itemCount: 2,
+      itemCount: _roomTypes.length,
       itemBuilder: (context, index) {
-        return ListItemWidget();
+        return ListItemWidget(hotelId: _roomTypes[index].hotelId.toString(),
+          name: _roomTypes[index].typeName.toString(),
+          roomSize: _roomTypes[index].roomSize?.toInt() ?? 0 ,
+          basePrice: _roomTypes[index].basePrice?.toDouble() ?? 0);
       },
     );
   }
+
+  // Show loading indicator
+  @override
+  void showLoading() {
+    setState(() {
+      _isLoading = true;
+    });
+  }
+
+  // Hide loading indicator
+  @override
+  void hideLoading() {
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  @override
+  void showRoomTypes(List<RoomType> roomTypes) {
+    setState(() {
+      _roomTypes = roomTypes;
+    });
+  }
+
+  // Handle success: display hotel details
+  @override
+  void onGetHotelSuccess(RoomType roomType) {
+    setState(() {
+      _roomType = roomType;
+      _error = null;
+    });
+  }
+
 }
