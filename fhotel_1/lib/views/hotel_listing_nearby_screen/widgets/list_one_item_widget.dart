@@ -54,6 +54,16 @@ class _ListHotelWidgetState extends State<ListHotelWidget> {
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
+                    if(widget.image == 'string')
+                    CustomImageView(
+                      imagePath: 'https://casf.com.au/wp-content/uploads/2022/01/silver_grey.png',
+                      height: 120.h,
+                      width: double.maxFinite,
+                      radius: BorderRadius.circular(
+                        8.h,
+                      ),
+                    ),
+                    if(widget.image != 'string')
                     CustomImageView(
                       imagePath: widget.image,
                       height: 120.h,

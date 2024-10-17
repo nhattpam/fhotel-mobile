@@ -3,6 +3,8 @@ import 'package:fhotel_1/presenters/hotel_detail_presenter.dart';
 import 'package:fhotel_1/views/home_hotel_region_empty/widgets/carouselunit_item_widget.dart';
 import 'package:fhotel_1/views/hotel_detail/hotel_detail_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart' as html;
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/app_export.dart';
 import '../../../data/models/hotel.dart';
@@ -10,14 +12,13 @@ import '../../../data/models/hotel_amenity.dart';
 import '../../hotel_edit_search/hotel_edit_search.dart';
 
 class HotelDetailScreen extends StatefulWidget {
-
   @override
   HotelDetailScreenState createState() => HotelDetailScreenState();
 }
 
 class HotelDetailScreenState extends State<HotelDetailScreen>
-    with TickerProviderStateMixin implements HotelDetailView{
-
+    with TickerProviderStateMixin
+    implements HotelDetailView {
   int sliderIndex = 1;
   late TabController tabviewController;
 
@@ -58,12 +59,14 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
     });
     _presenter = HotelDetailPresenter(this);
   }
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
 
     // Retrieve the arguments passed safely in didChangeDependencies
-    final Map<String, dynamic> args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    final Map<String, dynamic> args =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     hotelId = args['hotelId'];
 
     // Fetch the hotel details using the presenter
@@ -83,7 +86,100 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return  EditSearchBottomsheet();
+        return EditSearchBottomsheet();
+      },
+    );
+  }
+  void _showGuestPolicyModalBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return SingleChildScrollView(
+          child: Container(
+            // Your modal bottom sheet content here
+            child: html.Html(
+              data: """
+              <h2>Guest Policies</h2>
+
+              <h3>General Terms and Conditions</h3>
+
+              <ul>
+                <li>The primary guest must be above the age of 16 years to be able to check-in the hotel.</li>
+                <li>It is mandatory for guests to present a valid photo identification document at the time of check-in. The identification proofs accepted are National ID card (Chung Minh Nhan Dan), Driving License, or Passport. Without the original copy of a valid ID, the guest will not be allowed to check-in.</li>
+                <li>Stay of 1 child up to the age of 5 years is complimentary without the use of an extra bed. Breakfast charges may still be applicable for the child.</li>
+                <li>Pets are not allowed in the hotel premises.</li>
+                <li>Should any action by a guest be deemed inappropriate by the hotel or if any inappropriate behaviour is brought to the attention of the hotel staff, the hotel reserves the right to take action against the guest after the allegations have been investigated.</li>
+                <li>A discounted booking cannot be modified. Additionally, in the case of an early check-out for such a booking, the booking amount paid cannot be refunded.</li>
+                <li>Our hotels in certain destinations may have different policies applicable for specific times during the year.</li>
+                <li>Guests shall be liable for any damage, except normal wear and tear to Hotel assets. Guests shall keep the Hotel room in a good condition and maintain hygiene and cleanliness.</li>
+                <li>Certain policies are booking specific and are informed to the customer while making the booking.</li>
+                <li>Guests may be contacted closer to their check-in date to confirm their arrival status or arrival time through calls or messages. In case we do not receive a response from the guest after multiple attempts, the booking may be put on hold or cancelled. In case of availability, the hotel will try to reinstate your booking when you contact us back or make a payment through our payment options.</li>
+                <li>As we continue to strive to improve our services, we may reach out to guests to get feedback on their experience through calls or messages.</li>
+              </ul>
+
+              <h3>Booking Extension Policy</h3>
+
+              <ul>
+                <li>Extension of a booking would be provided at current room rates and is subject to availability.</li>
+                <li>Current room rates can be different from the rates at which the rooms were first booked.</li>
+              </ul>
+
+              <h3>Cancellation Policy</h3>
+              <h4>Cancelling an OYO is as fast and easy as booking one</h4>
+              
+              <p>We would love to host you but in case your plans change, our simple cancellation process makes sure you receive a quick confirmation and fast refunds. Our standard check-in time is 2 PM and you can check-in any time after that till your reservation is valid. </p>
+
+              <ul>
+                <li>If cancelled one day before the check-in date before 9 am	| Free cancellation (100% refund).</li>
+                <li>If cancelled one day before the check-in date after 9 am	| 0% refund</li>
+              </ul>
+              
+              <h4>Before check-in</h4>
+
+              <p>We will fully refund any booking cancelled up to 24 hours prior to the scheduled check-in date. For any cancellation within 24 hours of scheduled check-in, the complete booking amount shall be deducted as cancellation charges.</p>
+              <h4>On the date of check-in</h4>
+
+              <p>In case you decide to cancel a booking after the scheduled check-in time or do not show up at the hotel, the complete booking amount shall be deducted as cancellation/no-show charges.</p>
+
+              <h4>Mid-Stay Cancellations</h4>
+
+              <p>During your stay, if you decide to shorten your booking before 2 pm, you will be charged for one night. If you decide to shorten your booking after 2 pm, you will be charged for the next two nights. Money paid for the remaining nights will be refunded as per the refund policy.</p>
+
+              <h3>Payment Policy</h3>
+
+              <p>For bookings of more than 7 nights, guests have to settle all outstanding payments on a weekly basis. The hotel will be unable to provide further accommodation prior to settlement of the outstanding amount.</p>
+
+              <h3>Early Check-in and Late Check-out</h3>
+              <h4>Early check-in (subject to availability)</h4>
+
+              <p>Will incur extra charges depending on the time:</p>
+
+              <ul>
+                <li>Before 8 AM: 100% charges for one day payable as per room rates of the previous day.</li>
+                <li>Between 8 AM and 12 PM: 30% charges payable as per room rates of the previous day, depending on hotel policy.</li>
+                <li>Between 12 PM and 2 PM: Complimentary (no extra charge).</li>
+              </ul>
+              <h4>Late check-out (subject to availability))</h4>
+
+              <p>May incur extra charges:</p>
+
+              <ul>
+                <li>Between 12 PM - 2 PM: Complimentary.</li>
+                <li>Between 2 PM and 6 PM: 30% charges payable as per room rates of the next day.</li>
+                <li>After 6 PM: 100% charges payable as per room rates of the next day.</li>
+              </ul>
+
+              <h3>Hotel Specific Policies</h3>
+
+              <p>Hotel-specific amenities are captured on the website and app. Guests are advised to refer to the same before booking. Some hotels may deny entry of visitors to rooms, so it’s advisable to confirm with the hotel before inviting visitors into the rooms.</p>
+            """,
+              style: {
+                "body": html.Style(
+                    fontWeight: FontWeight.normal, color: Colors.black),
+              },
+            ),
+          ),
+        );
       },
     );
   }
@@ -122,23 +218,26 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
                             children: [
                               SizedBox(height: 12.h),
                               _isLoading
-                              ?  const SizedBox(
-                                width: 350,
-                                child:  Skeleton(width: 350, height: 150),
-                              )
-                              : GestureDetector(
-                                onTap: () {
-                                  _showZoomableImageDialog(
-                                      context, _hotel?.image.toString() ?? ''); // Open zoomable dialog
-                                },
-                                child: Container(
-                                  width: 350,
-                                  child: Image.network(
-                                    _hotel?.image.toString() ?? '',
-                                    fit: BoxFit.fitWidth,
-                                  ),
-                                ),
-                              ),
+                                  ? const SizedBox(
+                                      width: 350,
+                                      child: Skeleton(width: 350, height: 150),
+                                    )
+                                  : GestureDetector(
+                                      onTap: () {
+                                        _showZoomableImageDialog(
+                                            context,
+                                            _hotel?.image.toString() ??
+                                                'https://casf.com.au/wp-content/uploads/2022/01/silver_grey.png'); // Open zoomable dialog
+                                      },
+                                      child: Container(
+                                        width: 350,
+                                        child: Image.network(
+                                          _hotel?.image.toString() ??
+                                              'https://casf.com.au/wp-content/uploads/2022/01/silver_grey.png',
+                                          fit: BoxFit.fitWidth,
+                                        ),
+                                      ),
+                                    ),
                               Container(
                                 key: overviewKey,
                                 width: double.maxFinite,
@@ -192,7 +291,9 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
                                                 CustomRatingBar(
                                                   color: Colors.yellow,
                                                   ignoreGestures: true,
-                                                  initialRating: _hotel?.star?.toDouble() ?? 0,
+                                                  initialRating: _hotel?.star
+                                                          ?.toDouble() ??
+                                                      0,
                                                 ),
                                               ],
                                             ),
@@ -221,7 +322,9 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
                                                   child: SizedBox(
                                                     width: 260.h,
                                                     child: Text(
-                                                      _hotel?.description.toString() ?? '',
+                                                      _hotel?.address
+                                                              .toString() ??
+                                                          '',
                                                       maxLines: 2,
                                                       overflow:
                                                           TextOverflow.ellipsis,
@@ -438,6 +541,7 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
                                             "Tiện nghi",
                                             style: theme.textTheme.titleMedium,
                                           ),
+
                                           ///Xem tất cả tiện nghi
                                           // const Spacer(),
                                           // Text(
@@ -462,10 +566,9 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
                                     ),
                                     SizedBox(height: 14.h),
                                     SizedBox(
-                                      width: double.maxFinite,
-                                      height: 120,
-                                      child: _buildGridView(context)
-                                    )
+                                        width: double.maxFinite,
+                                        height: 120,
+                                        child: _buildGridView(context))
                                   ],
                                 ),
                               ),
@@ -570,7 +673,17 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
                                           ),
                                         ],
                                       ),
-                                    )
+                                    ),
+                                    SizedBox(height: 12.h),
+                                    InkWell(
+                                          child: new Text(
+                                            'View Guest Policy',
+                                            style: TextStyle(color: Colors.red, fontSize: 20),
+                                          ),
+                                          onTap: () => {
+                                            _showGuestPolicyModalBottomSheet(context)
+                                          }
+                                    ),
                                   ],
                                 ),
                               ),
@@ -604,7 +717,8 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
                                           SizedBox(
                                             width: 324.h,
                                             child: Text(
-                                              "Nảm dọc theo bãi biển Mỹ Khê cát trắng trải dài thơ mộng, khu nghỉ dưỡng dành cho gia đình sang trọng bật nhất thế giới Premier Village Danang được ưu ái tọa lạc ở vị trí đặc biệtđặc biệtđặc biệtđặc biệtđặc biệtđặc biệtđặc biệtđặc biệtđặc biệtđặc biệtđặc biệtđặc biệtđặc biệtđặc biệtđặc biệtđặc biệtđặc biệtđặc biệtđặc biệtđặc biệtđặc biệt",
+                                              _hotel?.description.toString() ??
+                                                  '',
                                               maxLines: 5,
                                               overflow: TextOverflow.ellipsis,
                                               style: theme.textTheme.bodyMedium!
@@ -642,7 +756,7 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
     return CustomAppBar(
         leadingWidth: 40.h,
         leading: AppbarLeadingImage(
-          onTap: (){
+          onTap: () {
             Navigator.pop(context);
           },
           imagePath: ImageConstant.imgChevronLeft,
@@ -925,6 +1039,7 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
       ]),
     );
   }
+
   Widget _buildGridView(BuildContext context) {
     return GridView.builder(
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -936,7 +1051,8 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
       itemCount: _amenities.length, // Number of items in the grid
       itemBuilder: (context, index) {
         return Image.network(
-          _amenities[index].image.toString(),// Replace with your image asset path
+          _amenities[index].image.toString(),
+          // Replace with your image asset path
           width: 1, // Set the width of the image
           height: 1, // Set the height of the image
           // fit: BoxFit.cover,
@@ -1023,12 +1139,12 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
     return CustomElevatedButton(
       onPressed: () {
         Navigator.pushNamed(
-            context, AppRoutes.roomListing,
+          context,
+          AppRoutes.roomListing,
           arguments: {
             'hotelId': _hotel?.hotelId.toString(),
           },
         );
-
       },
       text: "Chọn phòng",
       buttonStyle: CustomButtonStyles.fillBlue,
@@ -1086,6 +1202,7 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
       ),
     );
   }
+
   void _showZoomableImageDialog(BuildContext context, String imagePath) {
     showDialog(
       context: context,
@@ -1110,6 +1227,7 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
       ),
     );
   }
+
   // Show loading indicator
   @override
   void showLoading() {
@@ -1132,6 +1250,7 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
       _amenities = amenities;
     });
   }
+
   // Handle success: display hotel details
   @override
   void onGetHotelSuccess(Hotel hotel) {
