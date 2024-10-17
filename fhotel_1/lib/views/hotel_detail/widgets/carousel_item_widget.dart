@@ -1,10 +1,14 @@
 import 'package:fhotel_1/core/utils/skeleton.dart';
 import 'package:fhotel_1/data/models/late_checkout_policy.dart';
+import 'package:fhotel_1/data/models/refund_policy.dart';
 import 'package:fhotel_1/data/repository/late_checkout_policy_repo.dart';
+import 'package:fhotel_1/data/repository/refund_policy_repo.dart';
 import 'package:fhotel_1/presenters/hotel_detail_presenter.dart';
 import 'package:fhotel_1/presenters/late_checkout_policy_presenter.dart';
+import 'package:fhotel_1/presenters/refund_policy_presenter.dart';
 import 'package:fhotel_1/views/hotel_detail/hotel_detail_view.dart';
 import 'package:fhotel_1/views/hotel_detail/late_checkout_policy_view.dart';
+import 'package:fhotel_1/views/hotel_detail/refund_policy_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart' as html;
 
@@ -20,7 +24,7 @@ class HotelDetailScreen extends StatefulWidget {
 
 class HotelDetailScreenState extends State<HotelDetailScreen>
     with TickerProviderStateMixin
-    implements HotelDetailView, LateCheckoutPolicyView {
+    implements HotelDetailView, LateCheckoutPolicyView, RefundPolicyView {
   int sliderIndex = 1;
   late TabController tabviewController;
 
@@ -32,6 +36,7 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
 
   late HotelDetailPresenter _presenter;
   late LateCheckoutPolicyPresenter _policyPresenter;
+  late RefundPolicyPresenter _policyRefundPresenter;
   bool _isLoading = false;
   Hotel? _hotel;
   String? _error;
@@ -39,6 +44,7 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
 
   List<HotelAmenity> _amenities = [];
   List<LateCheckOutPolicy> _policies = [];
+  List<RefundPolicy> _refundPolicies = [];
 
   @override
   void initState() {
@@ -64,6 +70,8 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
     _presenter = HotelDetailPresenter(this);
     _policyPresenter = LateCheckoutPolicyPresenter(this, LateCheckoutPolicyRepo());
     _policyPresenter.getLateCheckOutPolicies();
+    _policyRefundPresenter = RefundPolicyPresenter(this, RefundPolicyRepo());
+    _policyRefundPresenter.getRefundPolicies();
   }
 
   @override
@@ -97,6 +105,15 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
     );
   }
   void _showGuestPolicyModalBottomSheet(BuildContext context) {
+    String cancellationTimeBefore9PM = _refundPolicies[0].cancellationTime.toString();
+    String cancellationTimeAfter9PM = _refundPolicies[1].cancellationTime.toString();
+
+    String refundPercentageBefore9PM = _refundPolicies[0].refundPercentage.toString();
+    String refundPercentageAfter9PM = _refundPolicies[1].refundPercentage.toString();
+
+    String descriptionBefore9PM = _refundPolicies[0].description.toString();
+    String descriptionAfter9PM = _refundPolicies[1].description.toString();
+
     String policyAfter6PM = _policies[0].description.toString();
     String policyBetween6PM = _policies[1].description.toString();
     String policyBetween2PM = _policies[2].description.toString();
@@ -144,8 +161,8 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
               <p>We would love to host you but in case your plans change, our simple cancellation process makes sure you receive a quick confirmation and fast refunds. Our standard check-in time is 2 PM and you can check-in any time after that till your reservation is valid. </p>
 
               <ul>
-                <li>If cancelled one day before the check-in date before 9 am	| Free cancellation (100% refund).</li>
-                <li>If cancelled one day before the check-in date after 9 am	| 0% refund</li>
+                <li>$descriptionBefore9PM	| Free cancellation ($cancellationTimeBefore9PM, $refundPercentageBefore9PM% refund).</li>
+                <li>$descriptionAfter9PM	| $cancellationTimeAfter9PM, $refundPercentageAfter9PM% refund</li>
               </ul>
               
               <h4>Before check-in</h4>
@@ -1294,8 +1311,18 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
   void onGetLateCheckOutPoliciesSuccess(List<LateCheckOutPolicy> policies) {
     setState(() {
       _policies = policies;
-      print(policies);
       _error = null;
     });
+  }
+
+  @override
+  void onGetRefundPoliciesError(String error) {
+    // TODO: implement onGetRefundPoliciesError
+  }
+
+  @override
+  void onGetRefundPoliciesSuccess(List<RefundPolicy> policies) {
+    // TODO: implement onGetRefundPoliciesSuccess
+    _refundPolicies = policies;
   }
 }

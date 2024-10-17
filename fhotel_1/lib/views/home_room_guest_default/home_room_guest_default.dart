@@ -1,3 +1,8 @@
+import 'package:fhotel_1/data/models/room_image.dart';
+import 'package:fhotel_1/data/models/room_types.dart';
+import 'package:fhotel_1/data/repository/list_room_type_repo.dart';
+import 'package:fhotel_1/presenters/list_room_type_presenter.dart';
+import 'package:fhotel_1/views/choose_room/choose_room_view.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/app_export.dart';
@@ -11,11 +16,21 @@ class HomeRoomGuestFilledBottomsheet extends StatefulWidget {
 }
 
 class HomeRoomGuestFilledBottomsheetState
-    extends State<HomeRoomGuestFilledBottomsheet> {
+    extends State<HomeRoomGuestFilledBottomsheet> implements ChooseRoomView {
   TextEditingController inputOneController = TextEditingController();
   List<String> dropdownItemList = ["Phòng đôi", "Phòng đơn", "Phòng siu cấp vip pro"];
   List<int> quantities = [1, 1, 1]; // Initialize all quantities to 1
+  late ListRoomTypePresenter _presenter;
+  bool _isLoading = false;
+  List<RoomType> _roomTypes = [];
+  String? _error;
 
+  @override
+  void initState() {
+    super.initState();
+    _presenter = ListRoomTypePresenter(this, ListRoomTypeRepo());
+    _presenter.getRoomTypes(); // Fetch the list of hotels when the screen loads
+  }
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -129,7 +144,7 @@ class HomeRoomGuestFilledBottomsheetState
     return SizedBox(
       width: double.maxFinite,
       child: ListView.builder(
-        itemCount: dropdownItemList.length,
+        itemCount: _roomTypes.length,
         // Replace yourList with the actual list you're using
         shrinkWrap: true,
         // This will allow the ListView to fit within its parent
@@ -182,7 +197,7 @@ class HomeRoomGuestFilledBottomsheetState
                                             elevation: 0, // Remove shadow/elevation
                                           ),
                                           child: Text(
-                                            "Phòng ${dropdownItemList[index]}",
+                                            "${_roomTypes[index].typeName}",
                                             style: CustomTextStyles.titleSmallGray600.copyWith(
                                               color: appTheme.gray600,
                                             ),
@@ -358,6 +373,35 @@ class HomeRoomGuestFilledBottomsheetState
         children: [_buildHontt(context)],
       ),
     );
+  }
+
+  @override
+  void hideLoading() {
+    // TODO: implement hideLoading
+  }
+
+  @override
+  void onGetRoomImageSuccess(List<RoomImage> roomImage) {
+    // TODO: implement onGetRoomImageSuccess
+  }
+
+  @override
+  void onGetRoomTypeSuccess(RoomType hotel) {
+    // TODO: implement onGetRoomTypeSuccess
+  }
+
+  @override
+  void showLoading() {
+    // TODO: implement showLoading
+  }
+
+  @override
+  void showRoomTypes(List<RoomType> roomTypes) {
+    // TODO: implement showRoomTypes
+    setState(() {
+      _roomTypes = roomTypes;
+      _error = null;
+    });
   }
 
 }

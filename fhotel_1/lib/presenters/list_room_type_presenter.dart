@@ -11,7 +11,7 @@ class ListRoomTypePresenter {
 
   ListRoomTypePresenter(this._view, this._listRoomTypeRepo);
 
-  void getRoomTypes(String hotelId) async {
+  void getRoomTypesByHotelId(String hotelId) async {
     print('getRoomTypes called with hotelId: $hotelId'); // Log method call
     _view.showLoading(); // Show loading indicator
     try {
@@ -63,6 +63,17 @@ class ListRoomTypePresenter {
       print("Error fetching room type by ID");
     } finally {
       _view.hideLoading();
+    }
+  }
+  Future<void> getRoomTypes() async {
+    _view.showLoading(); // Show loading before fetching data
+    try {
+      List<RoomType> hotels = await _listRoomTypeRepo.getRoomTypes();
+      _view.showRoomTypes(hotels); // Pass the data to the view on success
+    } catch (error) {
+      print(error);
+    } finally {
+      _view.hideLoading(); // Hide loading after the process
     }
   }
 }

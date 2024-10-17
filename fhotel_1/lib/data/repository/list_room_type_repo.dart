@@ -61,5 +61,20 @@ class ListRoomTypeRepo {
       throw Exception('Failed to fetch room type.');
     }
   }
+  Future<List<RoomType>> getRoomTypes() async {
 
+    final url = Uri.parse('$_baseUrl/room-types');
+
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      List<dynamic> responseData = json.decode(response.body);
+      return responseData
+          .map((roomTypeJson) => RoomType.fromJson(roomTypeJson))
+          .where((roomType) => roomType.isActive == true) // Filter active hotels
+          .toList();
+    } else {
+      throw Exception('Failed to fetch room types.');
+    }
+  }
 }

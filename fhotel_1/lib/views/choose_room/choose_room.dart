@@ -37,7 +37,7 @@ class ChooseRoomFullScreenState extends State<ChooseRoomFullScreen>
       hotelName = args['hotelName'];
 
       // Now fetch room types using the presenter
-      _presenter.getRoomTypes(hotelId);
+      _presenter.getRoomTypesByHotelId(hotelId);
     });
   }
 
