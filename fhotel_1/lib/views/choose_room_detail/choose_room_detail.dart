@@ -2,12 +2,32 @@ import 'package:fhotel_1/views/home_hotel_region_empty/widgets/carouselunit_item
 import 'package:flutter/material.dart';
 
 import '../../core/app_export.dart';
+import '../../data/models/room_image.dart';
+import '../../data/models/room_types.dart';
+import '../../data/repository/list_room_type_repo.dart';
+import '../../presenters/list_room_type_presenter.dart';
+import '../choose_room/choose_room_view.dart';
 
-class ChooseRoomRoomDetailScreen extends StatelessWidget {
-  const ChooseRoomRoomDetailScreen({Key? key})
-      : super(
-          key: key,
-        );
+class ChooseRoomRoomDetailScreen extends StatefulWidget {
+  final String roomTypeId;
+  const ChooseRoomRoomDetailScreen({super.key, required this.roomTypeId});
+
+  @override
+  ChooseRoomRoomDetailScreenState createState() =>
+      ChooseRoomRoomDetailScreenState();
+}
+
+class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen> implements ChooseRoomView{
+  int activeIndex = 0;
+  late ListRoomTypePresenter _presenter;
+  RoomType? _roomType;
+
+  @override
+  void initState() {
+    super.initState();
+    _presenter = ListRoomTypePresenter(this, ListRoomTypeRepo());
+    _presenter.getRoomTypeById(widget.roomTypeId);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +54,7 @@ class ChooseRoomRoomDetailScreen extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   _buildSheetheader(context),
-                  CarouselunitItemWidget(),
+                  CarouselunitItemWidget(roomTypeId: widget.roomTypeId),
                   Container(
                     width: double.maxFinite,
                     padding: EdgeInsets.symmetric(
@@ -50,7 +70,7 @@ class ChooseRoomRoomDetailScreen extends StatelessWidget {
                       children: [
                         SizedBox(height: 2.h),
                         Text(
-                          "Phòng Superior, 2 giường đơn, quang cảnh thành phố",
+                          _roomType?.typeName.toString() ?? '',
                           style: theme.textTheme.titleMedium,
                         ),
                         SizedBox(height: 10.h),
@@ -110,7 +130,7 @@ class ChooseRoomRoomDetailScreen extends StatelessWidget {
                                       child: SizedBox(
                                         width: 286.h,
                                         child: Text(
-                                          "240m2",
+                                          "Room size:${_roomType?.roomSize.toString() ?? ''}m2",
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           style: theme.textTheme.bodyMedium!
@@ -655,5 +675,33 @@ class ChooseRoomRoomDetailScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+  // Show loading indicator
+  @override
+  void showLoading() {
+    // Show loading indicator (e.g., CircularProgressIndicator)
+  }
+
+  @override
+  void hideLoading() {
+    // Hide loading indicator
+  }
+
+  @override
+  void showRoomTypes(List<RoomType> roomTypes) {
+    // Logic to handle room types if necessary
+  }
+
+  @override
+  void onGetRoomImageSuccess(List<RoomImage> roomImage) {
+
+  }
+
+  @override
+  void onGetRoomTypeSuccess(RoomType roomType) {
+    // TODO: implement onGetRoomTypeSuccess
+    setState(() {
+      _roomType = roomType;
+    });
   }
 }

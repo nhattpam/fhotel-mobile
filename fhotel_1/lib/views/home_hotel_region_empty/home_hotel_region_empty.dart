@@ -587,28 +587,28 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
             ),
           ),
           SizedBox(height: 14.h),
-          SizedBox(
-            width: double.maxFinite,
-            child: CarouselSlider.builder(
-              options: CarouselOptions(
-                height: 108.h,
-                initialPage: 0,
-                autoPlay: true,
-                viewportFraction: 1.0,
-                enableInfiniteScroll: true,
-                scrollDirection: Axis.horizontal,
-                onPageChanged: (index, reason) {
-                  setState(() {
-                    sliderIndex = index;
-                  });
-                },
-              ),
-              itemCount: 5,
-              itemBuilder: (context, index, realIndex) {
-                return CarouselunitItemWidget();
-              },
-            ),
-          ),
+          // SizedBox(
+          //   width: double.maxFinite,
+          //   child: CarouselSlider.builder(
+          //     options: CarouselOptions(
+          //       height: 108.h,
+          //       initialPage: 0,
+          //       autoPlay: true,
+          //       viewportFraction: 1.0,
+          //       enableInfiniteScroll: true,
+          //       scrollDirection: Axis.horizontal,
+          //       onPageChanged: (index, reason) {
+          //         setState(() {
+          //           sliderIndex = index;
+          //         });
+          //       },
+          //     ),
+          //     itemCount: 5,
+          //     itemBuilder: (context, index, realIndex) {
+          //       return CarouselunitItemWidget();
+          //     },
+          //   ),
+          // ),
           SizedBox(height: 14.h),
           Container(
             width: double.maxFinite,

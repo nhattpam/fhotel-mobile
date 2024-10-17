@@ -125,7 +125,7 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
               </ul>
 
               <h3>Cancellation Policy</h3>
-              <h4>Cancelling an OYO is as fast and easy as booking one</h4>
+              <h4>Cancelling an FHotel is as fast and easy as booking one</h4>
               
               <p>We would love to host you but in case your plans change, our simple cancellation process makes sure you receive a quick confirmation and fast refunds. Our standard check-in time is 2 PM and you can check-in any time after that till your reservation is valid. </p>
 

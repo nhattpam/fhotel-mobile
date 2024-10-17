@@ -38,4 +38,6 @@ class HotelDetailRepo {
       throw Exception('Failed to load amenities');
     }
   }
+
+
 }

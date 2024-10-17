@@ -3,39 +3,49 @@ import 'package:fhotel_1/core/app_export.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import '../../../data/models/room_image.dart';
+import '../../../data/models/room_types.dart';
+import '../../../data/repository/list_room_type_repo.dart';
+import '../../../presenters/list_room_type_presenter.dart';
+import '../../choose_room/choose_room_view.dart';
+
 class CarouselunitItemWidget extends StatefulWidget {
-  const CarouselunitItemWidget({super.key});
+  final String roomTypeId;
+  const CarouselunitItemWidget({super.key, required this.roomTypeId});
 
   @override
   State<CarouselunitItemWidget> createState() => _CarouselunitItemWidgetState();
 }
 
-class _CarouselunitItemWidgetState extends State<CarouselunitItemWidget> {
+class _CarouselunitItemWidgetState extends State<CarouselunitItemWidget> implements ChooseRoomView {
   int activeIndex = 0;
+  late ListRoomTypePresenter _presenter;
+  RoomType? _roomType;
+  List<RoomImage> _roomImage = [];
 
-  final List<String> images = [
-    ImageConstant.imgImage,
-    ImageConstant.imgImage108x328,
-    ImageConstant.imgImage108x328,
-    ImageConstant.imgImage108x328,
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _presenter = ListRoomTypePresenter(this, ListRoomTypeRepo());
+    _presenter.getRoomImage(widget.roomTypeId);
+    _presenter.getRoomTypeById(widget.roomTypeId);
+  }
 
   // Generates list of GestureDetector-wrapped images for tapping and zooming
   List<Widget> generateImagesTiles() {
-    return images
+    return _roomImage
         .map((element) => GestureDetector(
-              onTap: () {
-                _showZoomableImageDialog(
-                    context, element); // Open zoomable dialog
-              },
-              child: Container(
-                width: 350,
-                child: Image.asset(
-                  element,
-                  fit: BoxFit.fitWidth,
-                ),
-              ),
-            ))
+      onTap: () {
+        _showZoomableImageDialog(context, element.image.toString()); // Use imagePath from RoomImage
+      },
+      child: Container(
+        width: 350,
+        child: CachedNetworkImage(
+          imageUrl: element.image.toString(),
+          fit: BoxFit.fitWidth,
+        ),
+      ),
+    ))
         .toList();
   }
 
@@ -47,7 +57,7 @@ class _CarouselunitItemWidgetState extends State<CarouselunitItemWidget> {
         alignment: AlignmentDirectional.bottomCenter,
         children: [
           CarouselSlider(
-            items: generateImagesTiles(), // Load images with zoom functionality
+            items: generateImagesTiles(), // Load images from _roomImage
             options: CarouselOptions(
               enlargeCenterPage: true,
               height: 108.h,
@@ -55,8 +65,7 @@ class _CarouselunitItemWidgetState extends State<CarouselunitItemWidget> {
               autoPlay: true,
               viewportFraction: 1,
               enableInfiniteScroll: true,
-              onPageChanged: (index, reason) =>
-                  setState(() => activeIndex = index),
+              onPageChanged: (index, reason) => setState(() => activeIndex = index),
             ),
           ),
           SizedBox(height: 14.h),
@@ -69,7 +78,7 @@ class _CarouselunitItemWidgetState extends State<CarouselunitItemWidget> {
                   height: 2.h,
                   child: AnimatedSmoothIndicator(
                     activeIndex: activeIndex,
-                    count: images.length,
+                    count: _roomImage.length, // Update count to the number of images
                     effect: ScrollingDotsEffect(
                       spacing: 4,
                       activeDotColor: theme.colorScheme.primary,
@@ -96,13 +105,11 @@ class _CarouselunitItemWidgetState extends State<CarouselunitItemWidget> {
         child: Center(
           child: Container(
             width: MediaQuery.of(context).size.width * 0.8,
-            // Set dialog width to 90% of screen width
-            // height: MediaQuery.of(context).size.height * 0.9, // Set dialog height to 80% of screen height
             child: InteractiveViewer(
               panEnabled: false, // Enable panning inside the dialog
               minScale: 0.5,
               maxScale: 4.0,
-              child: Image.asset(
+              child: Image.network(
                 imagePath,
                 fit: BoxFit.contain,
               ),
@@ -112,4 +119,38 @@ class _CarouselunitItemWidgetState extends State<CarouselunitItemWidget> {
       ),
     );
   }
+
+  // Show loading indicator
+  @override
+  void showLoading() {
+    // Show loading indicator (e.g., CircularProgressIndicator)
+  }
+
+  @override
+  void hideLoading() {
+    // Hide loading indicator
+  }
+
+  @override
+  void showRoomTypes(List<RoomType> roomTypes) {
+    // Logic to handle room types if necessary
+  }
+
+  @override
+  void onGetRoomImageSuccess(List<RoomImage> roomImage) {
+    if (roomImage.isNotEmpty && _roomImage.isEmpty) {
+      setState(() {
+        _roomImage = roomImage; // Update state with the fetched images only if it's empty
+      });
+    }
+  }
+
+  @override
+  void onGetRoomTypeSuccess(RoomType roomType) {
+    // TODO: implement onGetRoomTypeSuccess
+    setState(() {
+      _roomType = roomType;
+    });
+  }
+
 }

@@ -1,4 +1,5 @@
 import 'package:fhotel_1/data/models/hotel_amenity.dart';
+import 'package:fhotel_1/data/models/room_image.dart';
 import 'package:fhotel_1/data/models/room_types.dart';
 
 abstract class ChooseRoomView {
@@ -8,6 +9,8 @@ abstract class ChooseRoomView {
 
   void showRoomTypes(List<RoomType> roomTypes);
 
-  void onGetHotelSuccess(RoomType roomType);
+  void onGetRoomImageSuccess(List<RoomImage> roomImage);
+
+  void onGetRoomTypeSuccess(RoomType hotel);
 
 }
