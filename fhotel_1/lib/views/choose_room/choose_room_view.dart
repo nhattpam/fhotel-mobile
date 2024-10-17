@@ -1,4 +1,3 @@
-import 'package:fhotel_1/data/models/hotel_amenity.dart';
 import 'package:fhotel_1/data/models/room_image.dart';
 import 'package:fhotel_1/data/models/room_types.dart';
 

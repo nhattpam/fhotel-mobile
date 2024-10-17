@@ -11,20 +11,22 @@ class RoomType {
   String? createdDate;
   String? updatedDate;
   String? note;
+  bool? isActive;
 
   RoomType(
       {this.roomTypeId,
-        this.hotelId,
-        this.typeName,
-        this.description,
-        this.roomSize,
-        this.basePrice,
-        this.maxOccupancy,
-        this.totalRooms,
-        this.availableRooms,
-        this.createdDate,
-        this.updatedDate,
-        this.note});
+      this.hotelId,
+      this.typeName,
+      this.description,
+      this.roomSize,
+      this.basePrice,
+      this.maxOccupancy,
+      this.totalRooms,
+      this.availableRooms,
+      this.createdDate,
+      this.updatedDate,
+      this.note,
+      this.isActive});
 
   RoomType.fromJson(Map<String, dynamic> json) {
     roomTypeId = json['roomTypeId'];
@@ -39,6 +41,7 @@ class RoomType {
     createdDate = json['createdDate'];
     updatedDate = json['updatedDate'];
     note = json['note'];
+    isActive = json['isActive'];
   }
 
   Map<String, dynamic> toJson() {
@@ -55,6 +58,7 @@ class RoomType {
     data['createdDate'] = createdDate;
     data['updatedDate'] = updatedDate;
     data['note'] = note;
+    data['isActive'] = isActive;
     return data;
   }
 }

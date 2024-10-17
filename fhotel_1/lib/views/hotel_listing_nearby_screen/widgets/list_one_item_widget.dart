@@ -7,8 +7,7 @@ class ListHotelWidget extends StatefulWidget {
   final String image;
   final String name;
   final int rate;
-  final int price;
-  const ListHotelWidget({super.key, required this.hotelId ,required this.image, required this.name, required this.rate, required this.price});
+  const ListHotelWidget({super.key, required this.hotelId ,required this.image, required this.name, required this.rate});
 
   @override
   _ListHotelWidgetState createState() => _ListHotelWidgetState();

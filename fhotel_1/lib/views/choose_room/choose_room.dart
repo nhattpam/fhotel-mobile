@@ -3,6 +3,7 @@ import 'package:fhotel_1/data/repository/list_room_type_repo.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/app_export.dart';
+import '../../core/utils/skeleton.dart';
 import '../../data/models/room_types.dart';
 import '../../presenters/list_room_type_presenter.dart';
 import '../choose_room_detail/choose_room_detail.dart';
@@ -17,6 +18,7 @@ class ChooseRoomFullScreen extends StatefulWidget {
 class ChooseRoomFullScreenState extends State<ChooseRoomFullScreen>
     implements ChooseRoomView {
   late String hotelId;
+  late String hotelName;
   late ListRoomTypePresenter _presenter;
   bool _isLoading = false;
   String? _error;
@@ -28,6 +30,15 @@ class ChooseRoomFullScreenState extends State<ChooseRoomFullScreen>
   void initState() {
     super.initState();
     _presenter = ListRoomTypePresenter(this, ListRoomTypeRepo());
+    Future.delayed(Duration.zero, () {
+      final Map<String, dynamic> args =
+      ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+      hotelId = args['hotelId'];
+      hotelName = args['hotelName'];
+
+      // Now fetch room types using the presenter
+      _presenter.getRoomTypes(hotelId);
+    });
   }
 
   void _showEditSearchModalBottomSheet(BuildContext context) {
@@ -39,16 +50,6 @@ class ChooseRoomFullScreenState extends State<ChooseRoomFullScreen>
     );
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    // Retrieve the arguments passed safely in didChangeDependencies
-    final Map<String, dynamic> args =
-        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    hotelId = args['hotelId'];
-    _presenter.getRoomTypes(hotelId);
-
-  }
   void _showDetailModalBottomSheet(BuildContext context, String roomTypeId) {
     showModalBottomSheet(
       context: context,
@@ -119,7 +120,7 @@ class ChooseRoomFullScreenState extends State<ChooseRoomFullScreen>
           ),
         ),
         title: AppbarTitle(
-          text: "Khách sạn Pullman Vũng Tàu",
+          text: hotelName,
           margin: EdgeInsets.only(left: 8.h),
         ),
         actions: [
@@ -263,253 +264,249 @@ class ChooseRoomFullScreenState extends State<ChooseRoomFullScreen>
     );
   }
 
-  // Widget _buildFiltereditems(BuildContext context) {
-  //   return SizedBox(
-  //     width: double.maxFinite,
-  //     child: SingleChildScrollView(
-  //       scrollDirection: Axis.horizontal,
-  //       child: Padding(
-  //         padding: EdgeInsets.only(left: 16.h),
-  //         child: Wrap(
-  //           direction: Axis.horizontal,
-  //           runSpacing: 8.h,
-  //           spacing: 8.h,
-  //           children: List<Widget>.generate(
-  //             2,
-  //             (index) => ChipTheme(
-  //               data: ChipTheme.of(context).copyWith(
-  //                 backgroundColor: Colors.white,
-  //                 selectedColor: Colors.blue,
-  //                 disabledColor: Colors.grey,
-  //                 shape: RoundedRectangleBorder(
-  //                   side: const BorderSide(
-  //                     color: Colors.grey, // Border color
-  //                     width: 1, // Border width
-  //                   ),
-  //                   borderRadius: BorderRadius.circular(50), // Rounded corners
-  //                 ),
-  //               ),
-  //               child: const Chip(
-  //                 label: Text(
-  //                   "Wifi miễn phí",
-  //                   textAlign: TextAlign.center,
-  //                 ),
-  //                 // selected: false,
-  //                 // onSelected: (bool selected) {},
-  //               ),
-  //             ),
-  //           ),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
-
   Widget _buildList(BuildContext context) {
-    return ListView.separated(
-      padding: EdgeInsets.zero,
-      physics: NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      separatorBuilder: (context, index) => SizedBox(height: 12.h),
-      itemCount: _roomTypes.length,
-      itemBuilder: (context, index) {
-        RoomImage roomImage = _roomImage.length > index ? _roomImage[index] : RoomImage(); // Default or placeholder
-
-        return Container(
-          width: double.maxFinite,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadiusStyle.roundedBorder8,
-            border: Border.all(
-              color: appTheme.black900.withOpacity(0.2),
-              width: 1.h,
-            ),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(height: 8.h),
-              Container(
-                padding: EdgeInsets.fromLTRB(16.h, 8.h, 16.h, 6.h),
-                decoration: BoxDecoration(
-                  color: appTheme.whiteA700,
-                  border: Border(
-                    bottom: BorderSide(
-                      color: appTheme.blueGray50,
+    return _isLoading
+        ? ListView.separated(
+            padding: EdgeInsets.zero,
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            separatorBuilder: (context, index) {
+              return SizedBox(
+                height: 12.h,
+              );
+            },
+            itemCount: 2,
+            itemBuilder: (context, index) {
+              return Container(
+                  width: double.maxFinite,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadiusStyle.roundedBorder8,
+                    border: Border.all(
+                      color: appTheme.black900.withOpacity(0.2),
                       width: 1.h,
                     ),
                   ),
-                ),
+                  child: const Skeleton(
+                    height: 300,
+                    width: 200,
+                  ));
+            },
+          )
+        : ListView.separated(
+            padding: EdgeInsets.zero,
+            physics: NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            separatorBuilder: (context, index) => SizedBox(height: 12.h),
+            itemCount: _roomTypes.length,
+            itemBuilder: (context, index) {
+              RoomImage roomImage = _roomImage.length > index
+                  ? _roomImage[index]
+                  : RoomImage(); // Default or placeholder
+              return Container(
                 width: double.maxFinite,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadiusStyle.roundedBorder8,
+                  border: Border.all(
+                    color: appTheme.black900.withOpacity(0.2),
+                    width: 1.h,
+                  ),
+                ),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
+                    SizedBox(height: 8.h),
                     Container(
-                      height: 150.h,
-                      width: double.infinity,
+                      padding: EdgeInsets.fromLTRB(16.h, 8.h, 16.h, 6.h),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.h),
-                      ),
-                      child: CachedNetworkImage(
-                        imageUrl: roomImage.image.toString(), // Use the imageUrl property
-                        fit: BoxFit.fitWidth,
-                      ),
-                    ),
-                    SizedBox(height: 8.h),
-                    Text(
-                      _roomTypes[index].typeName.toString(),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: theme.textTheme.titleSmall!.copyWith(height: 1.50),
-                    ),
-                    SizedBox(height: 2.h),
-                    Text(
-                      "Room size: ${_roomTypes[index].roomSize.toString()}m2",
-                      style: theme.textTheme.bodySmall,
-                    ),
-                    SizedBox(height: 8.h),
-                  ],
-                ),
-              ),
-              SizedBox(height: 8.h),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 16.h),
-                decoration: BoxDecoration(
-                  color: appTheme.whiteA700,
-                ),
-                width: double.maxFinite,
-                child: Row(
-                  children: [
-                    CustomImageView(
-                      imagePath: ImageConstant.imgIconWrapper15,
-                      height: 24.h,
-                      width: 24.h,
-                    ),
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 8.h),
-                        child: Text(
-                          "2 người lớn, 1 trẻ em",
-                          style: theme.textTheme.bodyMedium,
+                        color: appTheme.whiteA700,
+                        border: Border(
+                          bottom: BorderSide(
+                            color: appTheme.blueGray50,
+                            width: 1.h,
+                          ),
                         ),
                       ),
-                    )
-                  ],
-                ),
-              ),
-              SizedBox(height: 8.h),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 16.h),
-                decoration: BoxDecoration(
-                  color: appTheme.whiteA700,
-                ),
-                width: double.maxFinite,
-                child: Row(
-                  children: [
-                    CustomImageView(
-                      imagePath: ImageConstant.imgIconWrapper16,
-                      height: 24.h,
-                      width: 24.h,
-                    ),
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 8.h),
-                        child: Text(
-                          "2 giường đơn, 1 giường cỡ queen",
-                          style: theme.textTheme.bodyMedium,
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              SizedBox(height: 8.h),
-              SizedBox(
-                width: double.maxFinite,
-                child: Divider(),
-              ),
-              SizedBox(height: 6.h),
-              Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 16.h,
-                  vertical: 8.h,
-                ),
-                decoration: BoxDecoration(
-                  color: appTheme.whiteA700,
-                ),
-                width: double.maxFinite,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: RichText(
-                        text: TextSpan(
-                          children: [
-                            TextSpan(
-                              text: _roomTypes[index].basePrice.toString(),
-                              style: CustomTextStyles.titleSmallBlue,
+                      width: double.maxFinite,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            height: 150.h,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.h),
                             ),
-                            TextSpan(
-                              text: "/ phòng / đêm",
-                              style: CustomTextStyles.bodySmallOnPrimary,
-                            )
-                          ],
-                        ),
-                        textAlign: TextAlign.left,
+                            child: CachedNetworkImage(
+                              imageUrl: roomImage.image.toString(),
+                              // Use the imageUrl property
+                              fit: BoxFit.fitWidth,
+                            ),
+                          ),
+                          SizedBox(height: 8.h),
+                          Text(
+                            _roomTypes[index].typeName.toString(),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: theme.textTheme.titleSmall!
+                                .copyWith(height: 1.50),
+                          ),
+                          SizedBox(height: 2.h),
+                          Text(
+                            "Room size: ${_roomTypes[index].roomSize.toString()}m2",
+                            style: theme.textTheme.bodySmall,
+                          ),
+                          SizedBox(height: 8.h),
+                        ],
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        _showDetailModalBottomSheet(context, _roomTypes[index].roomTypeId.toString());
-                      },
-                      child: Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 12.h,
-                          vertical: 2.h,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.blueAccent,
-                          borderRadius: BorderRadiusStyle.roundedBorder4,
-                        ),
-                        child: const Column(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Xem chi tiết phòng",
-                              style: TextStyle(color: Colors.white),
-                            )
-                          ],
-                        ),
+                    SizedBox(height: 8.h),
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 16.h),
+                      decoration: BoxDecoration(
+                        color: appTheme.whiteA700,
+                      ),
+                      width: double.maxFinite,
+                      child: Row(
+                        children: [
+                          CustomImageView(
+                            imagePath: ImageConstant.imgIconWrapper15,
+                            height: 24.h,
+                            width: 24.h,
+                          ),
+                          Align(
+                            alignment: Alignment.bottomCenter,
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 8.h),
+                              child: Text(
+                                "2 người lớn, 1 trẻ em",
+                                style: theme.textTheme.bodyMedium,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 8.h),
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 16.h),
+                      decoration: BoxDecoration(
+                        color: appTheme.whiteA700,
+                      ),
+                      width: double.maxFinite,
+                      child: Row(
+                        children: [
+                          CustomImageView(
+                            imagePath: ImageConstant.imgIconWrapper16,
+                            height: 24.h,
+                            width: 24.h,
+                          ),
+                          Align(
+                            alignment: Alignment.bottomCenter,
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 8.h),
+                              child: Text(
+                                "2 giường đơn, 1 giường cỡ queen",
+                                style: theme.textTheme.bodyMedium,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 8.h),
+                    SizedBox(
+                      width: double.maxFinite,
+                      child: Divider(),
+                    ),
+                    SizedBox(height: 6.h),
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 16.h,
+                        vertical: 8.h,
+                      ),
+                      decoration: BoxDecoration(
+                        color: appTheme.whiteA700,
+                      ),
+                      width: double.maxFinite,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Align(
+                            alignment: Alignment.bottomCenter,
+                            child: RichText(
+                              text: TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text:
+                                        _roomTypes[index].basePrice.toString(),
+                                    style: CustomTextStyles.titleSmallBlue,
+                                  ),
+                                  TextSpan(
+                                    text: "/ phòng / đêm",
+                                    style: CustomTextStyles.bodySmallOnPrimary,
+                                  )
+                                ],
+                              ),
+                              textAlign: TextAlign.left,
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              _showDetailModalBottomSheet(context,
+                                  _roomTypes[index].roomTypeId.toString());
+                            },
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 12.h,
+                                vertical: 2.h,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.blueAccent,
+                                borderRadius: BorderRadiusStyle.roundedBorder4,
+                              ),
+                              child: const Column(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Xem chi tiết phòng",
+                                    style: TextStyle(color: Colors.white),
+                                  )
+                                ],
+                              ),
+                            ),
+                          )
+                        ],
                       ),
                     )
                   ],
                 ),
-              )
-            ],
-          ),
-        );
-      },
-    );
+              );
+            },
+          );
   }
+
   // Show loading indicator
   @override
   void showLoading() {
-    // Show loading indicator (e.g., CircularProgressIndicator)
+    setState(() {
+      _isLoading = true;
+    }); // Show loading indicator (e.g., CircularProgressIndicator)
   }
 
   @override
   void hideLoading() {
-    // Hide loading indicator
+
   }
 
   @override
   void showRoomTypes(List<RoomType> roomTypes) {
-    setState(() async{
+    setState(() async {
       _roomTypes = roomTypes;
       await _presenter.loadRoomImages(_roomTypes);
+      setState(() {
+        _isLoading = false;
+      }); // Hide loading indicator
     });
   }
 
@@ -524,6 +521,4 @@ class ChooseRoomFullScreenState extends State<ChooseRoomFullScreen>
   void onGetRoomTypeSuccess(RoomType hotel) {
     // TODO: implement onGetRoomTypeSuccess
   }
-
-
 }

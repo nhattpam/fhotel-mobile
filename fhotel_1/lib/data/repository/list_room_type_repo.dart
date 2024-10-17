@@ -1,8 +1,5 @@
 import 'package:fhotel_1/data/models/room_image.dart';
 import 'package:fhotel_1/data/models/room_types.dart';
-
-import '../models/hotel_amenity.dart';
-
 import 'package:http/http.dart' as http;
 
 import '../../core/app_export.dart';
@@ -15,7 +12,10 @@ class ListRoomTypeRepo {
 
     if (response.statusCode == 200) {
       List<dynamic> responseData = json.decode(response.body);
-      return responseData.map((data) => RoomType.fromJson(data)).toList();
+      return responseData
+          .map((data) => RoomType.fromJson(data))
+          .where((roomType) => roomType.isActive == true) // Filter active RoomTypes
+          .toList();
     } else {
       throw Exception('Failed to load list room types');
     }

@@ -1,7 +1,5 @@
-import 'package:carousel_slider_plus/carousel_slider_plus.dart';
 import 'package:fhotel_1/views/home_check_in_date_default/home_check_in_date_default.dart';
 import 'package:fhotel_1/views/home_destination_default/home_destination_default.dart';
-import 'package:fhotel_1/views/home_hotel_region_empty/widgets/carouselunit_item_widget.dart';
 import 'package:fhotel_1/views/home_hotel_region_empty/widgets/maincontent_item_widget.dart';
 import 'package:fhotel_1/views/home_hotel_region_empty/widgets/maincontent_one_item_widget.dart';
 import 'package:fhotel_1/views/hotel_listing_nearby_screen/list_hotel_view.dart';
@@ -30,6 +28,7 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
   int _currentIndex = 0;
   String dateStarSelected = "Thứ Tư, 02/02/2022";
   String dateEndSelected = "Thứ Tư, 02/02/2022";
+  List<Map<String, dynamic>> selectedRoomData = [];
 
   late HotelPresenter _presenter;
   bool _isLoading = false;
@@ -91,13 +90,25 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
     );
   }
 
-  void _showRoomAndGuestModalBottomSheet(BuildContext context) {
-    showModalBottomSheet(
+  void _showRoomAndGuestModalBottomSheet(BuildContext context) async {
+    // Await the result from the modal bottom sheet
+    List<Map<String, dynamic>>? result = await showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
       builder: (BuildContext context) {
         return HomeRoomGuestFilledBottomsheet();
       },
     );
+
+    // Check if the result is not null (user didn't dismiss without selecting)
+    if (result != null) {
+      setState(() {
+        selectedRoomData = result;
+      });
+    }
   }
 
   void _showFilterModalBottomSheet(BuildContext context) {
@@ -224,6 +235,12 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
   }
 
   Widget _buildColumniconwrapp(BuildContext context) {
+    String selectedRoomInfo = selectedRoomData.isNotEmpty
+        ? selectedRoomData.map((room) {
+      return "${room['roomType']}: ${room['quantity']}";
+    }).join(", ") // Concatenate room info
+        : "Select room and guests"; // Default placeholder text
+
     return Container(
       width: double.maxFinite,
       margin: EdgeInsets.symmetric(horizontal: 16.h),
@@ -392,7 +409,7 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
                                                     0, // Remove shadow/elevation
                                               ),
                                               child: Text(
-                                                dateStarSelected,
+                                                dateEndSelected,
                                                 style:
                                                     theme.textTheme.titleSmall,
                                               ),
@@ -467,11 +484,56 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
                       SizedBox(height: 6.h),
                       SizedBox(
                         width: double.maxFinite,
-                        child: _buildListmasterOne(
-                          context,
-                          iconwrapper: ImageConstant.imgIconWrapper24x24,
-                          labelfilterone: "Số phòng và khách",
-                          placeholderOne: "1 phòng, 1 người lớn",
+                        child: Container(
+                          padding: EdgeInsets.symmetric(vertical: 6.h),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              CustomImageView(
+                                imagePath: ImageConstant.imgIconWrapper24x24,
+                                height: 24.h,
+                                width: 24.h,
+                                color: appTheme.black900.withOpacity(0.5),
+                              ),
+                              SizedBox(width: 8.h),
+                              Expanded(
+                                child: Align(
+                                  alignment: Alignment.bottomLeft,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(top: 2.h),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Số phòng và loại phòng",
+                                          style: theme.textTheme.bodyMedium!.copyWith(
+                                            color: theme.colorScheme.onPrimary,
+                                          ),
+                                        ),
+                                        SizedBox(height: 6.h),
+                                        ElevatedButton(
+                                            onPressed: () {
+                                              _showRoomAndGuestModalBottomSheet(context);
+                                            },
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor: Colors.transparent,
+                                              // Set background to transparent
+                                              elevation: 0, // Remove shadow/elevation
+                                            ),
+                                            child: Text(
+                                              selectedRoomInfo,
+                                              style: CustomTextStyles.titleSmallGray600.copyWith(
+                                                color: appTheme.gray600,
+                                              ),
+                                            )
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                       SizedBox(height: 8.h),
@@ -694,64 +756,7 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
     );
   }
 
-  /// Common widget
-  Widget _buildListmasterOne(
-    BuildContext context, {
-    required String iconwrapper,
-    required String labelfilterone,
-    required String placeholderOne,
-  }) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 6.h),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          CustomImageView(
-            imagePath: iconwrapper,
-            height: 24.h,
-            width: 24.h,
-            color: appTheme.black900.withOpacity(0.5),
-          ),
-          SizedBox(width: 8.h),
-          Expanded(
-            child: Align(
-              alignment: Alignment.bottomLeft,
-              child: Padding(
-                padding: EdgeInsets.only(top: 2.h),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      labelfilterone,
-                      style: theme.textTheme.bodyMedium!.copyWith(
-                        color: theme.colorScheme.onPrimary,
-                      ),
-                    ),
-                    SizedBox(height: 6.h),
-                    ElevatedButton(
-                        onPressed: () {
-                          _showRoomAndGuestModalBottomSheet(context);
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.transparent,
-                          // Set background to transparent
-                          elevation: 0, // Remove shadow/elevation
-                        ),
-                        child: Text(
-                          placeholderOne,
-                          style: CustomTextStyles.titleSmallGray600.copyWith(
-                            color: appTheme.gray600,
-                          ),
-                        )),
-                  ],
-                ),
-              ),
-            ),
-          )
-        ],
-      ),
-    );
-  }
+
 
   Widget _buildListmasterTwo(
     BuildContext context, {

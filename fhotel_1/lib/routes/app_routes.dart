@@ -15,7 +15,6 @@ import 'package:fhotel_1/views/successful_payment_screen/successful_payment_scre
 import 'package:fhotel_1/views/user_profile/user_profile.dart';
 import 'package:flutter/material.dart';
 
-import '../views/guest_information_book/guest_information_book.dart';
 import '../views/hotel_detail/widgets/carousel_item_widget.dart';
 import '../views/tabbar_booking_and_service/tabbar_booking_and_service.dart';
 

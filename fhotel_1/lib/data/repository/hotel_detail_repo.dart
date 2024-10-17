@@ -1,9 +1,8 @@
 import 'package:fhotel_1/data/models/hotel.dart';
-import '../models/hotel_amenity.dart';
-
 import 'package:http/http.dart' as http;
 
 import '../../core/app_export.dart';
+import '../models/hotel_amenity.dart';
 
 class HotelDetailRepo {
   final String _baseUrl = 'https://fhotelapi.azurewebsites.net/api';

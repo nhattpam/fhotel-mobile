@@ -78,7 +78,7 @@ class _CarouselunitItemWidgetState extends State<CarouselunitItemWidget> impleme
                   height: 2.h,
                   child: AnimatedSmoothIndicator(
                     activeIndex: activeIndex,
-                    count: _roomImage.length, // Update count to the number of images
+                    count:  _roomImage.isNotEmpty ? _roomImage.length : 1, // Update count to the number of images
                     effect: ScrollingDotsEffect(
                       spacing: 4,
                       activeDotColor: theme.colorScheme.primary,

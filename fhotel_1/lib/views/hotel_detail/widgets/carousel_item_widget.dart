@@ -1,10 +1,12 @@
 import 'package:fhotel_1/core/utils/skeleton.dart';
+import 'package:fhotel_1/data/models/late_checkout_policy.dart';
+import 'package:fhotel_1/data/repository/late_checkout_policy_repo.dart';
 import 'package:fhotel_1/presenters/hotel_detail_presenter.dart';
-import 'package:fhotel_1/views/home_hotel_region_empty/widgets/carouselunit_item_widget.dart';
+import 'package:fhotel_1/presenters/late_checkout_policy_presenter.dart';
 import 'package:fhotel_1/views/hotel_detail/hotel_detail_view.dart';
+import 'package:fhotel_1/views/hotel_detail/late_checkout_policy_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart' as html;
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/app_export.dart';
 import '../../../data/models/hotel.dart';
@@ -18,7 +20,7 @@ class HotelDetailScreen extends StatefulWidget {
 
 class HotelDetailScreenState extends State<HotelDetailScreen>
     with TickerProviderStateMixin
-    implements HotelDetailView {
+    implements HotelDetailView, LateCheckoutPolicyView {
   int sliderIndex = 1;
   late TabController tabviewController;
 
@@ -29,12 +31,14 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
   final GlobalKey descriptionKey = GlobalKey();
 
   late HotelDetailPresenter _presenter;
+  late LateCheckoutPolicyPresenter _policyPresenter;
   bool _isLoading = false;
   Hotel? _hotel;
   String? _error;
   late String hotelId;
 
   List<HotelAmenity> _amenities = [];
+  List<LateCheckOutPolicy> _policies = [];
 
   @override
   void initState() {
@@ -58,10 +62,12 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
       }
     });
     _presenter = HotelDetailPresenter(this);
+    _policyPresenter = LateCheckoutPolicyPresenter(this, LateCheckoutPolicyRepo());
+    _policyPresenter.getLateCheckOutPolicies();
   }
 
   @override
-  void didChangeDependencies() {
+  void didChangeDependencies()  {
     super.didChangeDependencies();
 
     // Retrieve the arguments passed safely in didChangeDependencies
@@ -91,6 +97,14 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
     );
   }
   void _showGuestPolicyModalBottomSheet(BuildContext context) {
+    String policyAfter6PM = _policies[0].description.toString();
+    String policyBetween6PM = _policies[1].description.toString();
+    String policyBetween2PM = _policies[2].description.toString();
+
+    String chargePercentageAfter6PM = _policies[0].chargePercentage.toString();
+    String chargePercentageBetween6PM = _policies[1].chargePercentage.toString();
+    String chargePercentageBetween2PM = _policies[2].chargePercentage.toString();
+
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -164,9 +178,9 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
               <p>May incur extra charges:</p>
 
               <ul>
-                <li>Between 12 PM - 2 PM: Complimentary.</li>
-                <li>Between 2 PM and 6 PM: 30% charges payable as per room rates of the next day.</li>
-                <li>After 6 PM: 100% charges payable as per room rates of the next day.</li>
+                <li>$policyBetween2PM: Complimentary ($chargePercentageBetween2PM%).</li>
+                <li>$policyBetween6PM: $chargePercentageBetween6PM% charges payable as per room rates of the next day.</li>
+                <li>$policyAfter6PM: $chargePercentageAfter6PM% charges payable as per room rates of the next day.</li>
               </ul>
 
               <h3>Hotel Specific Policies</h3>
@@ -1143,6 +1157,7 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
           AppRoutes.roomListing,
           arguments: {
             'hotelId': _hotel?.hotelId.toString(),
+            'hotelName': _hotel?.hotelName.toString(),
           },
         );
       },
@@ -1240,7 +1255,6 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
   @override
   void hideLoading() {
     setState(() {
-      _isLoading = false;
     });
   }
 
@@ -1256,6 +1270,7 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
   void onGetHotelSuccess(Hotel hotel) {
     setState(() {
       _hotel = hotel;
+      _isLoading = false;
       _error = null;
     });
   }
@@ -1265,6 +1280,22 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
   void onGetHotelError(String error) {
     setState(() {
       _error = error;
+    });
+  }
+
+  @override
+  void onGetLateCheckOutPoliciesError(String error) {
+    setState(() {
+      _error = error;
+    });
+  }
+
+  @override
+  void onGetLateCheckOutPoliciesSuccess(List<LateCheckOutPolicy> policies) {
+    setState(() {
+      _policies = policies;
+      print(policies);
+      _error = null;
     });
   }
 }

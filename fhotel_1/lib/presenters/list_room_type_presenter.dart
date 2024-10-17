@@ -23,6 +23,7 @@ class ListRoomTypePresenter {
       _view.hideLoading(); // Hide loading on error
     }
   }
+
   Future<void> loadRoomImages(List<RoomType> roomTypes) async {
     _view.showLoading();
     List<RoomImage> roomImages = [];

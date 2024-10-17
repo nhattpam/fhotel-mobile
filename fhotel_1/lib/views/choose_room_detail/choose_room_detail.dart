@@ -365,30 +365,30 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen> 
                                   ],
                                 ),
                               ),
-                              SizedBox(height: 12.h),
-                              SizedBox(
-                                width: double.maxFinite,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Align(
-                                      alignment: Alignment.bottomCenter,
-                                      child: Padding(
-                                        padding: EdgeInsets.only(left: 8.h),
-                                        child: Text(
-                                          "Thuế và phí",
-                                          style: theme.textTheme.bodyMedium,
-                                        ),
-                                      ),
-                                    ),
-                                    Spacer(),
-                                    Text(
-                                      "800.000 đ",
-                                      style: theme.textTheme.titleSmall,
-                                    ),
-                                  ],
-                                ),
-                              ),
+                              // SizedBox(height: 12.h),
+                              // SizedBox(
+                              //   width: double.maxFinite,
+                              //   child: Row(
+                              //     mainAxisAlignment: MainAxisAlignment.center,
+                              //     children: [
+                              //       Align(
+                              //         alignment: Alignment.bottomCenter,
+                              //         child: Padding(
+                              //           padding: EdgeInsets.only(left: 8.h),
+                              //           child: Text(
+                              //             "Thuế và phí",
+                              //             style: theme.textTheme.bodyMedium,
+                              //           ),
+                              //         ),
+                              //       ),
+                              //       Spacer(),
+                              //       Text(
+                              //         "800.000 đ",
+                              //         style: theme.textTheme.titleSmall,
+                              //       ),
+                              //     ],
+                              //   ),
+                              // ),
                             ],
                           ),
                         )
@@ -573,7 +573,7 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen> 
                         style: theme.textTheme.titleSmall,
                       ),
                       Text(
-                        "8.000.000 đ",
+                        _roomType?.basePrice.toString() ?? '',
                         style: theme.textTheme.titleSmall,
                       )
                     ],

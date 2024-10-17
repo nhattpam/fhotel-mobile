@@ -2,7 +2,6 @@ import 'package:fhotel_1/core/app_export.dart';
 import 'package:fhotel_1/views/home_destination_default/home_destination_default.dart';
 import 'package:flutter/material.dart';
 
-import '../home_check_in_date_default/home_check_in_date_default.dart';
 import '../home_duration_bottomsheet/home_duration_bottomsheet.dart';
 import '../home_room_guest_default/home_room_guest_default.dart';
 

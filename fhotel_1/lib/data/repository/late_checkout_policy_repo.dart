@@ -1,25 +1,24 @@
-import 'package:fhotel_1/data/models/hotel.dart';
+import 'package:fhotel_1/data/models/late_checkout_policy.dart';
 import 'package:http/http.dart' as http;
 
 import '../../core/app_export.dart';
 
-class ListHotelRepo {
+class LateCheckoutPolicyRepo {
   final String _baseUrl = 'https://fhotelapi.azurewebsites.net/api';
 
-  Future<List<Hotel>> getHotels() async {
+  Future<List<LateCheckOutPolicy>> getLateCheckOutPolicies() async {
 
-    final url = Uri.parse('$_baseUrl/hotels');
+    final url = Uri.parse('$_baseUrl/late-check-out-policies');
 
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
       List<dynamic> responseData = json.decode(response.body);
       return responseData
-          .map((hotelJson) => Hotel.fromJson(hotelJson))
-          .where((hotel) => hotel.isActive == true) // Filter active hotels
+          .map((policy) => LateCheckOutPolicy.fromJson(policy))
           .toList();
     } else {
-      throw Exception('Failed to fetch hotel.');
+      throw Exception('Failed to fetch policy.');
     }
   }
 }
