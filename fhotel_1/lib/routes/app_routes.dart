@@ -16,6 +16,8 @@ import 'package:fhotel_1/views/user_profile/user_profile.dart';
 import 'package:flutter/material.dart';
 
 import '../views/hotel_detail/widgets/carousel_item_widget.dart';
+import '../views/list_hotel_by_search/list_hotel_by_search.dart';
+import '../views/list_room_by_search/list_room_by_search.dart';
 import '../views/tabbar_booking_and_service/tabbar_booking_and_service.dart';
 
 class AppRoutes {
@@ -28,16 +30,18 @@ class AppRoutes {
   static const String myOrderPageAndServicePage = '/tabbar_booking_and_service';
   static const String userPage = '/user_profile';
 
-  static const String homeDestination = '/homeDestination';
+  // static const String homeDestination = '/homeDestination';
 
   ///Hotel widgets
   static const String hotelListing = '/hotelListing';
+  static const String hotelListingBySearch = '/hotelListingBySearch';
   static const String hotelDetail = '/carousel_item_widget';
   static const String hotelRatingAndReviews = '/hotel_rating_and_reviews';
   static const String hotelFacilities = '/hotel_detail_facilities_screen';
 
   ///Room widgets
   static const String roomListing = '/choose_room';
+  static const String roomListingBySearch = '/choose_room_by_search';
 
   ///Guest fill information
   // static const String guestInformation = '/guest_information_book';
@@ -56,14 +60,16 @@ class AppRoutes {
     userPage: (context) => UserProfileScreen(),
 
     ///Hotel widgets
-    homeDestination: (context) => HomeDestinationDefaultBottomsheet(),
+    // homeDestination: (context) => HomeDestinationDefaultBottomsheet(),
     hotelListing: (context) => HotelListingNearbyScreen(),
+    hotelListingBySearch: (context) => ListHotelBySearch(),
     hotelDetail: (context) => HotelDetailScreen(),
     hotelRatingAndReviews: (context) => HotelDetailsRatingsReviewsScreen(),
     hotelFacilities: (context) => HotelDetailsFacilitiesScreen(),
 
     ///Room widgets
     roomListing: (context) => ChooseRoomFullScreen(),
+    roomListingBySearch: (context) => ListRoomBySearch(),
 
     ///Guest fill information
     // guestInformation: (context) => GuestInformationBookForOthersScreen(),

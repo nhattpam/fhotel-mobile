@@ -21,4 +21,5 @@ class HotelPresenter {
       _view.hideLoading(); // Hide loading after the process
     }
   }
+
 }

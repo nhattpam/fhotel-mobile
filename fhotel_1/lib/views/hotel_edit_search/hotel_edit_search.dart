@@ -14,12 +14,12 @@ class EditSearchBottomsheet extends StatefulWidget {
 
 class EditSearchBottomsheetState extends State<EditSearchBottomsheet> {
   String dateSelected = "Thứ Tư, 02/02/2022";
-
+  List<String> searchHistory = [];
   void _showModalBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return HomeDestinationDefaultBottomsheet();
+        return HomeDestinationDefaultBottomsheet(searchHistory: searchHistory);
       },
     );
   }

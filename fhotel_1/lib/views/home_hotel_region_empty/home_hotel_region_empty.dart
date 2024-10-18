@@ -1,13 +1,18 @@
+import 'package:fhotel_1/data/models/room_types.dart';
+import 'package:fhotel_1/data/repository/search_service.dart';
+import 'package:fhotel_1/presenters/search_presenter.dart';
 import 'package:fhotel_1/views/home_check_in_date_default/home_check_in_date_default.dart';
 import 'package:fhotel_1/views/home_destination_default/home_destination_default.dart';
 import 'package:fhotel_1/views/home_hotel_region_empty/widgets/maincontent_item_widget.dart';
 import 'package:fhotel_1/views/home_hotel_region_empty/widgets/maincontent_one_item_widget.dart';
 import 'package:fhotel_1/views/hotel_listing_nearby_screen/list_hotel_view.dart';
+import 'package:fhotel_1/views/hotel_listing_nearby_screen/search_view.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../core/app_export.dart';
 import '../../data/models/hotel.dart';
+import '../../data/models/search.dart';
 import '../../data/repository/list_hotel_repo.dart';
 import '../../presenters/list_hotel_presenter.dart';
 import '../home_duration_bottomsheet/home_duration_bottomsheet.dart';
@@ -23,32 +28,46 @@ class HomeHotelRegionEmptyScreen extends StatefulWidget {
 }
 
 class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
-    implements ListHotelView {
+    implements ListHotelView, SearchView {
   int sliderIndex = 1;
   int _currentIndex = 0;
   String dateStarSelected = "Thứ Tư, 02/02/2022";
   String dateEndSelected = "Thứ Tư, 02/02/2022";
   List<Map<String, dynamic>> selectedRoomData = [];
-
+  String _searchQuery = ''; // Add a variable to store the search query
+  late SearchPresenter _searchPresenter;
   late HotelPresenter _presenter;
   bool _isLoading = false;
   List<Hotel> _hotels = [];
+  List<RoomType> listRoomTypes = [];
   String? _error;
+  List<String> searchHistory = [];
+  String roomType = ''; // Add a variable to store the search query
+  int quantity = 0; // Add a variable to store the search query
 
   @override
   void initState() {
     super.initState();
     _presenter = HotelPresenter(this, ListHotelRepo());
     _presenter.getHotels(); // Fetch the list of hotels when the screen loads
+    _searchPresenter = SearchPresenter(this, SearchService());
   }
 
-  void _showModalBottomSheet(BuildContext context) {
-    showModalBottomSheet(
+  void _showModalBottomSheet(BuildContext context) async {
+    final result = await showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return HomeDestinationDefaultBottomsheet();
+        return HomeDestinationDefaultBottomsheet(searchHistory: searchHistory);
       },
     );
+
+    if (result != null && result.isNotEmpty) {
+      print('User searched for: $result');
+      setState(() {
+        _searchQuery = result;
+        searchHistory.add(result);
+      });
+    }
   }
 
   void _showCalendarModalBottomSheet(BuildContext context) {
@@ -81,15 +100,6 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
     );
   }
 
-  void _showDurationModalBottomSheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return const HomeDurationBottomsheet();
-      },
-    );
-  }
-
   void _showRoomAndGuestModalBottomSheet(BuildContext context) async {
     // Await the result from the modal bottom sheet
     List<Map<String, dynamic>>? result = await showModalBottomSheet(
@@ -108,6 +118,9 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
       setState(() {
         selectedRoomData = result;
       });
+
+      // You can also print or log the data to verify it:
+      print("Selected Room Data: $selectedRoomData");
     }
   }
 
@@ -237,10 +250,21 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
   Widget _buildColumniconwrapp(BuildContext context) {
     String selectedRoomInfo = selectedRoomData.isNotEmpty
         ? selectedRoomData.map((room) {
-      return "${room['roomType']}: ${room['quantity']}";
-    }).join(", ") // Concatenate room info
+            setState(() {
+              roomType = room['roomType'];
+              quantity = room['quantity'];
+            });
+            return "${room['roomType']}: ${room['quantity']}";
+          }).join(", ") // Concatenate room info
         : "Select room and guests"; // Default placeholder text
+    print(selectedRoomData);
 
+    List<RoomSearchRequest> searchRequests = selectedRoomData.map((room) {
+      return RoomSearchRequest(
+        roomTypeName: room['roomType'],
+        quantity: room['quantity'],
+      );
+    }).toList();
     return Container(
       width: double.maxFinite,
       margin: EdgeInsets.symmetric(horizontal: 16.h),
@@ -299,13 +323,20 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
                                           _showModalBottomSheet(context),
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: Colors.transparent,
-                                        // Set background to transparent
                                         elevation: 0, // Remove shadow/elevation
                                       ),
                                       child: Text(
-                                        "Nhập điểm đến, khách sạn",
-                                        style:
-                                            CustomTextStyles.titleSmallGray600,
+                                        // Show the search query if it's not empty, otherwise show the hint text
+                                        _searchQuery.isNotEmpty
+                                            ? _searchQuery
+                                            : "Nhập điểm đến, khách sạn",
+                                        style: _searchQuery.isNotEmpty
+                                            ? CustomTextStyles
+                                                .titleSmallGray600 // Style for search query
+                                            : CustomTextStyles.titleSmallGray600
+                                                .copyWith(
+                                                    color: Colors
+                                                        .grey), // Style for hint text
                                       ),
                                     ),
                                   ],
@@ -373,7 +404,8 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.only(right: 18.0, top: 8),
+                                    padding: const EdgeInsets.only(
+                                        right: 18.0, top: 8),
                                     child: Container(
                                       height: 70.0,
                                       width: 1.0,
@@ -502,31 +534,37 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
                                   child: Padding(
                                     padding: EdgeInsets.only(top: 2.h),
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           "Số phòng và loại phòng",
-                                          style: theme.textTheme.bodyMedium!.copyWith(
+                                          style: theme.textTheme.bodyMedium!
+                                              .copyWith(
                                             color: theme.colorScheme.onPrimary,
                                           ),
                                         ),
                                         SizedBox(height: 6.h),
                                         ElevatedButton(
                                             onPressed: () {
-                                              _showRoomAndGuestModalBottomSheet(context);
+                                              _showRoomAndGuestModalBottomSheet(
+                                                  context);
                                             },
                                             style: ElevatedButton.styleFrom(
-                                              backgroundColor: Colors.transparent,
+                                              backgroundColor:
+                                                  Colors.transparent,
                                               // Set background to transparent
-                                              elevation: 0, // Remove shadow/elevation
+                                              elevation:
+                                                  0, // Remove shadow/elevation
                                             ),
                                             child: Text(
                                               selectedRoomInfo,
-                                              style: CustomTextStyles.titleSmallGray600.copyWith(
+                                              style: CustomTextStyles
+                                                  .titleSmallGray600
+                                                  .copyWith(
                                                 color: appTheme.gray600,
                                               ),
-                                            )
-                                        ),
+                                            )),
                                       ],
                                     ),
                                   ),
@@ -549,8 +587,19 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
                       ),
                       SizedBox(height: 16.h),
                       CustomElevatedButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, AppRoutes.hotelListing);
+                        onPressed: () async {
+                          // _searchPresenter.searchRoomTypes(roomType, quantity, _searchQuery);
+                          await _searchPresenter.searchListRoomTypes(
+                              searchRequests, _searchQuery);
+
+                          /// Navigator to list hotel
+                          Navigator.pushNamed(
+                              context, AppRoutes.hotelListingBySearch,
+                              arguments: listRoomTypes);
+                          // Navigator.pushNamed(
+                          //     context, AppRoutes.roomListingBySearch,
+                          //     arguments: listRoomTypes
+                          // );
                         },
                         buttonStyle: CustomButtonStyles.fillBlue,
                         buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,
@@ -756,8 +805,6 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
     );
   }
 
-
-
   Widget _buildListmasterTwo(
     BuildContext context, {
     required String iconwrapper,
@@ -846,6 +893,22 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
   void onGetHotelsError(String error) {
     setState(() {
       _error = error;
+    });
+  }
+
+  @override
+  void onSearchComplete(List<RoomType> roomTypes) {
+    setState(() {
+      listRoomTypes = roomTypes;
+      _isLoading = false;
+    });
+  }
+
+  @override
+  void onSearchError(String error) {
+    setState(() {
+      _error = error;
+      _isLoading = false;
     });
   }
 }

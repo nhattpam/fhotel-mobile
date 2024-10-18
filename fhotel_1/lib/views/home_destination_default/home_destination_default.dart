@@ -4,12 +4,22 @@ import 'package:flutter/material.dart';
 import '../../widgets/custom_search_view.dart';
 
 // ignore_for_file: must_be_immutable
-class HomeDestinationDefaultBottomsheet extends StatelessWidget {
-  HomeDestinationDefaultBottomsheet({Key? key})
-      : super(
-          key: key,
-        );
+class HomeDestinationDefaultBottomsheet extends StatefulWidget {
+  final List<String> searchHistory; // Accept search history from the parent
+
+  HomeDestinationDefaultBottomsheet({Key? key, required this.searchHistory})
+      : super(key: key);
+
+  @override
+  _HomeDestinationDefaultBottomsheetState createState() =>
+      _HomeDestinationDefaultBottomsheetState();
+}
+
+class _HomeDestinationDefaultBottomsheetState
+    extends State<HomeDestinationDefaultBottomsheet> {
+
   TextEditingController searchController = TextEditingController();
+  List<String> searchHistory = [];
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +40,15 @@ class HomeDestinationDefaultBottomsheet extends StatelessWidget {
                 controller: searchController,
                 hintText: "Tìm khách sạn, điểm đến",
                 contentPadding: EdgeInsets.fromLTRB(32.h, 16.h, 12.h, 16.h),
+                onSubmitted: (value){
+                  setState(() {
+                    searchHistory.add(value); // Add the search query to history
+                  });
+                  Navigator.pop(context, value);
+                },
               ),
-              SizedBox(height: 448.h)
+              _buildSearchHistory(),
+              SizedBox(height: 480.h)
             ],
           ),
         ),
@@ -69,11 +86,25 @@ class HomeDestinationDefaultBottomsheet extends StatelessWidget {
             margin: EdgeInsets.only(left: 36.h),
             onTap: () {
               // Close the bottom sheet when the image is tapped
-              Navigator.pop(context);
+              Navigator.pop(context, searchController.text);
             },
           )
         ],
       ),
     );
   }
+
+  Widget _buildSearchHistory() {
+    return Column(
+      children: widget.searchHistory.map((searchTerm) {
+        return ListTile(
+          title: Text(searchTerm),
+          onTap: () {
+            Navigator.pop(context, searchTerm); // Select a search from history
+          },
+        );
+      }).toList(),
+    );
+  }
+
 }

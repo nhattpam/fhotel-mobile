@@ -66,7 +66,6 @@ class ListRoomTypeRepo {
     final url = Uri.parse('$_baseUrl/room-types');
 
     final response = await http.get(url);
-
     if (response.statusCode == 200) {
       List<dynamic> responseData = json.decode(response.body);
       return responseData

@@ -22,4 +22,6 @@ class ListHotelRepo {
       throw Exception('Failed to fetch hotel.');
     }
   }
+
+
 }

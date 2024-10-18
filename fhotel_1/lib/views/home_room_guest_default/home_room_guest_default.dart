@@ -4,6 +4,7 @@ import 'package:fhotel_1/data/repository/list_room_type_repo.dart';
 import 'package:fhotel_1/presenters/list_room_type_presenter.dart';
 import 'package:fhotel_1/views/choose_room/choose_room_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/semantics.dart';
 
 import '../../core/app_export.dart';
 
@@ -18,13 +19,14 @@ class HomeRoomGuestFilledBottomsheet extends StatefulWidget {
 class HomeRoomGuestFilledBottomsheetState
     extends State<HomeRoomGuestFilledBottomsheet> implements ChooseRoomView {
   TextEditingController inputOneController = TextEditingController();
-  List<String> dropdownItemList = ["Phòng đôi", "Phòng đơn", "Phòng siu cấp vip pro"];
-  List<int> quantities = [1, 1, 1]; // Initialize all quantities to 1
+  TextEditingController inputThreeController = TextEditingController();
+  TextEditingController inputFiveController = TextEditingController();
+  List<int> quantities = [0, 0, 0]; // Initialize all quantities to 1
   late ListRoomTypePresenter _presenter;
   bool _isLoading = false;
   List<RoomType> _roomTypes = [];
   String? _error;
-
+  List<String> dropdownItemList = ["Phong 1 nguoi", "Phong 2 nguoi", "Phong 3 nguoi"];
   @override
   void initState() {
     super.initState();
@@ -55,11 +57,22 @@ class HomeRoomGuestFilledBottomsheetState
                   right: 92.h,
                 ),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Text(
-                      "Tối đa 8 phòng",
-                      style: theme.textTheme.bodyMedium,
-                    )
+                    // DropdownButton<String>(
+                    //   value: _selectedRoomType,
+                    //   items: _roomTypes.map((RoomType roomType) {
+                    //     return DropdownMenuItem<String>(
+                    //       value: roomType.typeName,
+                    //       child: Text(roomType.typeName.toString(), style: theme.textTheme.bodyMedium),
+                    //     );
+                    //   }).toList(),
+                    //   onChanged: (String? newValue) {
+                    //     setState(() {
+                    //       _selectedRoomType = newValue!;
+                    //     });
+                    //   },
+                    // )
                   ],
                 ),
               ),
@@ -74,24 +87,6 @@ class HomeRoomGuestFilledBottomsheetState
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _buildColumniconwrapp(context),
-                    /// In case have to design for kid
-                    // SizedBox(height: 16.h),
-                    // Text(
-                    //   "Vui lòng chọn tuổi của trẻ vào thời điểm nhận phòng",
-                    //   style: CustomTextStyles.bodyLargeOnPrimary_1,
-                    // ),
-                    // SizedBox(height: 12.h),
-                    // Text(
-                    //   "Trẻ em 1",
-                    //   style: theme.textTheme.titleSmall,
-                    // ),
-                    // SizedBox(height: 4.h),
-                    // _buildStatusiconone(context),
-                    // SizedBox(height: 4.h),
-                    // Text(
-                    //   "Vui lòng điền thông tin",
-                    //   style: CustomTextStyles.bodySmallRedA200,
-                    // )
                   ],
                 ),
               ),
@@ -139,12 +134,12 @@ class HomeRoomGuestFilledBottomsheetState
       ),
     );
   }
-
+  ///List
   Widget _buildColumniconwrapp(BuildContext context) {
     return SizedBox(
       width: double.maxFinite,
       child: ListView.builder(
-        itemCount: _roomTypes.length,
+        itemCount: dropdownItemList.length,
         // Replace yourList with the actual list you're using
         shrinkWrap: true,
         // This will allow the ListView to fit within its parent
@@ -197,7 +192,8 @@ class HomeRoomGuestFilledBottomsheetState
                                             elevation: 0, // Remove shadow/elevation
                                           ),
                                           child: Text(
-                                            "${_roomTypes[index].typeName}",
+                                            "${dropdownItemList[index]}",
+                                            // "${dropdownItemList[index]}",
                                             style: CustomTextStyles.titleSmallGray600.copyWith(
                                               color: appTheme.gray600,
                                             ),
@@ -316,38 +312,153 @@ class HomeRoomGuestFilledBottomsheetState
     );
   }
 
-  Widget _buildStatusiconone(BuildContext context) {
-    return CustomDropDown(
-      width: 160.h,
-      icon: Container(
-        margin: EdgeInsets.only(left: 16.h),
-        child: CustomImageView(
-          imagePath: ImageConstant.imgStatusIcon,
-          height: 24.h,
-          width: 24.h,
-          fit: BoxFit.contain,
-        ),
-      ),
-      iconSize: 24.h,
-      hintText: "Chọn tuổi",
-      items: dropdownItemList,
-      contentPadding: EdgeInsets.fromLTRB(16.h, 8.h, 10.h, 8.h),
-    );
-  }
+  // Widget _buildColumniconwrapp(BuildContext context) {
+  //   return SizedBox(
+  //     width: double.maxFinite,
+  //     child: Column(
+  //       children: [
+  //         Container(
+  //           decoration: BoxDecoration(
+  //             borderRadius: BorderRadiusStyle.roundedBorder4,
+  //           ),
+  //           width: double.maxFinite,
+  //           child: Row(
+  //             children: [
+  //               Expanded(
+  //                 child: Container(
+  //                   decoration: BoxDecoration(
+  //                     color: appTheme.whiteA700,
+  //                   ),
+  //                   child: Row(
+  //                     children: [
+  //                       CustomImageView(
+  //                         imagePath: ImageConstant.imgIconWrapper5,
+  //                         height: 24.h,
+  //                         width: 24.h,
+  //                       ),
+  //                       Align(
+  //                         alignment: Alignment.bottomCenter,
+  //                         child: Padding(
+  //                           padding: EdgeInsets.only(left: 8.h),
+  //                           child: Text(
+  //                             "Phòng",
+  //                             style: theme.textTheme.titleSmall,
+  //                           ),
+  //                         ),
+  //                       )
+  //                     ],
+  //                   ),
+  //                 ),
+  //               ),
+  //               SizedBox(
+  //                 width: 148.h,
+  //                 child: Row(
+  //                   mainAxisAlignment: MainAxisAlignment.center,
+  //                   children: [
+  //                     GestureDetector(
+  //                       onTap: () {
+  //                         setState(() {
+  //                           if (quantity > 1) {
+  //                             quantity--;
+  //                           }
+  //                         });
+  //                       },
+  //                       child: Container(
+  //                         height: 40.h,
+  //                         width: 40.h,
+  //                         decoration: BoxDecoration(
+  //                           borderRadius: BorderRadiusStyle.roundedBorder4,
+  //                           border: Border.all(
+  //                             color: Colors.blue,
+  //                             width: 1.h,
+  //                           ),
+  //                         ),
+  //                         child: Stack(
+  //                           alignment: Alignment.center,
+  //                           children: [
+  //                             CustomImageView(
+  //                               color: Colors.blue,
+  //                               imagePath: ImageConstant.imgContentMinus,
+  //                               height: 24.h,
+  //                               width: 24.h,
+  //                             ),
+  //                           ],
+  //                         ),
+  //                       ),
+  //                     ),
+  //                     SizedBox(width: 4.h),
+  //                     _buildInputone(context),
+  //                     SizedBox(width: 4.h),
+  //                     GestureDetector(
+  //                       onTap: () {
+  //                         setState(() {
+  //                           quantity++;
+  //                         });
+  //                       },
+  //                       child: Container(
+  //                         height: 40.h,
+  //                         width: 40.h,
+  //                         decoration: BoxDecoration(
+  //                           borderRadius: BorderRadiusStyle.roundedBorder4,
+  //                           border: Border.all(
+  //                             color: Colors.blue,
+  //                             width: 1.h,
+  //                           ),
+  //                         ),
+  //                         child: Stack(
+  //                           alignment: Alignment.center,
+  //                           children: [
+  //                             CustomImageView(
+  //                               color: Colors.blue,
+  //                               imagePath: ImageConstant.imgIconWrapper6,
+  //                               height: 24.h,
+  //                               width: 24.h,
+  //                             )
+  //                           ],
+  //                         ),
+  //                       ),
+  //                     )
+  //                   ],
+  //                 ),
+  //               )
+  //             ],
+  //           ),
+  //         ),
+  //         SizedBox(height: 6.h),
+  //         SizedBox(
+  //           width: double.maxFinite,
+  //           child: Divider(),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
+
 
   /// Section Widget
   Widget _buildHontt(BuildContext context) {
     return CustomElevatedButton(
-      onPressed: (){
-        List<Map<String, dynamic>> roomData = List.generate(3, (index) {
-          return {
-            "roomType": dropdownItemList[index], // Adjust this based on user selection
-            "quantity": quantities[index],
-          };
-        });
+      onPressed: () {
+        List<Map<String, dynamic>> roomData = [];
 
-        // Pass the data back to the previous screen
-        Navigator.pop(context, roomData);
+        // Iterate through room types and only add those with quantity > 0
+        for (int index = 0; index < dropdownItemList.length; index++) {
+          if (quantities[index] > 0) {
+            roomData.add({
+              "roomType": dropdownItemList[index],
+              "quantity": quantities[index],
+            });
+          }
+        }
+
+        // Check if there's data to return
+        if (roomData.isNotEmpty) {
+          // Pass the data back to the previous screen
+          Navigator.pop(context, roomData);
+        } else {
+          // If no room is selected, you might want to show a warning or simply dismiss
+          Navigator.pop(context, null);  // or show a warning if required
+        }
       },
       text: "Hoàn tất",
       buttonStyle: CustomButtonStyles.fillBlue,

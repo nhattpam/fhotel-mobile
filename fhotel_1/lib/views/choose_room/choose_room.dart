@@ -31,8 +31,7 @@ class ChooseRoomFullScreenState extends State<ChooseRoomFullScreen>
     super.initState();
     _presenter = ListRoomTypePresenter(this, ListRoomTypeRepo());
     Future.delayed(Duration.zero, () {
-      final Map<String, dynamic> args =
-      ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+      final Map<String, dynamic> args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
       hotelId = args['hotelId'];
       hotelName = args['hotelName'];
 
@@ -495,9 +494,7 @@ class ChooseRoomFullScreenState extends State<ChooseRoomFullScreen>
   }
 
   @override
-  void hideLoading() {
-
-  }
+  void hideLoading() {}
 
   @override
   void showRoomTypes(List<RoomType> roomTypes) {

@@ -1,3 +1,5 @@
+import 'package:fhotel_1/data/models/hotel.dart';
+
 class RoomType {
   String? roomTypeId;
   String? hotelId;
@@ -12,6 +14,7 @@ class RoomType {
   String? updatedDate;
   String? note;
   bool? isActive;
+  Hotel? hotel;
 
   RoomType(
       {this.roomTypeId,
@@ -26,7 +29,8 @@ class RoomType {
       this.createdDate,
       this.updatedDate,
       this.note,
-      this.isActive});
+      this.isActive,
+      this.hotel});
 
   RoomType.fromJson(Map<String, dynamic> json) {
     roomTypeId = json['roomTypeId'];
@@ -42,6 +46,8 @@ class RoomType {
     updatedDate = json['updatedDate'];
     note = json['note'];
     isActive = json['isActive'];
+    hotel = json['hotel'] != null ? new Hotel.fromJson(json['hotel']) : null;
+
   }
 
   Map<String, dynamic> toJson() {
@@ -59,6 +65,9 @@ class RoomType {
     data['updatedDate'] = updatedDate;
     data['note'] = note;
     data['isActive'] = isActive;
+    if (this.hotel != null) {
+      data['hotel'] = this.hotel!.toJson();
+    }
     return data;
   }
 }

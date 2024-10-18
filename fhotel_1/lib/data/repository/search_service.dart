@@ -1,7 +1,9 @@
+import 'package:fhotel_1/data/models/room_types.dart';
 import 'package:fhotel_1/data/models/user.dart';
 import 'package:http/http.dart' as http;
 
 import '../../core/app_export.dart';
+import '../models/search.dart';
 
 class SearchService {
   final String _baseUrl = 'https://fhotelapi.azurewebsites.net/api';
@@ -113,4 +115,57 @@ class SearchService {
     return false; // Indicates failure
   }
 
+  Future<List<RoomType>> searchRoomTypes(String? roomType, int quantity, String? cityName) async {
+    // Construct the search request object
+    final searchRequests = [
+      {
+        'roomTypeName': roomType,
+        'quantity': quantity,
+      }
+    ];
+    // Construct the URL with query parameters
+    final url = Uri.parse('$_baseUrl/room-types/search?cityName=${Uri.encodeComponent(cityName ?? "")}');
+    // Make the POST request
+    final response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        "accept": "application/json",
+        "Access-Control-Allow-Origin": "*"
+      },
+      body: json.encode(searchRequests), // Wrap in an object with the required field
+    );
+    // Handle the response
+    if (response.statusCode == 200) {
+      List<dynamic> body = jsonDecode(response.body);
+      return body.map((dynamic item) => RoomType.fromJson(item)).toList();
+    } else {
+      print("Response body: ${response.body}");  // Print the error message
+      throw Exception('Failed to load room types, status code: ${response.statusCode}');
+    }
+  }
+  Future<List<RoomType>> searchListRoomTypes(
+      List<RoomSearchRequest> searchRequests, String? cityName) async {
+    final url = Uri.parse('$_baseUrl/room-types/search?cityName=${cityName ?? ""}');
+    print(url);
+    final response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: json.encode(searchRequests.map((e) => e.toJson()).toList()),
+    );
+    // print("Response body: ${response.body}");  // Print the error message
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      List<dynamic> body = jsonDecode(response.body);
+      print("Search Total Result:" + body.toString());
+      return body.map((dynamic item) =>
+          RoomType.fromJson(item))
+          .where((room) => room.isActive == true)
+          .toList();
+    } else {
+      throw Exception('Failed to load room types');
+    }
+  }
 }
