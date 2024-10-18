@@ -19,7 +19,7 @@ class EditSearchBottomsheetState extends State<EditSearchBottomsheet> {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return HomeDestinationDefaultBottomsheet(searchHistory: searchHistory);
+        return HomeDestinationDefaultBottomsheet();
       },
     );
   }

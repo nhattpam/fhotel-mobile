@@ -57,7 +57,7 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
     final result = await showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return HomeDestinationDefaultBottomsheet(searchHistory: searchHistory);
+        return HomeDestinationDefaultBottomsheet();
       },
     );
 

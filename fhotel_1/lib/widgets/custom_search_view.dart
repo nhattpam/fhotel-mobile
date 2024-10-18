@@ -109,23 +109,23 @@ class CustomSearchView extends StatelessWidget {
         BoxConstraints(
           maxHeight: 56.h,
         ),
-    suffixIcon: suffix ??
-        Padding(
-          padding: EdgeInsets.only(
-            right: 15.h,
-          ),
-          child: IconButton(
-            onPressed: () => controller!.clear(),
-            icon: Icon(
-              Icons.clear,
-              color: Colors.grey.shade600,
-            ),
-          ),
-        ),
-    suffixIconConstraints: suffixConstraints ??
-        BoxConstraints(
-          maxHeight: 56.h,
-        ),
+    // suffixIcon: suffix ??
+    //     Padding(
+    //       padding: EdgeInsets.only(
+    //         right: 15.h,
+    //       ),
+    //       child: IconButton(
+    //         onPressed: () => controller!.clear(),
+    //         icon: Icon(
+    //           Icons.clear,
+    //           color: Colors.grey.shade600,
+    //         ),
+    //       ),
+    //     ),
+    // suffixIconConstraints: suffixConstraints ??
+    //     BoxConstraints(
+    //       maxHeight: 56.h,
+    //     ),
     isDense: true,
     contentPadding:
     contentPadding ?? EdgeInsets.fromLTRB(16.h, 16.h, 12.h, 16.h),
