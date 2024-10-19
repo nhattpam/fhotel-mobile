@@ -39,7 +39,7 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
   late HotelPresenter _presenter;
   bool _isLoading = false;
   List<Hotel> _hotels = [];
-  List<RoomType> listRoomTypes = [];
+  List<Hotel> listHotels = [];
   String? _error;
   List<String> searchHistory = [];
   String roomType = ''; // Add a variable to store the search query
@@ -251,7 +251,7 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
     String selectedRoomInfo = selectedRoomData.isNotEmpty
         ? selectedRoomData.map((room) {
             setState(() {
-              roomType = room['roomType'];
+              roomType = room['typeId'];
               quantity = room['quantity'];
             });
             return "${room['roomType']}: ${room['quantity']}";
@@ -261,7 +261,7 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
 
     List<RoomSearchRequest> searchRequests = selectedRoomData.map((room) {
       return RoomSearchRequest(
-        roomTypeName: room['roomType'],
+        typeId: room['typeId'],
         quantity: room['quantity'],
       );
     }).toList();
@@ -595,7 +595,7 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
                           /// Navigator to list hotel
                           Navigator.pushNamed(
                               context, AppRoutes.hotelListingBySearch,
-                              arguments: listRoomTypes);
+                              arguments: listHotels);
                           // Navigator.pushNamed(
                           //     context, AppRoutes.roomListingBySearch,
                           //     arguments: listRoomTypes
@@ -897,9 +897,9 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
   }
 
   @override
-  void onSearchComplete(List<RoomType> roomTypes) {
+  void onSearchComplete(List<Hotel> roomTypes) {
     setState(() {
-      listRoomTypes = roomTypes;
+      listHotels = roomTypes;
       _isLoading = false;
     });
   }

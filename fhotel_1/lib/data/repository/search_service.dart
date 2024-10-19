@@ -1,3 +1,4 @@
+import 'package:fhotel_1/data/models/hotel.dart';
 import 'package:fhotel_1/data/models/room_types.dart';
 import 'package:fhotel_1/data/models/user.dart';
 import 'package:http/http.dart' as http;
@@ -144,7 +145,7 @@ class SearchService {
       throw Exception('Failed to load room types, status code: ${response.statusCode}');
     }
   }
-  Future<List<RoomType>> searchListRoomTypes(
+  Future<List<Hotel>> searchListRoomTypes(
       List<RoomSearchRequest> searchRequests, String? cityName) async {
     final url = Uri.parse('$_baseUrl/room-types/search?cityName=${cityName ?? ""}');
     print(url);
@@ -161,11 +162,11 @@ class SearchService {
       List<dynamic> body = jsonDecode(response.body);
       print("Search Total Result:" + body.toString());
       return body.map((dynamic item) =>
-          RoomType.fromJson(item))
+          Hotel.fromJson(item))
           .where((room) => room.isActive == true)
           .toList();
     } else {
-      throw Exception('Failed to load room types');
+      throw Exception('Failed to load hotel');
     }
   }
 }

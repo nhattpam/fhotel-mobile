@@ -1,5 +1,6 @@
 import 'package:fhotel_1/data/models/room_image.dart';
 import 'package:fhotel_1/data/models/room_types.dart';
+import 'package:fhotel_1/data/models/type.dart';
 
 abstract class ChooseRoomView {
   void showLoading();
@@ -7,6 +8,8 @@ abstract class ChooseRoomView {
   void hideLoading();
 
   void showRoomTypes(List<RoomType> roomTypes);
+
+  void showTypes(List<Types> types);
 
   void onGetRoomImageSuccess(List<RoomImage> roomImage);
 

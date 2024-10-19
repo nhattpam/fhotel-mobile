@@ -1,4 +1,5 @@
 import 'package:fhotel_1/data/models/room_image.dart';
+import 'package:fhotel_1/data/models/type.dart';
 import 'package:fhotel_1/data/repository/list_room_type_repo.dart';
 import 'package:flutter/material.dart';
 
@@ -343,7 +344,7 @@ class ChooseRoomFullScreenState extends State<ChooseRoomFullScreen>
                           ),
                           SizedBox(height: 8.h),
                           Text(
-                            _roomTypes[index].typeName.toString(),
+                            _roomTypes[index].description.toString(),
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: theme.textTheme.titleSmall!
@@ -436,8 +437,8 @@ class ChooseRoomFullScreenState extends State<ChooseRoomFullScreen>
                               text: TextSpan(
                                 children: [
                                   TextSpan(
-                                    text:
-                                        _roomTypes[index].basePrice.toString(),
+                                    text: '2.000.00',
+                                        // _roomTypes[index].basePrice.toString(),
                                     style: CustomTextStyles.titleSmallBlue,
                                   ),
                                   TextSpan(
@@ -517,5 +518,10 @@ class ChooseRoomFullScreenState extends State<ChooseRoomFullScreen>
   @override
   void onGetRoomTypeSuccess(RoomType hotel) {
     // TODO: implement onGetRoomTypeSuccess
+  }
+
+  @override
+  void showTypes(List<Types> types) {
+    // TODO: implement showTypes
   }
 }

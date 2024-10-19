@@ -1,5 +1,6 @@
 import 'package:fhotel_1/data/models/room_image.dart';
 import 'package:fhotel_1/data/models/room_types.dart';
+import 'package:fhotel_1/data/models/type.dart';
 import 'package:fhotel_1/data/repository/list_room_type_repo.dart';
 import 'package:fhotel_1/presenters/list_room_type_presenter.dart';
 import 'package:fhotel_1/views/choose_room/choose_room_view.dart';
@@ -25,13 +26,15 @@ class HomeRoomGuestFilledBottomsheetState
   late ListRoomTypePresenter _presenter;
   bool _isLoading = false;
   List<RoomType> _roomTypes = [];
+  List<Types> _types = [];
   String? _error;
-  List<String> dropdownItemList = ["Phong 1 nguoi", "Phong 2 nguoi", "Phong 3 nguoi"];
+
   @override
   void initState() {
     super.initState();
     _presenter = ListRoomTypePresenter(this, ListRoomTypeRepo());
     _presenter.getRoomTypes(); // Fetch the list of hotels when the screen loads
+    _presenter.getTypes();
   }
   @override
   Widget build(BuildContext context) {
@@ -139,7 +142,7 @@ class HomeRoomGuestFilledBottomsheetState
     return SizedBox(
       width: double.maxFinite,
       child: ListView.builder(
-        itemCount: dropdownItemList.length,
+        itemCount: _types.length,
         // Replace yourList with the actual list you're using
         shrinkWrap: true,
         // This will allow the ListView to fit within its parent
@@ -192,7 +195,7 @@ class HomeRoomGuestFilledBottomsheetState
                                             elevation: 0, // Remove shadow/elevation
                                           ),
                                           child: Text(
-                                            "${dropdownItemList[index]}",
+                                            "Phòng ${_types[index].typeName}",
                                             // "${dropdownItemList[index]}",
                                             style: CustomTextStyles.titleSmallGray600.copyWith(
                                               color: appTheme.gray600,
@@ -442,10 +445,11 @@ class HomeRoomGuestFilledBottomsheetState
         List<Map<String, dynamic>> roomData = [];
 
         // Iterate through room types and only add those with quantity > 0
-        for (int index = 0; index < dropdownItemList.length; index++) {
+        for (int index = 0; index < _types.length; index++) {
           if (quantities[index] > 0) {
             roomData.add({
-              "roomType": dropdownItemList[index],
+              "roomType": _types[index].typeName,
+              "typeId": _types[index].typeId,
               "quantity": quantities[index],
             });
           }
@@ -511,6 +515,15 @@ class HomeRoomGuestFilledBottomsheetState
     // TODO: implement showRoomTypes
     setState(() {
       _roomTypes = roomTypes;
+      _error = null;
+    });
+  }
+
+  @override
+  void showTypes(List<Types> types) {
+    // TODO: implement showTypes
+    setState(() {
+      _types = types;
       _error = null;
     });
   }

@@ -21,7 +21,7 @@ class ListHotelBySearch extends StatefulWidget {
 class _ListHotelBySearchState extends State<ListHotelBySearch>
     implements ListHotelView {
   bool _isLoading = false;
-  List<RoomType> listRoomTypes = [];
+  List<Hotel> listHotel = [];
   @override
   void initState() {
     super.initState();
@@ -30,7 +30,7 @@ class _ListHotelBySearchState extends State<ListHotelBySearch>
   void didChangeDependencies() {
     super.didChangeDependencies();
     // Retrieve the arguments passed safely in didChangeDependencies
-    listRoomTypes = ModalRoute.of(context)?.settings.arguments as List<RoomType>;
+    listHotel = ModalRoute.of(context)?.settings.arguments as List<Hotel>;
   }
   void _showHotelFilterModalBottomSheet(BuildContext context) {
     showModalBottomSheet(
@@ -339,16 +339,17 @@ class _ListHotelBySearchState extends State<ListHotelBySearch>
           height: 12.h,
         );
       },
-      itemCount: listRoomTypes.length,
+      itemCount: listHotel.length,
       itemBuilder: (context, index) {
         return
           // _hotels[index].isActive ?? false
           // ?
           ListHotelWidget(
-            hotelId: listRoomTypes[index].hotelId.toString() ?? "",
-            image: listRoomTypes[index].hotel?.image.toString() ?? "",
-            name: listRoomTypes[index].hotel?.hotelName.toString() ?? "",
-            rate: listRoomTypes[index].hotel?.star ?? 0,
+            hotelId: listHotel[index].hotelId.toString() ?? "",
+            image: listHotel[index].image.toString() ?? "",
+            name: listHotel[index].hotelName.toString() ?? "",
+            rate: listHotel[index].star ?? 0,
+            basePrice: 200000,
           );
         // : Container();
       },

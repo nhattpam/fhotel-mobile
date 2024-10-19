@@ -7,7 +7,8 @@ class ListHotelWidget extends StatefulWidget {
   final String image;
   final String name;
   final int rate;
-  const ListHotelWidget({super.key, required this.hotelId ,required this.image, required this.name, required this.rate});
+  final num basePrice;
+  const ListHotelWidget({super.key, required this.hotelId ,required this.image, required this.name, required this.rate,required this.basePrice});
 
   @override
   _ListHotelWidgetState createState() => _ListHotelWidgetState();
@@ -162,7 +163,7 @@ class _ListHotelWidgetState extends State<ListHotelWidget> {
                     child: Row(
                       children: [
                         Text(
-                          "2.000.000 ₫",
+                          widget.basePrice.toString(),
                           style: CustomTextStyles.titleSmallBlue,
                         ),
                         Align(

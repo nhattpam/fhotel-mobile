@@ -1,4 +1,5 @@
 import 'package:fhotel_1/data/models/room_image.dart';
+import 'package:fhotel_1/data/models/type.dart';
 import 'package:fhotel_1/data/repository/list_room_type_repo.dart';
 import 'package:flutter/material.dart';
 
@@ -343,7 +344,7 @@ class ListRoomBySearchState extends State<ListRoomBySearch>
                     ),
                     SizedBox(height: 8.h),
                     Text(
-                      listRoomTypes[index].roomType?.typeName.toString() ?? '',
+                      listRoomTypes[index].roomType?.description.toString() ?? '',
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: theme.textTheme.titleSmall!
@@ -437,7 +438,8 @@ class ListRoomBySearchState extends State<ListRoomBySearch>
                           children: [
                             TextSpan(
                               text:
-                              listRoomTypes[index].roomType?.basePrice.toString(),
+                                  "2.000.000",
+                              // listRoomTypes[index].roomType?.basePrice.toString(),
                               style: CustomTextStyles.titleSmallBlue,
                             ),
                             TextSpan(
@@ -517,5 +519,10 @@ class ListRoomBySearchState extends State<ListRoomBySearch>
   @override
   void onGetRoomTypeSuccess(RoomType hotel) {
     // TODO: implement onGetRoomTypeSuccess
+  }
+
+  @override
+  void showTypes(List<Types> types) {
+    // TODO: implement showTypes
   }
 }

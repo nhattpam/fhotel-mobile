@@ -1,5 +1,10 @@
 import 'package:fhotel_1/core/app_export.dart';
 import 'package:fhotel_1/core/utils/skeleton.dart';
+import 'package:fhotel_1/data/models/room_image.dart';
+import 'package:fhotel_1/data/models/room_types.dart';
+import 'package:fhotel_1/data/models/type.dart';
+import 'package:fhotel_1/data/repository/list_room_type_repo.dart';
+import 'package:fhotel_1/views/choose_room/choose_room_view.dart';
 import 'package:fhotel_1/views/hotel_edit_search/hotel_edit_search.dart';
 import 'package:fhotel_1/views/hotel_listing_filter_bottomsheet/hotel_listing_filter_bottomsheet.dart';
 import 'package:fhotel_1/views/hotel_listing_nearby_screen/widgets/list_one_item_widget.dart';
@@ -8,6 +13,7 @@ import 'package:flutter/material.dart';
 import '../../data/models/hotel.dart';
 import '../../data/repository/list_hotel_repo.dart';
 import '../../presenters/list_hotel_presenter.dart';
+import '../../presenters/list_room_type_presenter.dart';
 import 'list_hotel_view.dart';
 
 class HotelListingNearbyScreen extends StatefulWidget {
@@ -17,10 +23,12 @@ class HotelListingNearbyScreen extends StatefulWidget {
 }
 
 class _HotelListingNearbyScreenState extends State<HotelListingNearbyScreen>
-    implements ListHotelView {
+    implements ListHotelView, ChooseRoomView {
   late HotelPresenter _presenter;
+  late ListRoomTypePresenter _listRoomTypePresenter;
   bool _isLoading = false;
   List<Hotel> _hotels = [];
+  List<RoomType> _roomTypes = [];
   String? _error;
 
   @override
@@ -28,6 +36,7 @@ class _HotelListingNearbyScreenState extends State<HotelListingNearbyScreen>
     super.initState();
     _presenter = HotelPresenter(this, ListHotelRepo());
     _presenter.getHotels(); // Fetch the list of hotels when the screen loads
+    _listRoomTypePresenter = ListRoomTypePresenter(this, ListRoomTypeRepo());
   }
 
   void _showHotelFilterModalBottomSheet(BuildContext context) {
@@ -339,6 +348,8 @@ class _HotelListingNearbyScreenState extends State<HotelListingNearbyScreen>
             },
             itemCount: _hotels.length,
             itemBuilder: (context, index) {
+              _listRoomTypePresenter.getRoomTypesByHotelId(_hotels[index].hotelId.toString());
+              print("This is" + _roomTypes.length.toString());
               return
                   // _hotels[index].isActive ?? false
                   // ?
@@ -347,6 +358,7 @@ class _HotelListingNearbyScreenState extends State<HotelListingNearbyScreen>
                 image: _hotels[index].image.toString(),
                 name: _hotels[index].hotelName.toString(),
                 rate: _hotels[index]?.star ?? 0,
+                basePrice: 0,
               );
               // : Container();
             },
@@ -383,5 +395,28 @@ class _HotelListingNearbyScreenState extends State<HotelListingNearbyScreen>
     setState(() {
       _error = error;
     });
+  }
+
+  @override
+  void onGetRoomImageSuccess(List<RoomImage> roomImage) {
+    // TODO: implement onGetRoomImageSuccess
+  }
+
+  @override
+  void onGetRoomTypeSuccess(RoomType hotel) {
+    // TODO: implement onGetRoomTypeSuccess
+  }
+
+  @override
+  void showRoomTypes(List<RoomType> roomTypes) {
+    // TODO: implement showRoomTypes
+    setState(() async {
+      _roomTypes = roomTypes;
+      });
+  }
+
+  @override
+  void showTypes(List<Types> types) {
+    // TODO: implement showTypes
   }
 }

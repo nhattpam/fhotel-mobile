@@ -1,3 +1,4 @@
+import 'package:fhotel_1/data/models/type.dart';
 import 'package:fhotel_1/views/home_hotel_region_empty/widgets/carouselunit_item_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -70,7 +71,7 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen> 
                       children: [
                         SizedBox(height: 2.h),
                         Text(
-                          _roomType?.typeName.toString() ?? '',
+                          _roomType?.description.toString() ?? '',
                           style: theme.textTheme.titleMedium,
                         ),
                         SizedBox(height: 10.h),
@@ -573,7 +574,8 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen> 
                         style: theme.textTheme.titleSmall,
                       ),
                       Text(
-                        _roomType?.basePrice.toString() ?? '',
+                        "2.000.000",
+                        // _roomType?.basePrice.toString() ?? '',
                         style: theme.textTheme.titleSmall,
                       )
                     ],
@@ -703,5 +705,10 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen> 
     setState(() {
       _roomType = roomType;
     });
+  }
+
+  @override
+  void showTypes(List<Types> types) {
+    // TODO: implement showTypes
   }
 }

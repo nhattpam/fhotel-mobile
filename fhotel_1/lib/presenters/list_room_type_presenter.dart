@@ -3,6 +3,7 @@ import 'package:fhotel_1/data/repository/list_room_type_repo.dart';
 import 'package:fhotel_1/views/choose_room/choose_room_view.dart';
 
 import '../data/models/room_types.dart';
+import '../data/models/type.dart';
 
 
 class ListRoomTypePresenter {
@@ -70,6 +71,17 @@ class ListRoomTypePresenter {
     try {
       List<RoomType> hotels = await _listRoomTypeRepo.getRoomTypes();
       _view.showRoomTypes(hotels); // Pass the data to the view on success
+    } catch (error) {
+      print(error);
+    } finally {
+      _view.hideLoading(); // Hide loading after the process
+    }
+  }
+  Future<void> getTypes() async {
+    _view.showLoading(); // Show loading before fetching data
+    try {
+      List<Types> types = await _listRoomTypeRepo.getTypes();
+      _view.showTypes(types); // Pass the data to the view on success
     } catch (error) {
       print(error);
     } finally {
