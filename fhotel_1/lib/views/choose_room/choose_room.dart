@@ -2,7 +2,6 @@ import 'package:fhotel_1/data/models/room_image.dart';
 import 'package:fhotel_1/data/models/type.dart';
 import 'package:fhotel_1/data/repository/list_room_type_repo.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart' as html;
 
 import '../../core/app_export.dart';
 import '../../core/utils/skeleton.dart';
@@ -211,7 +210,7 @@ class ChooseRoomFullScreenState extends State<ChooseRoomFullScreen>
       ),
       width: double.maxFinite,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           CustomImageView(
             color: Colors.white,
@@ -257,20 +256,20 @@ class ChooseRoomFullScreenState extends State<ChooseRoomFullScreen>
               style: CustomTextStyles.bodyMediumwhiteA700,
             ),
           ),
-          CustomImageView(
-            color: Colors.white,
-            imagePath: ImageConstant.imgIconWrapper11,
-            height: 24.h,
-            width: 24.h,
-            margin: EdgeInsets.only(left: 20.h),
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 4.h),
-            child: Text(
-              "3",
-              style: CustomTextStyles.bodyMediumwhiteA700,
-            ),
-          ),
+          // CustomImageView(
+          //   color: Colors.white,
+          //   imagePath: ImageConstant.imgIconWrapper11,
+          //   height: 24.h,
+          //   width: 24.h,
+          //   margin: EdgeInsets.only(left: 20.h),
+          // ),
+          // Padding(
+          //   padding: EdgeInsets.only(left: 4.h),
+          //   child: Text(
+          //     "3",
+          //     style: CustomTextStyles.bodyMediumwhiteA700,
+          //   ),
+          // ),
           Padding(
             padding: EdgeInsets.only(left: 20.h),
             child: CustomIconButton(
@@ -326,7 +325,6 @@ class ChooseRoomFullScreenState extends State<ChooseRoomFullScreen>
             separatorBuilder: (context, index) => SizedBox(height: 12.h),
             itemCount: _roomTypes.length,
             itemBuilder: (context, index) {
-              String description = _roomTypes[index].description.toString();
               RoomImage roomImage = _roomImage.length > index
                   ? _roomImage[index]
                   : RoomImage(); // Default or placeholder
@@ -371,23 +369,13 @@ class ChooseRoomFullScreenState extends State<ChooseRoomFullScreen>
                             ),
                           ),
                           SizedBox(height: 8.h),
-                          html.Html(
-                            data: """
-                               $description
-                              """,
-                            style: {
-                              "body": html.Style(
-                                  fontWeight: FontWeight.normal,
-                                  color: Colors.black),
-                            },
+                          Text(
+                            (_roomTypes[index].type?.typeName).toString(),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: theme.textTheme.titleSmall!
+                                .copyWith(height: 1.50),
                           ),
-                          // Text(
-                          //   _roomTypes[index].description.toString(),
-                          //   maxLines: 2,
-                          //   overflow: TextOverflow.ellipsis,
-                          //   style: theme.textTheme.titleSmall!
-                          //       .copyWith(height: 1.50),
-                          // ),
                           SizedBox(height: 2.h),
                           Text(
                             "Room size: ${_roomTypes[index].roomSize.toString()}m2",
@@ -425,33 +413,33 @@ class ChooseRoomFullScreenState extends State<ChooseRoomFullScreen>
                       ),
                     ),
                     SizedBox(height: 8.h),
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 16.h),
-                      decoration: BoxDecoration(
-                        color: appTheme.whiteA700,
-                      ),
-                      width: double.maxFinite,
-                      child: Row(
-                        children: [
-                          CustomImageView(
-                            imagePath: ImageConstant.imgIconWrapper16,
-                            height: 24.h,
-                            width: 24.h,
-                          ),
-                          Align(
-                            alignment: Alignment.bottomCenter,
-                            child: Padding(
-                              padding: EdgeInsets.only(left: 8.h),
-                              child: Text(
-                                "2 giường đơn, 1 giường cỡ queen",
-                                style: theme.textTheme.bodyMedium,
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 8.h),
+                    // Container(
+                    //   padding: EdgeInsets.symmetric(horizontal: 16.h),
+                    //   decoration: BoxDecoration(
+                    //     color: appTheme.whiteA700,
+                    //   ),
+                    //   width: double.maxFinite,
+                    //   child: Row(
+                    //     children: [
+                    //       CustomImageView(
+                    //         imagePath: ImageConstant.imgIconWrapper16,
+                    //         height: 24.h,
+                    //         width: 24.h,
+                    //       ),
+                    //       // Align(
+                    //       //   alignment: Alignment.bottomCenter,
+                    //       //   child: Padding(
+                    //       //     padding: EdgeInsets.only(left: 8.h),
+                    //       //     child: Text(
+                    //       //       "2 giường đơn, 1 giường cỡ queen",
+                    //       //       style: theme.textTheme.bodyMedium,
+                    //       //     ),
+                    //       //   ),
+                    //       // )
+                    //     ],
+                    //   ),
+                    // ),
+                    // SizedBox(height: 8.h),
                     SizedBox(
                       width: double.maxFinite,
                       child: Divider(),

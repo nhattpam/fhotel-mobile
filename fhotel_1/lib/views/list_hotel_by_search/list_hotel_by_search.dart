@@ -62,13 +62,29 @@ class _ListHotelBySearchState extends State<ListHotelBySearch>
     );
   }
 
-  void _showEditSearchModalBottomSheet(BuildContext context) {
-    showModalBottomSheet(
+  void _showEditSearchModalBottomSheet(BuildContext context) async {
+    final result = await showModalBottomSheet<Map<String, dynamic>>(
       context: context,
       builder: (BuildContext context) {
-        return EditSearchBottomsheet(numberOfRooms: numberOfRooms,checkOutDate: checkOutDate.toString(),checkInDate: checkOutDate.toString(),city: city.toString());
+        return EditSearchBottomsheet(
+          numberOfRooms: numberOfRooms,
+          checkOutDate: checkOutDate.toString(),
+          checkInDate: checkInDate.toString(),
+          city: city.toString(),
+        );
       },
     );
+
+    // Check if result is not null and update the values
+    if (result != null) {
+      setState(() {
+        checkInDate = result['checkInDate'] ?? checkInDate;
+        listHotel = result['listHotel'] ?? listHotel;
+        numberOfRooms = result['numberOfRooms'] ?? numberOfRooms;
+        checkOutDate = result['checkOutDate'] ?? checkOutDate;
+        city = result['city'] ?? city;
+      });
+    }
   }
 
   @override
@@ -145,7 +161,7 @@ class _ListHotelBySearchState extends State<ListHotelBySearch>
           ),
         ),
         title: AppbarTitle(
-          text: "Khách sạn gần bạn",
+          text: "Kết quả tìm kiếm",
           margin: EdgeInsets.only(left: 8.h),
         ),
         actions: [
@@ -209,7 +225,7 @@ class _ListHotelBySearchState extends State<ListHotelBySearch>
       ),
       width: double.maxFinite,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           CustomImageView(
             color: Colors.white,
@@ -255,25 +271,25 @@ class _ListHotelBySearchState extends State<ListHotelBySearch>
               style: CustomTextStyles.bodyMediumwhiteA700,
             ),
           ),
-          CustomImageView(
-            color: Colors.white,
-            imagePath: ImageConstant.imgIconWrapper11,
-            height: 24.h,
-            width: 24.h,
-            margin: EdgeInsets.only(left: 20.h),
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 4.h),
-            child: Text(
-              "3",
-              style: CustomTextStyles.bodyMediumwhiteA700,
-            ),
-          ),
+          // CustomImageView(
+          //   color: Colors.white,
+          //   imagePath: ImageConstant.imgIconWrapper11,
+          //   height: 24.h,
+          //   width: 24.h,
+          //   margin: EdgeInsets.only(left: 20.h),
+          // ),
+          // Padding(
+          //   padding: EdgeInsets.only(left: 4.h),
+          //   child: Text(
+          //     "3",
+          //     style: CustomTextStyles.bodyMediumwhiteA700,
+          //   ),
+          // ),
           Padding(
             padding: EdgeInsets.only(left: 20.h),
             child: CustomIconButton(
-              onTap: () {
-                _showEditSearchModalBottomSheet(context);
+              onTap: () async {
+                 _showEditSearchModalBottomSheet(context);
               },
               height: 24.h,
               width: 24.h,

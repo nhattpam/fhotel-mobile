@@ -130,39 +130,41 @@ class _HomeCheckInDateDefaultBottomsheetState
       height: 338.h,
       width: 336.h,
       child: CalendarDatePicker2(
-          config: CalendarDatePicker2Config(
-            calendarType: CalendarDatePicker2Type.range,
-            firstDate: DateTime(DateTime.now().year - 5),
-            lastDate: DateTime(DateTime.now().year + 5),
-            selectedDayHighlightColor: Color(0XFF1A94FF),
-            firstDayOfWeek: 0,
-            todayTextStyle: TextStyle(
-              color: appTheme.black900.withOpacity(0.15),
-              fontFamily: 'Inter',
-              fontWeight: FontWeight.w400,
-            ),
-            selectedDayTextStyle: const TextStyle(
-              color: Colors.white,
-              fontFamily: 'Inter',
-              fontWeight: FontWeight.w700,
-            ),
-            dayTextStyle: TextStyle(
-              color: theme.colorScheme.onPrimary,
-              fontFamily: 'Inter',
-              fontWeight: FontWeight.w400,
-            ),
-            dayBorderRadius: BorderRadius.circular(
-              8.h,
-            ),
+        config: CalendarDatePicker2Config(
+          calendarType: CalendarDatePicker2Type.range,
+          // Prevent selecting past dates by setting the firstDate to today
+          firstDate: DateTime.now(),
+          lastDate: DateTime(DateTime.now().year + 5),
+          selectedDayHighlightColor: const Color(0XFF1A94FF),
+          firstDayOfWeek: 0,
+          todayTextStyle: TextStyle(
+            color: appTheme.black900.withOpacity(0.15),
+            fontFamily: 'Inter',
+            fontWeight: FontWeight.w400,
           ),
-          value: selectedDatesFromCalendar,
-          onValueChanged: (dates) {
-            setState(() {
-              selectedDatesFromCalendar = dates;
-              choose = selectedDatesFromCalendar.length == 2;
-            });
-            print(dates);
-          }),
+          selectedDayTextStyle: const TextStyle(
+            color: Colors.white,
+            fontFamily: 'Inter',
+            fontWeight: FontWeight.w700,
+          ),
+          dayTextStyle: TextStyle(
+            color: theme.colorScheme.onPrimary,
+            fontFamily: 'Inter',
+            fontWeight: FontWeight.w400,
+          ),
+          dayBorderRadius: BorderRadius.circular(
+            8.h,
+          ),
+        ),
+        value: selectedDatesFromCalendar,
+        onValueChanged: (dates) {
+          setState(() {
+            selectedDatesFromCalendar = dates;
+            choose = selectedDatesFromCalendar.length == 2;
+          });
+          print(dates);
+        },
+      ),
     );
   }
 

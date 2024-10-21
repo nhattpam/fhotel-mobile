@@ -253,7 +253,7 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen> 
                                       child: Padding(
                                         padding: EdgeInsets.only(left: 8.h),
                                         child: Text(
-                                          "2 giường đơn, 1 giường cỡ queen",
+                                          _roomType?.type?.typeName.toString() ?? '',
                                           style: theme.textTheme.bodyMedium,
                                         ),
                                       ),

@@ -71,14 +71,15 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
       }
     });
     _presenter = HotelDetailPresenter(this);
-    _policyPresenter = LateCheckoutPolicyPresenter(this, LateCheckoutPolicyRepo());
+    _policyPresenter =
+        LateCheckoutPolicyPresenter(this, LateCheckoutPolicyRepo());
     _policyPresenter.getLateCheckOutPolicies();
     _policyRefundPresenter = RefundPolicyPresenter(this, RefundPolicyRepo());
     _policyRefundPresenter.getRefundPolicies();
   }
 
   @override
-  void didChangeDependencies()  {
+  void didChangeDependencies() {
     super.didChangeDependencies();
 
     // Retrieve the arguments passed safely in didChangeDependencies
@@ -91,7 +92,6 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
     // Fetch the hotel details using the presenter
     _presenter.getHotelById(hotelId);
     _presenter.getHotelAmenities(hotelId);
-
   }
 
   void _scrollToSection(GlobalKey key) {
@@ -110,12 +110,17 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
     //   },
     // );
   }
-  void _showGuestPolicyModalBottomSheet(BuildContext context) {
-    String cancellationTimeBefore9PM = _refundPolicies[0].cancellationTime.toString();
-    String cancellationTimeAfter9PM = _refundPolicies[1].cancellationTime.toString();
 
-    String refundPercentageBefore9PM = _refundPolicies[0].refundPercentage.toString();
-    String refundPercentageAfter9PM = _refundPolicies[1].refundPercentage.toString();
+  void _showGuestPolicyModalBottomSheet(BuildContext context) {
+    String cancellationTimeBefore9PM =
+        _refundPolicies[0].cancellationTime.toString();
+    String cancellationTimeAfter9PM =
+        _refundPolicies[1].cancellationTime.toString();
+
+    String refundPercentageBefore9PM =
+        _refundPolicies[0].refundPercentage.toString();
+    String refundPercentageAfter9PM =
+        _refundPolicies[1].refundPercentage.toString();
 
     String descriptionBefore9PM = _refundPolicies[0].description.toString();
     String descriptionAfter9PM = _refundPolicies[1].description.toString();
@@ -125,8 +130,10 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
     String policyBetween2PM = _policies[2].description.toString();
 
     String chargePercentageAfter6PM = _policies[0].chargePercentage.toString();
-    String chargePercentageBetween6PM = _policies[1].chargePercentage.toString();
-    String chargePercentageBetween2PM = _policies[2].chargePercentage.toString();
+    String chargePercentageBetween6PM =
+        _policies[1].chargePercentage.toString();
+    String chargePercentageBetween2PM =
+        _policies[2].chargePercentage.toString();
 
     showModalBottomSheet(
       context: context,
@@ -244,6 +251,7 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
         print('Error parsing dates: $e');
       }
     }
+    String description = (_hotel?.description).toString();
     return SafeArea(
       child: Scaffold(
         appBar: _buildAppbar(context),
@@ -728,14 +736,15 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
                                     ),
                                     SizedBox(height: 12.h),
                                     InkWell(
-                                          child: new Text(
-                                            'View Guest Policy',
-                                            style: TextStyle(color: Colors.red, fontSize: 20),
-                                          ),
-                                          onTap: () => {
-                                            _showGuestPolicyModalBottomSheet(context)
-                                          }
-                                    ),
+                                        child: new Text(
+                                          'Xem chính sách',
+                                          style: TextStyle(
+                                              color: Colors.red, fontSize: 20),
+                                        ),
+                                        onTap: () => {
+                                              _showGuestPolicyModalBottomSheet(
+                                                  context)
+                                            }),
                                   ],
                                 ),
                               ),
@@ -766,18 +775,16 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
                                       ),
                                       child: Column(
                                         children: [
-                                          SizedBox(
-                                            width: 324.h,
-                                            child: Text(
-                                              _hotel?.description.toString() ??
-                                                  '',
-                                              maxLines: 5,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: theme.textTheme.bodyMedium!
-                                                  .copyWith(
-                                                height: 1.50,
-                                              ),
-                                            ),
+                                          html.Html(
+                                            data: """
+                                             $description
+                                            """,
+                                            style: {
+                                              "body": html.Style(
+                                                  maxLines: 5,
+                                                  fontWeight: FontWeight.normal,
+                                                  color: Colors.black),
+                                            },
                                           ),
                                           SizedBox(height: 16.h)
                                         ],
@@ -883,7 +890,7 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
       ),
       width: double.maxFinite,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           CustomImageView(
             color: Colors.white,
@@ -929,20 +936,20 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
               style: CustomTextStyles.bodyMediumwhiteA700,
             ),
           ),
-          CustomImageView(
-            color: Colors.white,
-            imagePath: ImageConstant.imgIconWrapper11,
-            height: 24.h,
-            width: 24.h,
-            margin: EdgeInsets.only(left: 20.h),
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 4.h),
-            child: Text(
-              "3",
-              style: CustomTextStyles.bodyMediumwhiteA700,
-            ),
-          ),
+          // CustomImageView(
+          //   color: Colors.white,
+          //   imagePath: ImageConstant.imgIconWrapper11,
+          //   height: 24.h,
+          //   width: 24.h,
+          //   margin: EdgeInsets.only(left: 20.h),
+          // ),
+          // Padding(
+          //   padding: EdgeInsets.only(left: 4.h),
+          //   child: Text(
+          //     "3",
+          //     style: CustomTextStyles.bodyMediumwhiteA700,
+          //   ),
+          // ),
           Padding(
             padding: EdgeInsets.only(left: 20.h),
             child: CustomIconButton(
@@ -1067,7 +1074,7 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
       itemCount: _amenities.length, // Number of items in the grid
       itemBuilder: (context, index) {
         return Image.network(
-          _amenities[index].image.toString(),
+          (_amenities[index].amenity?.image).toString(),
           // Replace with your image asset path
           width: 1, // Set the width of the image
           height: 1, // Set the height of the image
@@ -1259,8 +1266,7 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
   // Hide loading indicator
   @override
   void hideLoading() {
-    setState(() {
-    });
+    setState(() {});
   }
 
   @override

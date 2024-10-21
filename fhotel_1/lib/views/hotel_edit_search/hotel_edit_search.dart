@@ -1,7 +1,12 @@
 import 'package:fhotel_1/core/app_export.dart';
 import 'package:fhotel_1/views/home_destination_default/home_destination_default.dart';
+import 'package:fhotel_1/views/hotel_listing_nearby_screen/search_view.dart';
 import 'package:flutter/material.dart';
 
+import '../../data/models/hotel.dart';
+import '../../data/models/search.dart';
+import '../../data/repository/search_service.dart';
+import '../../presenters/search_presenter.dart';
 import '../home_check_in_date_default/home_check_in_date_default.dart';
 import '../home_duration_bottomsheet/home_duration_bottomsheet.dart';
 import '../home_room_guest_default/home_room_guest_default.dart';
@@ -18,17 +23,41 @@ class EditSearchBottomsheet extends StatefulWidget {
   EditSearchBottomsheetState createState() => EditSearchBottomsheetState();
 }
 
-class EditSearchBottomsheetState extends State<EditSearchBottomsheet> {
-  String dateStarSelected = "02/02/2022";
-  String dateEndSelected = "02/02/2022";
+class EditSearchBottomsheetState extends State<EditSearchBottomsheet> implements SearchView {
+  String dateStarSelected = '';
+  String dateEndSelected = '';
   List<String> searchHistory = [];
-  void _showModalBottomSheet(BuildContext context) {
-    showModalBottomSheet(
+  String _searchQuery = ''; // Add a variable to store the search query
+  List<Map<String, dynamic>> selectedRoomData = [];
+  late SearchPresenter _searchPresenter;
+  bool _isLoading = false;
+  List<Hotel> listHotels = [];
+  String? _error;
+  String roomType = ''; // Add a variable to store the search query
+  int quantity = 0; // Add a variable to store the search query
+
+  @override
+  void initState() {
+    super.initState();
+    _searchPresenter = SearchPresenter(this, SearchService());
+  }
+
+
+  void _showModalBottomSheet(BuildContext context) async {
+    final result = await showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
         return HomeDestinationDefaultBottomsheet();
       },
     );
+
+    if (result != null && result.isNotEmpty) {
+      print('User searched for: $result');
+      setState(() {
+        _searchQuery = result;
+        searchHistory.add(result);
+      });
+    }
   }
 
   void _showCalendarModalBottomSheet(BuildContext context) {
@@ -60,23 +89,31 @@ class EditSearchBottomsheetState extends State<EditSearchBottomsheet> {
     );
   }
 
-  void _showDurationModalBottomSheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return const HomeDurationBottomsheet();
-      },
-    );
-  }
 
-  void _showRoomAndGuestModalBottomSheet(BuildContext context) {
-    showModalBottomSheet(
+  void _showRoomAndGuestModalBottomSheet(BuildContext context) async {
+    // Await the result from the modal bottom sheet
+    List<Map<String, dynamic>>? result = await showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
       builder: (BuildContext context) {
         return HomeRoomGuestFilledBottomsheet();
       },
     );
+
+    // Check if the result is not null (user didn't dismiss without selecting)
+    if (result != null) {
+      setState(() {
+        selectedRoomData = result;
+      });
+
+      // You can also print or log the data to verify it:
+      print("Selected Room Data: $selectedRoomData");
+    }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -176,9 +213,10 @@ class EditSearchBottomsheetState extends State<EditSearchBottomsheet> {
                                         elevation: 0, // Remove shadow/elevation
                                       ),
                                       child: Text(
-                                        widget.city,
+                                        _searchQuery.isNotEmpty ? _searchQuery : widget.city,
                                         style: theme.textTheme.titleSmall,
-                                      )),
+                                      )
+                                  ),
                                 ],
                               ),
                             ),
@@ -269,7 +307,7 @@ class EditSearchBottomsheetState extends State<EditSearchBottomsheet> {
                                                             0, // Remove shadow/elevation
                                                       ),
                                                       child: Text(
-                                                        widget.checkInDate,
+                                                        (dateStarSelected.toString()).isNotEmpty ? (dateStarSelected.toString()) : widget.checkInDate,
                                                         style: theme.textTheme
                                                             .titleSmall,
                                                       ),
@@ -317,7 +355,7 @@ class EditSearchBottomsheetState extends State<EditSearchBottomsheet> {
                                                         0, // Remove shadow/elevation
                                                       ),
                                                       child: Text(
-                                                        dateEndSelected,
+                                                        (dateEndSelected.toString()).isNotEmpty ? (dateEndSelected.toString()) : widget.checkOutDate,
                                                         style:
                                                         theme.textTheme.titleSmall,
                                                       ),
@@ -409,6 +447,13 @@ class EditSearchBottomsheetState extends State<EditSearchBottomsheet> {
   }
 
   Widget _buildButtonbar(BuildContext context) {
+
+    List<RoomSearchRequest> searchRequests = selectedRoomData.map((room) {
+      return RoomSearchRequest(
+        typeId: room['typeId'],
+        quantity: room['quantity'],
+      );
+    }).toList();
     return Container(
       width: double.maxFinite,
       padding: EdgeInsets.fromLTRB(16.h, 6.h, 16.h, 8.h),
@@ -425,6 +470,18 @@ class EditSearchBottomsheetState extends State<EditSearchBottomsheet> {
         mainAxisSize: MainAxisSize.min,
         children: [
           CustomElevatedButton(
+            onPressed: () async{
+              await _searchPresenter.searchListRoomTypes(
+                  searchRequests, _searchQuery);
+
+              Navigator.pop(context, {
+                "listHotels": listHotels,
+                'checkInDate': dateStarSelected,
+                'checkOutDate': dateEndSelected,
+                "numberOfRooms": quantity,
+                'city': _searchQuery,
+              });
+            },
             buttonStyle: CustomButtonStyles.fillBlue,
             buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,
             text: "Tìm kiếm",
@@ -432,5 +489,19 @@ class EditSearchBottomsheetState extends State<EditSearchBottomsheet> {
         ],
       ),
     );
+  }
+
+  @override
+  void onSearchComplete(List<Hotel> roomTypes) {
+    // TODO: implement onSearchComplete
+    setState(() {
+      listHotels = roomTypes;
+      _isLoading = false;
+    });
+  }
+
+  @override
+  void onSearchError(String error) {
+    // TODO: implement onSearchError
   }
 }

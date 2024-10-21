@@ -254,7 +254,6 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
             return "${room['roomType']}: ${room['quantity']}";
           }).join(", ") // Concatenate room info
         : "Select room and guests"; // Default placeholder text
-    print(selectedRoomData);
 
     List<RoomSearchRequest> searchRequests = selectedRoomData.map((room) {
       return RoomSearchRequest(
