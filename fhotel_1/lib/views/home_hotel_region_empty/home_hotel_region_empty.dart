@@ -599,6 +599,7 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
                               "checkInDate": dateStarSelected,
                               "checkOutDate": dateEndSelected,
                               "numberOfRooms": quantity,
+                              "city": _searchQuery,
                             },
                           );
                         },

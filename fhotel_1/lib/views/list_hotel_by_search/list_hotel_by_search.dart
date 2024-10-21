@@ -20,6 +20,7 @@ class _ListHotelBySearchState extends State<ListHotelBySearch>
   List<Hotel> listHotel = [];
   String? checkInDate;
   String? checkOutDate;
+  String? city;
   int numberOfRooms = 0;
   int? numberOfDays;
 
@@ -34,6 +35,7 @@ class _ListHotelBySearchState extends State<ListHotelBySearch>
         // Retrieve and cast each argument safely
         checkInDate = arguments['checkInDate'] as String;
         checkOutDate = arguments['checkOutDate'] as String;
+        city = arguments['city'] as String;
         numberOfRooms = arguments['numberOfRooms'] as int;
         // Retrieve the listHotels if provided
         final hotels = arguments['listHotels'];
@@ -64,7 +66,7 @@ class _ListHotelBySearchState extends State<ListHotelBySearch>
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return EditSearchBottomsheet();
+        return EditSearchBottomsheet(numberOfRooms: numberOfRooms,checkOutDate: checkOutDate.toString(),checkInDate: checkOutDate.toString(),city: city.toString());
       },
     );
   }

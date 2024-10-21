@@ -49,12 +49,12 @@ class _HotelListingNearbyScreenState extends State<HotelListingNearbyScreen>
   }
 
   void _showEditSearchModalBottomSheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return EditSearchBottomsheet();
-      },
-    );
+    // showModalBottomSheet(
+    //   context: context,
+    //   builder: (BuildContext context) {
+    //     return EditSearchBottomsheet();
+    //   },
+    // );
   }
 
   @override
@@ -418,5 +418,10 @@ class _HotelListingNearbyScreenState extends State<HotelListingNearbyScreen>
   @override
   void showTypes(List<Types> types) {
     // TODO: implement showTypes
+  }
+
+  @override
+  void onGetPriceSuccess(List<double?> price) {
+    // TODO: implement onGetPriceSuccess
   }
 }

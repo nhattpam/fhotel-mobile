@@ -13,6 +13,8 @@ abstract class ChooseRoomView {
 
   void onGetRoomImageSuccess(List<RoomImage> roomImage);
 
+  void onGetPriceSuccess(List<double?> price);
+
   void onGetRoomTypeSuccess(RoomType hotel);
 
 }

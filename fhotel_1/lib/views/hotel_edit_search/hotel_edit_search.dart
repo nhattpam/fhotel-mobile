@@ -2,18 +2,25 @@ import 'package:fhotel_1/core/app_export.dart';
 import 'package:fhotel_1/views/home_destination_default/home_destination_default.dart';
 import 'package:flutter/material.dart';
 
+import '../home_check_in_date_default/home_check_in_date_default.dart';
 import '../home_duration_bottomsheet/home_duration_bottomsheet.dart';
 import '../home_room_guest_default/home_room_guest_default.dart';
 
 class EditSearchBottomsheet extends StatefulWidget {
-  EditSearchBottomsheet({Key? key}) : super(key: key);
+  final String city;
+  final String checkInDate;
+  final String checkOutDate;
+  final int numberOfRooms;
+  const EditSearchBottomsheet({super.key, required this.checkInDate, required this.checkOutDate, required this.numberOfRooms, required this.city});
+
 
   @override
   EditSearchBottomsheetState createState() => EditSearchBottomsheetState();
 }
 
 class EditSearchBottomsheetState extends State<EditSearchBottomsheet> {
-  String dateSelected = "Thứ Tư, 02/02/2022";
+  String dateStarSelected = "02/02/2022";
+  String dateEndSelected = "02/02/2022";
   List<String> searchHistory = [];
   void _showModalBottomSheet(BuildContext context) {
     showModalBottomSheet(
@@ -24,25 +31,34 @@ class EditSearchBottomsheetState extends State<EditSearchBottomsheet> {
     );
   }
 
-  // void _showCalendarModalBottomSheet(BuildContext context) {
-  //   showModalBottomSheet(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       return HomeCheckInDateDefaultBottomsheet(
-  //         onDateSelected: (selectedDate) {
-  //           if (selectedDate != null) {
-  //             // Update the state with the selected date
-  //             setState(() {
-  //               // Format the date as desired, here I’m using the default DateTime format
-  //               dateSelected =
-  //                   DateFormat('EEEE, dd/MM/yyyy').format(selectedDate);
-  //             });
-  //           }
-  //         },
-  //       );
-  //     },
-  //   );
-  // }
+  void _showCalendarModalBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return HomeCheckInDateDefaultBottomsheet(
+          onDateStarSelected: (selectedDate) {
+            if (selectedDate != null) {
+              // Update the state with the selected date
+              setState(() {
+                // Format the date as desired, here I’m using the default DateTime format
+                dateStarSelected = DateFormat('dd/MM/yyyy').format(selectedDate);
+              });
+            }
+          },
+          onDateEndSelected: (selectedDate) {
+            if (selectedDate != null) {
+              // Update the state with the selected date
+              setState(() {
+                // Format the date as desired, here I’m using the default DateTime format
+                dateEndSelected =
+                    DateFormat('dd/MM/yyyy').format(selectedDate);
+              });
+            }
+          },
+        );
+      },
+    );
+  }
 
   void _showDurationModalBottomSheet(BuildContext context) {
     showModalBottomSheet(
@@ -160,7 +176,7 @@ class EditSearchBottomsheetState extends State<EditSearchBottomsheet> {
                                         elevation: 0, // Remove shadow/elevation
                                       ),
                                       child: Text(
-                                        "Khách sạn gần bạn",
+                                        widget.city,
                                         style: theme.textTheme.titleSmall,
                                       )),
                                 ],
@@ -241,8 +257,8 @@ class EditSearchBottomsheetState extends State<EditSearchBottomsheet> {
                                                     SizedBox(height: 4.h),
                                                     ElevatedButton(
                                                       onPressed: () {
-                                                        // _showCalendarModalBottomSheet(
-                                                        //     context);
+                                                        _showCalendarModalBottomSheet(
+                                                            context);
                                                       },
                                                       style: ElevatedButton
                                                           .styleFrom(
@@ -253,7 +269,7 @@ class EditSearchBottomsheetState extends State<EditSearchBottomsheet> {
                                                             0, // Remove shadow/elevation
                                                       ),
                                                       child: Text(
-                                                        "Thứ Tư,02/02/2022",
+                                                        widget.checkInDate,
                                                         style: theme.textTheme
                                                             .titleSmall,
                                                       ),
@@ -262,68 +278,62 @@ class EditSearchBottomsheetState extends State<EditSearchBottomsheet> {
                                                 ),
                                               ),
                                             ),
-                                          )
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 18.0, top: 8),
+                                            child: Container(
+                                              height: 70.0,
+                                              width: 1.0,
+                                              color: Colors.black,
+                                              // margin: const EdgeInsets.only(
+                                              //     right: 10.0),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Align(
+                                              alignment: Alignment.bottomLeft,
+                                              child: Padding(
+                                                padding: EdgeInsets.only(top: 10.h),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      "Ngày trả phòng:",
+                                                      style: theme.textTheme.bodyMedium,
+                                                    ),
+                                                    SizedBox(height: 4.h),
+                                                    ElevatedButton(
+                                                      onPressed: () {
+                                                        _showCalendarModalBottomSheet(
+                                                            context);
+                                                      },
+                                                      style: ElevatedButton.styleFrom(
+                                                        backgroundColor:
+                                                        Colors.transparent,
+                                                        // Set background to transparent
+                                                        elevation:
+                                                        0, // Remove shadow/elevation
+                                                      ),
+                                                      child: Text(
+                                                        dateEndSelected,
+                                                        style:
+                                                        theme.textTheme.titleSmall,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
                                         ],
                                       ),
                                     ),
                                   ),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      color: appTheme.whiteA700,
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        SizedBox(height: 10.h),
-                                        Text(
-                                          "Sõ đêm nghỉ",
-                                          style: theme.textTheme.bodyMedium,
-                                        ),
-                                        SizedBox(height: 4.h),
-                                        ElevatedButton(
-                                          onPressed: () {
-                                            _showDurationModalBottomSheet(
-                                                context);
-                                          },
-                                          style: ElevatedButton.styleFrom(
-                                            backgroundColor: Colors.transparent,
-                                            // Set background to transparent
-                                            elevation:
-                                                0, // Remove shadow/elevation
-                                          ),
-                                          child: Text(
-                                            "1 đêm",
-                                            style: theme.textTheme.titleSmall,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  )
                                 ],
                               ),
                             ),
-                            SizedBox(height: 8.h),
-                            Container(
-                              width: double.maxFinite,
-                              margin: EdgeInsets.symmetric(horizontal: 32.h),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    "Ngày trả phòng:",
-                                    style: theme.textTheme.bodySmall,
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 4.h),
-                                    child: Text(
-                                      "Thứ Sáu, 04/02/2022",
-                                      style: theme.textTheme.labelLarge,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: 8.h),
                             SizedBox(
                               width: double.maxFinite,
                               child: Divider(),
@@ -376,7 +386,7 @@ class EditSearchBottomsheetState extends State<EditSearchBottomsheet> {
                                       elevation: 0, // Remove shadow/elevation
                                     ),
                                     child: Text(
-                                      "2 phòng, 2 người lớn, 1 trẻ em",
+                                      "Số lượng phòng "+ widget.numberOfRooms.toString(),
                                       style: CustomTextStyles.titleSmallGray600
                                           .copyWith(
                                         color: appTheme.gray600,

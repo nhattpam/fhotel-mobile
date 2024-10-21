@@ -62,6 +62,26 @@ class ListRoomTypeRepo {
       throw Exception('Failed to fetch room type.');
     }
   }
+  Future<double> getRoomPriceByRoomId(String roomTypeId) async {
+
+    final url = Uri.parse('$_baseUrl/room-types/$roomTypeId/today-price');
+
+    final response = await http.get(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final responseData = json.decode(response.body);
+
+      return responseData;
+    } else {
+      throw Exception('Failed to fetch room price.');
+    }
+  }
+
   Future<List<RoomType>> getRoomTypes() async {
 
     final url = Uri.parse('$_baseUrl/room-types');

@@ -1,14 +1,37 @@
+import 'package:fhotel_1/data/models/reservation.dart';
+import 'package:fhotel_1/data/repository/list_reservation_repo.dart';
 import 'package:fhotel_1/views/my_booking_details/my_booking_details.dart';
 import 'package:fhotel_1/views/my_booking_full_screen/widgets/maincontent7_item_widget.dart';
+import 'package:fhotel_1/views/tabbar_booking_and_service/list_reservation_view.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/app_export.dart';
+import '../../presenters/list_reservation_presenter.dart';
 
-class MyBookingFullScreen extends StatelessWidget {
-  const MyBookingFullScreen({Key? key})
-      : super(
-          key: key,
-        );
+class MyBookingFullScreen extends StatefulWidget {
+  MyBookingFullScreen({Key? key}) : super(key: key);
+
+  @override
+  MyBookingFullScreenState createState() => MyBookingFullScreenState();
+}
+
+class MyBookingFullScreenState extends State<MyBookingFullScreen>
+    implements ListReservationView {
+  int sliderIndex = 1;
+  int _currentIndex = 3;
+
+  late ListReservationPresenter _presenter;
+  List<Reservation> _reservation = [];
+
+  String? _error;
+  bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _presenter = ListReservationPresenter(this, ListReservationRepo()); // Initialize the presenter
+    _presenter.getListReservationByCustomerId(); // Fetch customer data
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +80,7 @@ class MyBookingFullScreen extends StatelessWidget {
     return CustomAppBar(
       leadingWidth: 40.h,
       leading: AppbarLeadingImage(
-        onTap: (){
+        onTap: () {
           Navigator.pop(context);
         },
         imagePath: ImageConstant.imgChevronLeft,
@@ -135,10 +158,10 @@ class MyBookingFullScreen extends StatelessWidget {
           SizedBox(height: 10.h),
           GestureDetector(
             onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                    builder: (context) => MyBookingDetailsScreen()),
-              );
+              // Navigator.of(context).push(
+              //   MaterialPageRoute(
+              //       builder: (context) => MyBookingDetailsScreen(reservation: widget.,)),
+              // );
             },
             child: Container(
               width: double.maxFinite,
@@ -227,10 +250,34 @@ class MyBookingFullScreen extends StatelessWidget {
           height: 12.h,
         );
       },
-      itemCount: 3,
+      itemCount: _reservation.length,
       itemBuilder: (context, index) {
-        return Maincontent7ItemWidget();
+        print(_reservation[index]);
+        return Maincontent7ItemWidget(reservation: _reservation[index]);
       },
     );
+  }
+
+
+  @override
+  void hideLoading() {
+    // TODO: implement hideLoading
+  }
+
+  @override
+  void onGetReservationsError(String error) {
+    // TODO: implement onGetReservationsError
+  }
+
+  @override
+  void onGetReservationsSuccess(List<Reservation> reservations) {
+    setState(() {
+      _reservation = reservations;
+    });
+  }
+
+  @override
+  void showLoading() {
+    // TODO: implement showLoading
   }
 }

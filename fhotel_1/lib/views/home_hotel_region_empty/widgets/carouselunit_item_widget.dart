@@ -159,4 +159,9 @@ class _CarouselunitItemWidgetState extends State<CarouselunitItemWidget> impleme
     // TODO: implement showTypes
   }
 
+  @override
+  void onGetPriceSuccess(List<double?> price) {
+    // TODO: implement onGetPriceSuccess
+  }
+
 }

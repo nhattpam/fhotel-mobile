@@ -144,7 +144,7 @@ class SuccessfulPaymentScreen extends StatelessWidget {
                     onPressed: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                            builder: (context) => const MyBookingFullScreen()),
+                            builder: (context) =>  MyBookingFullScreen()),
                       );
                     },
                     text: "Chi tiết đặt chỗ",

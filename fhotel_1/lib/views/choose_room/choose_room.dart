@@ -8,7 +8,6 @@ import '../../core/utils/skeleton.dart';
 import '../../data/models/room_types.dart';
 import '../../presenters/list_room_type_presenter.dart';
 import '../choose_room_detail/choose_room_detail.dart';
-import '../hotel_edit_search/hotel_edit_search.dart';
 import 'choose_room_view.dart';
 
 class ChooseRoomFullScreen extends StatefulWidget {
@@ -28,6 +27,7 @@ class ChooseRoomFullScreenState extends State<ChooseRoomFullScreen>
   int numberOfRooms = 0;
   int? numberOfDays;
 
+  List<double?> _roomPrices = [];
   List<RoomType> _roomTypes = [];
   List<RoomImage> _roomImage = [];
 
@@ -36,7 +36,8 @@ class ChooseRoomFullScreenState extends State<ChooseRoomFullScreen>
     super.initState();
     _presenter = ListRoomTypePresenter(this, ListRoomTypeRepo());
     Future.delayed(Duration.zero, () {
-      final Map<String, dynamic> args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+      final Map<String, dynamic> args =
+          ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
       hotelId = args['hotelId'];
       hotelName = args['hotelName'];
       checkInDate = args['checkInDate'] as String;
@@ -44,24 +45,27 @@ class ChooseRoomFullScreenState extends State<ChooseRoomFullScreen>
       numberOfRooms = args['numberOfRooms'] as int;
       // Now fetch room types using the presenter
       _presenter.getRoomTypesByHotelId(hotelId);
-    }
-    );
+    });
   }
 
   void _showEditSearchModalBottomSheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return EditSearchBottomsheet();
-      },
-    );
+    // showModalBottomSheet(
+    //   context: context,
+    //   builder: (BuildContext context) {
+    //     return EditSearchBottomsheet();
+    //   },
+    // );
   }
 
   void _showDetailModalBottomSheet(BuildContext context, String roomTypeId) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return ChooseRoomRoomDetailScreen(roomTypeId: roomTypeId, checkInDate: checkInDate.toString(), checkOutDate: checkOutDate.toString(), numberOfRooms: numberOfRooms, );
+        return ChooseRoomRoomDetailScreen(
+            roomTypeId: roomTypeId,
+            checkInDate: checkInDate.toString(),
+            checkOutDate: checkOutDate.toString(),
+            numberOfRooms: numberOfRooms);
       },
     );
   }
@@ -400,7 +404,7 @@ class ChooseRoomFullScreenState extends State<ChooseRoomFullScreen>
                             child: Padding(
                               padding: EdgeInsets.only(left: 8.h),
                               child: Text(
-                                "2 người lớn, 1 trẻ em",
+                                "Tối đa ${_roomTypes[index].type?.maxOccupancy.toString() ?? ''} người",
                                 style: theme.textTheme.bodyMedium,
                               ),
                             ),
@@ -459,8 +463,8 @@ class ChooseRoomFullScreenState extends State<ChooseRoomFullScreen>
                               text: TextSpan(
                                 children: [
                                   TextSpan(
-                                    text: '2.000.00',
-                                        // _roomTypes[index].basePrice.toString(),
+                                    text: _roomPrices[index].toString(),
+                                    // _roomTypes[index].basePrice.toString(),
                                     style: CustomTextStyles.titleSmallBlue,
                                   ),
                                   TextSpan(
@@ -524,6 +528,7 @@ class ChooseRoomFullScreenState extends State<ChooseRoomFullScreen>
     setState(() async {
       _roomTypes = roomTypes;
       await _presenter.loadRoomImages(_roomTypes);
+      await _presenter.loadRoomPrice(_roomTypes);
       setState(() {
         _isLoading = false;
       }); // Hide loading indicator
@@ -545,5 +550,12 @@ class ChooseRoomFullScreenState extends State<ChooseRoomFullScreen>
   @override
   void showTypes(List<Types> types) {
     // TODO: implement showTypes
+  }
+
+  @override
+  void onGetPriceSuccess(List<double?> price) {
+    setState(() {
+      _roomPrices = price;
+    });
   }
 }

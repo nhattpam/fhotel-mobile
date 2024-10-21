@@ -1,20 +1,30 @@
+import 'package:fhotel_1/data/models/reservation.dart';
 import 'package:fhotel_1/views/my_booking_details/my_booking_details.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/app_export.dart';
 
-class Maincontent7ItemWidget extends StatelessWidget {
-  const Maincontent7ItemWidget({Key? key})
+class Maincontent7ItemWidget extends StatefulWidget {
+  final Reservation reservation;
+
+  const Maincontent7ItemWidget({Key? key, required this.reservation})
       : super(
           key: key,
         );
 
   @override
+  Maincontent7ItemWidgetState createState() => Maincontent7ItemWidgetState();
+}
+
+class Maincontent7ItemWidgetState extends State<Maincontent7ItemWidget> {
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => MyBookingDetailsScreen()),
+          MaterialPageRoute(
+              builder: (context) =>
+                  MyBookingDetailsScreen(reservation: widget.reservation)),
         );
       },
       child: Container(
@@ -50,7 +60,8 @@ class Maincontent7ItemWidget extends StatelessWidget {
                     child: Padding(
                       padding: EdgeInsets.only(left: 8.h),
                       child: Text(
-                        "Khách sạn Pullman Vũng Tàu",
+                        (widget.reservation.roomType?.hotel?.hotelName)
+                            .toString(),
                         style: theme.textTheme.titleSmall,
                       ),
                     ),
@@ -78,7 +89,7 @@ class Maincontent7ItemWidget extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.only(top: 10.h),
                     child: Text(
-                      "8.000.000 ₫",
+                      widget.reservation.totalAmount.toString() + " ₫",
                       style: CustomTextStyles.titleSmallBlue,
                     ),
                   )
@@ -92,12 +103,20 @@ class Maincontent7ItemWidget extends StatelessWidget {
   }
 
   Widget _buildTthnhcng(BuildContext context) {
-    return CustomElevatedButton(
-      height: 28.h,
-      width: 126.h,
-      text: "Đặt thành công",
-      buttonStyle: CustomButtonStyles.fillGreen,
-      buttonTextStyle: CustomTextStyles.bodyMediumTeal800,
-    );
+    return widget.reservation.reservationStatus != 'Pending'
+        ? CustomElevatedButton(
+            height: 28.h,
+            width: 126.h,
+            text: "Đặt thành công",
+            buttonStyle: CustomButtonStyles.fillGreen,
+            buttonTextStyle: CustomTextStyles.bodyMediumTeal800,
+          )
+        : CustomElevatedButton(
+            height: 28.h,
+            width: 94.h,
+            text: "Đang xử lý",
+            buttonStyle: CustomButtonStyles.fillYellow,
+            buttonTextStyle: CustomTextStyles.bodyMediumSecondaryContainer,
+          );
   }
 }

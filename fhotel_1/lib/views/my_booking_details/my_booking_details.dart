@@ -1,10 +1,12 @@
+import 'package:fhotel_1/data/models/reservation.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/app_export.dart';
 
 // ignore_for_file: must be_ immutable
 class MyBookingDetailsScreen extends StatelessWidget {
-  MyBookingDetailsScreen({super.key});
+  final Reservation reservation;
+  MyBookingDetailsScreen({super.key, required this.reservation});
 
   TextEditingController listmasteroneController = TextEditingController();
 

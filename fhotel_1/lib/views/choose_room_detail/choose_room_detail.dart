@@ -213,7 +213,7 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen> 
                                       child: Padding(
                                         padding: EdgeInsets.only(left: 8.h),
                                         child: Text(
-                                          "2 người lớn, 1 trẻ em",
+                                          "Tối đa ${_roomType?.type?.maxOccupancy.toString() ?? ''} người",
                                           style: theme.textTheme.bodyMedium,
                                         ),
                                       ),
@@ -256,46 +256,46 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen> 
                     ),
                   ),
                   SizedBox(height: 8.h),
-                  Column(
-                    children: [
-                      SizedBox(
-                        width: double.maxFinite,
-                        child: _buildSectionOne(
-                          context,
-                          titleone: "Tiện nghi chung",
-                          descriptionOne:
-                              "Bãi gửi xe\nKhu vực hút thuốc \nTiệc chiêu đãi \nSân thượng/ sân hiên",
-                        ),
-                      ),
-                      SizedBox(
-                        width: double.maxFinite,
-                        child: _buildSectionOne(
-                          context,
-                          titleone: "Tiện nghi văn phòng",
-                          descriptionOne:
-                              "Phòng hội nghị \nPhòng họp \nDịch vụ văn phòng \nPhòng hội nghị \nMáy tính",
-                        ),
-                      ),
-                      SizedBox(
-                        width: double.maxFinite,
-                        child: _buildSectionOne(
-                          context,
-                          titleone: "Tiện nghi công cộng",
-                          descriptionOne:
-                              "Tiệm cà phê\nThang máy \nNhà hàng \nKét an toàn",
-                        ),
-                      ),
-                      SizedBox(
-                        width: double.maxFinite,
-                        child: _buildSectionOne(
-                          context,
-                          titleone: "Ấm thực",
-                          descriptionOne:
-                              "Quầy bar\nQuãy bar bên hồ bơi \nBữa sáng",
-                        ),
-                      ),
-                    ],
-                  ),
+                  // Column(
+                  //   children: [
+                  //     SizedBox(
+                  //       width: double.maxFinite,
+                  //       child: _buildSectionOne(
+                  //         context,
+                  //         titleone: "Tiện nghi chung",
+                  //         descriptionOne:
+                  //             "Bãi gửi xe\nKhu vực hút thuốc \nTiệc chiêu đãi \nSân thượng/ sân hiên",
+                  //       ),
+                  //     ),
+                  //     SizedBox(
+                  //       width: double.maxFinite,
+                  //       child: _buildSectionOne(
+                  //         context,
+                  //         titleone: "Tiện nghi văn phòng",
+                  //         descriptionOne:
+                  //             "Phòng hội nghị \nPhòng họp \nDịch vụ văn phòng \nPhòng hội nghị \nMáy tính",
+                  //       ),
+                  //     ),
+                  //     SizedBox(
+                  //       width: double.maxFinite,
+                  //       child: _buildSectionOne(
+                  //         context,
+                  //         titleone: "Tiện nghi công cộng",
+                  //         descriptionOne:
+                  //             "Tiệm cà phê\nThang máy \nNhà hàng \nKét an toàn",
+                  //       ),
+                  //     ),
+                  //     SizedBox(
+                  //       width: double.maxFinite,
+                  //       child: _buildSectionOne(
+                  //         context,
+                  //         titleone: "Ấm thực",
+                  //         descriptionOne:
+                  //             "Quầy bar\nQuãy bar bên hồ bơi \nBữa sáng",
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
                   SizedBox(height: 8.h),
                   Container(
                     width: double.maxFinite,
@@ -738,6 +738,11 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen> 
     // setState(() {
     //   _totalAmount = totalAmount;
     // });
+  }
+
+  @override
+  void onGetPriceSuccess(List<double?> price) {
+    // TODO: implement onGetPriceSuccess
   }
 
 }

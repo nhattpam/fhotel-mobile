@@ -43,6 +43,27 @@ class ListRoomTypePresenter {
     _view.onGetRoomImageSuccess(roomImages);
   }
 
+  Future<void> loadRoomPrice(List<RoomType> roomTypes) async {
+    _view.showLoading();
+
+    List<double?> prices = []; // Declare a list to store prices for each room type
+
+    for (var roomType in roomTypes) {
+      try {
+        double price = await _listRoomTypeRepo.getRoomPriceByRoomId(roomType.roomTypeId.toString());
+        prices.add(price); // Add the fetched price to the list
+      } catch (error) {
+        print("Error fetching room price for ${roomType.roomTypeId}: $error");
+        prices.add(null); // Add null or some placeholder value in case of error
+      }
+    }
+
+    _view.hideLoading();
+
+    // Pass the list of prices to the success callback
+    _view.onGetPriceSuccess(prices);
+  }
+
   void getRoomImage(String roomTypeId) async {
     _view.showLoading();
     try {

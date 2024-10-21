@@ -41,12 +41,12 @@ class ListRoomBySearchState extends State<ListRoomBySearch>
   }
 
   void _showEditSearchModalBottomSheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return EditSearchBottomsheet();
-      },
-    );
+    // showModalBottomSheet(
+    //   context: context,
+    //   builder: (BuildContext context) {
+    //     return EditSearchBottomsheet();
+    //   },
+    // );
   }
 
   void _showDetailModalBottomSheet(BuildContext context, String roomTypeId) {
@@ -524,5 +524,10 @@ class ListRoomBySearchState extends State<ListRoomBySearch>
   @override
   void showTypes(List<Types> types) {
     // TODO: implement showTypes
+  }
+
+  @override
+  void onGetPriceSuccess(List<double?> price) {
+    // TODO: implement onGetPriceSuccess
   }
 }

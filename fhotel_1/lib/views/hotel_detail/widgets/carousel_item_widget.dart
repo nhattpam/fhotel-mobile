@@ -104,12 +104,12 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
   }
 
   void _showEditSearchModalBottomSheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return EditSearchBottomsheet();
-      },
-    );
+    // showModalBottomSheet(
+    //   context: context,
+    //   builder: (BuildContext context) {
+    //     return EditSearchBottomsheet();
+    //   },
+    // );
   }
   void _showGuestPolicyModalBottomSheet(BuildContext context) {
     String cancellationTimeBefore9PM = _refundPolicies[0].cancellationTime.toString();

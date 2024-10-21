@@ -528,4 +528,9 @@ class HomeRoomGuestFilledBottomsheetState
     });
   }
 
+  @override
+  void onGetPriceSuccess(List<double?> price) {
+    // TODO: implement onGetPriceSuccess
+  }
+
 }
