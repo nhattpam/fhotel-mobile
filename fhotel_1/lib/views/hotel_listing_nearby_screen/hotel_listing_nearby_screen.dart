@@ -358,7 +358,7 @@ class _HotelListingNearbyScreenState extends State<HotelListingNearbyScreen>
                 image: _hotels[index].image.toString(),
                 name: _hotels[index].hotelName.toString(),
                 rate: _hotels[index]?.star ?? 0,
-                basePrice: 0,
+                basePrice: 0, checkInDate: '', checkOutDate: '', numberOfRooms: 0,
               );
               // : Container();
             },

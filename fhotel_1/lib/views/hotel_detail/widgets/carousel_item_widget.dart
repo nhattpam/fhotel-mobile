@@ -41,6 +41,10 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
   Hotel? _hotel;
   String? _error;
   late String hotelId;
+  String? checkInDate;
+  String? checkOutDate;
+  int numberOfRooms = 0;
+  int? numberOfDays;
 
   List<HotelAmenity> _amenities = [];
   List<LateCheckOutPolicy> _policies = [];
@@ -82,10 +86,13 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
     final Map<String, dynamic> args =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     hotelId = args['hotelId'];
-
+    checkInDate = args['checkInDate'] as String;
+    checkOutDate = args['checkOutDate'] as String;
+    numberOfRooms = args['numberOfRooms'] as int;
     // Fetch the hotel details using the presenter
     _presenter.getHotelById(hotelId);
     _presenter.getHotelAmenities(hotelId);
+
   }
 
   void _scrollToSection(GlobalKey key) {
@@ -223,6 +230,21 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
 
   @override
   Widget build(BuildContext context) {
+    if (checkInDate != null && checkOutDate != null) {
+      try {
+        DateFormat dateFormat = DateFormat('dd/MM/yyyy');
+        // Parse the dates using the correct format
+        DateTime checkIn = dateFormat.parse(checkInDate!);
+        DateTime checkOut = dateFormat.parse(checkOutDate!);
+
+        setState(() {
+          numberOfDays = checkOut.difference(checkIn).inDays;
+        });
+        // Calculate the difference in days
+      } catch (e) {
+        print('Error parsing dates: $e');
+      }
+    }
     return SafeArea(
       child: Scaffold(
         appBar: _buildAppbar(context),
@@ -875,7 +897,7 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
             child: Padding(
               padding: EdgeInsets.only(left: 4.h),
               child: Text(
-                "02/02/2022",
+                checkInDate.toString(),
                 style: CustomTextStyles.bodyMediumwhiteA700,
               ),
             ),
@@ -890,7 +912,7 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
           Padding(
             padding: EdgeInsets.only(left: 4.h),
             child: Text(
-              "2",
+              numberOfDays.toString(),
               style: CustomTextStyles.bodyMediumwhiteA700,
             ),
           ),
@@ -904,7 +926,7 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
           Padding(
             padding: EdgeInsets.only(left: 4.h),
             child: Text(
-              "2",
+              numberOfRooms.toString(),
               style: CustomTextStyles.bodyMediumwhiteA700,
             ),
           ),
@@ -937,42 +959,6 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
               ),
             ),
           )
-        ],
-      ),
-    );
-  }
-
-  Widget _buildSheetheader(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.fromLTRB(16.h, 6.h, 16.h, 4.h),
-      decoration: BoxDecoration(
-        color: appTheme.whiteA700,
-        border: Border(
-          bottom: BorderSide(
-            color: appTheme.blueGray50,
-            width: 1.h,
-          ),
-        ),
-      ),
-      width: double.maxFinite,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: EdgeInsets.only(left: 100.h),
-              child: Text(
-                "Chi tiết khách sạn",
-                style: theme.textTheme.titleMedium,
-              ),
-            ),
-          ),
-          CustomImageView(
-            imagePath: ImageConstant.imgCloseIcon,
-            height: 24.h,
-            width: 24.h,
-          ),
         ],
       ),
     );
@@ -1175,6 +1161,9 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
           arguments: {
             'hotelId': _hotel?.hotelId.toString(),
             'hotelName': _hotel?.hotelName.toString(),
+            "checkInDate": checkInDate,
+            "checkOutDate": checkOutDate,
+            "numberOfRooms": numberOfRooms,
           },
         );
       },

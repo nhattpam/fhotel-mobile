@@ -1,4 +1,5 @@
 import 'package:fhotel_1/data/models/type.dart';
+import 'package:fhotel_1/presenters/create_reservation.dart';
 import 'package:fhotel_1/views/home_hotel_region_empty/widgets/carouselunit_item_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -8,27 +9,72 @@ import '../../data/models/room_types.dart';
 import '../../data/repository/list_room_type_repo.dart';
 import '../../presenters/list_room_type_presenter.dart';
 import '../choose_room/choose_room_view.dart';
+import 'create_reservation_view.dart';
 
 class ChooseRoomRoomDetailScreen extends StatefulWidget {
   final String roomTypeId;
-  const ChooseRoomRoomDetailScreen({super.key, required this.roomTypeId});
+  final String checkInDate;
+  final String checkOutDate;
+  final int numberOfRooms;
+  const ChooseRoomRoomDetailScreen({super.key, required this.roomTypeId, required this.checkInDate, required this.checkOutDate, required this.numberOfRooms});
 
   @override
   ChooseRoomRoomDetailScreenState createState() =>
       ChooseRoomRoomDetailScreenState();
 }
 
-class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen> implements ChooseRoomView{
+class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen> implements ChooseRoomView, CreateReservationView{
   int activeIndex = 0;
   late ListRoomTypePresenter _presenter;
+  late CreateReservation _createReservation;
+  double? _totalAmount = 0;
+
   RoomType? _roomType;
 
   @override
   void initState() {
     super.initState();
     _presenter = ListRoomTypePresenter(this, ListRoomTypeRepo());
+    _createReservation = CreateReservation(this);
     _presenter.getRoomTypeById(widget.roomTypeId);
+    _calculateTotalAmount();
+    }
+
+  Future<void> _calculateTotalAmount() async {
+    try {
+      // Use await to get the total amount from the async method
+      DateFormat inputFormat = DateFormat('dd/MM/yyyy');
+
+      // Parse the date string
+      DateTime parsedInDate = inputFormat.parse(widget.checkInDate);
+      DateTime parsedOutDate = inputFormat.parse(widget.checkOutDate);
+
+      // Define the desired output format (ISO 8601 format)
+      DateFormat outputFormat = DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+
+      // Format the parsed date to the desired format
+      String isoFormattedInDate = outputFormat.format(parsedInDate);
+      String isoFormattedOutDate = outputFormat.format(parsedOutDate);
+
+      double? amount = await _createReservation.createReservationToCalculate(
+        isoFormattedInDate,
+        isoFormattedOutDate,
+        widget.roomTypeId,
+        widget.numberOfRooms,
+      );
+      setState(() {
+        _totalAmount = amount; // Update the total amount in the state
+      });
+    } catch (e) {
+      // Handle any errors during the calculation
+      print("Error calculating total amount: $e");
+      // Optionally notify the user of the error
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Failed to calculate total amount")),
+      );
+    }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -286,9 +332,9 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen> 
                                         ),
                                       ),
                                     ),
-                                    Spacer(),
+                                    const Spacer(),
                                     Text(
-                                      "02/02/2022-04/02/2022",
+                                      widget.checkInDate + "-" + widget.checkOutDate,
                                       style: theme.textTheme.titleSmall,
                                     )
                                   ],
@@ -310,86 +356,15 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen> 
                                         ),
                                       ),
                                     ),
-                                    Spacer(),
+                                    const Spacer(),
                                     Text(
-                                      "2",
+                                      widget.numberOfRooms.toString(),
                                       style: theme.textTheme.titleSmall,
                                     ),
                                   ],
                                 ),
                               ),
-                              SizedBox(height: 12.h),
-                              SizedBox(
-                                width: double.maxFinite,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Align(
-                                      alignment: Alignment.bottomCenter,
-                                      child: Padding(
-                                        padding: EdgeInsets.only(left: 8.h),
-                                        child: Text(
-                                          "2 Phòng/đêm",
-                                          style: theme.textTheme.bodyMedium,
-                                        ),
-                                      ),
-                                    ),
-                                    Spacer(),
-                                    Text(
-                                      "3.600.000 đ",
-                                      style: theme.textTheme.titleSmall,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(height: 12.h),
-                              SizedBox(
-                                width: double.maxFinite,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Align(
-                                      alignment: Alignment.bottomCenter,
-                                      child: Padding(
-                                        padding: EdgeInsets.only(left: 8.h),
-                                        child: Text(
-                                          "Giá tiền cho 2 đêm",
-                                          style: theme.textTheme.bodyMedium,
-                                        ),
-                                      ),
-                                    ),
-                                    Spacer(),
-                                    Text(
-                                      "7.200.00",
-                                      style: theme.textTheme.titleSmall,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              // SizedBox(height: 12.h),
-                              // SizedBox(
-                              //   width: double.maxFinite,
-                              //   child: Row(
-                              //     mainAxisAlignment: MainAxisAlignment.center,
-                              //     children: [
-                              //       Align(
-                              //         alignment: Alignment.bottomCenter,
-                              //         child: Padding(
-                              //           padding: EdgeInsets.only(left: 8.h),
-                              //           child: Text(
-                              //             "Thuế và phí",
-                              //             style: theme.textTheme.bodyMedium,
-                              //           ),
-                              //         ),
-                              //       ),
-                              //       Spacer(),
-                              //       Text(
-                              //         "800.000 đ",
-                              //         style: theme.textTheme.titleSmall,
-                              //       ),
-                              //     ],
-                              //   ),
-                              // ),
+
                             ],
                           ),
                         )
@@ -574,7 +549,7 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen> 
                         style: theme.textTheme.titleSmall,
                       ),
                       Text(
-                        "2.000.000",
+                        _totalAmount.toString() + "đ",
                         // _roomType?.basePrice.toString() ?? '',
                         style: theme.textTheme.titleSmall,
                       )
@@ -614,7 +589,38 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen> 
 
   Widget _buildChnphng(BuildContext context) {
     return CustomElevatedButton(
-      onPressed: () {
+      onPressed: () async {
+        // Define the input date format
+        DateFormat inputFormat = DateFormat('dd/MM/yyyy');
+
+        // Parse the date string
+        DateTime parsedInDate = inputFormat.parse(widget.checkInDate);
+        DateTime parsedOutDate = inputFormat.parse(widget.checkOutDate);
+
+        // Define the desired output format (ISO 8601 format)
+        DateFormat outputFormat = DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+
+        // Format the parsed date to the desired format
+        String isoFormattedInDate = outputFormat.format(parsedInDate);
+        String isoFormattedOutDate = outputFormat.format(parsedOutDate);
+
+       await  _createReservation.createReservation((isoFormattedInDate).toString(), (isoFormattedOutDate).toString(), widget.roomTypeId, widget.numberOfRooms);
+        AwesomeDialog(
+          context: context,
+          animType: AnimType.scale,
+          dialogType: DialogType.success,
+          body: const Center(
+            child: Text(
+              'Book success!!!',
+              style: TextStyle(fontStyle: FontStyle.italic),
+            ),
+          ),
+          // title: 'Warning',
+          // desc:   'This is also Ignored',
+          btnOkOnPress: () {
+            // Navigator.pushNamed(context, AppRoutes.guestCheckout);
+          },
+        ).show();
         Navigator.pushNamed(context, AppRoutes.guestCheckout);
       },
       text: "Đặt phòng",
@@ -711,4 +717,27 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen> 
   void showTypes(List<Types> types) {
     // TODO: implement showTypes
   }
+
+  @override
+  void onCreateError(String error) {
+    // TODO: implement onCreateError
+  }
+
+  @override
+  void onCreateSuccess() {
+    // TODO: implement onCreateSuccess
+  }
+
+  @override
+  void showValidationError(String field, String message) {
+    // TODO: implement showValidationError
+  }
+  @override
+  void onCreateTotalAmountSuccess(double totalAmount) {
+    // Ensure async work is completed before calling setState
+    // setState(() {
+    //   _totalAmount = totalAmount;
+    // });
+  }
+
 }

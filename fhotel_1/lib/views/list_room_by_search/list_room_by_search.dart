@@ -50,12 +50,12 @@ class ListRoomBySearchState extends State<ListRoomBySearch>
   }
 
   void _showDetailModalBottomSheet(BuildContext context, String roomTypeId) {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return ChooseRoomRoomDetailScreen(roomTypeId: roomTypeId);
-      },
-    );
+    // showModalBottomSheet(
+    //   context: context,
+    //   builder: (BuildContext context) {
+        // return ChooseRoomRoomDetailScreen(roomTypeId: roomTypeId);
+    //   },
+    // );
   }
 
   @override

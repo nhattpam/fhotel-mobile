@@ -23,6 +23,10 @@ class ChooseRoomFullScreenState extends State<ChooseRoomFullScreen>
   late ListRoomTypePresenter _presenter;
   bool _isLoading = false;
   String? _error;
+  String? checkInDate;
+  String? checkOutDate;
+  int numberOfRooms = 0;
+  int? numberOfDays;
 
   List<RoomType> _roomTypes = [];
   List<RoomImage> _roomImage = [];
@@ -35,10 +39,13 @@ class ChooseRoomFullScreenState extends State<ChooseRoomFullScreen>
       final Map<String, dynamic> args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
       hotelId = args['hotelId'];
       hotelName = args['hotelName'];
-
+      checkInDate = args['checkInDate'] as String;
+      checkOutDate = args['checkOutDate'] as String;
+      numberOfRooms = args['numberOfRooms'] as int;
       // Now fetch room types using the presenter
       _presenter.getRoomTypesByHotelId(hotelId);
-    });
+    }
+    );
   }
 
   void _showEditSearchModalBottomSheet(BuildContext context) {
@@ -54,13 +61,28 @@ class ChooseRoomFullScreenState extends State<ChooseRoomFullScreen>
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return ChooseRoomRoomDetailScreen(roomTypeId: roomTypeId);
+        return ChooseRoomRoomDetailScreen(roomTypeId: roomTypeId, checkInDate: checkInDate.toString(), checkOutDate: checkOutDate.toString(), numberOfRooms: numberOfRooms, );
       },
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    if (checkInDate != null && checkOutDate != null) {
+      try {
+        DateFormat dateFormat = DateFormat('dd/MM/yyyy');
+        // Parse the dates using the correct format
+        DateTime checkIn = dateFormat.parse(checkInDate!);
+        DateTime checkOut = dateFormat.parse(checkOutDate!);
+
+        setState(() {
+          numberOfDays = checkOut.difference(checkIn).inDays;
+        });
+        // Calculate the difference in days
+      } catch (e) {
+        print('Error parsing dates: $e');
+      }
+    }
     return SafeArea(
       child: Scaffold(
         appBar: _buildAppbar(context),
@@ -197,7 +219,7 @@ class ChooseRoomFullScreenState extends State<ChooseRoomFullScreen>
             child: Padding(
               padding: EdgeInsets.only(left: 4.h),
               child: Text(
-                "02/02/2022",
+                checkInDate.toString(),
                 style: CustomTextStyles.bodyMediumwhiteA700,
               ),
             ),
@@ -212,7 +234,7 @@ class ChooseRoomFullScreenState extends State<ChooseRoomFullScreen>
           Padding(
             padding: EdgeInsets.only(left: 4.h),
             child: Text(
-              "2",
+              numberOfDays.toString(),
               style: CustomTextStyles.bodyMediumwhiteA700,
             ),
           ),
@@ -226,7 +248,7 @@ class ChooseRoomFullScreenState extends State<ChooseRoomFullScreen>
           Padding(
             padding: EdgeInsets.only(left: 4.h),
             child: Text(
-              "2",
+              numberOfRooms.toString(),
               style: CustomTextStyles.bodyMediumwhiteA700,
             ),
           ),

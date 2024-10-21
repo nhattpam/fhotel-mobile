@@ -31,8 +31,8 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
     implements ListHotelView, SearchView {
   int sliderIndex = 1;
   int _currentIndex = 0;
-  String dateStarSelected = "Thứ Tư, 02/02/2022";
-  String dateEndSelected = "Thứ Tư, 02/02/2022";
+  String dateStarSelected = "02/02/2022";
+  String dateEndSelected = "02/02/2022";
   List<Map<String, dynamic>> selectedRoomData = [];
   String _searchQuery = ''; // Add a variable to store the search query
   late SearchPresenter _searchPresenter;
@@ -80,8 +80,7 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
               // Update the state with the selected date
               setState(() {
                 // Format the date as desired, here I’m using the default DateTime format
-                dateStarSelected =
-                    DateFormat('EEEE, dd/MM/yyyy').format(selectedDate);
+                dateStarSelected = DateFormat('dd/MM/yyyy').format(selectedDate);
               });
             }
           },
@@ -91,7 +90,7 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
               setState(() {
                 // Format the date as desired, here I’m using the default DateTime format
                 dateEndSelected =
-                    DateFormat('EEEE, dd/MM/yyyy').format(selectedDate);
+                    DateFormat('dd/MM/yyyy').format(selectedDate);
               });
             }
           },
@@ -588,18 +587,20 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
                       SizedBox(height: 16.h),
                       CustomElevatedButton(
                         onPressed: () async {
-                          // _searchPresenter.searchRoomTypes(roomType, quantity, _searchQuery);
                           await _searchPresenter.searchListRoomTypes(
                               searchRequests, _searchQuery);
 
                           /// Navigator to list hotel
                           Navigator.pushNamed(
-                              context, AppRoutes.hotelListingBySearch,
-                              arguments: listHotels);
-                          // Navigator.pushNamed(
-                          //     context, AppRoutes.roomListingBySearch,
-                          //     arguments: listRoomTypes
-                          // );
+                            context,
+                            AppRoutes.hotelListingBySearch,
+                            arguments: {
+                              "listHotels": listHotels,
+                              "checkInDate": dateStarSelected,
+                              "checkOutDate": dateEndSelected,
+                              "numberOfRooms": quantity,
+                            },
+                          );
                         },
                         buttonStyle: CustomButtonStyles.fillBlue,
                         buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,

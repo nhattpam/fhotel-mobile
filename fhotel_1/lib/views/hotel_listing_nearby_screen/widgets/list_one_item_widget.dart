@@ -6,9 +6,12 @@ class ListHotelWidget extends StatefulWidget {
   final String hotelId;
   final String image;
   final String name;
+  final String checkInDate;
+  final String checkOutDate;
+  final int numberOfRooms;
   final int rate;
   final num basePrice;
-  const ListHotelWidget({super.key, required this.hotelId ,required this.image, required this.name, required this.rate,required this.basePrice});
+  const ListHotelWidget({super.key, required this.hotelId ,required this.image, required this.name, required this.rate,required this.basePrice, required this.checkInDate, required this.checkOutDate, required this.numberOfRooms});
 
   @override
   _ListHotelWidgetState createState() => _ListHotelWidgetState();
@@ -24,6 +27,9 @@ class _ListHotelWidgetState extends State<ListHotelWidget> {
             AppRoutes.hotelDetail,
           arguments: {
             'hotelId': widget.hotelId,
+            "checkInDate": widget.checkInDate,
+            "checkOutDate": widget.checkOutDate,
+            "numberOfRooms": widget.numberOfRooms,
           },
         );
       },

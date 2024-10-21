@@ -6,10 +6,6 @@ import 'package:fhotel_1/views/hotel_listing_nearby_screen/widgets/list_one_item
 import 'package:flutter/material.dart';
 
 import '../../data/models/hotel.dart';
-import '../../data/models/room_types.dart';
-import '../../data/models/search.dart';
-import '../../data/repository/list_hotel_repo.dart';
-import '../../presenters/list_hotel_presenter.dart';
 import '../hotel_listing_nearby_screen/list_hotel_view.dart';
 
 class ListHotelBySearch extends StatefulWidget {
@@ -22,16 +18,39 @@ class _ListHotelBySearchState extends State<ListHotelBySearch>
     implements ListHotelView {
   bool _isLoading = false;
   List<Hotel> listHotel = [];
-  @override
-  void initState() {
-    super.initState();
-  }
+  String? checkInDate;
+  String? checkOutDate;
+  int numberOfRooms = 0;
+  int? numberOfDays;
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // Retrieve the arguments passed safely in didChangeDependencies
-    listHotel = ModalRoute.of(context)?.settings.arguments as List<Hotel>;
-  }
+
+    // Safely retrieve and cast the arguments
+    final arguments = ModalRoute.of(context)?.settings.arguments;
+    if (arguments != null && arguments is Map) {
+      setState(() {
+        // Retrieve and cast each argument safely
+        checkInDate = arguments['checkInDate'] as String;
+        checkOutDate = arguments['checkOutDate'] as String;
+        numberOfRooms = arguments['numberOfRooms'] as int;
+        // Retrieve the listHotels if provided
+        final hotels = arguments['listHotels'];
+        if (hotels is List<Hotel>) {
+          listHotel = hotels;
+        } else {
+          print('Error: Invalid listHotels argument');
+        }
+      }
+
+      );
+    } else {
+      // Handle the case where arguments are null or not a Map
+      print('Error: No arguments found or invalid argument type');
+    }
+   }
+
   void _showHotelFilterModalBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -52,6 +71,21 @@ class _ListHotelBySearchState extends State<ListHotelBySearch>
 
   @override
   Widget build(BuildContext context) {
+    if (checkInDate != null && checkOutDate != null) {
+      try {
+        DateFormat dateFormat = DateFormat('dd/MM/yyyy');
+        // Parse the dates using the correct format
+        DateTime checkIn = dateFormat.parse(checkInDate!);
+        DateTime checkOut = dateFormat.parse(checkOutDate!);
+
+        setState(() {
+          numberOfDays = checkOut.difference(checkIn).inDays;
+        });
+        // Calculate the difference in days
+      } catch (e) {
+        print('Error parsing dates: $e');
+      }
+    }
     return SafeArea(
       child: Scaffold(
         appBar: _buildAppbar(context),
@@ -186,7 +220,7 @@ class _ListHotelBySearchState extends State<ListHotelBySearch>
             child: Padding(
               padding: EdgeInsets.only(left: 4.h),
               child: Text(
-                "02/02/2022",
+                checkInDate.toString(),
                 style: CustomTextStyles.bodyMediumwhiteA700,
               ),
             ),
@@ -201,7 +235,7 @@ class _ListHotelBySearchState extends State<ListHotelBySearch>
           Padding(
             padding: EdgeInsets.only(left: 4.h),
             child: Text(
-              "2",
+              numberOfDays.toString(),
               style: CustomTextStyles.bodyMediumwhiteA700,
             ),
           ),
@@ -215,7 +249,7 @@ class _ListHotelBySearchState extends State<ListHotelBySearch>
           Padding(
             padding: EdgeInsets.only(left: 4.h),
             child: Text(
-              "2",
+              numberOfRooms.toString(),
               style: CustomTextStyles.bodyMediumwhiteA700,
             ),
           ),
@@ -350,6 +384,9 @@ class _ListHotelBySearchState extends State<ListHotelBySearch>
             name: listHotel[index].hotelName.toString() ?? "",
             rate: listHotel[index].star ?? 0,
             basePrice: 200000,
+            checkInDate: checkInDate.toString(),
+            checkOutDate: checkOutDate.toString(),
+            numberOfRooms: numberOfRooms,
           );
         // : Container();
       },
