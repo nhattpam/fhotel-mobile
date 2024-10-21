@@ -89,7 +89,9 @@ class Maincontent7ItemWidgetState extends State<Maincontent7ItemWidget> {
                   Padding(
                     padding: EdgeInsets.only(top: 10.h),
                     child: Text(
-                      widget.reservation.totalAmount.toString() + " ₫",
+                      NumberFormat('#,###', 'en_US')
+                              .format(widget.reservation.totalAmount) +
+                          " ₫",
                       style: CustomTextStyles.titleSmallBlue,
                     ),
                   )

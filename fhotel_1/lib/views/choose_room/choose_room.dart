@@ -475,7 +475,7 @@ class ChooseRoomFullScreenState extends State<ChooseRoomFullScreen>
                               text: TextSpan(
                                 children: [
                                   TextSpan(
-                                    text: _roomPrices[index].toString(),
+                                    text: NumberFormat('#,###', 'en_US').format(_roomPrices[index]) + " ₫",
                                     // _roomTypes[index].basePrice.toString(),
                                     style: CustomTextStyles.titleSmallBlue,
                                   ),

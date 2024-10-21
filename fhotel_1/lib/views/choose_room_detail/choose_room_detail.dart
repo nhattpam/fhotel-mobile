@@ -561,7 +561,7 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen> 
                         style: theme.textTheme.titleSmall,
                       ),
                       Text(
-                        _totalAmount.toString() + "đ",
+                          NumberFormat('#,###', 'en_US').format(_totalAmount) + " ₫",
                         // _roomType?.basePrice.toString() ?? '',
                         style: theme.textTheme.titleSmall,
                       )
@@ -571,14 +571,14 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen> 
               ],
             ),
           ),
-          SizedBox(height: 4.h),
-          Padding(
-            padding: EdgeInsets.only(right: 14.h),
-            child: Text(
-              "Đã bao gồm thuế",
-              style: theme.textTheme.bodySmall,
-            ),
-          ),
+          SizedBox(height: 14.h),
+          // Padding(
+          //   padding: EdgeInsets.only(right: 14.h),
+          //   child: Text(
+          //     "Đã bao gồm thuế",
+          //     style: theme.textTheme.bodySmall,
+          //   ),
+          // ),
           SizedBox(height: 4.h),
           Container(
             width: double.maxFinite,
@@ -615,7 +615,6 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen> 
         // Format the parsed date to the desired format
         String isoFormattedInDate = outputFormat.format(parsedInDate);
         String isoFormattedOutDate = outputFormat.format(parsedOutDate);
-
        await  _createReservation.createReservation((isoFormattedInDate).toString(), (isoFormattedOutDate).toString(), widget.roomTypeId, widget.numberOfRooms);
         AwesomeDialog(
           context: context,
@@ -630,10 +629,9 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen> 
           // title: 'Warning',
           // desc:   'This is also Ignored',
           btnOkOnPress: () {
-            // Navigator.pushNamed(context, AppRoutes.guestCheckout);
+            Navigator.pushNamed(context, AppRoutes.guestCheckout);
           },
         ).show();
-        Navigator.pushNamed(context, AppRoutes.guestCheckout);
       },
       text: "Đặt phòng",
       buttonStyle: CustomButtonStyles.fillBlue,

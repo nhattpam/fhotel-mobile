@@ -1,5 +1,6 @@
 import 'package:fhotel_1/data/models/reservation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart' as html;
 
 import '../../core/app_export.dart';
 
@@ -26,7 +27,8 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> {
   }
 
   void _calculateDates() {
-    if (widget.reservation.checkInDate != null && widget.reservation.checkOutDate != null) {
+    if (widget.reservation.checkInDate != null &&
+        widget.reservation.checkOutDate != null) {
       try {
         // Parse using DateTime.parse if the string is in ISO format
         DateTime checkIn = DateTime.parse(widget.reservation.checkInDate!);
@@ -34,7 +36,8 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> {
 
         setState(() {
           numberOfDays = checkOut.difference(checkIn).inDays;
-          checkInDate = DateFormat('dd/MM/yyyy').format(checkIn);  // Format to desired output
+          checkInDate = DateFormat('dd/MM/yyyy')
+              .format(checkIn); // Format to desired output
           checkOutDate = DateFormat('dd/MM/yyyy').format(checkOut);
         });
       } catch (e) {
@@ -147,6 +150,7 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> {
   }
 
   Widget _buildordersummary(BuildContext context) {
+    String description = (widget.reservation.roomType?.description).toString();
     return Container(
       width: double.maxFinite,
       padding: EdgeInsets.symmetric(
@@ -229,7 +233,8 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> {
                       SizedBox(width: 8.h),
                       Expanded(
                         child: Text(
-                          (widget.reservation.roomType?.hotel?.hotelName).toString(),
+                          (widget.reservation.roomType?.hotel?.hotelName)
+                              .toString(),
                           style: CustomTextStyles.bodyMediumwhiteA700,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -263,17 +268,28 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                (widget.reservation.roomType?.description).toString(),
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: theme.textTheme.titleSmall!.copyWith(
-                                  height: 1.50,
-                                ),
+                              html.Html(
+                                data: """
+                               $description
+                              """,
+                                style: {
+                                  "body": html.Style(
+                                      fontWeight: FontWeight.normal,
+                                      color: Colors.black),
+                                },
                               ),
+                              // Text(
+                              //   (widget.reservation.roomType?.description).toString(),
+                              //   maxLines: 2,
+                              //   overflow: TextOverflow.ellipsis,
+                              //   style: theme.textTheme.titleSmall!.copyWith(
+                              //     height: 1.50,
+                              //   ),
+                              // ),
                               SizedBox(height: 2.h),
                               Text(
-                                (widget.reservation.roomType?.roomSize).toString(),
+                                (widget.reservation.roomType?.roomSize)
+                                    .toString(),
                                 style: theme.textTheme.bodySmall,
                               )
                             ],
@@ -392,7 +408,8 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> {
                               ),
                               SizedBox(height: 6.h),
                               Text(
-                                (widget.reservation.roomType?.type?.typeName).toString(),
+                                (widget.reservation.roomType?.type?.typeName)
+                                    .toString(),
                                 style: theme.textTheme.titleSmall,
                               )
                             ],
@@ -435,7 +452,7 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> {
                               ),
                               SizedBox(height: 6.h),
                               Text(
-                                 checkInDate.toString(),
+                                checkInDate.toString(),
                                 style: theme.textTheme.titleSmall,
                               )
                             ],
@@ -704,7 +721,9 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> {
                         ),
                         SizedBox(height: 6.h),
                         Text(
-                          (widget.reservation.customer?.firstName).toString() + (widget.reservation.customer?.lastName).toString(),
+                          (widget.reservation.customer?.firstName).toString() +
+                              (widget.reservation.customer?.lastName)
+                                  .toString(),
                           style: theme.textTheme.titleSmall,
                         )
                       ],
@@ -743,7 +762,9 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> {
             child: _buildWrapperFive(
               context,
               labelguestTwo: "Họ tên",
-              datavalueone: (widget.reservation.customer?.firstName).toString() + (widget.reservation.customer?.lastName).toString(),
+              datavalueone:
+                  (widget.reservation.customer?.firstName).toString() +
+                      (widget.reservation.customer?.lastName).toString(),
             ),
           ),
           SizedBox(
@@ -751,7 +772,8 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> {
             child: _buildWrapperFive(
               context,
               labelguestTwo: "Sô điện thoại",
-              datavalueone: (widget.reservation.customer?.phoneNumber).toString(),
+              datavalueone:
+                  (widget.reservation.customer?.phoneNumber).toString(),
             ),
           ),
           SizedBox(
@@ -789,12 +811,13 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> {
           SizedBox(height: 12.h),
           SizedBox(
             width: double.maxFinite,
-            child: _buildWrapperFive(
-              context,
-              labelguestTwo:
-              (widget.reservation.numberOfRooms).toString() +" Phòng "+ (widget.reservation.roomType?.description).toString() + (widget.reservation.roomType?.hotel?.hotelName).toString(),
-              datavalueone: (widget.reservation.totalAmount).toString() + " đ",
-            ),
+            child: _buildWrapperFive(context,
+                labelguestTwo: (widget.reservation.numberOfRooms).toString() +
+                    " Phòng " +
+                    (widget.reservation.roomType?.hotel?.hotelName).toString(),
+                datavalueone: NumberFormat('#,###', 'en_US')
+                        .format(widget.reservation.totalAmount) +
+                    " ₫"),
           ),
           SizedBox(height: 6.h),
           // SizedBox(
@@ -805,11 +828,11 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> {
           SizedBox(height: 8.h),
           SizedBox(
             width: double.maxFinite,
-            child: _buildWrapperFive(
-              context,
-              labelguestTwo: "Tổng cộng",
-              datavalueone: (widget.reservation.totalAmount).toString() + " đ"
-            ),
+            child: _buildWrapperFive(context,
+                labelguestTwo: "Tổng cộng",
+                datavalueone: NumberFormat('#,###', 'en_US')
+                        .format(widget.reservation.totalAmount) +
+                    " ₫"),
           )
         ],
       ),
