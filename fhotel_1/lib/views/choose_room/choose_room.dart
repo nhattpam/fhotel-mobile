@@ -2,6 +2,7 @@ import 'package:fhotel_1/data/models/room_image.dart';
 import 'package:fhotel_1/data/models/type.dart';
 import 'package:fhotel_1/data/repository/list_room_type_repo.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart' as html;
 
 import '../../core/app_export.dart';
 import '../../core/utils/skeleton.dart';
@@ -325,6 +326,7 @@ class ChooseRoomFullScreenState extends State<ChooseRoomFullScreen>
             separatorBuilder: (context, index) => SizedBox(height: 12.h),
             itemCount: _roomTypes.length,
             itemBuilder: (context, index) {
+              String description = _roomTypes[index].description.toString();
               RoomImage roomImage = _roomImage.length > index
                   ? _roomImage[index]
                   : RoomImage(); // Default or placeholder
@@ -369,13 +371,23 @@ class ChooseRoomFullScreenState extends State<ChooseRoomFullScreen>
                             ),
                           ),
                           SizedBox(height: 8.h),
-                          Text(
-                            _roomTypes[index].description.toString(),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: theme.textTheme.titleSmall!
-                                .copyWith(height: 1.50),
+                          html.Html(
+                            data: """
+                               $description
+                              """,
+                            style: {
+                              "body": html.Style(
+                                  fontWeight: FontWeight.normal,
+                                  color: Colors.black),
+                            },
                           ),
+                          // Text(
+                          //   _roomTypes[index].description.toString(),
+                          //   maxLines: 2,
+                          //   overflow: TextOverflow.ellipsis,
+                          //   style: theme.textTheme.titleSmall!
+                          //       .copyWith(height: 1.50),
+                          // ),
                           SizedBox(height: 2.h),
                           Text(
                             "Room size: ${_roomTypes[index].roomSize.toString()}m2",

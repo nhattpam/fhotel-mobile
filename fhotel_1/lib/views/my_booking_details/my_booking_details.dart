@@ -4,11 +4,44 @@ import 'package:flutter/material.dart';
 import '../../core/app_export.dart';
 
 // ignore_for_file: must be_ immutable
-class MyBookingDetailsScreen extends StatelessWidget {
+class MyBookingDetailsScreen extends StatefulWidget {
   final Reservation reservation;
+
   MyBookingDetailsScreen({super.key, required this.reservation});
 
+  @override
+  MyBookingDetailsScreenState createState() => MyBookingDetailsScreenState();
+}
+
+class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> {
   TextEditingController listmasteroneController = TextEditingController();
+  int? numberOfDays;
+  String? checkInDate;
+  String? checkOutDate;
+
+  @override
+  void initState() {
+    super.initState();
+    _calculateDates();
+  }
+
+  void _calculateDates() {
+    if (widget.reservation.checkInDate != null && widget.reservation.checkOutDate != null) {
+      try {
+        // Parse using DateTime.parse if the string is in ISO format
+        DateTime checkIn = DateTime.parse(widget.reservation.checkInDate!);
+        DateTime checkOut = DateTime.parse(widget.reservation.checkOutDate!);
+
+        setState(() {
+          numberOfDays = checkOut.difference(checkIn).inDays;
+          checkInDate = DateFormat('dd/MM/yyyy').format(checkIn);  // Format to desired output
+          checkOutDate = DateFormat('dd/MM/yyyy').format(checkOut);
+        });
+      } catch (e) {
+        print('Error parsing dates: $e');
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +91,7 @@ class MyBookingDetailsScreen extends StatelessWidget {
     return CustomAppBar(
       leadingWidth: 40.h,
       leading: AppbarLeadingImage(
-        onTap: (){
+        onTap: () {
           Navigator.pop(context);
         },
         imagePath: ImageConstant.imgChevronLeft,
@@ -126,16 +159,25 @@ class MyBookingDetailsScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CustomElevatedButton(
-            height: 28.h,
-            width: 126.h,
-            text: "Đặt thành công",
-            buttonStyle: CustomButtonStyles.fillGreen,
-            buttonTextStyle: CustomTextStyles.bodyMediumTeal800,
-          ),
+          widget.reservation.reservationStatus != 'Pending'
+              ? CustomElevatedButton(
+                  height: 28.h,
+                  width: 126.h,
+                  text: "Đặt thành công",
+                  buttonStyle: CustomButtonStyles.fillGreen,
+                  buttonTextStyle: CustomTextStyles.bodyMediumTeal800,
+                )
+              : CustomElevatedButton(
+                  height: 28.h,
+                  width: 94.h,
+                  text: "Đang xử lý",
+                  buttonStyle: CustomButtonStyles.fillYellow,
+                  buttonTextStyle:
+                      CustomTextStyles.bodyMediumSecondaryContainer,
+                ),
           SizedBox(height: 16.h),
           Text(
-            "Chi tiết đơn hàng",
+            "Chi tiết đặt phòng",
             style: theme.textTheme.titleMedium,
           ),
           SizedBox(height: 10.h),
@@ -187,7 +229,7 @@ class MyBookingDetailsScreen extends StatelessWidget {
                       SizedBox(width: 8.h),
                       Expanded(
                         child: Text(
-                          "Khách sạn Pullman Vũng Tàu",
+                          (widget.reservation.roomType?.hotel?.hotelName).toString(),
                           style: CustomTextStyles.bodyMediumwhiteA700,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -222,7 +264,7 @@ class MyBookingDetailsScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Phòng Superior, 2 giường đơn, quang cảnh thành phố",
+                                (widget.reservation.roomType?.description).toString(),
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                                 style: theme.textTheme.titleSmall!.copyWith(
@@ -231,7 +273,7 @@ class MyBookingDetailsScreen extends StatelessWidget {
                               ),
                               SizedBox(height: 2.h),
                               Text(
-                                "240m2",
+                                (widget.reservation.roomType?.roomSize).toString(),
                                 style: theme.textTheme.bodySmall,
                               )
                             ],
@@ -240,7 +282,7 @@ class MyBookingDetailsScreen extends StatelessWidget {
                       ),
                       SizedBox(width: 20.h),
                       Text(
-                        "x 2",
+                        "x " + (widget.reservation.numberOfRooms).toString(),
                         style: theme.textTheme.titleSmall,
                       )
                     ],
@@ -274,7 +316,7 @@ class MyBookingDetailsScreen extends StatelessWidget {
                               ),
                               SizedBox(height: 6.h),
                               Text(
-                                "2 đêm",
+                                "$numberOfDays đêm",
                                 style: theme.textTheme.titleSmall,
                               )
                             ],
@@ -350,7 +392,7 @@ class MyBookingDetailsScreen extends StatelessWidget {
                               ),
                               SizedBox(height: 6.h),
                               Text(
-                                "2 giường đơn, 1 giường cỡ queen",
+                                (widget.reservation.roomType?.type?.typeName).toString(),
                                 style: theme.textTheme.titleSmall,
                               )
                             ],
@@ -393,7 +435,7 @@ class MyBookingDetailsScreen extends StatelessWidget {
                               ),
                               SizedBox(height: 6.h),
                               Text(
-                                "Thứ Tư, 02/02/2024(15:00-3:00)",
+                                 checkInDate.toString(),
                                 style: theme.textTheme.titleSmall,
                               )
                             ],
@@ -431,7 +473,7 @@ class MyBookingDetailsScreen extends StatelessWidget {
                               ),
                               SizedBox(height: 6.h),
                               Text(
-                                "Thứ Sáu, 04/04/2024(trước 11:00)",
+                                checkOutDate.toString(),
                                 style: theme.textTheme.titleSmall,
                               )
                             ],
@@ -442,63 +484,63 @@ class MyBookingDetailsScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 6.h),
-                SizedBox(
-                  width: double.maxFinite,
-                  child: Divider(),
-                ),
-                SizedBox(
-                  width: double.maxFinite,
-                  child: _buildWrapperTwo(
-                    context,
-                    valuebooking: "Miễn phí hủy phòng",
-                  ),
-                ),
-                SizedBox(
-                  width: double.maxFinite,
-                  child: _buildWrapperTwo(
-                    context,
-                    valuebooking: "Áp dụng chính sách đổi lịch",
-                  ),
-                ),
-                SizedBox(height: 8.h),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 16.h),
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 16.h,
-                    vertical: 8.h,
-                  ),
-                  decoration: BoxDecoration(
-                    color: appTheme.blue50,
-                    borderRadius: BorderRadiusStyle.roundedBorder8,
-                  ),
-                  width: double.maxFinite,
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Mã đặt chỗ",
-                              style: theme.textTheme.bodyMedium,
-                            ),
-                            SizedBox(height: 4.h),
-                            Text(
-                              "FD8UH6",
-                              style: theme.textTheme.titleSmall,
-                            )
-                          ],
-                        ),
-                      ),
-                      CustomImageView(
-                        color: Colors.blueAccent,
-                        imagePath: ImageConstant.imgIconWrapper20,
-                        height: 24.h,
-                        width: 24.h,
-                      )
-                    ],
-                  ),
-                ),
+                // SizedBox(
+                //   width: double.maxFinite,
+                //   child: Divider(),
+                // ),
+                // SizedBox(
+                //   width: double.maxFinite,
+                //   child: _buildWrapperTwo(
+                //     context,
+                //     valuebooking: "Miễn phí hủy phòng",
+                //   ),
+                // ),
+                // SizedBox(
+                //   width: double.maxFinite,
+                //   child: _buildWrapperTwo(
+                //     context,
+                //     valuebooking: "Áp dụng chính sách đổi lịch",
+                //   ),
+                // ),
+                // SizedBox(height: 8.h),
+                // Container(
+                //   margin: EdgeInsets.symmetric(horizontal: 16.h),
+                //   padding: EdgeInsets.symmetric(
+                //     horizontal: 16.h,
+                //     vertical: 8.h,
+                //   ),
+                //   decoration: BoxDecoration(
+                //     color: appTheme.blue50,
+                //     borderRadius: BorderRadiusStyle.roundedBorder8,
+                //   ),
+                //   width: double.maxFinite,
+                //   child: Row(
+                //     children: [
+                //       Expanded(
+                //         child: Column(
+                //           crossAxisAlignment: CrossAxisAlignment.start,
+                //           children: [
+                //             Text(
+                //               "Mã đặt chỗ",
+                //               style: theme.textTheme.bodyMedium,
+                //             ),
+                //             SizedBox(height: 4.h),
+                //             Text(
+                //               "FD8UH6",
+                //               style: theme.textTheme.titleSmall,
+                //             )
+                //           ],
+                //         ),
+                //       ),
+                //       CustomImageView(
+                //         color: Colors.blueAccent,
+                //         imagePath: ImageConstant.imgIconWrapper20,
+                //         height: 24.h,
+                //         width: 24.h,
+                //       )
+                //     ],
+                //   ),
+                // ),
                 SizedBox(height: 16.h),
               ],
             ),
@@ -562,11 +604,11 @@ class MyBookingDetailsScreen extends StatelessWidget {
                   "Phương thức thanh toán",
                   style: theme.textTheme.titleMedium,
                 ),
-                CustomImageView(
-                  imagePath: ImageConstant.imgArrowRightGray600,
-                  height: 24.h,
-                  width: 24.h,
-                )
+                // CustomImageView(
+                //   imagePath: ImageConstant.imgArrowRightGray600,
+                //   height: 24.h,
+                //   width: 24.h,
+                // )
               ],
             ),
           ),
@@ -662,7 +704,7 @@ class MyBookingDetailsScreen extends StatelessWidget {
                         ),
                         SizedBox(height: 6.h),
                         Text(
-                          "NGUYEN VAN ANH",
+                          (widget.reservation.customer?.firstName).toString() + (widget.reservation.customer?.lastName).toString(),
                           style: theme.textTheme.titleSmall,
                         )
                       ],
@@ -701,7 +743,7 @@ class MyBookingDetailsScreen extends StatelessWidget {
             child: _buildWrapperFive(
               context,
               labelguestTwo: "Họ tên",
-              datavalueone: "User name",
+              datavalueone: (widget.reservation.customer?.firstName).toString() + (widget.reservation.customer?.lastName).toString(),
             ),
           ),
           SizedBox(
@@ -709,7 +751,7 @@ class MyBookingDetailsScreen extends StatelessWidget {
             child: _buildWrapperFive(
               context,
               labelguestTwo: "Sô điện thoại",
-              datavalueone: "090 123 4567",
+              datavalueone: (widget.reservation.customer?.phoneNumber).toString(),
             ),
           ),
           SizedBox(
@@ -717,7 +759,7 @@ class MyBookingDetailsScreen extends StatelessWidget {
             child: _buildWrapperFive(
               context,
               labelguestTwo: "Email",
-              datavalueone: "abc@tini.vn",
+              datavalueone: (widget.reservation.customer?.email).toString(),
             ),
           )
         ],
@@ -750,8 +792,8 @@ class MyBookingDetailsScreen extends StatelessWidget {
             child: _buildWrapperFive(
               context,
               labelguestTwo:
-                  "1 Pullman Vũng Tàu, Phòng Superior, 2 giường đơn, quang cảnh thành phố ",
-              datavalueone: "3.600.000 đ ",
+              (widget.reservation.numberOfRooms).toString() +" Phòng "+ (widget.reservation.roomType?.description).toString() + (widget.reservation.roomType?.hotel?.hotelName).toString(),
+              datavalueone: (widget.reservation.totalAmount).toString() + " đ",
             ),
           ),
           SizedBox(height: 6.h),
@@ -760,41 +802,13 @@ class MyBookingDetailsScreen extends StatelessWidget {
           //   child: Divider(),
           // ),
           SizedBox(height: 8.h),
-          SizedBox(
-            width: double.maxFinite,
-            child: _buildWrapperFive(
-              context,
-              labelguestTwo:
-                  "1 Pullman Vũng Tàu, Phòng Superior, 2 giường đơn, quang cảnh thành phố ",
-              datavalueone: "3.600.000 ₫",
-            ),
-          ),
-          SizedBox(height: 6.h),
-          // SizedBox(
-          //   width: double.maxFinite,
-          //   child: Divider(),
-          // ),
-          SizedBox(height: 8.h),
-          SizedBox(
-            width: double.maxFinite,
-            child: _buildWrapperFive(
-              context,
-              labelguestTwo: "Thuế và phí",
-              datavalueone: "800.000 ₫",
-            ),
-          ),
-          // SizedBox(height: 6.h),
-          // SizedBox(
-          //   width: double.maxFinite,
-          //   child: Divider(),
-          // ),
           SizedBox(height: 8.h),
           SizedBox(
             width: double.maxFinite,
             child: _buildWrapperFive(
               context,
               labelguestTwo: "Tổng cộng",
-              datavalueone: "8.000.000 ₫",
+              datavalueone: (widget.reservation.totalAmount).toString() + " đ"
             ),
           )
         ],

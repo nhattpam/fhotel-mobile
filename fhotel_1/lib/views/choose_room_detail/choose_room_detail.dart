@@ -2,6 +2,7 @@ import 'package:fhotel_1/data/models/type.dart';
 import 'package:fhotel_1/presenters/create_reservation.dart';
 import 'package:fhotel_1/views/home_hotel_region_empty/widgets/carouselunit_item_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart' as html;
 
 import '../../core/app_export.dart';
 import '../../data/models/room_image.dart';
@@ -78,6 +79,7 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen> 
 
   @override
   Widget build(BuildContext context) {
+    String description = _roomType?.description.toString() ?? '';
     return Scaffold(
       body: SingleChildScrollView(
         child: Stack(
@@ -116,10 +118,20 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen> 
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SizedBox(height: 2.h),
-                        Text(
-                          _roomType?.description.toString() ?? '',
-                          style: theme.textTheme.titleMedium,
+                        html.Html(
+                          data: """
+                               $description
+                              """,
+                          style: {
+                            "body": html.Style(
+                                fontWeight: FontWeight.normal,
+                                color: Colors.black),
+                          },
                         ),
+                        // Text(
+                        //   _roomType?.description.toString() ?? '',
+                        //   style: theme.textTheme.titleMedium,
+                        // ),
                         SizedBox(height: 10.h),
                         Container(
                           width: double.maxFinite,
