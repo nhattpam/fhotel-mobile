@@ -1,4 +1,3 @@
-import 'package:fhotel_1/data/models/room_types.dart';
 import 'package:fhotel_1/data/repository/search_service.dart';
 import 'package:fhotel_1/presenters/search_presenter.dart';
 import 'package:fhotel_1/views/home_check_in_date_default/home_check_in_date_default.dart';
@@ -15,7 +14,6 @@ import '../../data/models/hotel.dart';
 import '../../data/models/search.dart';
 import '../../data/repository/list_hotel_repo.dart';
 import '../../presenters/list_hotel_presenter.dart';
-import '../home_duration_bottomsheet/home_duration_bottomsheet.dart';
 import '../home_filter_bottomsheet/home_filter_bottomsheet.dart';
 import '../home_room_guest_default/home_room_guest_default.dart';
 

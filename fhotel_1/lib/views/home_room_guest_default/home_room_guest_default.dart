@@ -5,7 +5,6 @@ import 'package:fhotel_1/data/repository/list_room_type_repo.dart';
 import 'package:fhotel_1/presenters/list_room_type_presenter.dart';
 import 'package:fhotel_1/views/choose_room/choose_room_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/semantics.dart';
 
 import '../../core/app_export.dart';
 

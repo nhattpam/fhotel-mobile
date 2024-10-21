@@ -1,9 +1,9 @@
 import 'package:fhotel_1/data/models/reservation.dart';
 import 'package:fhotel_1/data/repository/list_reservation_repo.dart';
-import 'package:fhotel_1/views/my_booking_details/my_booking_details.dart';
 import 'package:fhotel_1/views/my_booking_full_screen/widgets/maincontent7_item_widget.dart';
 import 'package:fhotel_1/views/tabbar_booking_and_service/list_reservation_view.dart';
 import 'package:flutter/material.dart';
+import 'package:grouped_list/grouped_list.dart';
 
 import '../../core/app_export.dart';
 import '../../presenters/list_reservation_presenter.dart';
@@ -29,7 +29,8 @@ class MyBookingFullScreenState extends State<MyBookingFullScreen>
   @override
   void initState() {
     super.initState();
-    _presenter = ListReservationPresenter(this, ListReservationRepo()); // Initialize the presenter
+    _presenter = ListReservationPresenter(
+        this, ListReservationRepo()); // Initialize the presenter
     _presenter.getListReservationByCustomerId(); // Fetch customer data
   }
 
@@ -51,20 +52,11 @@ class MyBookingFullScreenState extends State<MyBookingFullScreen>
               ),
               child: Column(
                 children: [
-                  _buildSection(context),
-                  SizedBox(height: 24.h),
                   SizedBox(
                     width: double.maxFinite,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "01/2022",
-                          style: theme.textTheme.titleMedium,
-                        ),
-                        SizedBox(height: 10.h),
-                        _buildMaincontent(context)
-                      ],
+                      children: [_buildMaincontent(context)],
                     ),
                   )
                 ],
@@ -145,119 +137,36 @@ class MyBookingFullScreenState extends State<MyBookingFullScreen>
     );
   }
 
-  Widget _buildSection(BuildContext context) {
-    return SizedBox(
-      width: double.maxFinite,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "01/2022",
+  Widget _buildMaincontent(BuildContext context) {
+    return GroupedListView<Reservation, String>(
+      shrinkWrap: true,
+      elements: _reservation,
+      groupBy: (reservation) {
+        DateTime parsedDate = DateTime.parse(reservation.createdDate.toString());
+        return DateFormat('yyyy-MM-dd').format(parsedDate);
+      },
+      // Group by createDate
+      groupSeparatorBuilder: (String groupByValue) {
+        // Parse the date string and format it as dd/MM/yyyy
+        DateTime parsedDate = DateTime.parse(groupByValue);
+        String formattedDate = DateFormat('dd/MM/yyyy').format(parsedDate);
+
+        return Padding(
+          padding: EdgeInsets.symmetric(vertical: 10.h),
+          child: Text(
+            formattedDate, // Display the formatted date
             style: theme.textTheme.titleMedium,
           ),
-          SizedBox(height: 10.h),
-          GestureDetector(
-            onTap: () {
-              // Navigator.of(context).push(
-              //   MaterialPageRoute(
-              //       builder: (context) => MyBookingDetailsScreen(reservation: widget.,)),
-              // );
-            },
-            child: Container(
-              width: double.maxFinite,
-              padding: EdgeInsets.symmetric(
-                horizontal: 16.h,
-                vertical: 12.h,
-              ),
-              decoration: BoxDecoration(
-                color: appTheme.whiteA700,
-                borderRadius: BorderRadiusStyle.roundedBorder8,
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(height: 4.h),
-                  _buildAngx1(context),
-                  SizedBox(height: 12.h),
-                  SizedBox(
-                    width: double.maxFinite,
-                    child: Row(
-                      children: [
-                        CustomImageView(
-                          color: appTheme.black900.withOpacity(0.5),
-                          imagePath: ImageConstant.imgIconWrapperPrimary,
-                          height: 24.h,
-                          width: 24.h,
-                        ),
-                        Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Padding(
-                            padding: EdgeInsets.only(left: 8.h),
-                            child: Text(
-                              "Khách sạn Pullman Vũng Tàu",
-                              style: theme.textTheme.titleSmall,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 8.h),
-                  SizedBox(
-                    width: double.maxFinite,
-                    child: Divider(
-                      color: appTheme.blueGray50,
-                    ),
-                  ),
-                  SizedBox(
-                    width: double.maxFinite,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(
-                          "Mã đặt chỗ: 453653657",
-                          style: theme.textTheme.labelLarge,
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(top: 10.h),
-                          child: Text(
-                            "8.000.000 ₫",
-                            style: CustomTextStyles.titleSmallBlue,
-                          ),
-                        )
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget _buildMaincontent(BuildContext context) {
-    return ListView.separated(
-      padding: EdgeInsets.zero,
-      physics: NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      separatorBuilder: (context, index) {
-        return SizedBox(
-          height: 12.h,
         );
       },
-      itemCount: _reservation.length,
-      itemBuilder: (context, index) {
-        print(_reservation[index]);
-        return Maincontent7ItemWidget(reservation: _reservation[index]);
+      itemBuilder: (context, Reservation reservation) {
+        return Maincontent7ItemWidget(reservation: reservation);
       },
+      separator: SizedBox(height: 12.h),
+      // Add spacing between items
+      order: GroupedListOrder.DESC, // Adjust based on your desired order
     );
   }
-
 
   @override
   void hideLoading() {

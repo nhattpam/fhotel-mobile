@@ -5,7 +5,6 @@ import 'package:fhotel_1/data/models/room_types.dart';
 import 'package:fhotel_1/data/models/type.dart';
 import 'package:fhotel_1/data/repository/list_room_type_repo.dart';
 import 'package:fhotel_1/views/choose_room/choose_room_view.dart';
-import 'package:fhotel_1/views/hotel_edit_search/hotel_edit_search.dart';
 import 'package:fhotel_1/views/hotel_listing_filter_bottomsheet/hotel_listing_filter_bottomsheet.dart';
 import 'package:fhotel_1/views/hotel_listing_nearby_screen/widgets/list_one_item_widget.dart';
 import 'package:flutter/material.dart';

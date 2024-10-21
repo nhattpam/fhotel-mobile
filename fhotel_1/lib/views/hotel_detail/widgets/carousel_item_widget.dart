@@ -15,7 +15,6 @@ import 'package:flutter_html/flutter_html.dart' as html;
 import '../../../core/app_export.dart';
 import '../../../data/models/hotel.dart';
 import '../../../data/models/hotel_amenity.dart';
-import '../../hotel_edit_search/hotel_edit_search.dart';
 
 class HotelDetailScreen extends StatefulWidget {
   @override

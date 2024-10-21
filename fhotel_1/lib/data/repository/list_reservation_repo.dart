@@ -2,7 +2,6 @@ import 'package:fhotel_1/data/models/reservation.dart';
 import 'package:http/http.dart' as http;
 
 import '../../core/app_export.dart';
-import '../models/user.dart';
 
 class ListReservationRepo {
   final String _baseUrl = 'https://fhotelapi.azurewebsites.net/api';

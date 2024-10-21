@@ -2,7 +2,6 @@ import 'package:fhotel_1/views/change_password/change_password.dart';
 import 'package:fhotel_1/views/checkout/checkout.dart';
 import 'package:fhotel_1/views/choose_room/choose_room.dart';
 import 'package:fhotel_1/views/edit_user_profile/edit_user_profile.dart';
-import 'package:fhotel_1/views/home_destination_default/home_destination_default.dart';
 import 'package:fhotel_1/views/home_hotel_region_empty/home_hotel_region_empty.dart';
 import 'package:fhotel_1/views/hotel_detail_facilities_screen/hotel_detail_facilities_screen.dart';
 import 'package:fhotel_1/views/hotel_listing_nearby_screen/hotel_listing_nearby_screen.dart';

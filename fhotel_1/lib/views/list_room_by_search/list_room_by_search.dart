@@ -1,16 +1,12 @@
 import 'package:fhotel_1/data/models/room_image.dart';
 import 'package:fhotel_1/data/models/type.dart';
-import 'package:fhotel_1/data/repository/list_room_type_repo.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/app_export.dart';
 import '../../core/utils/skeleton.dart';
 import '../../data/models/room_types.dart';
 import '../../data/models/search.dart';
-import '../../presenters/list_room_type_presenter.dart';
 import '../choose_room/choose_room_view.dart';
-import '../choose_room_detail/choose_room_detail.dart';
-import '../hotel_edit_search/hotel_edit_search.dart';
 
 class ListRoomBySearch extends StatefulWidget {
   @override
