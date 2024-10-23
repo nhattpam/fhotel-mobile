@@ -17,18 +17,18 @@ class RegisterPresenter {
   Future<String?> validateEmail(String? email) async {
 
     if (email == null || email.isEmpty) {
-      return 'Email cannot be empty';
+      return 'Không được để trống email';
     }
     final exists = await _searchService.checkEmailExistence(query: email);
     if (exists) {
-      return 'Email already exists'; // Notify that the email is already taken
+      return 'Email này đã được đăng kí'; // Notify that the email is already taken
     }
     RegExp regex = RegExp(
       r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$',
     );
     final isEmailValid = regex.hasMatch(email);
     if (!isEmailValid) {
-      return 'Please enter a valid email';
+      return 'Hãy nhập đúng email';
     }
     return null; // Email is valid
   }
@@ -36,7 +36,7 @@ class RegisterPresenter {
   // Validate password logic
   String? validatePassword(String? password) {
     if (password == null || password.isEmpty) {
-      return 'Password cannot be empty';
+      return 'Không được để trống mật khẩu';
     }
     return null; // Password is valid
   }
@@ -44,42 +44,35 @@ class RegisterPresenter {
   // Validate confirm password logic
   String? validateRePassword(String? password, String? repassword) {
     if (repassword == null || repassword.isEmpty) {
-      return 'Password cannot be empty';
+      return 'Không được để trống mật khẩu xác nhận';
     }
     if (password != repassword ) {
-      return 'Passwords do not match';
+      return 'Mật khẩu xác nhận đang không giống với mật khẩu';
     }
     return null; // Password is valid
   }
 
   // Validate First Name logic
-  String? validateFirstName(String? firstName) {
+  String? validateName(String? firstName) {
     if (firstName == null || firstName.isEmpty) {
-      return 'First Name cannot be empty';
+      return 'Không được để trống tên';
     }
     return null; // First Name is valid
   }
 
-  // Validate Last Name logic
-  String? validateLastName(String? lastName) {
-    if (lastName == null || lastName.isEmpty) {
-      return 'Last Name cannot be empty';
-    }
-    return null; // Last Name is valid
-  }
 
   // Validate Identification Number logic
   Future<String?> validateIdNumber(String? idNumber) async{
     final exists = await _searchService.checkIdNumberExistence(query: idNumber);
     if (exists) {
-      return 'This Identification Number already exists'; // Notify that the email is already taken
+      return 'Căn cước công dân này đã được đăng kí'; // Notify that the email is already taken
     }
 
     if (idNumber == null || idNumber.isEmpty) {
-      return 'Identification Number cannot be empty';
+      return 'Không được để trống Căn cước công dân';
     }
     if(idNumber.length != 9 && idNumber.length != 12){
-      return 'Identification Number must be either 9 or 12 digits';
+      return 'Căn cước công dân gồm 9 hoặc 12 kí tự';
     }
     return null; // Identification Number is valid
   }
@@ -88,13 +81,13 @@ class RegisterPresenter {
   Future<String?> validatePhoneNumber(String? phoneNumber) async {
     final exists = await _searchService.checkIdNumberExistence(query: phoneNumber);
     if (exists) {
-      return 'This Phone Number already exists'; // Notify that the email is already taken
+      return 'Số điện thoại này đã được đăng kí'; // Notify that the email is already taken
     }
     if (phoneNumber == null || phoneNumber.isEmpty) {
-      return 'Phone Number cannot be empty';
+      return 'Không được để trống Số điện thoại';
     }
     if(phoneNumber.length != 10 && phoneNumber.length != 11){
-      return 'Phone number must be 10 or 11 digits';
+      return 'Số điện thoại gồm 10 hoặc 11 kí tự';
     }
     return null; // Phone Number is valid
   }
@@ -118,29 +111,23 @@ class RegisterPresenter {
   // This method will call the authenticate API and handle the result
   Future<void> registerUser(String email,
       String password,
-      String firstName,
-      String lastName,
+      String name,
       String address,
-      bool gender,
       String idNumber,
       String phoneNumber,
       String imageUrl) async {
     try {
-      final firstNameError = validateFirstName(firstName);
-      final lastNameError = validateLastName(lastName);
+      final nameError = validateName(name);
       final idNumberError = await validateIdNumber(idNumber);
       final phoneNumberError = await validatePhoneNumber(phoneNumber);
       final addressError = validateAddress(address);
       // final genderError = validateGender(gender);
 
-      if (firstNameError != null) {
-        _view.showValidationError('firstName', firstNameError);
+      if (nameError != null) {
+        _view.showValidationError('name', nameError);
         return;
       }
-      if (lastNameError != null) {
-        _view.showValidationError('lastName', lastNameError);
-        return;
-      }
+
       if (idNumberError != null) {
         _view.showValidationError('idNumber', idNumberError);
         return;
@@ -154,7 +141,7 @@ class RegisterPresenter {
         return;
       }
       // Call the authenticate method from the network layer
-      User user = User(email: email, password: password, firstName: firstName, lastName: lastName, address: address, identificationNumber: idNumber, image: imageUrl, phoneNumber: phoneNumber, sex: gender);
+      User user = User(email: email, password: password, name: name, address: address, identificationNumber: idNumber, image: imageUrl, phoneNumber: phoneNumber);
 
       await _repository.register(user);
 
@@ -162,7 +149,7 @@ class RegisterPresenter {
 
     } catch (error) {
       // If there's an error, notify the view of the failure
-      _view.onRegisterError("Your account already register");
+      print(error);
     }
   }
   void registerValidation(String email, String password, String confirmPassword) async {

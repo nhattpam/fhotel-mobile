@@ -1,5 +1,6 @@
 import 'package:carousel_slider_plus/carousel_slider_plus.dart';
 import 'package:fhotel_1/core/app_export.dart';
+import 'package:fhotel_1/data/models/facility.dart';
 import 'package:fhotel_1/data/models/type.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -162,6 +163,11 @@ class _CarouselunitItemWidgetState extends State<CarouselunitItemWidget> impleme
   @override
   void onGetPriceSuccess(List<double?> price) {
     // TODO: implement onGetPriceSuccess
+  }
+
+  @override
+  void showFacility(List<Facility> roomTypes) {
+    // TODO: implement showFacility
   }
 
 }

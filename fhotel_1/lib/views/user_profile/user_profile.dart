@@ -152,7 +152,7 @@ class UserProfileScreenState extends State<UserProfileScreen>
                         height: 30,
                       )
                     : Text(
-                        "${_customer?.firstName} ${_customer?.lastName}",
+                        "${_customer?.name}",
                         style: CustomTextStyles.titleSmallGray600,
                       ),
                 SizedBox(height: 8.h),

@@ -61,19 +61,11 @@ class UserProfilePresenter {
   }
 
   // Validate First Name logic
-  String? validateFirstName(String? firstName) {
-    if (firstName == null || firstName.isEmpty) {
-      return 'First Name cannot be empty';
+  String? validateName(String? name) {
+    if (name == null || name.isEmpty) {
+      return 'Không được để trống tên';
     }
     return null; // First Name is valid
-  }
-
-  // Validate Last Name logic
-  String? validateLastName(String? lastName) {
-    if (lastName == null || lastName.isEmpty) {
-      return 'Last Name cannot be empty';
-    }
-    return null; // Last Name is valid
   }
 
   // Validate Identification Number logic
@@ -130,33 +122,27 @@ class UserProfilePresenter {
 
   Future<void> updateCustomer(String customerId,String email,
       String password,
-      String firstName,
-      String lastName,
+      String name,
       String address,
-      bool gender,
       String idNumber,
       String phoneNumber,
-      String imageUrl,) async {
-    final firstNameError = validateFirstName(firstName);
-    final newPasswordError = await validatePassword(firstName);
-    final lastNameError = validateLastName(lastName);
+      String imageUrl) async {
+    final nameError = validateName(name);
+    final newPasswordError = await validatePassword(password);
     final idNumberError = validateIdNumber(idNumber);
     final phoneNumberError = await validatePhoneNumber(phoneNumber);
     final addressError = validateAddress(address);
     // final genderError = validateGender(gender);
 
-    if (firstNameError != null) {
-      _view.showValidationError('firstName', firstNameError);
+    if (nameError != null) {
+      _view.showValidationError('name', nameError);
       return;
     }
     if (newPasswordError != null) {
       _view.showValidationError('password', newPasswordError);
       return;
     }
-    if (lastNameError != null) {
-      _view.showValidationError('lastName', lastNameError);
-      return;
-    }
+
     if (idNumberError != null) {
       _view.showValidationError('idNumber', idNumberError);
       return;
@@ -169,10 +155,8 @@ class UserProfilePresenter {
       _view.showValidationError('address', addressError);
       return;
     }
-    print("Update in presenter");
     // Call the authenticate method from the network layer
-    // User user = User(userId: customerId,email: email, password: password, firstName: firstName, lastName: lastName, address: address, identificationNumber: idNumber, image: imageUrl, phoneNumber: phoneNumber, sex: gender, isActive: true, roleId: 'db52666c-e02b-4ad5-9197-81fef586da44', createdDate: createdDate, updatedDate: DateTime.now().toString());
-    User user = User(userId: customerId,email: email, password: password, firstName: firstName, lastName: lastName, address: address, identificationNumber: idNumber, image: imageUrl, phoneNumber: phoneNumber, sex: gender, isActive: true, roleId: 'db52666c-e02b-4ad5-9197-81fef586da44');
+    User user = User(userId: customerId,email: email, password: password, name: name, address: address, identificationNumber: idNumber, image: imageUrl, phoneNumber: phoneNumber, isActive: true, roleId: 'db52666c-e02b-4ad5-9197-81fef586da44');
 
     _view.showLoading();
 

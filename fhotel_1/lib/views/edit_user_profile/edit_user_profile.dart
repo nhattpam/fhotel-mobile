@@ -23,8 +23,7 @@ class EditProfileScreenState extends State<EditProfileScreen>
   String? selectedGender;
   TextEditingController emailInputController = TextEditingController();
   TextEditingController passwordInputController = TextEditingController();
-  TextEditingController firstNameInputController = TextEditingController();
-  TextEditingController lastNameInputController = TextEditingController();
+  TextEditingController nameInputController = TextEditingController();
   TextEditingController iDNumberInputController = TextEditingController();
   TextEditingController phoneNumberInputController = TextEditingController();
   TextEditingController addressInputController = TextEditingController();
@@ -43,8 +42,7 @@ class EditProfileScreenState extends State<EditProfileScreen>
   bool _isLoading = false;
   String? _imageUrl;
 
-  String? firstNameError;
-  String? lastNameError;
+  String? nameError;
   String? idNumberError;
   String? phoneNumberError;
   String? addressError;
@@ -64,8 +62,7 @@ class EditProfileScreenState extends State<EditProfileScreen>
       node.dispose();
     }
     // Cancel any subscriptions or async operations here
-    firstNameInputController.dispose();
-    lastNameInputController.dispose();
+    nameInputController.dispose();
     iDNumberInputController.dispose();
     phoneNumberInputController.dispose();
     addressInputController.dispose();
@@ -153,8 +150,6 @@ class EditProfileScreenState extends State<EditProfileScreen>
                   ),
                   SizedBox(height: 24.h),
                   _buildFirstName(context),
-                  SizedBox(height: 24.h),
-                  _buildLastName(context),
                   SizedBox(height: 24.h),
                   _buildEmail(context),
                   SizedBox(height: 24.h),
@@ -251,12 +246,12 @@ class EditProfileScreenState extends State<EditProfileScreen>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "First Name".toUpperCase(),
+            "Name".toUpperCase(),
             style: CustomTextStyles.bodyLargeGray600,
           ),
-          if (firstNameError != null)
+          if (nameError != null)
             Text(
-              firstNameError!,
+              nameError!,
               style: TextStyle(color: Colors.red),
             ),
           SizedBox(
@@ -264,57 +259,18 @@ class EditProfileScreenState extends State<EditProfileScreen>
           ),
           CustomTextFormField(
             focusNode: focusNodes[0],
-            controller: firstNameInputController,
-            hintText: "${_customer?.firstName}",
+            controller: nameInputController,
+            hintText: "${_customer?.name}",
             hintStyle: CustomTextStyles.bodyLargeGray600,
             contentPadding: EdgeInsets.all(20.h),
             onChanged: (value) {
-              final error = _presenter.validateFirstName(value); // Validate password on change
+              final error = _presenter.validateName(value); // Validate password on change
               setState(() {
-                firstNameError = error; // Clear the error if validation passes
+                nameError = error; // Clear the error if validation passes
               });
             },
             onTap: () {
               _unfocusAllExcept(0); // Unfocus all except the email field
-            },
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget _buildLastName(BuildContext context) {
-    return SizedBox(
-      width: double.maxFinite,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "Last Name".toUpperCase(),
-            style: CustomTextStyles.bodyLargeGray600,
-          ),
-          if (lastNameError != null)
-            Text(
-              lastNameError!,
-              style: TextStyle(color: Colors.red),
-            ),
-          SizedBox(
-            height: 8.h,
-          ),
-          CustomTextFormField(
-            focusNode: focusNodes[1],
-            controller: lastNameInputController,
-            hintText: "${_customer?.lastName}",
-            hintStyle: CustomTextStyles.bodyLargeGray600,
-            contentPadding: EdgeInsets.all(20.h),
-            onChanged: (value) {
-              final error = _presenter.validateLastName(value); // Validate password on change
-              setState(() {
-                lastNameError = error; // Clear the error if validation passes
-              });
-            },
-            onTap: () {
-              _unfocusAllExcept(1); // Unfocus all except the email field
             },
           )
         ],
@@ -517,21 +473,15 @@ class EditProfileScreenState extends State<EditProfileScreen>
               });
               final email = emailInputController.text;
               final password = passwordInputController.text;
-              final firstName = firstNameInputController.text;
-              final lastName = lastNameInputController.text;
+              final name = nameInputController.text;
               final idNumber = iDNumberInputController.text;
               final phoneNumber = phoneNumberInputController.text;
               final address = addressInputController.text;
               bool genderValue = selectedGender == 'Male' ? true : false;
 
-              if (firstName.isEmpty) {
+              if (name.isEmpty) {
                 setState(() {
-                  firstNameError = 'First Name cannot be empty';
-                });
-              }
-              if (lastName.isEmpty) {
-                setState(() {
-                  lastNameError = 'Last Name cannot be empty';
+                  nameError = 'Không được để trống tên';
                 });
               }
               if (idNumber.isEmpty) {
@@ -550,17 +500,15 @@ class EditProfileScreenState extends State<EditProfileScreen>
                 });
               }
 
-              if (firstNameError == null && lastNameError == null && idNumberError == null && phoneNumberError == null && addressError == null) {
+              if (nameError == null  && idNumberError == null && phoneNumberError == null && addressError == null) {
                  // await _presenter.updateCustomer(_customer!.userId.toString(),_customer!.email.toString(), _customer!.password.toString(), firstName, lastName, address, genderValue, idNumber, phoneNumber, _imageUrl.toString(), _customer!.createdDate.toString());
                 if (_imageUrl == '' || _imageUrl == null){
                   await _presenter.updateCustomer(
                       _customer!.userId.toString(),
                       _customer!.email.toString(),
                       _customer!.password.toString(),
-                      firstName,
-                      lastName,
+                      name,
                       address,
-                      genderValue,
                       idNumber,
                       phoneNumber,
                       _customer!.image.toString());
@@ -585,10 +533,8 @@ class EditProfileScreenState extends State<EditProfileScreen>
                       _customer!.userId.toString(),
                       _customer!.email.toString(),
                       _customer!.password.toString(),
-                      firstName,
-                      lastName,
+                      name,
                       address,
-                      genderValue,
                       idNumber,
                       phoneNumber,
                       _imageUrl.toString());
@@ -628,10 +574,8 @@ class EditProfileScreenState extends State<EditProfileScreen>
   @override
   void showValidationError(String field, String message) {
     setState(() {
-      if (field == 'firstName') {
-        firstNameError = message;
-      } else if (field == 'lastName') {
-        lastNameError = message;
+      if (field == 'name') {
+        nameError = message;
       } else if (field == 'idNumber') {
         idNumberError = message;
       } else if (field == 'phoneNumber') {

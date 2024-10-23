@@ -13,14 +13,14 @@ class LoginPresenter {
   // Validate email logic
   String? validateEmail(String? email) {
     if (email == null || email.isEmpty) {
-      return 'Email cannot be empty';
+      return 'Không được để trống Email';
     }
     RegExp regex = RegExp(
       r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$',
     );
     final isEmailValid = regex.hasMatch(email);
     if (!isEmailValid) {
-      return 'Please enter a valid email';
+      return 'Hãy nhập đúng email';
     }
     return null; // Email is valid
   }
@@ -28,7 +28,7 @@ class LoginPresenter {
   // Validate password logic
   String? validatePassword(String? password) {
     if (password == null || password.isEmpty) {
-      return 'Password cannot be empty';
+      return 'Mật khẩu không được để trống';
     }
     return null; // Password is valid
   }
@@ -56,7 +56,7 @@ class LoginPresenter {
 
     } catch (error) {
       // If there's an error, notify the view of the failure
-      _view.onLoginError("You are not allowed to login");
+      _view.onLoginError("Đăng nhập thất bại");
     }
   }
 }

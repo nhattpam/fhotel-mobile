@@ -1,3 +1,4 @@
+import 'package:fhotel_1/data/models/facility.dart';
 import 'package:fhotel_1/data/models/room_image.dart';
 import 'package:fhotel_1/data/models/type.dart';
 import 'package:fhotel_1/data/repository/list_room_type_repo.dart';
@@ -557,5 +558,10 @@ class ChooseRoomFullScreenState extends State<ChooseRoomFullScreen>
     setState(() {
       _roomPrices = price;
     });
+  }
+
+  @override
+  void showFacility(List<Facility> facilities) {
+    // TODO: implement showFacility
   }
 }

@@ -18,11 +18,17 @@ class _ListHotelBySearchState extends State<ListHotelBySearch>
     implements ListHotelView {
   bool _isLoading = false;
   List<Hotel> listHotel = [];
+  List<Hotel> listHotel2 = [];
   String? checkInDate;
+  String? checkInDate2;
   String? checkOutDate;
+  String? checkOutDate2;
   String? city;
+  String? city2;
   int numberOfRooms = 0;
+  int numberOfRooms2 = 0;
   int? numberOfDays;
+  Key _pageKey = UniqueKey();
 
   @override
   void didChangeDependencies() {
@@ -68,9 +74,9 @@ class _ListHotelBySearchState extends State<ListHotelBySearch>
       builder: (BuildContext context) {
         return EditSearchBottomsheet(
           numberOfRooms: numberOfRooms,
-          checkOutDate: checkOutDate.toString(),
-          checkInDate: checkInDate.toString(),
-          city: city.toString(),
+          checkOutDate: checkOutDate ?? '',
+          checkInDate: checkInDate ?? '',
+          city: city ?? '',
         );
       },
     );
@@ -78,11 +84,14 @@ class _ListHotelBySearchState extends State<ListHotelBySearch>
     // Check if result is not null and update the values
     if (result != null) {
       setState(() {
-        checkInDate = result['checkInDate'] ?? checkInDate;
-        listHotel = result['listHotel'] ?? listHotel;
-        numberOfRooms = result['numberOfRooms'] ?? numberOfRooms;
-        checkOutDate = result['checkOutDate'] ?? checkOutDate;
-        city = result['city'] ?? city;
+        checkInDate2 = result['checkInDate'] ?? checkInDate;
+        listHotel2 = result['listHotels'] ?? listHotel;  // Update listHotels with the new search result
+        numberOfRooms2 = result['numberOfRooms'] ?? numberOfRooms;
+        checkOutDate2 = result['checkOutDate'] ?? checkOutDate;
+        city2 = result['city'] ?? city;
+        _pageKey = UniqueKey();
+        print(result);
+        // This will reload the page with the new data
       });
     }
   }
@@ -106,6 +115,7 @@ class _ListHotelBySearchState extends State<ListHotelBySearch>
     }
     return SafeArea(
       child: Scaffold(
+        key: _pageKey,
         appBar: _buildAppbar(context),
         body: SizedBox(
           width: double.maxFinite,
@@ -238,7 +248,7 @@ class _ListHotelBySearchState extends State<ListHotelBySearch>
             child: Padding(
               padding: EdgeInsets.only(left: 4.h),
               child: Text(
-                checkInDate.toString(),
+                (checkInDate2?.isNotEmpty ?? false) ? checkInDate2.toString() : checkInDate.toString(),
                 style: CustomTextStyles.bodyMediumwhiteA700,
               ),
             ),
@@ -267,7 +277,7 @@ class _ListHotelBySearchState extends State<ListHotelBySearch>
           Padding(
             padding: EdgeInsets.only(left: 4.h),
             child: Text(
-              numberOfRooms.toString(),
+              (numberOfRooms2 != 0) ? numberOfRooms2.toString() : numberOfRooms.toString(),
               style: CustomTextStyles.bodyMediumwhiteA700,
             ),
           ),
@@ -391,20 +401,22 @@ class _ListHotelBySearchState extends State<ListHotelBySearch>
           height: 12.h,
         );
       },
-      itemCount: listHotel.length,
+      itemCount: (listHotel2.isNotEmpty) ? listHotel2.length : listHotel.length,
       itemBuilder: (context, index) {
+        final currentList = (listHotel2.isNotEmpty) ? listHotel2 : listHotel;
+
         return
           // _hotels[index].isActive ?? false
           // ?
           ListHotelWidget(
-            hotelId: listHotel[index].hotelId.toString() ?? "",
-            image: listHotel[index].image.toString() ?? "",
-            name: listHotel[index].hotelName.toString() ?? "",
-            rate: listHotel[index].star ?? 0,
+            hotelId: currentList[index].hotelId.toString() ?? "",
+            image: currentList[index].image.toString() ?? "",
+            name: currentList[index].hotelName.toString() ?? "",
+            rate: currentList[index].star ?? 0,
             basePrice: 200000,
-            checkInDate: checkInDate.toString(),
-            checkOutDate: checkOutDate.toString(),
-            numberOfRooms: numberOfRooms,
+            checkInDate: (checkInDate2?.isNotEmpty ?? false) ? checkInDate2.toString() : checkInDate.toString(),
+            checkOutDate: (checkOutDate2?.isNotEmpty ?? false) ? checkOutDate2.toString() : checkOutDate.toString(),
+            numberOfRooms: (numberOfRooms2 != 0) ? numberOfRooms2 : numberOfRooms,
           );
         // : Container();
       },

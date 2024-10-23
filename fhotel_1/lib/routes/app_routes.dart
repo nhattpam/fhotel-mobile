@@ -7,6 +7,7 @@ import 'package:fhotel_1/views/hotel_detail_facilities_screen/hotel_detail_facil
 import 'package:fhotel_1/views/hotel_listing_nearby_screen/hotel_listing_nearby_screen.dart';
 import 'package:fhotel_1/views/hotel_rating_and_reviews/hotel_rating_and_reviews.dart';
 import 'package:fhotel_1/views/login_screen/login_screen.dart';
+import 'package:fhotel_1/views/otp_signup_screen/otp_signup_screen.dart';
 import 'package:fhotel_1/views/register_fill_information/register_fill_information.dart';
 import 'package:fhotel_1/views/register_screen/register_screen.dart';
 import 'package:fhotel_1/views/service_listing_screen/service_listing_screen.dart';
@@ -24,6 +25,7 @@ class AppRoutes {
   static const String initialRoute = '/initialRoute';
   static const String registerPage = '/register_screen';
   static const String registerFillInformation = '/register_fill_information';
+  static const String otpScreen = '/otp_signup_screen.dart';
   static const String homePage = '/home_hotel_region_empty';
   static const String servicePage = '/service_listing_screen';
   static const String myOrderPageAndServicePage = '/tabbar_booking_and_service';
@@ -53,6 +55,7 @@ class AppRoutes {
     initialRoute: (context) => LoginScreen(),
     registerPage: (context) => RegisterScreen(),
     registerFillInformation: (context) => RegisterFillInformation(),
+    otpScreen: (context) => OTPScreen(),
     homePage: (context) => HomeHotelRegionEmptyScreen(),
     servicePage: (context) => ServiceListingScreen(),
     myOrderPageAndServicePage: (context) => TabbarBookingAndService(),

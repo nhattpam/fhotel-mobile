@@ -109,5 +109,26 @@ class ListRoomTypePresenter {
       _view.hideLoading(); // Hide loading after the process
     }
   }
+
+  void getFacilityByRoomTypeId(String roomTypeId) async {
+    _view.showLoading(); // Show loading indicator
+    try {
+      final facilities = await _listRoomTypeRepo.getFacilityByRoomTypeId(roomTypeId);
+
+      // Ensure that showFacility is called even if the facilities list is empty
+      _view.showFacility(facilities);
+
+      // Optionally, you can handle UI updates or messages for empty lists
+      if (facilities.isEmpty) {
+        // Handle the case for empty list if needed (e.g., showing a message)
+        print('No facilities found for room type ID: $roomTypeId');
+      }
+    } catch (e) {
+      print('Error occurred while fetching facilities: $e'); // Log the error
+    } finally {
+      _view.hideLoading(); // Hide loading indicator in finally block
+    }
+  }
+
 }
 

@@ -1,17 +1,20 @@
-import 'package:fhotel_1/views/register_fill_information/register_fill_information_view.dart';
+import 'package:fhotel_1/presenters/register_presenter.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/app_export.dart';
-import '../../presenters/register_presenter.dart';
+import '../register_fill_information/register_fill_information_view.dart';
 
-class RegisterScreen extends StatefulWidget {
+class RegisterDialog extends StatefulWidget {
+  final Function() onBackToLogin;
+
+  RegisterDialog({
+    required this.onBackToLogin,
+  });
   @override
-  _RegisterScreenState createState() => _RegisterScreenState();
+  RegisterDialogState createState() => RegisterDialogState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen>
-    implements RegisterFillInformationView {
-
+class RegisterDialogState extends State<RegisterDialog> implements RegisterFillInformationView{
   final List<FocusNode> focusNodes = List.generate(3, (index) => FocusNode());
 
   TextEditingController emailInputController = TextEditingController();
@@ -48,47 +51,26 @@ class _RegisterScreenState extends State<RegisterScreen>
     // Dispose other controllers here
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        extendBody: true,
-        extendBodyBehindAppBar: true,
-        resizeToAvoidBottomInset: false,
-        body: Container(
-          width: double.maxFinite,
-          height: SizeUtils.height,
-          child: Container(
-            padding: EdgeInsets.all(30.h),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  "Tạo tài khoản",
-                  style: TextStyle(fontSize: 25, color: Colors.indigoAccent),
-                ),
-                SizedBox(height: 24.h),
-                Text(
-                  "Tạo tài khoản để trải nghiệm những dịch vụ của chúng tôi!!",
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.center,
-                  style: CustomTextStyles.titleSmallMedium,
-                ),
-                SizedBox(height: 74.h),
-                _buildEmailInput(context),
-                SizedBox(height: 28.h),
-                _buildPasswordInput(context),
-                SizedBox(height: 28.h),
-                _buildRePasswordInput(context),
-                SizedBox(height: 30.h),
-                _buildSignInButton(context),
-                SizedBox(height: 30.h),
-                _buildCreateAccountButton(context),
-                SizedBox(height: 8.h),
-              ],
-            ),
-          ),
+    return AlertDialog(
+      title: Center(child: Text('Tạo tài khoản')),
+      content: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _buildEmailInput(context),
+            SizedBox(height: 16),
+            _buildPasswordInput(context),
+            SizedBox(height: 16),
+            _buildRePasswordInput(context),
+            SizedBox(height: 16),
+            _buildRegisterButton(context),
+            SizedBox(height: 16),
+            _buildBackToLoginButton(context),
+          ],
         ),
       ),
     );
@@ -214,65 +196,30 @@ class _RegisterScreenState extends State<RegisterScreen>
     );
   }
 
-  Widget _buildSignInButton(BuildContext context) {
+  Widget _buildRegisterButton(BuildContext context) {
     return CustomElevatedButton(
+      buttonStyle: CustomButtonStyles.fillBlue,
+      buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,
+      text: "Tiếp theo",
+      margin: EdgeInsets.only(right: 8.h),
       onPressed: () {
         final email = emailInputController.text;
         final password = passwordInputController.text;
-        final repassword = repasswordInputController.text;
-
-        if (email.isEmpty) {
-          setState(() {
-            emailError = 'Không được để trống Email';
-          });
-        }
-        if (password.isEmpty) {
-          setState(() {
-            passwordError = 'Không được để trống mật khẩu';
-          });
-        }
-        if (repassword.isEmpty) {
-          setState(() {
-            repasswordError = 'Không được để trống mật khẩu xác nhận';
-          });
-        }
-        // Perform final validation
-        _presenter.registerValidation(email, password, repassword);
-        if (emailError == null && passwordError == null && repasswordError == null) {
-          Navigator.pushReplacementNamed(
-            context,
-            AppRoutes.registerFillInformation,
-            arguments: {
-              'email': email,
-              'password': password,
-            },
-          );
-        }
+        // onRegister(email, password); // Pass input to register function
       },
-      buttonStyle: CustomButtonStyles.fillBlue,
-      buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,
-      text: "Bước kế tiếp",
-      margin: EdgeInsets.only(right: 8.h),
     );
   }
 
-  Widget _buildCreateAccountButton(BuildContext context) {
+  Widget _buildBackToLoginButton(BuildContext context) {
     return CustomElevatedButton(
       height: 40.h,
-      text: "Đã có tài khoản",
+      onPressed: widget.onBackToLogin,
+      text: "Đã có tài khoản?",
       margin: EdgeInsets.only(right: 8.h),
       buttonStyle: CustomButtonStyles.fillwhiteA,
       buttonTextStyle: CustomTextStyles.bodySmallBlack900,
-      onPressed: () {
-        onTapCreateAccountButton(context);
-      },
     );
   }
-
-  void onTapCreateAccountButton(BuildContext context) {
-    Navigator.pushReplacementNamed(context, AppRoutes.initialRoute);
-  }
-
   @override
   void showValidationError(String field, String message) {
     setState(() {

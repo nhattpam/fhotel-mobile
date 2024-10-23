@@ -1,3 +1,4 @@
+import 'package:fhotel_1/data/models/facility.dart';
 import 'package:fhotel_1/data/models/room_image.dart';
 import 'package:fhotel_1/data/models/type.dart';
 import 'package:flutter/material.dart';
@@ -525,5 +526,10 @@ class ListRoomBySearchState extends State<ListRoomBySearch>
   @override
   void onGetPriceSuccess(List<double?> price) {
     // TODO: implement onGetPriceSuccess
+  }
+
+  @override
+  void showFacility(List<Facility> roomTypes) {
+    // TODO: implement showFacility
   }
 }

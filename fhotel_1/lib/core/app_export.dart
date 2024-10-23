@@ -29,9 +29,13 @@ export 'package:font_awesome_flutter/font_awesome_flutter.dart';
 export 'package:image_picker/image_picker.dart';
 export 'package:intl/intl.dart';
 export 'package:jwt_decode/jwt_decode.dart';
+export 'package:fhotel_1/views/register_screen/register_dialog.dart';
+export 'package:fhotel_1/views/login_screen/login_dialog.dart';
 
 export '../../widgets/app_bar/appbar_tittle.dart';
 export '../../widgets/app_bar/custom_app_bar.dart';
 export '../../widgets/custom_icon_button.dart';
 export '../session/session.dart';
+
+
 

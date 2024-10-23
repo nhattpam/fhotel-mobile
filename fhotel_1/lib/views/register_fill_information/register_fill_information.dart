@@ -1,10 +1,12 @@
 import 'dart:io';
 
+import 'package:email_otp/email_otp.dart';
 import 'package:fhotel_1/views/register_fill_information/register_fill_information_view.dart';
 import 'package:fhotel_1/views/register_fill_information/upload_image_view.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/app_export.dart';
+import '../../data/models/user.dart';
 import '../../data/repository/upload_image_service.dart';
 import '../../presenters/register_presenter.dart';
 import '../../presenters/upload_image_presenter.dart';
@@ -39,6 +41,7 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
 
   late String email;
   late String password;
+  EmailOTP myauth = EmailOTP();
 
   String? firstNameError;
   String? lastNameError;
@@ -106,128 +109,113 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
         extendBodyBehindAppBar: true,
         resizeToAvoidBottomInset: false,
         body: SizedBox(
-            width: double.maxFinite,
-            height: SizeUtils.height,
-            // decoration: BoxDecoration(
-            //   color: appTheme.whiteA700,
-            //   image: DecorationImage(
-            //     image: AssetImage(
-            //       ImageConstant.imgLoginScreen,
-            //     ),
-            //     fit: BoxFit.fill,
-            //   ),
-            // ),
-            child: Container(
-              padding: EdgeInsets.all(30.h),
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      "Fill Your Information",
-                      style: TextStyle(fontSize: 25, color: Colors.indigoAccent),
+          width: double.maxFinite,
+          height: SizeUtils.height,
+          // decoration: BoxDecoration(
+          //   color: appTheme.whiteA700,
+          //   image: DecorationImage(
+          //     image: AssetImage(
+          //       ImageConstant.imgLoginScreen,
+          //     ),
+          //     fit: BoxFit.fill,
+          //   ),
+          // ),
+          child: Container(
+            padding: EdgeInsets.all(30.h),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    "Hãy điền thông tin của bạn",
+                    style: TextStyle(fontSize: 25, color: Colors.indigoAccent),
+                  ),
+                  SizedBox(height: 24.h),
+                  Text(
+                    "Tạo tài khoản để trải nghiệm những dịch vụ của chúng tôi!!",
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.center,
+                    style: CustomTextStyles.titleSmallMedium,
+                  ),
+                  SizedBox(height: 20.h),
+                  Container(
+                    height: 100.h,
+                    width: 100.h,
+                    decoration: BoxDecoration(
+                      color: appTheme.gray10002,
+                      borderRadius: BorderRadiusStyle.circleBorder50,
                     ),
-                    SizedBox(height: 24.h),
-                    Text(
-                      "Create an account so you can book hotel!",
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.center,
-                      style: CustomTextStyles.titleSmallMedium,
-                    ),
-                    SizedBox(height: 20.h),
-                    Container(
-                      height: 100.h,
-                      width: 100.h,
-                      decoration: BoxDecoration(
-                        color: appTheme.gray10002,
-                        borderRadius: BorderRadiusStyle.circleBorder50,
-                      ),
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          if (_imageUrl != null)
-                            ClipOval( // Use ClipOval to ensure the image stays circular
-                              child: Image.network(
-                                _imageUrl!,
-                                fit: BoxFit.cover, // Adjust the fit as necessary
-                                height: 100.h, // Set height to match the container
-                                width: 100.h,  // Set width to match the container
-                              ),
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        if (_imageUrl != null)
+                          ClipOval(
+                            // Use ClipOval to ensure the image stays circular
+                            child: Image.network(
+                              _imageUrl!,
+                              fit: BoxFit.cover,
+                              // Adjust the fit as necessary
+                              height: 100.h,
+                              // Set height to match the container
+                              width: 100.h, // Set width to match the container
                             ),
-                          if(_imageUrl == null)
+                          ),
+                        if (_imageUrl == null)
                           GestureDetector(
                             onTap: _pickImage,
                           )
-                        ],
-                      ),
+                      ],
                     ),
-                    SizedBox(height: 28.h),
-                    _buildFirstNameInput(context),
-                    SizedBox(height: 28.h),
-                    _buildLastNameInput(context),
-                    SizedBox(height: 28.h),
-                    _buildIDNumberInput(context),
-                    SizedBox(height: 28.h),
-                    _buildPhoneNumberInput(context),
-                    SizedBox(height: 28.h),
-                    _buildAddressInput(context),
-                    SizedBox(height: 28.h),
-                    Container(
-                      child: CustomDropDown(
-                        // validator: validateGender,
-                        hintText: "Gender",
-                        hintStyle: const TextStyle(
-                          color: Colors.grey,
-                        ),
-                        items: dropdownItemList,
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            selectedGender = newValue;
-                          });
-                        },
-                      ),
-                    ),
-                    SizedBox(height: 30.h),
-                    _buildSignInButton(context),
-                
-                    ///If Login by Facebook or Apple
-                    // SizedBox(height: 64.h),
-                    // Text(
-                    //   "Or continue with",
-                    //   style: theme.textTheme.titleSmall,
-                    // ),
-                    // SizedBox(height: 20.h),
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.center,
-                    //   mainAxisSize: MainAxisSize.min,
-                    //   children: [
-                    //     CustomIconButton(
-                    //       height: 44.h,
-                    //       width: 60.h,
-                    //       padding: EdgeInsets.all(10.h),
-                    //       child: CustomImageView(
-                    //         imagePath: ImageConstant.imgIcSharpFacebook,
-                    //       ),
-                    //     ),
-                    //     SizedBox(width: 10.h),
-                    //     CustomIconButton(
-                    //       height: 44.h,
-                    //       width: 60.h,
-                    //       padding: EdgeInsets.all(10.h),
-                    //       child: CustomImageView(
-                    //         imagePath: ImageConstant.imgIcBaselineApple,
-                    //       ),
-                    //     )
-                    //   ],
-                    // ),
-                    SizedBox(height: 8.h)
-                  ],
-                ),
+                  ),
+                  SizedBox(height: 28.h),
+                  _buildFirstNameInput(context),
+                  SizedBox(height: 28.h),
+                  _buildIDNumberInput(context),
+                  SizedBox(height: 28.h),
+                  _buildPhoneNumberInput(context),
+                  SizedBox(height: 28.h),
+                  _buildAddressInput(context),
+                  SizedBox(height: 28.h),
+                  _buildSignInButton(context),
+
+                  ///If Login by Facebook or Apple
+                  // SizedBox(height: 64.h),
+                  // Text(
+                  //   "Or continue with",
+                  //   style: theme.textTheme.titleSmall,
+                  // ),
+                  // SizedBox(height: 20.h),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.center,
+                  //   mainAxisSize: MainAxisSize.min,
+                  //   children: [
+                  //     CustomIconButton(
+                  //       height: 44.h,
+                  //       width: 60.h,
+                  //       padding: EdgeInsets.all(10.h),
+                  //       child: CustomImageView(
+                  //         imagePath: ImageConstant.imgIcSharpFacebook,
+                  //       ),
+                  //     ),
+                  //     SizedBox(width: 10.h),
+                  //     CustomIconButton(
+                  //       height: 44.h,
+                  //       width: 60.h,
+                  //       padding: EdgeInsets.all(10.h),
+                  //       child: CustomImageView(
+                  //         imagePath: ImageConstant.imgIcBaselineApple,
+                  //       ),
+                  //     )
+                  //   ],
+                  // ),
+                  SizedBox(height: 8.h)
+                ],
               ),
             ),
           ),
         ),
+      ),
     );
   }
 
@@ -235,6 +223,10 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Text(
+          "Tên",
+          style: TextStyle(color: Colors.blue),
+        ),
         if (firstNameError != null)
           Text(
             firstNameError!,
@@ -249,7 +241,7 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
             focusNode: focusNodes[0],
             fillColor: appTheme.blue50,
             controller: firstNameInputController,
-            hintText: "First Name",
+            hintText: "Tên",
             hintStyle: const TextStyle(
               color: Colors.grey,
             ),
@@ -257,7 +249,8 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
             contentPadding:
                 const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
             onChanged: (value) {
-              final error = _registerpresenter.validateFirstName(value); // Validate password on change
+              final error = _registerpresenter
+                  .validateName(value); // Validate password on change
               setState(() {
                 firstNameError = error; // Clear the error if validation passes
               });
@@ -271,50 +264,14 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
     );
   }
 
-  Widget _buildLastNameInput(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        if (lastNameError != null)
-          Text(
-            lastNameError!,
-            style: TextStyle(color: Colors.red),
-          ),
-        Padding(
-          padding: EdgeInsets.only(right: 8.h),
-          child: CustomTextFormField(
-            textStyle: const TextStyle(
-              color: Colors.black,
-            ),
-            focusNode: focusNodes[1],
-            fillColor: appTheme.blue50,
-            controller: lastNameInputController,
-            hintText: "Last Name",
-            hintStyle: const TextStyle(
-              color: Colors.grey,
-            ),
-            textInputType: TextInputType.emailAddress,
-            contentPadding:
-                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-            onChanged: (value) {
-              final error = _registerpresenter.validateLastName(value); // Validate password on change
-              setState(() {
-                lastNameError = error; // Clear the error if validation passes
-              });
-            },
-            onTap: () {
-              _unfocusAllExcept(1); // Unfocus all except the email field
-            },
-          ),
-        ),
-      ],
-    );
-  }
-
   Widget _buildIDNumberInput(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Text(
+          "Căn cước công dân",
+          style: TextStyle(color: Colors.blue),
+        ),
         if (idNumberError != null)
           Text(
             idNumberError!,
@@ -329,7 +286,7 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
             focusNode: focusNodes[2],
             fillColor: appTheme.blue50,
             controller: iDNumberInputController,
-            hintText: "Identification Number",
+            hintText: "Căn cước công dân",
             hintStyle: const TextStyle(
               color: Colors.grey,
             ),
@@ -337,7 +294,8 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
             contentPadding:
                 const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
             onChanged: (value) async {
-              final error = await _registerpresenter.validateIdNumber(value); // Validate password on change
+              final error = await _registerpresenter
+                  .validateIdNumber(value); // Validate password on change
               setState(() {
                 idNumberError = error; // Clear the error if validation passes
               });
@@ -355,6 +313,10 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Text(
+          "Số điện thoại",
+          style: TextStyle(color: Colors.blue),
+        ),
         if (phoneNumberError != null)
           Text(
             phoneNumberError!,
@@ -369,7 +331,7 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
             focusNode: focusNodes[3],
             fillColor: appTheme.blue50,
             controller: phoneNumberInputController,
-            hintText: "Phone Number",
+            hintText: "Số điện thoại",
             hintStyle: const TextStyle(
               color: Colors.grey,
             ),
@@ -377,9 +339,11 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
             contentPadding:
                 const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
             onChanged: (value) async {
-              final error = await _registerpresenter.validatePhoneNumber(value); // Validate password on change
+              final error = await _registerpresenter
+                  .validatePhoneNumber(value); // Validate password on change
               setState(() {
-                phoneNumberError = error; // Clear the error if validation passes
+                phoneNumberError =
+                    error; // Clear the error if validation passes
               });
             },
             onTap: () {
@@ -395,6 +359,10 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Text(
+          "Địa chỉ",
+          style: TextStyle(color: Colors.blue),
+        ),
         if (addressError != null)
           Text(
             addressError!,
@@ -409,7 +377,7 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
             focusNode: focusNodes[4],
             fillColor: appTheme.blue50,
             controller: addressInputController,
-            hintText: "Address",
+            hintText: "Địa chỉ",
             hintStyle: const TextStyle(
               color: Colors.grey,
             ),
@@ -417,7 +385,8 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
             contentPadding:
                 const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
             onChanged: (value) {
-              final error = _registerpresenter.validateAddress(value); // Validate password on change
+              final error = _registerpresenter
+                  .validateAddress(value); // Validate password on change
               setState(() {
                 addressError = error; // Clear the error if validation passes
               });
@@ -433,66 +402,105 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
 
   Widget _buildSignInButton(BuildContext context) {
     return CustomElevatedButton(
-      onPressed: () {
-        final firstName = firstNameInputController.text;
-        final lastName = lastNameInputController.text;
+      onPressed: () async {
+        final name = firstNameInputController.text;
         final idNumber = iDNumberInputController.text;
         final phoneNumber = phoneNumberInputController.text;
         final address = addressInputController.text;
-        bool genderValue = selectedGender == 'Male' ? true : false;
-        if (firstName.isEmpty) {
+        if (name.isEmpty) {
           setState(() {
-            firstNameError = 'FirstName cannot be empty';
-          });
-        }
-        if (lastName.isEmpty) {
-          setState(() {
-            lastNameError = 'Last Name cannot be empty';
+            firstNameError = 'Không được để trống tên';
           });
         }
         if (idNumber.isEmpty) {
           setState(() {
-            idNumberError = 'Identification Number cannot be empty';
+            idNumberError = 'Không được để trống Căn cước công dân';
           });
         }
         if (phoneNumber.isEmpty) {
           setState(() {
-            phoneNumberError = 'Phone Number cannot be empty';
+            phoneNumberError = 'Không được để trống số điện thoại';
           });
         }
         if (address.isEmpty) {
           setState(() {
-            addressError = 'Address cannot be empty';
+            addressError = 'Không được để trống địa chỉ';
           });
         }
+        if (firstNameError == null &&
+            lastNameError == null &&
+            idNumberError == null &&
+            phoneNumberError == null &&
+            addressError == null) {
+          {
+            EmailOTP.setSMTP(
+              host: "smtp.gmail.com",
+              emailPort: EmailPort.port587,
+              secureType: SecureType.tls,
+              username: "meowlish.company@gmail.com",
+              password: "ybpy zzfk taaa glbd",
+            );
 
-        if (firstNameError == null && lastNameError == null && idNumberError == null && phoneNumberError == null && addressError == null) {
-          _registerpresenter.registerUser(email, password, firstName, lastName, address, genderValue, idNumber, phoneNumber, _imageUrl.toString());
-          AwesomeDialog(
-            context: context,
-            animType: AnimType.scale,
-            dialogType: DialogType.success,
-            body: const Center(
-              child: Text(
-                'Please check your mail to active account!!!',
-                style: TextStyle(fontStyle: FontStyle.italic),
-              ),
-            ),
-            // title: 'Warning',
-            // desc:   'This is also Ignored',
-            btnOkOnPress: () {
-              Navigator.pushReplacementNamed(
-                context,
-                AppRoutes.initialRoute,
-              );
-            },
-          ).show();
-
+            EmailOTP.setTemplate(
+              template: '''
+    <div style="background-color: #f4f4f4; padding: 20px; font-family: Arial, sans-serif;">
+      <div style="background-color: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+        <h1 style="color: #333;">{{appName}}</h1>
+        <p style="color: #333;">Your OTP is <strong>{{otp}}</strong></p>
+        <p style="color: #333;">This OTP is valid for 5 minutes.</p>
+        <p style="color: #333;">Thank you for using our service.</p>
+      </div>
+    </div>
+    ''',
+            );
+            EmailOTP.config(
+                emailTheme: EmailTheme.v1,
+                appEmail: "contact@westory.com",
+                appName: "FHotel OTP",
+                otpLength: 6,
+                otpType: OTPType.numeric);
+            if (await EmailOTP.sendOTP(email: email)) {
+              String generatedOtp = (EmailOTP.getOTP()).toString();
+              AwesomeDialog(
+                context: context,
+                animType: AnimType.scale,
+                dialogType: DialogType.success,
+                body: const Center(
+                  child: Text(
+                    'Vui lòng kiểm tra email để kích hoạt tài khoản!!!',
+                    style: TextStyle(fontStyle: FontStyle.italic),
+                  ),
+                ),
+                btnOkOnPress: () async {
+                  User user = User(
+                      email: email,
+                      password: password,
+                      name: name,
+                      address: address,
+                      identificationNumber: idNumber,
+                      phoneNumber: phoneNumber,
+                      image: _imageUrl.toString(),
+                      isActive: false);
+                 await _registerpresenter.registerUser(email, password, name, address, idNumber, phoneNumber, _imageUrl.toString());
+                  Navigator.pushReplacementNamed(context, AppRoutes.otpScreen,
+                    arguments: {
+                      'user': user,
+                      'otp': generatedOtp,
+                    },
+                  );
+                },
+              ).show();
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                content: Text("Oops, OTP send failed"),
+              ));
+            }
+          }
         }
       },
       buttonStyle: CustomButtonStyles.fillBlue,
       buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,
-      text: "Sign up",
+      text: "Đăng ký",
       margin: EdgeInsets.only(right: 8.h),
     );
   }

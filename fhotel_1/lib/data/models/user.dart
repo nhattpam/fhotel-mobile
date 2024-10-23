@@ -1,14 +1,12 @@
 class User {
   String? userId;
-  String? firstName;
-  String? lastName;
+  String? name;
   String? email;
   String? password;
   String? image;
   String? identificationNumber;
   String? phoneNumber;
   String? address;
-  bool? sex;
   String? hotelId;
   String? roleId;
   String? createdDate;
@@ -18,15 +16,13 @@ class User {
 
   User(
       {this.userId,
-      this.firstName,
-      this.lastName,
+      this.name,
       this.email,
       this.password,
       this.image,
       this.identificationNumber,
       this.phoneNumber,
       this.address,
-      this.sex,
       this.hotelId,
       this.roleId,
       this.createdDate,
@@ -36,15 +32,13 @@ class User {
 
   User.fromJson(Map<String, dynamic> json) {
     userId = json['userId'];
-    firstName = json['firstName'];
-    lastName = json['lastName'];
+    name = json['name'];
     email = json['email'];
     password = json['password'];
     image = json['image'];
     identificationNumber = json['identificationNumber'];
     phoneNumber = json['phoneNumber'];
     address = json['address'];
-    sex = json['sex'];
     hotelId = json['hotelId'];
     roleId = json['roleId'];
     createdDate = json['createdDate'];
@@ -56,15 +50,13 @@ class User {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
     data['userId'] = userId;
-    data['firstName'] = firstName;
-    data['lastName'] = lastName;
+    data['name'] = name;
     data['email'] = email;
     data['password'] = password;
     data['image'] = image;
     data['identificationNumber'] = identificationNumber;
     data['phoneNumber'] = phoneNumber;
     data['address'] = address;
-    data['sex'] = sex;
     data['hotelId'] = hotelId;
     data['roleId'] = roleId;
     data['createdDate'] = createdDate;

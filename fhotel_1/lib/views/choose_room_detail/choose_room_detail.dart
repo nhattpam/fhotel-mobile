@@ -1,3 +1,4 @@
+import 'package:fhotel_1/data/models/facility.dart';
 import 'package:fhotel_1/data/models/type.dart';
 import 'package:fhotel_1/presenters/create_reservation.dart';
 import 'package:fhotel_1/views/home_hotel_region_empty/widgets/carouselunit_item_widget.dart';
@@ -29,6 +30,7 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen> 
   late ListRoomTypePresenter _presenter;
   late CreateReservation _createReservation;
   double? _totalAmount = 0;
+  List<Facility> _facilities = [];
 
   RoomType? _roomType;
 
@@ -38,6 +40,7 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen> 
     _presenter = ListRoomTypePresenter(this, ListRoomTypeRepo());
     _createReservation = CreateReservation(this);
     _presenter.getRoomTypeById(widget.roomTypeId);
+    _presenter.getFacilityByRoomTypeId(widget.roomTypeId);
     _calculateTotalAmount();
     }
 
@@ -268,46 +271,26 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen> 
                     ),
                   ),
                   SizedBox(height: 8.h),
-                  // Column(
-                  //   children: [
-                  //     SizedBox(
-                  //       width: double.maxFinite,
-                  //       child: _buildSectionOne(
-                  //         context,
-                  //         titleone: "Tiện nghi chung",
-                  //         descriptionOne:
-                  //             "Bãi gửi xe\nKhu vực hút thuốc \nTiệc chiêu đãi \nSân thượng/ sân hiên",
-                  //       ),
-                  //     ),
-                  //     SizedBox(
-                  //       width: double.maxFinite,
-                  //       child: _buildSectionOne(
-                  //         context,
-                  //         titleone: "Tiện nghi văn phòng",
-                  //         descriptionOne:
-                  //             "Phòng hội nghị \nPhòng họp \nDịch vụ văn phòng \nPhòng hội nghị \nMáy tính",
-                  //       ),
-                  //     ),
-                  //     SizedBox(
-                  //       width: double.maxFinite,
-                  //       child: _buildSectionOne(
-                  //         context,
-                  //         titleone: "Tiện nghi công cộng",
-                  //         descriptionOne:
-                  //             "Tiệm cà phê\nThang máy \nNhà hàng \nKét an toàn",
-                  //       ),
-                  //     ),
-                  //     SizedBox(
-                  //       width: double.maxFinite,
-                  //       child: _buildSectionOne(
-                  //         context,
-                  //         titleone: "Ấm thực",
-                  //         descriptionOne:
-                  //             "Quầy bar\nQuãy bar bên hồ bơi \nBữa sáng",
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
+                  _facilities.isNotEmpty
+                  ? Container(
+                    height: 200,
+                    width: double.infinity,
+                    child: ListView.builder(
+                      itemCount: _facilities.length,
+                      itemBuilder: (context, index) {
+                        print(_facilities);
+                        return SizedBox(
+                          width: double.maxFinite,
+                          child: _buildSectionOne(
+                            context,
+                            titleone: _facilities[index].facilityName.toString(),
+                            descriptionOne: '',
+                          ),
+                        );
+                      },
+                    ),
+                  )
+                  : SizedBox(),
                   SizedBox(height: 8.h),
                   Container(
                     width: double.maxFinite,
@@ -394,98 +377,6 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen> 
     );
   }
 
-  Widget _buildColumndescripti(BuildContext context) {
-    return Container(
-      width: 488.h,
-      margin: EdgeInsets.only(left: 14.h),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Column(
-          children: [
-            Text(
-              "Đánh giá hàng đầu",
-              maxLines: 1,
-              textAlign: TextAlign.start,
-              style: theme.textTheme.titleSmall,
-            ),
-          ],
-        ),
-        SizedBox(height: 6.h),
-        SizedBox(
-          width: double.maxFinite,
-          child: Row(
-            children: [
-              Expanded(
-                child: Container(
-                  width: double.maxFinite,
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 16.h,
-                    vertical: 6.h,
-                  ),
-                  decoration: BoxDecoration(
-                    color: appTheme.gray10001,
-                    borderRadius: BorderRadiusStyle.roundedBorder8,
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Khách sạn mới và đẹp, gần biển đi lại thuận tiện nhân viên nhiệt tình và thân thiện. Xung...",
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: theme.textTheme.bodyMedium!.copyWith(
-                          height: 1.50,
-                        ),
-                      ),
-                      SizedBox(height: 4.h),
-                      Text(
-                        "Nguyen V.A.",
-                        style: theme.textTheme.bodySmall,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(width: 8.h),
-              Expanded(
-                child: Container(
-                  width: double.maxFinite,
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 16.h,
-                    vertical: 8.h,
-                  ),
-                  decoration: BoxDecoration(
-                    color: appTheme.gray10001,
-                    borderRadius: BorderRadiusStyle.roundedBorder8,
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Khách sạn mới và đẹp, gần biển đi lại thuận tiện nhân viên nhiệt tình và thân thiện. Xung ",
-                        overflow: TextOverflow.ellipsis,
-                        style: theme.textTheme.bodyMedium!.copyWith(
-                          height: 1.50,
-                        ),
-                        maxLines: 3,
-                      ),
-                      SizedBox(height: 2.h),
-                      Text(
-                        "Tran V.B.",
-                        style: theme.textTheme.bodySmall,
-                      )
-                    ],
-                  ),
-                ),
-              )
-            ],
-          ),
-        )
-      ]),
-    );
-  }
 
   Widget _buildSheetheader(BuildContext context) {
     return Container(
@@ -754,5 +645,12 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen> 
   void onGetPriceSuccess(List<double?> price) {
     // TODO: implement onGetPriceSuccess
   }
+
+  @override
+  void showFacility(List<Facility> facilities) {
+    setState(() {
+      _facilities = facilities; // Update state with the fetched images
+    });
+    }
 
 }

@@ -259,10 +259,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
               _user!.userId.toString(),        // Assuming User has userId
               _user!.email.toString(),                    // User email
               newPassword,                     // Update with the new password
-              _user!.firstName.toString(),                // User first name
-              _user!.lastName.toString(),                 // User last name
+              _user!.name.toString(),                // User name
               _user!.address.toString(),                  // User address
-              _user!.sex as bool,                   // User gender
               _user!.identificationNumber.toString(),                 // User ID number
               _user!.phoneNumber.toString(),              // User phone number
               _user!.image.toString(),

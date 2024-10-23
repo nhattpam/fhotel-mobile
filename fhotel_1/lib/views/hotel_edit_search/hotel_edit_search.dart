@@ -447,6 +447,15 @@ class EditSearchBottomsheetState extends State<EditSearchBottomsheet> implements
   }
 
   Widget _buildButtonbar(BuildContext context) {
+    String selectedRoomInfo = selectedRoomData.isNotEmpty
+        ? selectedRoomData.map((room) {
+      setState(() {
+        roomType = room['typeId'];
+        quantity = room['quantity'];
+      });
+      return "${room['roomType']}: ${room['quantity']}";
+    }).join(", ") // Concatenate room info
+        : "Select room and guests"; // Default placeholder text
 
     List<RoomSearchRequest> searchRequests = selectedRoomData.map((room) {
       return RoomSearchRequest(
@@ -476,11 +485,12 @@ class EditSearchBottomsheetState extends State<EditSearchBottomsheet> implements
 
               Navigator.pop(context, {
                 "listHotels": listHotels,
-                'checkInDate': dateStarSelected,
-                'checkOutDate': dateEndSelected,
+                'checkInDate': dateStarSelected.isNotEmpty ? dateStarSelected : widget.checkInDate,
+                'checkOutDate': dateEndSelected.isNotEmpty ? dateEndSelected : widget.checkOutDate,
                 "numberOfRooms": quantity,
-                'city': _searchQuery,
+                'city': _searchQuery.isNotEmpty ? _searchQuery : widget.city,
               });
+
             },
             buttonStyle: CustomButtonStyles.fillBlue,
             buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,

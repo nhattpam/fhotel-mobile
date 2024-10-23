@@ -1,3 +1,4 @@
+import 'package:fhotel_1/data/models/facility.dart';
 import 'package:fhotel_1/data/models/room_image.dart';
 import 'package:fhotel_1/data/models/room_types.dart';
 import 'package:fhotel_1/data/models/type.dart';
@@ -62,6 +63,7 @@ class ListRoomTypeRepo {
       throw Exception('Failed to fetch room type.');
     }
   }
+
   Future<double> getRoomPriceByRoomId(String roomTypeId) async {
 
     final url = Uri.parse('$_baseUrl/room-types/$roomTypeId/today-price');
@@ -97,6 +99,7 @@ class ListRoomTypeRepo {
       throw Exception('Failed to fetch room types.');
     }
   }
+
   Future<List<Types>> getTypes() async {
 
     final url = Uri.parse('$_baseUrl/types');
@@ -109,6 +112,19 @@ class ListRoomTypeRepo {
           .toList();
     } else {
       throw Exception('Failed to fetch types.');
+    }
+  }
+
+  Future<List<Facility>> getFacilityByRoomTypeId(String roomTypeId) async {
+    final response = await http.get(Uri.parse('$_baseUrl/room-types/$roomTypeId/room-facilities'));
+
+    if (response.statusCode == 200) {
+      List<dynamic> responseData = json.decode(response.body);
+      return responseData
+          .map((data) => Facility.fromJson(data))
+          .toList();
+    } else {
+      throw Exception('Failed to load list facility');
     }
   }
 }

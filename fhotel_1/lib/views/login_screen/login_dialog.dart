@@ -1,30 +1,31 @@
+import 'package:fhotel_1/core/app_export.dart';
+import 'package:fhotel_1/data/models/user.dart';
+import 'package:fhotel_1/views/login_screen/login_view.dart';
 import 'package:flutter/material.dart';
 
-import '../../core/app_export.dart';
-import '../../data/models/user.dart';
 import '../../presenters/login_presenter.dart';
-import 'login_view.dart';
 
-// ignore_for_file: must_be_immutable
-class LoginScreen extends StatefulWidget {
+class LoginDialog extends StatefulWidget {
+  final Function() onCreateAccount;
+
+  LoginDialog({
+    required this.onCreateAccount,
+  });
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  LoginDialogState createState() => LoginDialogState();
 }
 
-class _LoginScreenState extends State<LoginScreen> implements LoginView {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+class LoginDialogState extends State<LoginDialog> implements LoginView{
 
-  final FocusNode emailFocusNode = FocusNode();
-  final FocusNode passwordFocusNode = FocusNode();
+  final List<FocusNode> focusNodes = List.generate(2, (index) => FocusNode());
 
   TextEditingController emailInputController = TextEditingController();
   TextEditingController passwordInputController = TextEditingController();
 
-  late LoginPresenter _presenter;
   bool isLoading = false;
   String? emailError;
   String? passwordError;
-
+  late LoginPresenter _presenter;
   @override
   void initState() {
     super.initState();
@@ -33,67 +34,34 @@ class _LoginScreenState extends State<LoginScreen> implements LoginView {
 
   @override
   void dispose() {
-    emailFocusNode.dispose();
-    passwordFocusNode.dispose();
     emailInputController.dispose();
     passwordInputController.dispose();
     super.dispose();
   }
-
+  void _unfocusAllExcept(int index) {
+    for (int i = 0; i < focusNodes.length; i++) {
+      if (i != index) {
+        focusNodes[i].unfocus();
+      }
+    }
+  }
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        extendBody: true,
-        extendBodyBehindAppBar: true,
-        resizeToAvoidBottomInset: false,
-        body: Form(
-          key: _formKey,
-          child: SizedBox(
-            width: double.maxFinite,
-            height: SizeUtils.height,
-            child: Container(
-              padding: EdgeInsets.all(30.h),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    "Đăng nhập",
-                    style: TextStyle(fontSize: 25, color: Colors.indigoAccent),
-                  ),
-                  SizedBox(height: 24.h),
-                  Text(
-                    "Xin chào! Đăng nhập để nhận ưu đãi tốt nhất",
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.center,
-                    style: CustomTextStyles.titleSmallMedium,
-                  ),
-                  SizedBox(height: 74.h),
-                  _buildEmailInput(context),
-                  SizedBox(height: 28.h),
-                  _buildPasswordInput(context),
-                  SizedBox(height: 30.h),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Padding(
-                      padding: EdgeInsets.only(right: 8.h),
-                      child: Text(
-                        "Quên mật khẩu?",
-                        style: CustomTextStyles.bodyLargeBlue,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 30.h),
-                  _buildSignInButton(context),
-                  SizedBox(height: 30.h),
-                  _buildCreateAccountButton(context),
-                  SizedBox(height: 8.h),
-                  _buildGuetsAccountButton(context)
-                ],
-              ),
-            ),
-          ),
+    return AlertDialog(
+      title: Center(child: Text('Đăng nhập')),
+      content: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _buildEmailInput(context),
+            SizedBox(height: 16.h),
+            _buildPasswordInput(context),
+            SizedBox(height: 16.h),
+            _buildSignInButton(context),
+            SizedBox(height: 16.h),
+            _buildCreateAccountButton(context),
+          ],
         ),
       ),
     );
@@ -118,7 +86,7 @@ class _LoginScreenState extends State<LoginScreen> implements LoginView {
             textStyle: const TextStyle(
               color: Colors.black,
             ),
-            focusNode: emailFocusNode,
+            focusNode: focusNodes[0],
             fillColor: appTheme.blue50,
             controller: emailInputController,
             hintText: "Email",
@@ -134,7 +102,7 @@ class _LoginScreenState extends State<LoginScreen> implements LoginView {
               });
             },
             onTap: () {
-              passwordFocusNode.unfocus(); // Remove focus from password field
+              _unfocusAllExcept(0); // Remove focus from password field
             },
           ),
         ),
@@ -158,7 +126,7 @@ class _LoginScreenState extends State<LoginScreen> implements LoginView {
         Padding(
           padding: EdgeInsets.only(right: 8.h),
           child: CustomTextFormField(
-            focusNode: passwordFocusNode,
+            focusNode: focusNodes[1],
             fillColor: appTheme.blue50,
             controller: passwordInputController,
             hintText: "Mật khẩu",
@@ -176,7 +144,7 @@ class _LoginScreenState extends State<LoginScreen> implements LoginView {
               });
             },
             onTap: () {
-              emailFocusNode.unfocus(); // Remove focus from password field
+              _unfocusAllExcept(1); // Remove focus from password field
             },
           ),
         ),
@@ -184,12 +152,13 @@ class _LoginScreenState extends State<LoginScreen> implements LoginView {
     );
   }
 
+
   Widget _buildSignInButton(BuildContext context) {
     return CustomElevatedButton(
       onPressed: () {
         final email = emailInputController.text;
         final password = passwordInputController.text;
-        _presenter.authenticateUser(email, password); // Call login method from presenter
+        _presenter.authenticateUser(email, password); // Handle login
       },
       buttonStyle: CustomButtonStyles.fillBlue,
       buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,
@@ -200,26 +169,12 @@ class _LoginScreenState extends State<LoginScreen> implements LoginView {
 
   Widget _buildCreateAccountButton(BuildContext context) {
     return CustomElevatedButton(
-      height: 40.h,
+      onPressed: widget.onCreateAccount, // Go to register dialog
       text: "Tạo tài khoản",
-      margin: EdgeInsets.only(right: 8.h),
-      buttonStyle: CustomButtonStyles.fillwhiteA,
-      buttonTextStyle: CustomTextStyles.bodySmallBlack900,
-      onPressed: () {
-        onTapCreateAccountButton(context);
-      },
-    );
-  }
-  Widget _buildGuetsAccountButton(BuildContext context) {
-    return CustomElevatedButton(
       height: 40.h,
-      text: "Tôi sẽ đăng kí sau",
       margin: EdgeInsets.only(right: 8.h),
       buttonStyle: CustomButtonStyles.fillwhiteA,
       buttonTextStyle: CustomTextStyles.bodyLargeBlue,
-      onPressed: () {
-        Navigator.pushReplacementNamed(context, AppRoutes.homePage);
-      },
     );
   }
 

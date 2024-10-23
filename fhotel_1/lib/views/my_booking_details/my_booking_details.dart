@@ -721,9 +721,7 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> {
                         ),
                         SizedBox(height: 6.h),
                         Text(
-                          (widget.reservation.customer?.firstName).toString() +
-                              (widget.reservation.customer?.lastName)
-                                  .toString(),
+                          (widget.reservation.customer?.name).toString(),
                           style: theme.textTheme.titleSmall,
                         )
                       ],
@@ -763,8 +761,7 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> {
               context,
               labelguestTwo: "Họ tên",
               datavalueone:
-                  (widget.reservation.customer?.firstName).toString() +
-                      (widget.reservation.customer?.lastName).toString(),
+                  (widget.reservation.customer?.name).toString()
             ),
           ),
           SizedBox(

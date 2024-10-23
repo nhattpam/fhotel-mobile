@@ -19,7 +19,7 @@ class RegisterCustomerRepo {
     );
 
     final jsonResponse = jsonDecode(response.body);
-    print(jsonResponse);
+    SessionManager().setUserId(jsonResponse['userId']);
     if (response.statusCode != 201) {
       throw Exception('Failed to register user');
     }

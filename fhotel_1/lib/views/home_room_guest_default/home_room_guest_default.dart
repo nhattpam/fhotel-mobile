@@ -1,3 +1,4 @@
+import 'package:fhotel_1/data/models/facility.dart';
 import 'package:fhotel_1/data/models/room_image.dart';
 import 'package:fhotel_1/data/models/room_types.dart';
 import 'package:fhotel_1/data/models/type.dart';
@@ -530,6 +531,11 @@ class HomeRoomGuestFilledBottomsheetState
   @override
   void onGetPriceSuccess(List<double?> price) {
     // TODO: implement onGetPriceSuccess
+  }
+
+  @override
+  void showFacility(List<Facility> roomTypes) {
+    // TODO: implement showFacility
   }
 
 }
