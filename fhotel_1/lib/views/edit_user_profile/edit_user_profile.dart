@@ -511,7 +511,7 @@ class EditProfileScreenState extends State<EditProfileScreen>
                       address,
                       idNumber,
                       phoneNumber,
-                      _customer!.image.toString());
+                      _customer!.image.toString(), true);
                   AwesomeDialog(
                     context: context,
                     animType: AnimType.scale,
@@ -537,7 +537,7 @@ class EditProfileScreenState extends State<EditProfileScreen>
                       address,
                       idNumber,
                       phoneNumber,
-                      _imageUrl.toString());
+                      _imageUrl.toString(), true);
                   AwesomeDialog(
                     context: context,
                     animType: AnimType.scale,

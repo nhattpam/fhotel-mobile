@@ -19,11 +19,41 @@ class RegisterCustomerRepo {
     );
 
     final jsonResponse = jsonDecode(response.body);
-    SessionManager().setUserId(jsonResponse['userId']);
     if (response.statusCode != 201) {
       throw Exception('Failed to register user');
     }
 
   }
 
+  Future<User> activeAccountByEmail(String email) async {
+    final url = Uri.parse('https://fhotelapi.azurewebsites.net/api/authentications/activate?email=$email');
+    print(url);
+    try {
+      // Encode the email to handle special characters
+
+      // Ensure the base URL is correct with https
+      // Send a GET request
+      final response = await http.get(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      );
+      print(response.statusCode);
+      // Check for the success status
+      if (response.statusCode == 200) {
+        final responseData = json.decode(response.body);
+
+        // Assuming the API returns a User object in JSON format
+        return User.fromJson(responseData);
+      } else {
+        // If the server returns an error, throw an exception with details
+        throw Exception('Failed to activate account. Status code: ${response.statusCode}, body: ${response.body}');
+      }
+    } catch (e) {
+      // Catch any network or other errors and print them for debugging
+      print('Error during account activation: $e');
+      throw Exception('Failed to activate account due to: $e');
+    }
+  }
 }

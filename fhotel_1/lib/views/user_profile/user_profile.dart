@@ -21,14 +21,100 @@ class UserProfileScreenState extends State<UserProfileScreen>
   User? _customer;
   String? _error;
   bool _isLoading = false;
+  SessionManager sessionManager = SessionManager();
 
   @override
   void initState() {
     super.initState();
     _presenter = UserProfilePresenter(this); // Initialize the presenter
     _presenter.getCustomerById(); // Fetch customer data
+    _checkUserSession(); // Check user session on init
   }
 
+  Future<void> _checkUserSession() async {
+    await sessionManager.init(); // Initialize session manager
+    String? userId = sessionManager.getUserId();
+
+    if (userId == null || userId.isEmpty) {
+      // If userId is not available, redirect to login or any other page
+      _showLoginDialog();
+    }
+  }
+
+  void _showLoginDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return LoginDialog(
+          onCreateAccount: () {
+            Navigator.pop(context); // Close login dialog
+            _showRegisterDialog(); // Open register dialog
+          }, onLogin: () {
+          Navigator.pushReplacementNamed(context, AppRoutes.myOrderPageAndServicePage);
+        },
+        );
+      },
+    );
+  }
+
+  void _showRegisterDialog() {
+    String email = ''; // Declare variables to store the data
+    String password = '';
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return RegisterDialog(
+          onBackToLogin: () {
+            Navigator.pop(context); // Close register dialog
+            _showLoginDialog(); // Open login dialog
+          },
+          onRegisterFillInformation: (String enteredEmail, String enteredPassword) {
+            // Capture the data entered in RegisterDialog
+            email = enteredEmail;
+            password = enteredPassword;
+            Navigator.pop(context);
+            _showRegisterFillInformationDialog(email, password); // Pass data to the next dialog
+          },
+        );
+      },
+    );
+  }
+  void _showRegisterFillInformationDialog(String email, String password) {
+    User _user = User(); // Declare variables to store the data
+    String myauth = '';
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return RegisterFillInformationDialog(
+          email: email,
+          password: password,
+          onRegisterFillInformation: (User user, String otp) {
+            Navigator.pop(context);
+            _showOTPDialog(user, otp);
+          },
+        );
+      },
+    );
+  }
+  void _showOTPDialog(User user, String otp) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return OtpSignupDialog(
+          user: user,
+          myauth: otp,
+          onBackToLogin: (){
+            Navigator.pop(context);
+            _showLoginDialog();
+          },
+        );
+      },
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return SafeArea(

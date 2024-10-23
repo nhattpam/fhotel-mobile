@@ -175,4 +175,12 @@ class RegisterPresenter {
 
     // If validation passes, navigate to the next screen
   }
+
+  Future<void> activateAccount(String email) async {
+    try {
+      final user = await _repository.activeAccountByEmail(email);
+    } catch (error) {
+      print(error);
+    }
+  }
 }

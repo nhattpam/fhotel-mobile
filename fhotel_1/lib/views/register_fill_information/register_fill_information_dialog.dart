@@ -1,36 +1,61 @@
+import 'package:email_otp/email_otp.dart';
 import 'package:fhotel_1/presenters/register_presenter.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/app_export.dart';
+import '../../data/models/user.dart';
 import '../register_fill_information/register_fill_information_view.dart';
 
-class RegisterDialog extends StatefulWidget {
-  final Function() onBackToLogin;
+class RegisterFillInformationDialog extends StatefulWidget {
+  final String email;
+  final String password;
+  final Function(User, String) onRegisterFillInformation;
 
-  RegisterDialog({
-    required this.onBackToLogin,
-  });
+  RegisterFillInformationDialog({required this.email, required this.password, required this.onRegisterFillInformation});
   @override
-  RegisterDialogState createState() => RegisterDialogState();
+  RegisterFillInformationDialogState createState() => RegisterFillInformationDialogState();
 }
 
-class RegisterDialogState extends State<RegisterDialog> implements RegisterFillInformationView{
-  final List<FocusNode> focusNodes = List.generate(3, (index) => FocusNode());
+class RegisterFillInformationDialogState extends State<RegisterFillInformationDialog> implements RegisterFillInformationView{
+  final List<FocusNode> focusNodes = List.generate(5, (index) => FocusNode());
 
-  TextEditingController emailInputController = TextEditingController();
-  TextEditingController passwordInputController = TextEditingController();
-  TextEditingController repasswordInputController = TextEditingController();
+  TextEditingController firstNameInputController = TextEditingController();
+  TextEditingController lastNameInputController = TextEditingController();
+  TextEditingController iDNumberInputController = TextEditingController();
+  TextEditingController phoneNumberInputController = TextEditingController();
+  TextEditingController addressInputController = TextEditingController();
 
-  late RegisterPresenter _presenter;
-  String? emailError;
-  String? passwordError;
-  String? repasswordError;
+  late RegisterPresenter _registerpresenter;
+  final picker = ImagePicker();
+  bool _isLoading = false;
+
+  EmailOTP myauth = EmailOTP();
+
+  String? firstNameError;
+  String? lastNameError;
+  String? idNumberError;
+  String? phoneNumberError;
+  String? addressError;
 
   @override
   void initState() {
     super.initState();
-    _presenter = RegisterPresenter(this); // Initialize presenter with the current view
+    _registerpresenter = RegisterPresenter(this); // Initialize presenter with the current view
   }
+  @override
+  void dispose() {
+    for (var node in focusNodes) {
+      node.dispose();
+    }
+    // Cancel any subscriptions or async operations here
+    firstNameInputController.dispose();
+    lastNameInputController.dispose();
+    iDNumberInputController.dispose();
+    phoneNumberInputController.dispose();
+    addressInputController.dispose();
+    super.dispose();
+  }
+
 
   void _unfocusAllExcept(int index) {
     for (int i = 0; i < focusNodes.length; i++) {
@@ -38,18 +63,6 @@ class RegisterDialogState extends State<RegisterDialog> implements RegisterFillI
         focusNodes[i].unfocus();
       }
     }
-  }
-
-  @override
-  void dispose() {
-    for (var node in focusNodes) {
-      node.dispose();
-    }
-    emailInputController.dispose();
-    passwordInputController.dispose();
-    repasswordInputController.dispose();
-    // Dispose other controllers here
-    super.dispose();
   }
 
   @override
@@ -61,49 +74,56 @@ class RegisterDialogState extends State<RegisterDialog> implements RegisterFillI
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            _buildEmailInput(context),
-            SizedBox(height: 16),
-            _buildPasswordInput(context),
-            SizedBox(height: 16),
-            _buildRePasswordInput(context),
-            SizedBox(height: 16),
-            _buildRegisterButton(context),
-            SizedBox(height: 16),
-            _buildBackToLoginButton(context),
+            SizedBox(height: 16.h),
+            _buildFirstNameInput(context),
+            SizedBox(height: 16.h),
+            _buildIDNumberInput(context),
+            SizedBox(height: 16.h),
+            _buildPhoneNumberInput(context),
+            SizedBox(height: 16.h),
+            _buildAddressInput(context),
+            SizedBox(height: 16.h),
+            _buildSignInButton(context),
+            SizedBox(height: 8.h)
           ],
         ),
       ),
     );
   }
-
-  Widget _buildEmailInput(BuildContext context) {
+  Widget _buildFirstNameInput(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Email',
+          "Tên",
           style: TextStyle(color: Colors.blue),
         ),
-        if (emailError != null)
+        if (firstNameError != null)
           Text(
-            emailError!,
+            firstNameError!,
             style: TextStyle(color: Colors.red),
           ),
         Padding(
           padding: EdgeInsets.only(right: 8.h),
           child: CustomTextFormField(
+            textStyle: const TextStyle(
+              color: Colors.black,
+            ),
             focusNode: focusNodes[0],
-            textStyle: const TextStyle(color: Colors.black),
             fillColor: appTheme.blue50,
-            controller: emailInputController,
-            hintText: "Email",
-            hintStyle: const TextStyle(color: Colors.grey),
+            controller: firstNameInputController,
+            hintText: "Tên",
+            hintStyle: const TextStyle(
+              color: Colors.grey,
+            ),
             textInputType: TextInputType.emailAddress,
-            contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-            onChanged: (value) async {
-              final error = await _presenter.validateEmail(value); // Validate email on change
+            contentPadding:
+            const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+            onChanged: (value) {
+              final error = _registerpresenter
+                  .validateName(value); // Validate password on change
               setState(() {
-                emailError = error; // Clear the error if validation passes
+                firstNameError = error; // Clear the error if validation passes
               });
             },
             onTap: () {
@@ -115,76 +135,40 @@ class RegisterDialogState extends State<RegisterDialog> implements RegisterFillI
     );
   }
 
-  Widget _buildPasswordInput(BuildContext context) {
+  Widget _buildIDNumberInput(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Mật khẩu',
+          "Căn cước công dân",
           style: TextStyle(color: Colors.blue),
         ),
-        if (passwordError != null)
+        if (idNumberError != null)
           Text(
-            passwordError!,
+            idNumberError!,
             style: TextStyle(color: Colors.red),
           ),
         Padding(
           padding: EdgeInsets.only(right: 8.h),
           child: CustomTextFormField(
-            focusNode: focusNodes[1],
-            fillColor: appTheme.blue50,
-            controller: passwordInputController,
-            hintText: "Mật khẩu",
-            hintStyle: const TextStyle(color: Colors.grey),
-            textInputAction: TextInputAction.done,
-            textInputType: TextInputType.visiblePassword,
-            obscureText: true,
-            contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-            onChanged: (value) {
-              final error = _presenter.validatePassword(value); // Validate password on change
-              setState(() {
-                passwordError = error; // Clear the error if validation passes
-              });
-            },
-            onTap: () {
-              _unfocusAllExcept(1); // Unfocus all except the email field
-            },
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildRePasswordInput(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Mât khẩu xác nhận',
-          style: TextStyle(color: Colors.blue),
-        ),
-        if (repasswordError != null)
-          Text(
-            repasswordError!,
-            style: TextStyle(color: Colors.red),
-          ),
-        Padding(
-          padding: EdgeInsets.only(right: 8.h),
-          child: CustomTextFormField(
+            textStyle: const TextStyle(
+              color: Colors.black,
+            ),
             focusNode: focusNodes[2],
             fillColor: appTheme.blue50,
-            controller: repasswordInputController,
-            hintText: "Mật khẩu xác nhận",
-            hintStyle: const TextStyle(color: Colors.grey),
-            textInputAction: TextInputAction.done,
-            textInputType: TextInputType.visiblePassword,
-            obscureText: true,
-            contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-            onChanged: (value) {
-              // Add validation for confirm password if needed
-              final error = _presenter.validateRePassword(value, passwordInputController.text); // Validate repassword
+            controller: iDNumberInputController,
+            hintText: "Căn cước công dân",
+            hintStyle: const TextStyle(
+              color: Colors.grey,
+            ),
+            textInputType: TextInputType.number,
+            contentPadding:
+            const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+            onChanged: (value) async {
+              final error = await _registerpresenter
+                  .validateIdNumber(value); // Validate password on change
               setState(() {
-                repasswordError = error; // Clear the error if validation passes
+                idNumberError = error; // Clear the error if validation passes
               });
             },
             onTap: () {
@@ -196,41 +180,208 @@ class RegisterDialogState extends State<RegisterDialog> implements RegisterFillI
     );
   }
 
-  Widget _buildRegisterButton(BuildContext context) {
-    return CustomElevatedButton(
-      buttonStyle: CustomButtonStyles.fillBlue,
-      buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,
-      text: "Tiếp theo",
-      margin: EdgeInsets.only(right: 8.h),
-      onPressed: () {
-        final email = emailInputController.text;
-        final password = passwordInputController.text;
-        // onRegister(email, password); // Pass input to register function
-      },
+  Widget _buildPhoneNumberInput(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Số điện thoại",
+          style: TextStyle(color: Colors.blue),
+        ),
+        if (phoneNumberError != null)
+          Text(
+            phoneNumberError!,
+            style: TextStyle(color: Colors.red),
+          ),
+        Padding(
+          padding: EdgeInsets.only(right: 8.h),
+          child: CustomTextFormField(
+            textStyle: const TextStyle(
+              color: Colors.black,
+            ),
+            focusNode: focusNodes[3],
+            fillColor: appTheme.blue50,
+            controller: phoneNumberInputController,
+            hintText: "Số điện thoại",
+            hintStyle: const TextStyle(
+              color: Colors.grey,
+            ),
+            textInputType: TextInputType.phone,
+            contentPadding:
+            const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+            onChanged: (value) async {
+              final error = await _registerpresenter
+                  .validatePhoneNumber(value); // Validate password on change
+              setState(() {
+                phoneNumberError =
+                    error; // Clear the error if validation passes
+              });
+            },
+            onTap: () {
+              _unfocusAllExcept(3); // Unfocus all except the email field
+            },
+          ),
+        ),
+      ],
     );
   }
 
-  Widget _buildBackToLoginButton(BuildContext context) {
-    return CustomElevatedButton(
-      height: 40.h,
-      onPressed: widget.onBackToLogin,
-      text: "Đã có tài khoản?",
-      margin: EdgeInsets.only(right: 8.h),
-      buttonStyle: CustomButtonStyles.fillwhiteA,
-      buttonTextStyle: CustomTextStyles.bodySmallBlack900,
+  Widget _buildAddressInput(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Địa chỉ",
+          style: TextStyle(color: Colors.blue),
+        ),
+        if (addressError != null)
+          Text(
+            addressError!,
+            style: TextStyle(color: Colors.red),
+          ),
+        Padding(
+          padding: EdgeInsets.only(right: 8.h),
+          child: CustomTextFormField(
+            textStyle: const TextStyle(
+              color: Colors.black,
+            ),
+            focusNode: focusNodes[4],
+            fillColor: appTheme.blue50,
+            controller: addressInputController,
+            hintText: "Địa chỉ",
+            hintStyle: const TextStyle(
+              color: Colors.grey,
+            ),
+            textInputType: TextInputType.emailAddress,
+            contentPadding:
+            const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+            onChanged: (value) {
+              final error = _registerpresenter
+                  .validateAddress(value); // Validate password on change
+              setState(() {
+                addressError = error; // Clear the error if validation passes
+              });
+            },
+            onTap: () {
+              _unfocusAllExcept(4); // Unfocus all except the email field
+            },
+          ),
+        ),
+      ],
     );
   }
+
+  Widget _buildSignInButton(BuildContext context) {
+    return CustomElevatedButton(
+      onPressed: () async {
+        final name = firstNameInputController.text;
+        final idNumber = iDNumberInputController.text;
+        final phoneNumber = phoneNumberInputController.text;
+        final address = addressInputController.text;
+        if (name.isEmpty) {
+          setState(() {
+            firstNameError = 'Không được để trống tên';
+          });
+        }
+        if (idNumber.isEmpty) {
+          setState(() {
+            idNumberError = 'Không được để trống Căn cước công dân';
+          });
+        }
+        if (phoneNumber.isEmpty) {
+          setState(() {
+            phoneNumberError = 'Không được để trống số điện thoại';
+          });
+        }
+        if (address.isEmpty) {
+          setState(() {
+            addressError = 'Không được để trống địa chỉ';
+          });
+        }
+        if (firstNameError == null &&
+            lastNameError == null &&
+            idNumberError == null &&
+            phoneNumberError == null &&
+            addressError == null) {
+          {
+            EmailOTP.setSMTP(
+              host: "smtp.gmail.com",
+              emailPort: EmailPort.port587,
+              secureType: SecureType.tls,
+              username: "meowlish.company@gmail.com",
+              password: "ybpy zzfk taaa glbd",
+            );
+
+            EmailOTP.setTemplate(
+              template: '''
+    <div style="background-color: #f4f4f4; padding: 20px; font-family: Arial, sans-serif;">
+      <div style="background-color: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+        <h1 style="color: #333;">{{appName}}</h1>
+        <p style="color: #333;">Your OTP is <strong>{{otp}}</strong></p>
+        <p style="color: #333;">This OTP is valid for 5 minutes.</p>
+        <p style="color: #333;">Thank you for using our service.</p>
+      </div>
+    </div>
+    ''',
+            );
+            EmailOTP.config(
+                emailTheme: EmailTheme.v1,
+                appEmail: "contact@westory.com",
+                appName: "FHotel OTP",
+                otpLength: 5,
+                otpType: OTPType.numeric);
+            if (await EmailOTP.sendOTP(email: widget.email)) {
+              String generatedOtp = (EmailOTP.getOTP()).toString();
+              AwesomeDialog(
+                context: context,
+                animType: AnimType.scale,
+                dialogType: DialogType.success,
+                body: const Center(
+                  child: Text(
+                    'Vui lòng kiểm tra email để kích hoạt tài khoản!!!',
+                    style: TextStyle(fontStyle: FontStyle.italic),
+                  ),
+                ),
+                btnOkOnPress: () async {
+                  User user = User(
+                      email: widget.email,
+                      password: widget.password,
+                      name: name,
+                      address: address,
+                      identificationNumber: idNumber,
+                      phoneNumber: phoneNumber,
+                      isActive: false);
+                  await _registerpresenter.registerUser(widget.email, widget.password, name, address, idNumber, phoneNumber, '');
+                  widget.onRegisterFillInformation(user, generatedOtp);
+                },
+              ).show();
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                content: Text("Oops, OTP send failed"),
+              ));
+            }
+          }
+        }
+      },
+      buttonStyle: CustomButtonStyles.fillBlue,
+      buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,
+      text: "Đăng ký",
+      margin: EdgeInsets.only(right: 8.h),
+    );
+  }
+
+
   @override
   void showValidationError(String field, String message) {
-    setState(() {
-      if (field == 'email') {
-        emailError = message;
-      } else if (field == 'password') {
-        passwordError = message;
-      } else if (field == 'repassword') {
-        repasswordError = message;
-      }
-    });
+    // setState(() {
+    //   if (field == 'email') {
+    //     emailError = message;
+    //   } else if (field == 'password') {
+    //     passwordError = message;
+    //   } else if (field == 'repassword') {
+    //     repasswordError = message;
+    //   }
+    // });
   }
 
   @override

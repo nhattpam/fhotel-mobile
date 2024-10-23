@@ -7,9 +7,10 @@ import '../../presenters/login_presenter.dart';
 
 class LoginDialog extends StatefulWidget {
   final Function() onCreateAccount;
+  final Function() onLogin;
 
   LoginDialog({
-    required this.onCreateAccount,
+    required this.onCreateAccount, required this.onLogin,
   });
   @override
   LoginDialogState createState() => LoginDialogState();
@@ -206,7 +207,7 @@ class LoginDialogState extends State<LoginDialog> implements LoginView{
   @override
   void onLoginSuccess(User user) {
     // Handle login success, e.g., navigate to another screen
-    Navigator.pushReplacementNamed(context, AppRoutes.homePage);
+    widget.onLogin();
   }
 
   @override

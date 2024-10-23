@@ -8,7 +8,6 @@ import '../../data/models/search.dart';
 import '../../data/repository/search_service.dart';
 import '../../presenters/search_presenter.dart';
 import '../home_check_in_date_default/home_check_in_date_default.dart';
-import '../home_duration_bottomsheet/home_duration_bottomsheet.dart';
 import '../home_room_guest_default/home_room_guest_default.dart';
 
 class EditSearchBottomsheet extends StatefulWidget {

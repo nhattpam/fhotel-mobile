@@ -1,5 +1,6 @@
 import 'package:fhotel_1/data/models/facility.dart';
 import 'package:fhotel_1/data/models/type.dart';
+import 'package:fhotel_1/data/models/user.dart';
 import 'package:fhotel_1/presenters/create_reservation.dart';
 import 'package:fhotel_1/views/home_hotel_region_empty/widgets/carouselunit_item_widget.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +32,7 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen> 
   late CreateReservation _createReservation;
   double? _totalAmount = 0;
   List<Facility> _facilities = [];
+  SessionManager sessionManager = SessionManager();
 
   RoomType? _roomType;
 
@@ -41,8 +43,93 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen> 
     _createReservation = CreateReservation(this);
     _presenter.getRoomTypeById(widget.roomTypeId);
     _presenter.getFacilityByRoomTypeId(widget.roomTypeId);
-    _calculateTotalAmount();
+    _checkUserSession(); // Check user session on init
+  }
+
+  Future<void> _checkUserSession() async {
+    await sessionManager.init(); // Initialize session manager
+    String? userId = sessionManager.getUserId();
+
+    if (userId == null || userId.isEmpty) {
+      // If userId is not available, redirect to login or any other page
+      _showLoginDialog();
     }
+  }
+
+  void _showLoginDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return LoginDialog(
+          onCreateAccount: () {
+            Navigator.pop(context); // Close login dialog
+            _showRegisterDialog(); // Open register dialog
+          }, onLogin: () {
+          Navigator.pushReplacementNamed(context, AppRoutes.myOrderPageAndServicePage);
+        },
+        );
+      },
+    );
+  }
+
+  void _showRegisterDialog() {
+    String email = ''; // Declare variables to store the data
+    String password = '';
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return RegisterDialog(
+          onBackToLogin: () {
+            Navigator.pop(context); // Close register dialog
+            _showLoginDialog(); // Open login dialog
+          },
+          onRegisterFillInformation: (String enteredEmail, String enteredPassword) {
+            // Capture the data entered in RegisterDialog
+            email = enteredEmail;
+            password = enteredPassword;
+            Navigator.pop(context);
+            _showRegisterFillInformationDialog(email, password); // Pass data to the next dialog
+          },
+        );
+      },
+    );
+  }
+  void _showRegisterFillInformationDialog(String email, String password) {
+    User _user = User(); // Declare variables to store the data
+    String myauth = '';
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return RegisterFillInformationDialog(
+          email: email,
+          password: password,
+          onRegisterFillInformation: (User user, String otp) {
+            Navigator.pop(context);
+            _showOTPDialog(user, otp);
+          },
+        );
+      },
+    );
+  }
+  void _showOTPDialog(User user, String otp) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return OtpSignupDialog(
+          user: user,
+          myauth: otp,
+          onBackToLogin: (){
+            Navigator.pop(context);
+            _showLoginDialog();
+          },
+        );
+      },
+    );
+  }
 
   Future<void> _calculateTotalAmount() async {
     try {

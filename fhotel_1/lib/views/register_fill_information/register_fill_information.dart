@@ -27,11 +27,6 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
   TextEditingController phoneNumberInputController = TextEditingController();
   TextEditingController addressInputController = TextEditingController();
 
-  List<String> dropdownItemList = [
-    "Male",
-    "Female",
-  ];
-
   late RegisterPresenter _registerpresenter;
   late ImagePresenter _imagePresenter;
   String _imagePath = "";
@@ -178,37 +173,6 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
                   _buildAddressInput(context),
                   SizedBox(height: 28.h),
                   _buildSignInButton(context),
-
-                  ///If Login by Facebook or Apple
-                  // SizedBox(height: 64.h),
-                  // Text(
-                  //   "Or continue with",
-                  //   style: theme.textTheme.titleSmall,
-                  // ),
-                  // SizedBox(height: 20.h),
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.center,
-                  //   mainAxisSize: MainAxisSize.min,
-                  //   children: [
-                  //     CustomIconButton(
-                  //       height: 44.h,
-                  //       width: 60.h,
-                  //       padding: EdgeInsets.all(10.h),
-                  //       child: CustomImageView(
-                  //         imagePath: ImageConstant.imgIcSharpFacebook,
-                  //       ),
-                  //     ),
-                  //     SizedBox(width: 10.h),
-                  //     CustomIconButton(
-                  //       height: 44.h,
-                  //       width: 60.h,
-                  //       padding: EdgeInsets.all(10.h),
-                  //       child: CustomImageView(
-                  //         imagePath: ImageConstant.imgIcBaselineApple,
-                  //       ),
-                  //     )
-                  //   ],
-                  // ),
                   SizedBox(height: 8.h)
                 ],
               ),
@@ -457,7 +421,7 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
                 emailTheme: EmailTheme.v1,
                 appEmail: "contact@westory.com",
                 appName: "FHotel OTP",
-                otpLength: 6,
+                otpLength: 5,
                 otpType: OTPType.numeric);
             if (await EmailOTP.sendOTP(email: email)) {
               String generatedOtp = (EmailOTP.getOTP()).toString();

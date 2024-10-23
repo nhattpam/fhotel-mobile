@@ -3,6 +3,7 @@ import 'package:fhotel_1/views/my_service/my_service.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/app_export.dart';
+import '../../data/models/user.dart';
 import '../../presenters/login_presenter.dart';
 
 class TabbarBookingAndService extends StatefulWidget {
@@ -56,13 +57,17 @@ class TabbarBookingAndServiceState extends State<TabbarBookingAndService>
           onCreateAccount: () {
             Navigator.pop(context); // Close login dialog
             _showRegisterDialog(); // Open register dialog
-          },
+          }, onLogin: () {
+          Navigator.pushReplacementNamed(context, AppRoutes.myOrderPageAndServicePage);
+        },
         );
       },
     );
   }
 
   void _showRegisterDialog() {
+    String email = ''; // Declare variables to store the data
+    String password = '';
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -71,6 +76,47 @@ class TabbarBookingAndServiceState extends State<TabbarBookingAndService>
           onBackToLogin: () {
             Navigator.pop(context); // Close register dialog
             _showLoginDialog(); // Open login dialog
+          },
+          onRegisterFillInformation: (String enteredEmail, String enteredPassword) {
+            // Capture the data entered in RegisterDialog
+            email = enteredEmail;
+            password = enteredPassword;
+            Navigator.pop(context);
+            _showRegisterFillInformationDialog(email, password); // Pass data to the next dialog
+          },
+        );
+      },
+    );
+  }
+  void _showRegisterFillInformationDialog(String email, String password) {
+    User _user = User(); // Declare variables to store the data
+    String myauth = '';
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return RegisterFillInformationDialog(
+          email: email,
+          password: password,
+          onRegisterFillInformation: (User user, String otp) {
+            Navigator.pop(context);
+            _showOTPDialog(user, otp);
+          },
+        );
+      },
+    );
+  }
+  void _showOTPDialog(User user, String otp) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return OtpSignupDialog(
+          user: user,
+          myauth: otp,
+          onBackToLogin: (){
+            Navigator.pop(context);
+            _showLoginDialog();
           },
         );
       },

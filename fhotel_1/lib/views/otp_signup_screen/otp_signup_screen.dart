@@ -1,9 +1,9 @@
-import 'package:email_otp/email_otp.dart';
-import 'package:fhotel_1/views/login_screen/login_screen.dart';
+import 'package:fhotel_1/views/register_fill_information/register_fill_information_view.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/app_export.dart';
 import '../../data/models/user.dart';
+import '../../presenters/register_presenter.dart';
 import '../../presenters/user_profile_presenter.dart';
 import '../../widgets/custom_pin_code_text_field.dart';
 import '../user_profile/user_profile_view.dart';
@@ -18,18 +18,20 @@ class OTPScreen extends StatefulWidget {
   _OTPScreenState createState() => _OTPScreenState();
 }
 
-class _OTPScreenState extends State<OTPScreen> implements UserProfileView {
+class _OTPScreenState extends State<OTPScreen> implements UserProfileView, RegisterFillInformationView {
   late UserProfilePresenter _presenter;
   String enteredOtp = "";
   User? _user;
   String? myauth;
   bool _isLoading = false;
+  late RegisterPresenter _registerpresenter;
 
   @override
   void initState() {
     super.initState();
     _presenter = UserProfilePresenter(
         this); // Initialize presenter with the current view
+    _registerpresenter = RegisterPresenter(this);
   }
 
   @override
@@ -161,23 +163,7 @@ class _OTPScreenState extends State<OTPScreen> implements UserProfileView {
       onPressed: () async {
         final customerId = SessionManager().getUserId();
         if (enteredOtp == myauth) {
-          await _presenter.updateCustomer(
-            customerId.toString(),
-            // Assuming User has userId
-            _user!.email.toString(),
-            // User email
-            _user!.password.toString(),
-            // Update with the new password
-            _user!.name.toString(),
-            // User name
-            _user!.address.toString(),
-            // User address
-            _user!.identificationNumber.toString(),
-            // User ID number
-            _user!.phoneNumber.toString(),
-            // User phone number
-            _user!.image.toString(),
-          ); // User image
+          await _registerpresenter.activateAccount(_user!.email.toString());
           AwesomeDialog(
             context: context,
             animType: AnimType.scale,
@@ -192,7 +178,6 @@ class _OTPScreenState extends State<OTPScreen> implements UserProfileView {
             // desc:   'This is also Ignored',
             btnOkOnPress: () {
               Navigator.pushReplacementNamed(context, AppRoutes.initialRoute);
-              SessionManager().clearSession();
             },
           ).show();
         } else {

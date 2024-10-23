@@ -126,7 +126,7 @@ class UserProfilePresenter {
       String address,
       String idNumber,
       String phoneNumber,
-      String imageUrl) async {
+      String imageUrl, bool isActive) async {
     final nameError = validateName(name);
     final newPasswordError = await validatePassword(password);
     final idNumberError = validateIdNumber(idNumber);
@@ -156,7 +156,7 @@ class UserProfilePresenter {
       return;
     }
     // Call the authenticate method from the network layer
-    User user = User(userId: customerId,email: email, password: password, name: name, address: address, identificationNumber: idNumber, image: imageUrl, phoneNumber: phoneNumber, isActive: true, roleId: 'db52666c-e02b-4ad5-9197-81fef586da44');
+    User user = User(userId: customerId,email: email, password: password, name: name, address: address, identificationNumber: idNumber, image: imageUrl, phoneNumber: phoneNumber, isActive: isActive, roleId: 'db52666c-e02b-4ad5-9197-81fef586da44');
 
     _view.showLoading();
 

@@ -6,9 +6,10 @@ import '../register_fill_information/register_fill_information_view.dart';
 
 class RegisterDialog extends StatefulWidget {
   final Function() onBackToLogin;
+  final Function(String, String) onRegisterFillInformation;
 
   RegisterDialog({
-    required this.onBackToLogin,
+    required this.onBackToLogin, required this.onRegisterFillInformation,
   });
   @override
   RegisterDialogState createState() => RegisterDialogState();
@@ -205,7 +206,10 @@ class RegisterDialogState extends State<RegisterDialog> implements RegisterFillI
       onPressed: () {
         final email = emailInputController.text;
         final password = passwordInputController.text;
-        // onRegister(email, password); // Pass input to register function
+        widget.onRegisterFillInformation(
+          email,
+          password,
+        );
       },
     );
   }

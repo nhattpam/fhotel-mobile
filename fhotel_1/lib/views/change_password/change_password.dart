@@ -12,12 +12,13 @@ class ChangePasswordScreen extends StatefulWidget {
 
 class _ChangePasswordScreenState extends State<ChangePasswordScreen>
     implements UserProfileView {
-
   final List<FocusNode> focusNodes = List.generate(3, (index) => FocusNode());
 
-  TextEditingController currentPasswordInputController = TextEditingController();
+  TextEditingController currentPasswordInputController =
+      TextEditingController();
   TextEditingController newPasswordInputController = TextEditingController();
-  TextEditingController confirmPasswordInputController = TextEditingController();
+  TextEditingController confirmPasswordInputController =
+      TextEditingController();
 
   late UserProfilePresenter _presenter;
   String? currentPasswordError;
@@ -26,17 +27,21 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
 
   User? _user;
   bool _isLoading = false;
+
   @override
   void initState() {
     super.initState();
-    _presenter = UserProfilePresenter(this); // Initialize presenter with the current view
+    _presenter = UserProfilePresenter(
+        this); // Initialize presenter with the current view
   }
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     // Retrieve the arguments passed safely in didChangeDependencies
     _user = ModalRoute.of(context)?.settings.arguments as User?;
   }
+
   void _unfocusAllExcept(int index) {
     for (int i = 0; i < focusNodes.length; i++) {
       if (i != index) {
@@ -56,6 +61,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
     // Dispose other controllers here
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -105,7 +111,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
     return CustomAppBar(
         leadingWidth: 40.h,
         leading: AppbarLeadingImage(
-          onTap: (){
+          onTap: () {
             Navigator.pop(context);
           },
           imagePath: ImageConstant.imgChevronLeft,
@@ -142,11 +148,14 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
             textInputAction: TextInputAction.done,
             textInputType: TextInputType.visiblePassword,
             obscureText: true,
-            contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-            onChanged: (value) async{
-              final error = await _presenter.validatePassword(value); // Validate password on change
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+            onChanged: (value) async {
+              final error = await _presenter
+                  .validatePassword(value); // Validate password on change
               setState(() {
-                newPasswordError = error; // Clear the error if validation passes
+                newPasswordError =
+                    error; // Clear the error if validation passes
               });
             },
             onTap: () {
@@ -178,11 +187,14 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
             textInputAction: TextInputAction.done,
             textInputType: TextInputType.visiblePassword,
             obscureText: true,
-            contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
             onChanged: (value) async {
-              final error = await _presenter.validateCurrentPassword(value); // Validate password on change
+              final error = await _presenter.validateCurrentPassword(
+                  value); // Validate password on change
               setState(() {
-                currentPasswordError = error; // Clear the error if validation passes
+                currentPasswordError =
+                    error; // Clear the error if validation passes
               });
             },
             onTap: () {
@@ -214,12 +226,15 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
             textInputAction: TextInputAction.done,
             textInputType: TextInputType.visiblePassword,
             obscureText: true,
-            contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
             onChanged: (value) {
               // Add validation for confirm password if needed
-              final error = _presenter.validateRePassword(value, newPasswordInputController.text); // Validate repassword
+              final error = _presenter.validateRePassword(value,
+                  newPasswordInputController.text); // Validate repassword
               setState(() {
-                confirmPasswordError = error; // Clear the error if validation passes
+                confirmPasswordError =
+                    error; // Clear the error if validation passes
               });
             },
             onTap: () {
@@ -254,17 +269,26 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
           });
         }
         // Perform final validation
-        if (currentPasswordError == null && newPasswordError == null && confirmPasswordError == null) {
+        if (currentPasswordError == null &&
+            newPasswordError == null &&
+            confirmPasswordError == null) {
           await _presenter.updateCustomer(
-              _user!.userId.toString(),        // Assuming User has userId
-              _user!.email.toString(),                    // User email
-              newPassword,                     // Update with the new password
-              _user!.name.toString(),                // User name
-              _user!.address.toString(),                  // User address
-              _user!.identificationNumber.toString(),                 // User ID number
-              _user!.phoneNumber.toString(),              // User phone number
+              _user!.userId.toString(),
+              // Assuming User has userId
+              _user!.email.toString(),
+              // User email
+              newPassword,
+              // Update with the new password
+              _user!.name.toString(),
+              // User name
+              _user!.address.toString(),
+              // User address
+              _user!.identificationNumber.toString(),
+              // User ID number
+              _user!.phoneNumber.toString(),
+              // User phone number
               _user!.image.toString(),
-          );// User image
+              true); // User image
           AwesomeDialog(
             context: context,
             animType: AnimType.scale,
@@ -293,7 +317,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
   @override
   void showValidationError(String field, String message) {
     setState(() {
-       if (field == 'password') {
+      if (field == 'password') {
         newPasswordError = message;
       } else if (field == 'repassword') {
         confirmPasswordError = message;
@@ -312,6 +336,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
     // Handle successful registration (e.g., navigate to a new screen)
     // Navigator.pushReplacementNamed(context, AppRoutes.homePage);
   }
+
   // Show loading indicator
   @override
   void showLoading() {
