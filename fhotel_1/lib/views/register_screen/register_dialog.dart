@@ -6,10 +6,11 @@ import '../register_fill_information/register_fill_information_view.dart';
 
 class RegisterDialog extends StatefulWidget {
   final Function() onBackToLogin;
+  final Function() onCloseDialog;
   final Function(String, String) onRegisterFillInformation;
 
   RegisterDialog({
-    required this.onBackToLogin, required this.onRegisterFillInformation,
+    required this.onBackToLogin, required this.onRegisterFillInformation, required this.onCloseDialog,
   });
   @override
   RegisterDialogState createState() => RegisterDialogState();
@@ -56,7 +57,18 @@ class RegisterDialogState extends State<RegisterDialog> implements RegisterFillI
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Center(child: Text('Tạo tài khoản')),
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text('Tạo tài khoản'),
+          IconButton(
+            icon: Icon(Icons.close),
+            onPressed: () {
+              widget.onCloseDialog(); // Close the dialog
+            },
+          ),
+        ],
+      ),
       content: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

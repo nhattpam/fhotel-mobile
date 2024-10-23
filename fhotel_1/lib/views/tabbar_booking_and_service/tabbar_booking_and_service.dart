@@ -59,6 +59,8 @@ class TabbarBookingAndServiceState extends State<TabbarBookingAndService>
             _showRegisterDialog(); // Open register dialog
           }, onLogin: () {
           Navigator.pushReplacementNamed(context, AppRoutes.myOrderPageAndServicePage);
+        }, onCloseDialog: () {
+          Navigator.pushReplacementNamed(context, AppRoutes.homePage);
         },
         );
       },
@@ -83,7 +85,10 @@ class TabbarBookingAndServiceState extends State<TabbarBookingAndService>
             password = enteredPassword;
             Navigator.pop(context);
             _showRegisterFillInformationDialog(email, password); // Pass data to the next dialog
-          },
+          }, onCloseDialog: () {
+          Navigator.pushReplacementNamed(context, AppRoutes.homePage);
+
+        },
         );
       },
     );
@@ -101,7 +106,9 @@ class TabbarBookingAndServiceState extends State<TabbarBookingAndService>
           onRegisterFillInformation: (User user, String otp) {
             Navigator.pop(context);
             _showOTPDialog(user, otp);
-          },
+          }, onCloseDialog: () {
+          Navigator.pushReplacementNamed(context, AppRoutes.homePage);
+        },
         );
       },
     );

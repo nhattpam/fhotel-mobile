@@ -19,14 +19,21 @@ class ChooseRoomRoomDetailScreen extends StatefulWidget {
   final String checkInDate;
   final String checkOutDate;
   final int numberOfRooms;
-  const ChooseRoomRoomDetailScreen({super.key, required this.roomTypeId, required this.checkInDate, required this.checkOutDate, required this.numberOfRooms});
+
+  const ChooseRoomRoomDetailScreen(
+      {super.key,
+      required this.roomTypeId,
+      required this.checkInDate,
+      required this.checkOutDate,
+      required this.numberOfRooms});
 
   @override
   ChooseRoomRoomDetailScreenState createState() =>
       ChooseRoomRoomDetailScreenState();
 }
 
-class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen> implements ChooseRoomView, CreateReservationView{
+class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
+    implements ChooseRoomView, CreateReservationView {
   int activeIndex = 0;
   late ListRoomTypePresenter _presenter;
   late CreateReservation _createReservation;
@@ -65,9 +72,13 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen> 
           onCreateAccount: () {
             Navigator.pop(context); // Close login dialog
             _showRegisterDialog(); // Open register dialog
-          }, onLogin: () {
-          Navigator.pushReplacementNamed(context, AppRoutes.myOrderPageAndServicePage);
-        },
+          },
+          onLogin: () {
+            Navigator.pop(context); // Close login dialog
+          },
+          onCloseDialog: () {
+            Navigator.pop(context); // Close login dialog
+          },
         );
       },
     );
@@ -85,17 +96,23 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen> 
             Navigator.pop(context); // Close register dialog
             _showLoginDialog(); // Open login dialog
           },
-          onRegisterFillInformation: (String enteredEmail, String enteredPassword) {
+          onRegisterFillInformation:
+              (String enteredEmail, String enteredPassword) {
             // Capture the data entered in RegisterDialog
             email = enteredEmail;
             password = enteredPassword;
             Navigator.pop(context);
-            _showRegisterFillInformationDialog(email, password); // Pass data to the next dialog
+            _showRegisterFillInformationDialog(
+                email, password); // Pass data to the next dialog
+          },
+          onCloseDialog: () {
+            Navigator.pop(context);
           },
         );
       },
     );
   }
+
   void _showRegisterFillInformationDialog(String email, String password) {
     User _user = User(); // Declare variables to store the data
     String myauth = '';
@@ -110,10 +127,14 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen> 
             Navigator.pop(context);
             _showOTPDialog(user, otp);
           },
+          onCloseDialog: () {
+            Navigator.pop(context);
+          },
         );
       },
     );
   }
+
   void _showOTPDialog(User user, String otp) {
     showDialog(
       context: context,
@@ -122,7 +143,7 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen> 
         return OtpSignupDialog(
           user: user,
           myauth: otp,
-          onBackToLogin: (){
+          onBackToLogin: () {
             Navigator.pop(context);
             _showLoginDialog();
           },
@@ -165,7 +186,6 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen> 
       );
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -343,7 +363,9 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen> 
                                       child: Padding(
                                         padding: EdgeInsets.only(left: 8.h),
                                         child: Text(
-                                          _roomType?.type?.typeName.toString() ?? '',
+                                          _roomType?.type?.typeName
+                                                  .toString() ??
+                                              '',
                                           style: theme.textTheme.bodyMedium,
                                         ),
                                       ),
@@ -359,25 +381,27 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen> 
                   ),
                   SizedBox(height: 8.h),
                   _facilities.isNotEmpty
-                  ? Container(
-                    height: 200,
-                    width: double.infinity,
-                    child: ListView.builder(
-                      itemCount: _facilities.length,
-                      itemBuilder: (context, index) {
-                        print(_facilities);
-                        return SizedBox(
-                          width: double.maxFinite,
-                          child: _buildSectionOne(
-                            context,
-                            titleone: _facilities[index].facilityName.toString(),
-                            descriptionOne: '',
+                      ? Container(
+                          height: 200,
+                          width: double.infinity,
+                          child: ListView.builder(
+                            itemCount: _facilities.length,
+                            itemBuilder: (context, index) {
+                              print(_facilities);
+                              return SizedBox(
+                                width: double.maxFinite,
+                                child: _buildSectionOne(
+                                  context,
+                                  titleone: _facilities[index]
+                                      .facilityName
+                                      .toString(),
+                                  descriptionOne: '',
+                                ),
+                              );
+                            },
                           ),
-                        );
-                      },
-                    ),
-                  )
-                  : SizedBox(),
+                        )
+                      : SizedBox(),
                   SizedBox(height: 8.h),
                   Container(
                     width: double.maxFinite,
@@ -416,7 +440,9 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen> 
                                     ),
                                     const Spacer(),
                                     Text(
-                                      widget.checkInDate + "-" + widget.checkOutDate,
+                                      widget.checkInDate +
+                                          "-" +
+                                          widget.checkOutDate,
                                       style: theme.textTheme.titleSmall,
                                     )
                                   ],
@@ -446,7 +472,6 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen> 
                                   ],
                                 ),
                               ),
-
                             ],
                           ),
                         )
@@ -463,7 +488,6 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen> 
       ),
     );
   }
-
 
   Widget _buildSheetheader(BuildContext context) {
     return Container(
@@ -539,7 +563,8 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen> 
                         style: theme.textTheme.titleSmall,
                       ),
                       Text(
-                          NumberFormat('#,###', 'en_US').format(_totalAmount) + " ₫",
+                        NumberFormat('#,###', 'en_US').format(_totalAmount) +
+                            " ₫",
                         // _roomType?.basePrice.toString() ?? '',
                         style: theme.textTheme.titleSmall,
                       )
@@ -593,7 +618,11 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen> 
         // Format the parsed date to the desired format
         String isoFormattedInDate = outputFormat.format(parsedInDate);
         String isoFormattedOutDate = outputFormat.format(parsedOutDate);
-       await  _createReservation.createReservation((isoFormattedInDate).toString(), (isoFormattedOutDate).toString(), widget.roomTypeId, widget.numberOfRooms);
+        await _createReservation.createReservation(
+            (isoFormattedInDate).toString(),
+            (isoFormattedOutDate).toString(),
+            widget.roomTypeId,
+            widget.numberOfRooms);
         AwesomeDialog(
           context: context,
           animType: AnimType.scale,
@@ -672,6 +701,7 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen> 
       ),
     );
   }
+
   // Show loading indicator
   @override
   void showLoading() {
@@ -689,9 +719,7 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen> 
   }
 
   @override
-  void onGetRoomImageSuccess(List<RoomImage> roomImage) {
-
-  }
+  void onGetRoomImageSuccess(List<RoomImage> roomImage) {}
 
   @override
   void onGetRoomTypeSuccess(RoomType roomType) {
@@ -720,6 +748,7 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen> 
   void showValidationError(String field, String message) {
     // TODO: implement showValidationError
   }
+
   @override
   void onCreateTotalAmountSuccess(double totalAmount) {
     // Ensure async work is completed before calling setState
@@ -738,6 +767,5 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen> 
     setState(() {
       _facilities = facilities; // Update state with the fetched images
     });
-    }
-
+  }
 }

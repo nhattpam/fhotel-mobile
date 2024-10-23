@@ -52,6 +52,9 @@ class UserProfileScreenState extends State<UserProfileScreen>
             _showRegisterDialog(); // Open register dialog
           }, onLogin: () {
           Navigator.pushReplacementNamed(context, AppRoutes.myOrderPageAndServicePage);
+        }, onCloseDialog: () {
+          Navigator.pushReplacementNamed(context, AppRoutes.homePage);
+
         },
         );
       },
@@ -76,7 +79,10 @@ class UserProfileScreenState extends State<UserProfileScreen>
             password = enteredPassword;
             Navigator.pop(context);
             _showRegisterFillInformationDialog(email, password); // Pass data to the next dialog
-          },
+          }, onCloseDialog: () {
+          Navigator.pushReplacementNamed(context, AppRoutes.homePage);
+
+        },
         );
       },
     );
@@ -94,7 +100,9 @@ class UserProfileScreenState extends State<UserProfileScreen>
           onRegisterFillInformation: (User user, String otp) {
             Navigator.pop(context);
             _showOTPDialog(user, otp);
-          },
+          }, onCloseDialog: () {
+          Navigator.pushReplacementNamed(context, AppRoutes.homePage);
+        },
         );
       },
     );
