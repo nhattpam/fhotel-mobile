@@ -1,6 +1,7 @@
 import 'package:fhotel_1/core/app_export.dart';
 import 'package:fhotel_1/core/utils/skeleton.dart';
 import 'package:fhotel_1/data/models/facility.dart';
+import 'package:fhotel_1/data/models/hotel_image.dart';
 import 'package:fhotel_1/data/models/room_image.dart';
 import 'package:fhotel_1/data/models/room_types.dart';
 import 'package:fhotel_1/data/models/type.dart';
@@ -30,6 +31,7 @@ class _HotelListingNearbyScreenState extends State<HotelListingNearbyScreen>
   List<Hotel> _hotels = [];
   List<RoomType> _roomTypes = [];
   String? _error;
+  List<HotelImage> _hotelImage = [];
 
   @override
   void initState() {
@@ -349,13 +351,15 @@ class _HotelListingNearbyScreenState extends State<HotelListingNearbyScreen>
             itemCount: _hotels.length,
             itemBuilder: (context, index) {
               _listRoomTypePresenter.getRoomTypesByHotelId(_hotels[index].hotelId.toString());
-              print("This is" + _roomTypes.length.toString());
+              HotelImage hotelImage = _hotelImage.length > index
+                  ? _hotelImage[index]
+                  : HotelImage();
               return
                   // _hotels[index].isActive ?? false
                   // ?
                   ListHotelWidget(
                 hotelId: _hotels[index].hotelId.toString(),
-                image: _hotels[index].image.toString(),
+                image: hotelImage.image.toString(),
                 name: _hotels[index].hotelName.toString(),
                 rate: _hotels[index]?.star ?? 0,
                 basePrice: 0, checkInDate: '', checkOutDate: '', numberOfRooms: 0,
@@ -383,8 +387,9 @@ class _HotelListingNearbyScreenState extends State<HotelListingNearbyScreen>
   // Handle success: display list of hotels
   @override
   void onGetHotelsSuccess(List<Hotel> hotels) {
-    setState(() {
+    setState(() async {
       _hotels = hotels;
+      await _presenter.loadRoomImages(_hotels);
       _error = null;
     });
   }
@@ -428,5 +433,12 @@ class _HotelListingNearbyScreenState extends State<HotelListingNearbyScreen>
   @override
   void showFacility(List<Facility> roomTypes) {
     // TODO: implement showFacility
+  }
+
+  @override
+  void onGetHotelImagesSuccess(List<HotelImage> hotels) {
+    setState(() {
+      _hotelImage = hotels;
+    });
   }
 }

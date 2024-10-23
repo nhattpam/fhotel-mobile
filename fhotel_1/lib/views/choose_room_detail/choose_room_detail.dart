@@ -50,7 +50,6 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
     _createReservation = CreateReservation(this);
     _presenter.getRoomTypeById(widget.roomTypeId);
     _presenter.getFacilityByRoomTypeId(widget.roomTypeId);
-    _checkUserSession(); // Check user session on init
   }
 
   Future<void> _checkUserSession() async {
@@ -605,6 +604,8 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
   Widget _buildChnphng(BuildContext context) {
     return CustomElevatedButton(
       onPressed: () async {
+        _checkUserSession(); // Check user session on init
+
         // Define the input date format
         DateFormat inputFormat = DateFormat('dd/MM/yyyy');
 

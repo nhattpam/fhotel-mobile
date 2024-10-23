@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
           title: 'hotel',
           debugShowCheckedModeBanner: false,
           initialRoute:
-              isCustomer ? AppRoutes.homePage : AppRoutes.initialRoute,
+          isCustomer ? AppRoutes.homePage : AppRoutes.initialRoute,
           routes: AppRoutes.routes,
         );
       },

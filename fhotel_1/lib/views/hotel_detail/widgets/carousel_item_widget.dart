@@ -1,4 +1,4 @@
-import 'package:fhotel_1/core/utils/skeleton.dart';
+import 'package:fhotel_1/data/models/hotel_image.dart';
 import 'package:fhotel_1/data/models/late_checkout_policy.dart';
 import 'package:fhotel_1/data/models/refund_policy.dart';
 import 'package:fhotel_1/data/repository/late_checkout_policy_repo.dart';
@@ -9,6 +9,8 @@ import 'package:fhotel_1/presenters/refund_policy_presenter.dart';
 import 'package:fhotel_1/views/hotel_detail/hotel_detail_view.dart';
 import 'package:fhotel_1/views/hotel_detail/late_checkout_policy_view.dart';
 import 'package:fhotel_1/views/hotel_detail/refund_policy_view.dart';
+import 'package:fhotel_1/views/hotel_detail/widgets/list_hotel_image_widget.dart';
+import 'package:fhotel_1/views/hotel_listing_nearby_screen/list_hotel_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart' as html;
 
@@ -23,7 +25,7 @@ class HotelDetailScreen extends StatefulWidget {
 
 class HotelDetailScreenState extends State<HotelDetailScreen>
     with TickerProviderStateMixin
-    implements HotelDetailView, LateCheckoutPolicyView, RefundPolicyView {
+    implements HotelDetailView, LateCheckoutPolicyView, RefundPolicyView, ListHotelView {
   int sliderIndex = 1;
   late TabController tabviewController;
 
@@ -277,27 +279,7 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
                           child: Column(
                             children: [
                               SizedBox(height: 12.h),
-                              _isLoading
-                                  ? const SizedBox(
-                                      width: 350,
-                                      child: Skeleton(width: 350, height: 150),
-                                    )
-                                  : GestureDetector(
-                                      onTap: () {
-                                        _showZoomableImageDialog(
-                                            context,
-                                            _hotel?.image.toString() ??
-                                                'https://casf.com.au/wp-content/uploads/2022/01/silver_grey.png'); // Open zoomable dialog
-                                      },
-                                      child: Container(
-                                        width: 350,
-                                        child: Image.network(
-                                          _hotel?.image.toString() ??
-                                              'https://casf.com.au/wp-content/uploads/2022/01/silver_grey.png',
-                                          fit: BoxFit.fitWidth,
-                                        ),
-                                      ),
-                                    ),
+                              ListHotelImageWidget(hotelId: hotelId),
                               Container(
                                 key: overviewKey,
                                 width: double.maxFinite,
@@ -1318,5 +1300,20 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
   void onGetRefundPoliciesSuccess(List<RefundPolicy> policies) {
     // TODO: implement onGetRefundPoliciesSuccess
     _refundPolicies = policies;
+  }
+
+  @override
+  void onGetHotelImagesSuccess(List<HotelImage> hotels) {
+    // TODO: implement onGetHotelImagesSuccess
+  }
+
+  @override
+  void onGetHotelsError(String error) {
+    // TODO: implement onGetHotelsError
+  }
+
+  @override
+  void onGetHotelsSuccess(List<Hotel> hotels) {
+    // TODO: implement onGetHotelsSuccess
   }
 }

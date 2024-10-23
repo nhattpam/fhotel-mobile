@@ -5,7 +5,7 @@ class Hotel {
   String? phone;
   String? email;
   String? description;
-  String? image;
+  String? districtId;
   int? star;
   String? cityId;
   String? ownerId;
@@ -22,7 +22,7 @@ class Hotel {
         this.phone,
         this.email,
         this.description,
-        this.image,
+        this.districtId,
         this.star,
         this.cityId,
         this.ownerId,
@@ -39,7 +39,7 @@ class Hotel {
     phone = json['phone'];
     email = json['email'];
     description = json['description'];
-    image = json['image'];
+    districtId = json['districtId'];
     star = json['star'];
     cityId = json['cityId'];
     ownerId = json['ownerId'];
@@ -58,7 +58,7 @@ class Hotel {
     data['phone'] = phone;
     data['email'] = email;
     data['description'] = description;
-    data['image'] = image;
+    data['districtId'] = districtId;
     data['star'] = star;
     data['cityId'] = cityId;
     data['ownerId'] = ownerId;

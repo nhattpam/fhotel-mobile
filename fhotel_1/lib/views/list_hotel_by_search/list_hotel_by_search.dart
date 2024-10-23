@@ -1,5 +1,6 @@
 import 'package:fhotel_1/core/app_export.dart';
 import 'package:fhotel_1/core/utils/skeleton.dart';
+import 'package:fhotel_1/data/models/hotel_image.dart';
 import 'package:fhotel_1/views/hotel_edit_search/hotel_edit_search.dart';
 import 'package:fhotel_1/views/hotel_listing_filter_bottomsheet/hotel_listing_filter_bottomsheet.dart';
 import 'package:fhotel_1/views/hotel_listing_nearby_screen/widgets/list_one_item_widget.dart';
@@ -19,6 +20,7 @@ class _ListHotelBySearchState extends State<ListHotelBySearch>
   bool _isLoading = false;
   List<Hotel> listHotel = [];
   List<Hotel> listHotel2 = [];
+  List<HotelImage> _hotelImage = [];
   String? checkInDate;
   String? checkInDate2;
   String? checkOutDate;
@@ -404,13 +406,15 @@ class _ListHotelBySearchState extends State<ListHotelBySearch>
       itemCount: (listHotel2.isNotEmpty) ? listHotel2.length : listHotel.length,
       itemBuilder: (context, index) {
         final currentList = (listHotel2.isNotEmpty) ? listHotel2 : listHotel;
-
+        HotelImage hotelImage = _hotelImage.length > index
+            ? _hotelImage[index]
+            : HotelImage();
         return
           // _hotels[index].isActive ?? false
           // ?
           ListHotelWidget(
             hotelId: currentList[index].hotelId.toString() ?? "",
-            image: currentList[index].image.toString() ?? "",
+            image: hotelImage.image.toString() ?? "",
             name: currentList[index].hotelName.toString() ?? "",
             rate: currentList[index].star ?? 0,
             basePrice: 200000,
@@ -453,5 +457,12 @@ class _ListHotelBySearchState extends State<ListHotelBySearch>
     // setState(() {
     //   _error = error;
     // });
+  }
+
+  @override
+  void onGetHotelImagesSuccess(List<HotelImage> hotels) {
+    setState(() {
+      _hotelImage = hotels;
+    });
   }
 }

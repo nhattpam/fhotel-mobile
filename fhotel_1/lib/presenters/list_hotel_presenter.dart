@@ -1,3 +1,4 @@
+import 'package:fhotel_1/data/models/hotel_image.dart';
 import 'package:fhotel_1/views/hotel_listing_nearby_screen/list_hotel_view.dart';
 
 import '../data/models/hotel.dart';
@@ -21,5 +22,32 @@ class HotelPresenter {
       _view.hideLoading(); // Hide loading after the process
     }
   }
+  void getHotelImage(String hotelId) async {
+    _view.showLoading();
+    try {
+      final roomImages = await _hotelService.getHotelImageByHotelId(hotelId);
+      _view.hideLoading();
+      _view.onGetHotelImagesSuccess(roomImages);
+    } catch (e) {
+      _view.hideLoading();
+      // _view.showError('Failed to load amenities');
+    }
+  }
+  Future<void> loadRoomImages(List<Hotel> hotelImage) async {
+    _view.showLoading();
+    List<HotelImage> hotelImages = [];
 
+    for (var image in hotelImage) {
+      try {
+        List<HotelImage> images = await _hotelService.getHotelImageByHotelId(image.hotelId.toString());
+        hotelImages.addAll(images); // Collect all images
+      } catch (error) {
+        print("Error fetching room images for ${image.hotelId}: $error");
+        // Handle the error appropriately, maybe add a placeholder or null image
+        hotelImages.add(HotelImage()); // Placeholder for failed requests
+      }
+    }
+    _view.hideLoading();
+    _view.onGetHotelImagesSuccess(hotelImages);
+  }
 }

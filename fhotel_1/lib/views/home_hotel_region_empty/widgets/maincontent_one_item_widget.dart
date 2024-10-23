@@ -81,12 +81,12 @@ import 'package:flutter/material.dart';
                           style: CustomTextStyles.titleSmallBlue,
                         ),
                         SizedBox(height: 6.h),
-                        Text(
-                          widget.description,
-                          style: CustomTextStyles.bodySmallWhiteA700,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                        )
+                        // Text(
+                        //   widget.description,
+                        //   style: CustomTextStyles.bodySmallWhiteA700,
+                        //   overflow: TextOverflow.ellipsis,
+                        //   maxLines: 1,
+                        // )
                       ],
                     ),
                   ),

@@ -1,3 +1,4 @@
+import 'package:fhotel_1/data/models/hotel_image.dart';
 import 'package:fhotel_1/data/repository/search_service.dart';
 import 'package:fhotel_1/presenters/search_presenter.dart';
 import 'package:fhotel_1/views/home_check_in_date_default/home_check_in_date_default.dart';
@@ -42,6 +43,7 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
   List<String> searchHistory = [];
   String roomType = ''; // Add a variable to store the search query
   int quantity = 0; // Add a variable to store the search query
+  List<HotelImage> _hotelImage = [];
 
   @override
   void initState() {
@@ -787,10 +789,14 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
               },
               itemCount: _hotels.length,
               itemBuilder: (context, index) {
+                HotelImage hotelImage = _hotelImage.length > index
+                    ? _hotelImage[index]
+                    : HotelImage();
+                print(hotelImage);
                 return _hotels[index].isActive ?? false
                     ? MaincontentOneltemWidget(
                         hotelId: _hotels[index].hotelId.toString(),
-                        image: _hotels[index].image.toString(),
+                        image: hotelImage.image.toString(),
                         name: _hotels[index].hotelName.toString(),
                         rate: _hotels[index]?.star ?? 0,
                         description: _hotels[index].description.toString(),
@@ -881,8 +887,9 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
   // Handle success: display list of hotels
   @override
   void onGetHotelsSuccess(List<Hotel> hotels) {
-    setState(() {
+    setState(() async {
       _hotels = hotels;
+      await _presenter.loadRoomImages(_hotels);
       _error = null;
     });
   }
@@ -908,6 +915,13 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
     setState(() {
       _error = error;
       _isLoading = false;
+    });
+  }
+
+  @override
+  void onGetHotelImagesSuccess(List<HotelImage> hotels) {
+    setState(() {
+      _hotelImage = hotels;
     });
   }
 }
