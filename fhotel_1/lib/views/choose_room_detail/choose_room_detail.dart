@@ -2,6 +2,8 @@ import 'package:fhotel_1/data/models/facility.dart';
 import 'package:fhotel_1/data/models/type.dart';
 import 'package:fhotel_1/data/models/user.dart';
 import 'package:fhotel_1/presenters/create_reservation.dart';
+import 'package:fhotel_1/views/checkout/checkout.dart';
+import 'package:fhotel_1/views/home_check_in_date_default/home_check_in_date_default.dart';
 import 'package:fhotel_1/views/home_hotel_region_empty/widgets/carouselunit_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart' as html;
@@ -42,9 +44,11 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
   double? _totalAmount = 0;
   List<Facility> _facilities = [];
   SessionManager sessionManager = SessionManager();
-
+  String? dateStarSelected;
+  String? dateEndSelected;
+  int quantity = 0;
   RoomType? _roomType;
-
+  bool error = false;
   @override
   void initState() {
     super.initState();
@@ -52,6 +56,9 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
     _createReservation = CreateReservation(this);
     _presenter.getRoomTypeById(widget.roomTypeId);
     _presenter.getFacilityByRoomTypeId(widget.roomTypeId);
+    dateStarSelected = widget.checkInDate;
+    dateEndSelected = widget.checkOutDate;
+    quantity = widget.numberOfRooms;
     _calculateTotalAmount();
   }
 
@@ -165,8 +172,8 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
       DateFormat inputFormat = DateFormat('dd/MM/yyyy');
 
       // Parse the date string
-      DateTime parsedInDate = inputFormat.parse(widget.checkInDate);
-      DateTime parsedOutDate = inputFormat.parse(widget.checkOutDate);
+      DateTime parsedInDate = inputFormat.parse(dateStarSelected.toString());
+      DateTime parsedOutDate = inputFormat.parse(dateEndSelected.toString());
 
       // Define the desired output format (ISO 8601 format)
       DateFormat outputFormat = DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
@@ -179,7 +186,7 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
         isoFormattedInDate,
         isoFormattedOutDate,
         widget.roomTypeId,
-        widget.numberOfRooms,
+        quantity,
       );
       setState(() {
         _totalAmount = amount; // Update the total amount in the state
@@ -191,6 +198,64 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Failed to calculate total amount")),
       );
+    }
+  }
+  void _showCalendarModalBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return HomeCheckInDateDefaultBottomsheet(
+          onDateStarSelected: (selectedDate) {
+            if (selectedDate != null) {
+              // Update the state with the selected date
+              setState(() {
+                // Format the date as desired
+                dateStarSelected = DateFormat('dd/MM/yyyy').format(selectedDate);
+              });
+            }
+          },
+          onDateEndSelected: (selectedDate) {
+            if (selectedDate != null) {
+              // Update the state with the selected date
+              setState(() {
+                // Format the date as desired
+                dateEndSelected = DateFormat('dd/MM/yyyy').format(selectedDate);
+              });
+            }
+          },
+        );
+      },
+    ).then((_) {
+      // This will execute after the modal bottom sheet is closed
+      _calculateTotalAmount();
+    });
+  }
+
+
+  void _incrementRooms() {
+    setState(() {
+      if (_roomType != null && _roomType!.availableRooms != null) {
+        if (quantity < _roomType!.availableRooms!) {
+          error = false;
+          quantity++;
+          _calculateTotalAmount();
+        } else {
+          error = true;
+        }
+      }
+    });
+  }
+
+
+
+
+  void _decrementRooms() {
+    if (quantity > 1) { // Ensure quantity doesn't go below 0
+      setState(() {
+        error = false;
+        quantity--;
+        _calculateTotalAmount();
+      });
     }
   }
 
@@ -381,33 +446,6 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
                                 ),
                               ),
                               SizedBox(height: 8.h),
-                              Container(
-                                // padding: EdgeInsets.symmetric(horizontal: 18.h),
-                                decoration: BoxDecoration(
-                                  color: appTheme.whiteA700,
-                                ),
-                                width: double.maxFinite,
-                                child: Row(
-                                  children: [
-                                    CustomImageView(
-                                      color: appTheme.black900.withOpacity(0.5),
-                                      imagePath: ImageConstant.imgIconWrapper24x24,
-                                      height: 18.h,
-                                      width: 18.h,
-                                    ),
-                                    Align(
-                                      alignment: Alignment.bottomCenter,
-                                      child: Padding(
-                                        padding: EdgeInsets.only(left: 8.h),
-                                        child: Text(
-                                          "Số phòng còn trống: ${_roomType?.availableRooms?.toString() ?? ''}",
-                                          style: theme.textTheme.bodyMedium,
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
                             ],
                           ),
                         )
@@ -460,27 +498,32 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
                             children: [
                               SizedBox(
                                 width: double.maxFinite,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Align(
-                                      alignment: Alignment.bottomCenter,
-                                      child: Padding(
-                                        padding: EdgeInsets.only(left: 8.h),
-                                        child: Text(
-                                          "Ngày",
-                                          style: theme.textTheme.bodyMedium,
+                                child: GestureDetector(
+                                  onTap: (){
+                                    _showCalendarModalBottomSheet(context);
+                                  },
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Align(
+                                        alignment: Alignment.bottomCenter,
+                                        child: Padding(
+                                          padding: EdgeInsets.only(left: 8.h),
+                                          child: Text(
+                                            "Ngày",
+                                            style: theme.textTheme.bodyMedium,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    const Spacer(),
-                                    Text(
-                                      widget.checkInDate +
-                                          "-" +
-                                          widget.checkOutDate,
-                                      style: theme.textTheme.titleSmall,
-                                    )
-                                  ],
+                                      const Spacer(),
+                                      Text(
+                                        dateStarSelected.toString() +
+                                            "-" +
+                                            dateEndSelected.toString(),
+                                        style: theme.textTheme.titleSmall,
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
                               SizedBox(height: 12.h),
@@ -489,20 +532,38 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Align(
-                                      alignment: Alignment.bottomCenter,
-                                      child: Padding(
-                                        padding: EdgeInsets.only(left: 8.h),
-                                        child: Text(
-                                          "Số phòng",
-                                          style: theme.textTheme.bodyMedium,
-                                        ),
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          if (error)
+                                            Text(
+                                              'Không đủ phòng còn trống',
+                                              style: TextStyle(color: Colors.red),
+                                            ),
+                                          Align(
+                                          alignment: Alignment.bottomCenter,
+                                          child: Padding(
+                                            padding: EdgeInsets.only(left: 8.h),
+                                            child: Text(
+                                              "Số phòng",
+                                              style: theme.textTheme.bodyMedium,
+                                            ),
+                                          ),
+                                                                              ),
+                                        ],
                                       ),
-                                    ),
                                     const Spacer(),
+                                    IconButton(
+                                      icon: Icon(Icons.remove),
+                                      onPressed: _decrementRooms,
+                                    ),
                                     Text(
-                                      widget.numberOfRooms.toString(),
+                                      quantity.toString(),
                                       style: theme.textTheme.titleSmall,
+                                    ),
+                                    IconButton(
+                                      icon: Icon(Icons.add),
+                                      onPressed: _incrementRooms,
                                     ),
                                   ],
                                 ),
@@ -643,13 +704,14 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
         bool isLoggedIn = await _checkUserSession(); // Check user session on init
         if (isLoggedIn) {
           if ((_totalAmount ?? 0) > 0 ) {
-            if ((_roomType?.availableRooms ?? 0) >= widget.numberOfRooms) {
+            if ((_roomType?.availableRooms ?? 0) >= quantity) {
               // Define the input date format
+
               DateFormat inputFormat = DateFormat('dd/MM/yyyy');
 
               // Parse the date string
-              DateTime parsedInDate = inputFormat.parse(widget.checkInDate);
-              DateTime parsedOutDate = inputFormat.parse(widget.checkOutDate);
+              DateTime parsedInDate = inputFormat.parse(dateStarSelected.toString());
+              DateTime parsedOutDate = inputFormat.parse(dateEndSelected.toString());
 
               // Define the desired output format (ISO 8601 format)
               DateFormat outputFormat = DateFormat(
@@ -665,7 +727,7 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
                 isoFormattedInDate,
                 isoFormattedOutDate,
                 widget.roomTypeId,
-                widget.numberOfRooms,
+                quantity
               );
               // Show success dialog
               AwesomeDialog(
@@ -679,8 +741,11 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
                   ),
                 ),
                 btnOkOnPress: () {
-                  print(newReservation);
-                  Navigator.pushReplacementNamed(context, AppRoutes.homePage);
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            CheckoutScreen(reservation: newReservation)),
+                  );
                 },
               ).show();
             } else {

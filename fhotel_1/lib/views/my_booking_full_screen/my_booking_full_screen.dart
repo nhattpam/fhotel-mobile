@@ -121,4 +121,9 @@ class MyBookingFullScreenState extends State<MyBookingFullScreen>
   void showLoading() {
     // TODO: implement showLoading
   }
+
+  @override
+  void onGetReservationSuccess(Reservation reservation) {
+    // TODO: implement onGetReservationSuccess
+  }
 }

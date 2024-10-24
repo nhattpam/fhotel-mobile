@@ -293,7 +293,7 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> {
                               // ),
                               SizedBox(height: 2.h),
                               Text(
-                               "Room size: ${widget.reservation.roomType?.roomSize} m2",
+                               "Kích thước phòng: ${widget.reservation.roomType?.roomSize} m2",
                                 style: theme.textTheme.bodySmall,
                               )
                             ],

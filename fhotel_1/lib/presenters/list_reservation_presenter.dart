@@ -22,4 +22,19 @@ class ListReservationPresenter {
     }
   }
 
+  Future<void> getReservationById(String reservationId) async {
+    _view.showLoading(); // Show loading before fetching data
+    try {
+      // Call the network method to get the customer by ID
+      final reservation = await _reservationRepo.getReservationByReservationId(reservationId);
+      // Notify the view about success
+      _view.onGetReservationSuccess(reservation);
+    } catch (error) {
+      // Notify the view about failure
+      _view.onGetReservationsError('Error fetching reservation: $error');
+    } finally{
+      _view.hideLoading(); // Hide loading after the process
+    }
+  }
+
 }

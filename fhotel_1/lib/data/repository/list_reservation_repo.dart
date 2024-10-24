@@ -27,4 +27,24 @@ class ListReservationRepo {
     }
   }
 
+  Future<Reservation> getReservationByReservationId(String reservationId) async {
+
+    final url = Uri.parse('$_baseUrl/reservations/$reservationId');
+
+    final response = await http.get(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final responseData = json.decode(response.body);
+
+      return Reservation.fromJson(responseData);
+    } else {
+      throw Exception('Failed to fetch reservation.');
+    }
+  }
+
 }

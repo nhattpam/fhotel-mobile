@@ -18,6 +18,7 @@ class CreateReservation {
       String roomTypeId,
       int numberOfRooms,
       ) async {
+
     try {
       // Create a reservation object to calculate the total amount
       Reservation reservationToCalculate = Reservation(
@@ -41,21 +42,22 @@ class CreateReservation {
       );
 
       // Call the repository to persist the reservation
-      await _repository.create(reservation);
+      Reservation createdReservation = await _repository.create(reservation);
 
       // Notify the view of success
       _view.onCreateSuccess();
 
       // Return the created reservation
-      return reservation;
+      return createdReservation;
     } catch (error) {
       // If there's an error, notify the view of the failure
       _view.onCreateError("Failed to create reservation");
 
-      // Optionally, return null or throw an error if reservation creation fails
+      // Throw an error if reservation creation fails
       throw Exception("Failed to create reservation");
     }
   }
+
 
 
   Future<double?> createReservationToCalculate(

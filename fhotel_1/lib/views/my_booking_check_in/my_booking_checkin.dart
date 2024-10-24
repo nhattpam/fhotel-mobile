@@ -209,10 +209,13 @@ class MyBookingCheckinState extends State<MyBookingCheckin> implements ListRoomS
         );
       },
       itemBuilder: (context, RoomStayHistory histories) {
-        String formattedCheckInDate = DateFormat('dd-MM-yyyy').format(DateTime.parse(histories.checkInDate.toString()));
+        // String formattedCheckInDate = DateFormat('HH:mm dd-MM-yyyy').format(DateTime.parse(histories.checkInDate.toString()));
+        String formattedCheckInDate = "${DateFormat('HH:mm').format(DateTime.parse(histories.checkInDate.toString()))}, Ngày ${DateFormat('dd-MM-yyyy').format(DateTime.parse(histories.checkInDate.toString()))}";
+
         String? formattedCheckOutDate;
         if (histories.checkOutDate != null) {
-          formattedCheckOutDate = DateFormat('dd-MM-yyyy').format(DateTime.parse(histories.checkOutDate.toString()));
+          // formattedCheckOutDate = DateFormat('HH:mm dd-MM-yyyy').format(DateTime.parse(histories.checkOutDate.toString()));
+          formattedCheckOutDate = "${DateFormat('HH:mm').format(DateTime.parse(histories.checkOutDate.toString()))} Day ${DateFormat('dd-MM-yyyy').format(DateTime.parse(histories.checkOutDate.toString()))}";
         } else {
           formattedCheckOutDate = "Chưa xác định"; // Default value for null check-out date
         }

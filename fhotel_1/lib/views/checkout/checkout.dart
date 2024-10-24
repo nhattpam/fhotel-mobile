@@ -1,8 +1,11 @@
 import 'package:fhotel_1/data/models/reservation.dart';
+import 'package:fhotel_1/data/repository/list_reservation_repo.dart';
+import 'package:fhotel_1/views/tabbar_booking_and_service/list_reservation_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart' as html;
 
 import '../../core/app_export.dart';
+import '../../presenters/list_reservation_presenter.dart';
 
 // ignore_for_file: must be_ immutable
 class CheckoutScreen extends StatefulWidget {
@@ -14,15 +17,22 @@ class CheckoutScreen extends StatefulWidget {
   CheckoutScreenState createState() => CheckoutScreenState();
 }
 
-class CheckoutScreenState extends State<CheckoutScreen> {
+class CheckoutScreenState extends State<CheckoutScreen> implements ListReservationView {
   TextEditingController listmasteroneController = TextEditingController();
   int? numberOfDays;
   String? checkInDate;
   String? checkOutDate;
+  String selectedPaymentMethod = "Vui lòng chọn phương thức thanh toán"; // Default text
+  late ListReservationPresenter _presenter;
+  String? _error;
+  bool _isLoading = false;
+  Reservation? _reservation;
 
   @override
   void initState() {
     super.initState();
+    _presenter = ListReservationPresenter(this, ListReservationRepo());
+    _presenter.getReservationById(widget.reservation.reservationId.toString());
     _calculateDates();
   }
 
@@ -46,6 +56,51 @@ class CheckoutScreenState extends State<CheckoutScreen> {
     }
   }
 
+  void _showPaymentMethodBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          padding: EdgeInsets.all(16.h),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                "Phương thức thanh toán",
+                style: theme.textTheme.titleMedium,
+              ),
+              SizedBox(height: 20.h),
+              ListTile(
+                leading: CustomImageView(
+                  imagePath: ImageConstant.imgImg, // Replace with your payment method image
+                  height: 40.h,
+                  width: 40.h,
+                  radius: BorderRadius.circular(14.h),
+                ),
+                title: Text("VNPay"),
+                onTap: () {
+                  setState(() {
+                    selectedPaymentMethod = "VNPay"; // Update the state
+                  });
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.payment),
+                title: Text("Thanh toán tại khách sạn"),
+                onTap: () {
+                  setState(() {
+                    selectedPaymentMethod = "Thanh toán tại khách sạn"; // Update the state
+                  });
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -69,15 +124,17 @@ class CheckoutScreenState extends State<CheckoutScreen> {
                       children: [
                         _buildordersummary(context),
                         SizedBox(height: 8.h),
-                        _buildAdditional(context),
-                        SizedBox(height: 8.h),
-                        _buildPaymentmethod(context),
+                        // _buildAdditional(context),
+                        // SizedBox(height: 8.h),
+                        _buildPaymentMethod(context),
                         SizedBox(height: 8.h),
                         _buildAdditionalone(context),
                         SizedBox(height: 8.h),
                         _buildColumntitlecont(context),
                         SizedBox(height: 8.h),
-                        _buildColumntitlepric(context)
+                        _buildColumntitlepric(context),
+                        SizedBox(height: 8.h),
+                        _buildRowxablc(context)
                       ],
                     ),
                   ),
@@ -233,7 +290,7 @@ class CheckoutScreenState extends State<CheckoutScreen> {
                       SizedBox(width: 8.h),
                       Expanded(
                         child: Text(
-                          (widget.reservation.roomType?.hotel?.hotelName)
+                          (_reservation?.roomType?.hotel?.hotelName)
                               .toString(),
                           style: CustomTextStyles.bodyMediumwhiteA700,
                           maxLines: 1,
@@ -288,8 +345,8 @@ class CheckoutScreenState extends State<CheckoutScreen> {
                               // ),
                               SizedBox(height: 2.h),
                               Text(
-                                (widget.reservation.roomType?.roomSize)
-                                    .toString(),
+                                "Kích thước phòng" +(widget.reservation.roomType?.roomSize)
+                                    .toString() + " m2",
                                 style: theme.textTheme.bodySmall,
                               )
                             ],
@@ -353,44 +410,6 @@ class CheckoutScreenState extends State<CheckoutScreen> {
                     children: [
                       CustomImageView(
                         color: appTheme.black900.withOpacity(0.5),
-                        imagePath: ImageConstant.imgIconWrapper11,
-                        height: 24.h,
-                        width: 24.h,
-                      ),
-                      SizedBox(width: 8.h),
-                      Expanded(
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Khách",
-                                style: theme.textTheme.bodyMedium,
-                              ),
-                              SizedBox(height: 6.h),
-                              Text(
-                                "2 người lớn, 1 trẻ em",
-                                style: theme.textTheme.titleSmall,
-                              )
-                            ],
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                SizedBox(height: 8.h),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16.h),
-                  decoration: BoxDecoration(
-                    color: appTheme.whiteA700,
-                  ),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomImageView(
-                        color: appTheme.black900.withOpacity(0.5),
                         imagePath: ImageConstant.imgIconWrapper16,
                         height: 24.h,
                         width: 24.h,
@@ -408,7 +427,7 @@ class CheckoutScreenState extends State<CheckoutScreen> {
                               ),
                               SizedBox(height: 6.h),
                               Text(
-                                (widget.reservation.roomType?.type?.typeName)
+                                (_reservation?.roomType?.type?.typeName)
                                     .toString(),
                                 style: theme.textTheme.titleSmall,
                               )
@@ -567,111 +586,114 @@ class CheckoutScreenState extends State<CheckoutScreen> {
     );
   }
 
-  Widget _buildAdditional(BuildContext context) {
-    return Container(
-      width: double.maxFinite,
-      padding: EdgeInsets.symmetric(
-        horizontal: 16.h,
-        vertical: 10.h,
-      ),
-      decoration: BoxDecoration(
-        color: appTheme.whiteA700,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox(height: 2.h),
-          Text(
-            "Chính sách khách sạn và phòng",
-            style: theme.textTheme.titleMedium,
-          ),
-          SizedBox(height: 10.h),
-          Text(
-            "Áp dụng chính sách hủy phòng \nMiễn phí hủy trước 26-thg 5-2022 14:00. Nếu hủy hoặc sửa đổi sau 26-thg 5-2022 14:01, phí hủy đặt phòng sẽ được tính.",
-            maxLines: 4,
-            overflow: TextOverflow.ellipsis,
-            style: theme.textTheme.bodyMedium!.copyWith(
-              height: 1.50,
-            ),
-          )
-        ],
-      ),
-    );
-  }
+  // Widget _buildAdditional(BuildContext context) {
+  //   return Container(
+  //     width: double.maxFinite,
+  //     padding: EdgeInsets.symmetric(
+  //       horizontal: 16.h,
+  //       vertical: 10.h,
+  //     ),
+  //     decoration: BoxDecoration(
+  //       color: appTheme.whiteA700,
+  //     ),
+  //     child: Column(
+  //       crossAxisAlignment: CrossAxisAlignment.start,
+  //       mainAxisAlignment: MainAxisAlignment.center,
+  //       children: [
+  //         SizedBox(height: 2.h),
+  //         Text(
+  //           "Chính sách khách sạn và phòng",
+  //           style: theme.textTheme.titleMedium,
+  //         ),
+  //         SizedBox(height: 10.h),
+  //         Text(
+  //           "Áp dụng chính sách hủy phòng \nMiễn phí hủy trước 26-thg 5-2022 14:00. Nếu hủy hoặc sửa đổi sau 26-thg 5-2022 14:01, phí hủy đặt phòng sẽ được tính.",
+  //           maxLines: 4,
+  //           overflow: TextOverflow.ellipsis,
+  //           style: theme.textTheme.bodyMedium!.copyWith(
+  //             height: 1.50,
+  //           ),
+  //         )
+  //       ],
+  //     ),
+  //   );
+  // }
 
-  Widget _buildPaymentmethod(BuildContext context) {
-    return Container(
-      width: double.maxFinite,
-      padding: EdgeInsets.symmetric(
-        horizontal: 16.h,
-        vertical: 12.h,
-      ),
-      decoration: BoxDecoration(
-        color: appTheme.whiteA700,
-      ),
-      child: Column(
-        children: [
-          SizedBox(
-            width: double.maxFinite,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Phương thức thanh toán",
-                  style: theme.textTheme.titleMedium,
-                ),
-                // CustomImageView(
-                //   imagePath: ImageConstant.imgArrowRightGray600,
-                //   height: 24.h,
-                //   width: 24.h,
-                // )
-              ],
+  Widget _buildPaymentMethod(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        _showPaymentMethodBottomSheet(context);
+      },
+      child: Container(
+        width: double.maxFinite,
+        padding: EdgeInsets.symmetric(
+          horizontal: 16.h,
+          vertical: 12.h,
+        ),
+        decoration: BoxDecoration(
+          color: appTheme.whiteA700,
+        ),
+        child: Column(
+          children: [
+            SizedBox(
+              width: double.maxFinite,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Phương thức thanh toán",
+                    style: theme.textTheme.titleMedium,
+                  ),
+                  CustomImageView(
+                    imagePath: ImageConstant.imgArrowRightGray600,
+                    height: 24.h,
+                    width: 24.h,
+                  )
+                ],
+              ),
             ),
-          ),
-          SizedBox(height: 10.h),
-          Container(
-            decoration: BoxDecoration(
-              color: appTheme.whiteA700,
-            ),
-            width: double.maxFinite,
-            child: Row(
-              children: [
-                Container(
-                  height: 40.h,
-                  width: 40.h,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadiusStyle.circleBorder12,
-                    border: Border.all(
-                      color: appTheme.black900.withOpacity(0.05),
-                      width: 1.h,
+            SizedBox(height: 10.h),
+            Container(
+              decoration: BoxDecoration(
+                color: appTheme.whiteA700,
+              ),
+              width: double.maxFinite,
+              child: Row(
+                children: [
+                  Container(
+                    height: 40.h,
+                    width: 40.h,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12.h),
+                      border: Border.all(
+                        color: appTheme.black900.withOpacity(0.05),
+                        width: 1.h,
+                      ),
+                    ),
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        CustomImageView(
+                          imagePath: ImageConstant.imgImg,
+                          height: 40.h,
+                          width: double.maxFinite,
+                          radius: BorderRadius.circular(14.h),
+                        )
+                      ],
                     ),
                   ),
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      CustomImageView(
-                        imagePath: ImageConstant.imgImg,
-                        height: 40.h,
-                        width: double.maxFinite,
-                        radius: BorderRadius.circular(
-                          14.h,
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 8.h),
-                  child: Text(
-                    "VIB 006969",
-                    style: theme.textTheme.titleSmall,
-                  ),
-                )
-              ],
-            ),
-          )
-        ],
+                  Padding(
+                    padding: EdgeInsets.only(left: 8.h),
+                    child: Text(
+                      selectedPaymentMethod, // Use the selected payment method
+                      style: theme.textTheme.titleSmall,
+                    ),
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -721,7 +743,7 @@ class CheckoutScreenState extends State<CheckoutScreen> {
                         ),
                         SizedBox(height: 6.h),
                         Text(
-                          (widget.reservation.customer?.name).toString(),
+                          (_reservation?.customer?.name).toString(),
                           style: theme.textTheme.titleSmall,
                         )
                       ],
@@ -761,7 +783,7 @@ class CheckoutScreenState extends State<CheckoutScreen> {
                 context,
                 labelguestTwo: "Họ tên",
                 datavalueone:
-                (widget.reservation.customer?.name).toString()
+                (_reservation?.customer?.name).toString()
             ),
           ),
           SizedBox(
@@ -770,7 +792,7 @@ class CheckoutScreenState extends State<CheckoutScreen> {
               context,
               labelguestTwo: "Sô điện thoại",
               datavalueone:
-              (widget.reservation.customer?.phoneNumber).toString(),
+              (_reservation?.customer?.phoneNumber).toString(),
             ),
           ),
           SizedBox(
@@ -778,7 +800,7 @@ class CheckoutScreenState extends State<CheckoutScreen> {
             child: _buildWrapperFive(
               context,
               labelguestTwo: "Email",
-              datavalueone: (widget.reservation.customer?.email).toString(),
+              datavalueone: (_reservation?.customer?.email).toString(),
             ),
           )
         ],
@@ -811,17 +833,15 @@ class CheckoutScreenState extends State<CheckoutScreen> {
             child: _buildWrapperFive(context,
                 labelguestTwo: (widget.reservation.numberOfRooms).toString() +
                     " Phòng " +
-                    (widget.reservation.roomType?.hotel?.hotelName).toString(),
+                    (_reservation?.roomType?.hotel?.hotelName).toString(),
                 datavalueone: NumberFormat('#,###', 'en_US')
                     .format(widget.reservation.totalAmount) +
                     " ₫"),
           ),
-          SizedBox(height: 6.h),
           // SizedBox(
           //   width: double.maxFinite,
           //   child: Divider(),
           // ),
-          SizedBox(height: 8.h),
           SizedBox(height: 8.h),
           SizedBox(
             width: double.maxFinite,
@@ -911,4 +931,83 @@ class CheckoutScreenState extends State<CheckoutScreen> {
       ),
     );
   }
+  Widget _buildXabIc(BuildContext context) {
+    return Expanded(
+      child: CustomOutlinedButton(
+        height: 40.h,
+        text: "Hủy đặt phòng",
+        buttonStyle: CustomButtonStyles.outlineBlue,
+        buttonTextStyle: CustomTextStyles.bodyLargeBlue,
+      ),
+    );
+  }
+
+  Widget _buildPdng(BuildContext context) {
+    return Expanded(
+      child: CustomElevatedButton(
+        text: "Thanh toán",
+        buttonStyle: CustomButtonStyles.fillBlue,
+        buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,
+      ),
+    );
+  }
+  Widget _buildRowxablc(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.fromLTRB(16.h, 6.h, 16.h, 8.h),
+      decoration: BoxDecoration(
+        color: appTheme.whiteA700,
+        border: Border(
+          top: BorderSide(
+            color: appTheme.blueGray50,
+            width: 1.h,
+          ),
+        ),
+      ),
+      width: double.maxFinite,
+      child: Row(
+        children: [
+          _buildXabIc(context),
+          SizedBox(width: 8.h),
+          _buildPdng(context)
+        ],
+      ),
+    );
+  }
+
+  @override
+  void onGetReservationSuccess(Reservation reservation) {
+    // TODO: implement onGetReservationSuccess
+    setState(() {
+      _reservation = reservation;
+    });
+  }
+
+  @override
+  void onGetReservationsError(String error) {
+    setState(() {
+      _error = error;
+     });
+  }
+
+  @override
+  void onGetReservationsSuccess(List<Reservation> reservations) {
+    // TODO: implement onGetReservationsSuccess
+  }
+
+  // Show loading indicator
+  @override
+  void showLoading() {
+    setState(() {
+      _isLoading = true;
+    });
+  }
+
+  // Hide loading indicator
+  @override
+  void hideLoading() {
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
 }
