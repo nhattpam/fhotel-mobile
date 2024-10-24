@@ -19,21 +19,27 @@ Future<void> _initializeSessionManager() async {
 }
 
 class MyApp extends StatelessWidget {
-  bool isCustomer = SessionManager().getUserId()?.isNotEmpty ?? false;
-
   @override
   Widget build(BuildContext context) {
+    // Determine if the user is a customer or guest
+    bool isCustomer = _isCustomer();
     return Sizer(
       builder: (context, orientation, deviceType) {
         return MaterialApp(
           theme: theme,
           title: 'hotel',
           debugShowCheckedModeBanner: false,
-          initialRoute:
-          isCustomer ? AppRoutes.homePage : AppRoutes.initialRoute,
+          initialRoute: isCustomer ? AppRoutes.homePage : AppRoutes.initialRoute,
           routes: AppRoutes.routes,
         );
       },
     );
+  }
+
+  bool _isCustomer() {
+    final sessionManager = SessionManager();
+    bool isGuest = sessionManager.getGuest() == 'guest';
+    bool isLoggedIn = sessionManager.getUserId()?.isNotEmpty ?? false;
+    return isGuest || isLoggedIn;
   }
 }

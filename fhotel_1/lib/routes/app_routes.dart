@@ -1,5 +1,4 @@
 import 'package:fhotel_1/views/change_password/change_password.dart';
-import 'package:fhotel_1/views/checkout/checkout.dart';
 import 'package:fhotel_1/views/choose_room/choose_room.dart';
 import 'package:fhotel_1/views/edit_user_profile/edit_user_profile.dart';
 import 'package:fhotel_1/views/home_hotel_region_empty/home_hotel_region_empty.dart';
@@ -46,7 +45,7 @@ class AppRoutes {
 
   ///Guest fill information
   // static const String guestInformation = '/guest_information_book';
-  static const String guestCheckout = '/checkout';
+  // static const String guestCheckout = '/checkout';
   static const String guestPayment = '/successful_payment_screen';
   static const String userProfile = '/edit_user_profile';
   static const String userChangePassword = '/change_password';
@@ -75,7 +74,7 @@ class AppRoutes {
 
     ///Guest fill information
     // guestInformation: (context) => GuestInformationBookForOthersScreen(),
-    guestCheckout: (context) => CheckoutScreen(),
+    // guestCheckout: (context) => CheckoutScreen(),
     guestPayment: (context) => SuccessfulPaymentScreen(),
     userProfile: (context) => EditProfileScreen(),
     userChangePassword: (context) => ChangePasswordScreen(),

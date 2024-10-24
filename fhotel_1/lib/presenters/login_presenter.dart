@@ -38,7 +38,6 @@ class LoginPresenter {
     // Validate the form
     final emailError = validateEmail(email);
     final passwordError = validatePassword(password);
-
     if (emailError != null) {
       _view.showValidationError('email', emailError);
       return;
@@ -59,4 +58,5 @@ class LoginPresenter {
       _view.onLoginError("Đăng nhập thất bại");
     }
   }
+
 }

@@ -97,7 +97,9 @@ class Maincontent7ItemWidgetState extends State<Maincontent7ItemWidget> {
                   )
                 ],
               ),
-            )
+            ),
+            SizedBox(height: 6.h),
+
           ],
         ),
       ),

@@ -1,4 +1,5 @@
 import 'package:fhotel_1/data/models/reservation.dart';
+import 'package:fhotel_1/views/my_booking_check_in/my_booking_checkin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart' as html;
 
@@ -77,7 +78,11 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> {
                         SizedBox(height: 8.h),
                         _buildColumntitlecont(context),
                         SizedBox(height: 8.h),
-                        _buildColumntitlepric(context)
+                        _buildColumntitlepric(context),
+                        SizedBox(height: 8.h),
+                        (widget.reservation.reservationStatus == 'Pending')
+                        ? SizedBox()
+                        : _buildColumnsave(context)
                       ],
                     ),
                   ),
@@ -288,8 +293,7 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> {
                               // ),
                               SizedBox(height: 2.h),
                               Text(
-                                (widget.reservation.roomType?.roomSize)
-                                    .toString(),
+                               "Room size: ${widget.reservation.roomType?.roomSize} m2",
                                 style: theme.textTheme.bodySmall,
                               )
                             ],
@@ -298,7 +302,7 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> {
                       ),
                       SizedBox(width: 20.h),
                       Text(
-                        "x " + (widget.reservation.numberOfRooms).toString(),
+                        "x ${widget.reservation.numberOfRooms}",
                         style: theme.textTheme.titleSmall,
                       )
                     ],
@@ -809,12 +813,9 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> {
           SizedBox(
             width: double.maxFinite,
             child: _buildWrapperFive(context,
-                labelguestTwo: (widget.reservation.numberOfRooms).toString() +
-                    " Phòng " +
-                    (widget.reservation.roomType?.hotel?.hotelName).toString(),
-                datavalueone: NumberFormat('#,###', 'en_US')
-                        .format(widget.reservation.totalAmount) +
-                    " ₫"),
+                labelguestTwo: "${widget.reservation.numberOfRooms} Phòng ${widget.reservation.roomType?.hotel?.hotelName}",
+                datavalueone: "${NumberFormat('#,###', 'en_US')
+                        .format(widget.reservation.totalAmount)} ₫"),
           ),
           SizedBox(height: 6.h),
           // SizedBox(
@@ -822,14 +823,37 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> {
           //   child: Divider(),
           // ),
           SizedBox(height: 8.h),
-          SizedBox(height: 8.h),
           SizedBox(
             width: double.maxFinite,
             child: _buildWrapperFive(context,
                 labelguestTwo: "Tổng cộng",
-                datavalueone: NumberFormat('#,###', 'en_US')
-                        .format(widget.reservation.totalAmount) +
-                    " ₫"),
+                datavalueone: "${NumberFormat('#,###', 'en_US')
+                        .format(widget.reservation.totalAmount)} ₫"),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _buildColumnsave(BuildContext context) {
+    return Container(
+      width: double.maxFinite,
+      padding: EdgeInsets.symmetric(horizontal: 24.h),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          CustomElevatedButton(
+            onPressed: (){
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                    builder: (context) =>
+                        MyBookingCheckin(reservation: widget.reservation)),
+              );
+            },
+            text: "Check-in",
+            margin: EdgeInsets.only(bottom: 12.h),
+            buttonStyle: CustomButtonStyles.fillBlue,
+            buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,
           )
         ],
       ),

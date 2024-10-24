@@ -7,11 +7,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart' as html;
 
 import '../../core/app_export.dart';
+import '../../data/models/reservation.dart';
 import '../../data/models/room_image.dart';
 import '../../data/models/room_types.dart';
 import '../../data/repository/list_room_type_repo.dart';
 import '../../presenters/list_room_type_presenter.dart';
 import '../choose_room/choose_room_view.dart';
+import '../my_booking_details/my_booking_details.dart';
 import 'create_reservation_view.dart';
 
 class ChooseRoomRoomDetailScreen extends StatefulWidget {
@@ -50,17 +52,23 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
     _createReservation = CreateReservation(this);
     _presenter.getRoomTypeById(widget.roomTypeId);
     _presenter.getFacilityByRoomTypeId(widget.roomTypeId);
+    _calculateTotalAmount();
   }
 
-  Future<void> _checkUserSession() async {
+  Future<bool> _checkUserSession() async {
     await sessionManager.init(); // Initialize session manager
     String? userId = sessionManager.getUserId();
 
     if (userId == null || userId.isEmpty) {
-      // If userId is not available, redirect to login or any other page
+      // If userId is not available, return false and show the login dialog
       _showLoginDialog();
+      return false;
     }
+
+    // If userId exists, user is logged in, return true
+    return true;
   }
+
 
   void _showLoginDialog() {
     showDialog(
@@ -372,6 +380,34 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
                                   ],
                                 ),
                               ),
+                              SizedBox(height: 8.h),
+                              Container(
+                                // padding: EdgeInsets.symmetric(horizontal: 18.h),
+                                decoration: BoxDecoration(
+                                  color: appTheme.whiteA700,
+                                ),
+                                width: double.maxFinite,
+                                child: Row(
+                                  children: [
+                                    CustomImageView(
+                                      color: appTheme.black900.withOpacity(0.5),
+                                      imagePath: ImageConstant.imgIconWrapper24x24,
+                                      height: 18.h,
+                                      width: 18.h,
+                                    ),
+                                    Align(
+                                      alignment: Alignment.bottomCenter,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(left: 8.h),
+                                        child: Text(
+                                          "Số phòng còn trống: ${_roomType?.availableRooms?.toString() ?? ''}",
+                                          style: theme.textTheme.bodyMedium,
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
                         )
@@ -604,42 +640,80 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
   Widget _buildChnphng(BuildContext context) {
     return CustomElevatedButton(
       onPressed: () async {
-        _checkUserSession(); // Check user session on init
+        bool isLoggedIn = await _checkUserSession(); // Check user session on init
+        if (isLoggedIn) {
+          if ((_totalAmount ?? 0) > 0 ) {
+            if ((_roomType?.availableRooms ?? 0) >= widget.numberOfRooms) {
+              // Define the input date format
+              DateFormat inputFormat = DateFormat('dd/MM/yyyy');
 
-        // Define the input date format
-        DateFormat inputFormat = DateFormat('dd/MM/yyyy');
+              // Parse the date string
+              DateTime parsedInDate = inputFormat.parse(widget.checkInDate);
+              DateTime parsedOutDate = inputFormat.parse(widget.checkOutDate);
 
-        // Parse the date string
-        DateTime parsedInDate = inputFormat.parse(widget.checkInDate);
-        DateTime parsedOutDate = inputFormat.parse(widget.checkOutDate);
+              // Define the desired output format (ISO 8601 format)
+              DateFormat outputFormat = DateFormat(
+                  "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
-        // Define the desired output format (ISO 8601 format)
-        DateFormat outputFormat = DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+              // Format the parsed date to the desired format
+              String isoFormattedInDate = outputFormat.format(parsedInDate);
+              String isoFormattedOutDate = outputFormat.format(parsedOutDate);
 
-        // Format the parsed date to the desired format
-        String isoFormattedInDate = outputFormat.format(parsedInDate);
-        String isoFormattedOutDate = outputFormat.format(parsedOutDate);
-        await _createReservation.createReservation(
-            (isoFormattedInDate).toString(),
-            (isoFormattedOutDate).toString(),
-            widget.roomTypeId,
-            widget.numberOfRooms);
-        AwesomeDialog(
-          context: context,
-          animType: AnimType.scale,
-          dialogType: DialogType.success,
-          body: const Center(
-            child: Text(
-              'Book success!!!',
-              style: TextStyle(fontStyle: FontStyle.italic),
-            ),
-          ),
-          // title: 'Warning',
-          // desc:   'This is also Ignored',
-          btnOkOnPress: () {
-            Navigator.pushNamed(context, AppRoutes.guestCheckout);
-          },
-        ).show();
+              // Call the createReservation method
+              Reservation newReservation = await _createReservation
+                  .createReservation(
+                isoFormattedInDate,
+                isoFormattedOutDate,
+                widget.roomTypeId,
+                widget.numberOfRooms,
+              );
+              // Show success dialog
+              AwesomeDialog(
+                context: context,
+                animType: AnimType.scale,
+                dialogType: DialogType.success,
+                body: const Center(
+                  child: Text(
+                    'Đặt thành công!!!',
+                    style: TextStyle(fontStyle: FontStyle.italic),
+                  ),
+                ),
+                btnOkOnPress: () {
+                  print(newReservation);
+                  Navigator.pushReplacementNamed(context, AppRoutes.homePage);
+                },
+              ).show();
+            } else {
+              AwesomeDialog(
+                context: context,
+                animType: AnimType.scale,
+                dialogType: DialogType.error,
+                body: const Center(
+                  child: Text(
+                    'Không đủ số lượng phòng trống để đặt',
+                    style: TextStyle(fontStyle: FontStyle.italic),
+                  ),
+                ),
+                btnCancelText: 'Quay lại',
+                btnCancelOnPress: () {},
+              ).show();
+            }
+          } else{
+            AwesomeDialog(
+              context: context,
+              animType: AnimType.scale,
+              dialogType: DialogType.error,
+              body: const Center(
+                child: Text(
+                  'Ngày bạn đặt chưa có giá',
+                  style: TextStyle(fontStyle: FontStyle.italic),
+                ),
+              ),
+              btnCancelText: 'Quay lại',
+              btnCancelOnPress: () {},
+            ).show();
+          }
+        }
       },
       text: "Đặt phòng",
       buttonStyle: CustomButtonStyles.fillBlue,

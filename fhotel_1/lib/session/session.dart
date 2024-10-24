@@ -27,6 +27,14 @@ class SessionManager {
   String? getUserId() {
     return _preferences?.getString('userId');
   }
+  void setGuest(String guest) {
+    _preferences?.setString('guest', guest);
+  }
+
+  // Get the user ID from the session
+  String? getGuest() {
+    return _preferences?.getString('guest');
+  }
 // Save search history to the session
   void setSearchHistory(List<String> searchHistory) {
     _preferences?.setString('searchHistory', json.encode(searchHistory));

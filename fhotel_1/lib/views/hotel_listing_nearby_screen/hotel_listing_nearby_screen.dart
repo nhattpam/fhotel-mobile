@@ -1,20 +1,12 @@
 import 'package:fhotel_1/core/app_export.dart';
 import 'package:fhotel_1/core/utils/skeleton.dart';
-import 'package:fhotel_1/data/models/facility.dart';
 import 'package:fhotel_1/data/models/hotel_image.dart';
-import 'package:fhotel_1/data/models/room_image.dart';
-import 'package:fhotel_1/data/models/room_types.dart';
-import 'package:fhotel_1/data/models/type.dart';
-import 'package:fhotel_1/data/repository/list_room_type_repo.dart';
-import 'package:fhotel_1/views/choose_room/choose_room_view.dart';
 import 'package:fhotel_1/views/hotel_listing_filter_bottomsheet/hotel_listing_filter_bottomsheet.dart';
-import 'package:fhotel_1/views/hotel_listing_nearby_screen/widgets/list_one_item_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../../data/models/hotel.dart';
 import '../../data/repository/list_hotel_repo.dart';
 import '../../presenters/list_hotel_presenter.dart';
-import '../../presenters/list_room_type_presenter.dart';
 import 'list_hotel_view.dart';
 
 class HotelListingNearbyScreen extends StatefulWidget {
@@ -24,21 +16,18 @@ class HotelListingNearbyScreen extends StatefulWidget {
 }
 
 class _HotelListingNearbyScreenState extends State<HotelListingNearbyScreen>
-    implements ListHotelView, ChooseRoomView {
+    implements ListHotelView{
   late HotelPresenter _presenter;
-  late ListRoomTypePresenter _listRoomTypePresenter;
   bool _isLoading = false;
   List<Hotel> _hotels = [];
-  List<RoomType> _roomTypes = [];
   String? _error;
   List<HotelImage> _hotelImage = [];
-
+  String hotelImage = 'https://casf.com.au/wp-content/uploads/2022/01/silver_grey.png';
   @override
   void initState() {
     super.initState();
     _presenter = HotelPresenter(this, ListHotelRepo());
     _presenter.getHotels(); // Fetch the list of hotels when the screen loads
-    _listRoomTypePresenter = ListRoomTypePresenter(this, ListRoomTypeRepo());
   }
 
   void _showHotelFilterModalBottomSheet(BuildContext context) {
@@ -350,21 +339,163 @@ class _HotelListingNearbyScreenState extends State<HotelListingNearbyScreen>
             },
             itemCount: _hotels.length,
             itemBuilder: (context, index) {
-              _listRoomTypePresenter.getRoomTypesByHotelId(_hotels[index].hotelId.toString());
-              HotelImage hotelImage = _hotelImage.length > index
-                  ? _hotelImage[index]
-                  : HotelImage();
-              return
-                  // _hotels[index].isActive ?? false
-                  // ?
-                  ListHotelWidget(
-                hotelId: _hotels[index].hotelId.toString(),
-                image: hotelImage.image.toString(),
-                name: _hotels[index].hotelName.toString(),
-                rate: _hotels[index]?.star ?? 0,
-                basePrice: 0, checkInDate: '', checkOutDate: '', numberOfRooms: 0,
+              return GestureDetector(
+                onTap: () {
+                  Navigator.pushReplacementNamed(
+                    context,
+                    AppRoutes.hotelDetail,
+                    arguments: {
+                      'hotelId': _hotels[index].hotelId.toString(),
+                      "checkInDate":  '25/10/2024',
+                      "checkOutDate": '27/10/2024',
+                      "numberOfRooms": 3,
+                    },
+                  );
+                },
+                child: Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 12.h,
+                    vertical: 10.h,
+                  ),
+                  decoration: BoxDecoration(
+                    color: appTheme.whiteA700,
+                    borderRadius: BorderRadiusStyle.circleBorder16,
+                  ),
+                  child: Row(
+                    children: [
+                      Card(
+                        clipBehavior: Clip.antiAlias,
+                        elevation: 0,
+                        margin: EdgeInsets.zero,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadiusStyle.roundedBorder8,
+                        ),
+                        child: Container(
+                          height: 120.h,
+                          width: 120.h,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadiusStyle.roundedBorder8,
+                          ),
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              Container(
+                                height: 150.h,
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8.h),
+                                ),
+                                child: CachedNetworkImage(
+                                  imageUrl: hotelImage,
+                                  // Use the imageUrl property
+                                  fit: BoxFit.fitWidth,
+                                ),
+                              ),
+                              IntrinsicHeight(
+                                child: Align(
+                                  alignment: Alignment.bottomCenter,
+                                  child: Container(
+                                    height: 100.h,
+                                    padding: EdgeInsets.symmetric(vertical: 4.h),
+                                    child: Row(
+                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      children: [
+                                        CustomImageView(
+                                          color: appTheme.whiteA700,
+                                          imagePath: ImageConstant.imgIconWrapper13,
+                                          height: 24.h,
+                                          width: 24.h,
+                                          margin: EdgeInsets.only(top: 28.h),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(bottom: 2.h),
+                                          child: Text(
+                                            "380m",
+                                            style: CustomTextStyles.bodySmallWhiteA700,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 12.h),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              _hotels[index].hotelName.toString(),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: theme.textTheme.bodyMedium!.copyWith(
+                                height: 1.50,
+                              ),
+                            ),
+                            SizedBox(height: 4.h),
+                            CustomRatingBar(
+                              color: Colors.yellow,
+                              ignoreGestures: true,
+                              initialRating:  _hotels[index].star?.toDouble(),
+                            ),
+                            SizedBox(height: 6.h),
+                            SizedBox(
+                              width: double.maxFinite,
+                              child: Row(
+                                children: [
+                                  CustomImageView(
+                                    imagePath: ImageConstant.imgIconWrapper12,
+                                    color: Colors.blueAccent,
+                                    height: 15.h,
+                                    width: 15.h,
+                                  ),
+                                  Align(
+                                    alignment: Alignment.bottomCenter,
+                                    child: Padding(
+                                      padding: EdgeInsets.only(left: 8.h),
+                                      child: Text(
+                                        "8,6",
+                                        style: theme.textTheme.bodyMedium,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: 8.h),
+                            SizedBox(
+                              width: double.maxFinite,
+                              child: Row(
+                                children: [
+                                  Text(
+                                    '0',
+                                    style: CustomTextStyles.titleSmallBlue,
+                                  ),
+                                  Align(
+                                    alignment: Alignment.topCenter,
+                                    child: Padding(
+                                      padding: EdgeInsets.only(left: 4.h),
+                                      child: Text(
+                                        "/ phòng / đêm",
+                                        style: CustomTextStyles.bodySmallOnPrimary10,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
               );
-              // : Container();
+
             },
           );
   }
@@ -403,42 +534,10 @@ class _HotelListingNearbyScreenState extends State<HotelListingNearbyScreen>
   }
 
   @override
-  void onGetRoomImageSuccess(List<RoomImage> roomImage) {
-    // TODO: implement onGetRoomImageSuccess
-  }
-
-  @override
-  void onGetRoomTypeSuccess(RoomType hotel) {
-    // TODO: implement onGetRoomTypeSuccess
-  }
-
-  @override
-  void showRoomTypes(List<RoomType> roomTypes) {
-    // TODO: implement showRoomTypes
-    setState(() async {
-      _roomTypes = roomTypes;
-      });
-  }
-
-  @override
-  void showTypes(List<Types> types) {
-    // TODO: implement showTypes
-  }
-
-  @override
-  void onGetPriceSuccess(List<double?> price) {
-    // TODO: implement onGetPriceSuccess
-  }
-
-  @override
-  void showFacility(List<Facility> roomTypes) {
-    // TODO: implement showFacility
-  }
-
-  @override
   void onGetHotelImagesSuccess(List<HotelImage> hotels) {
     setState(() {
       _hotelImage = hotels;
+      hotelImage = _hotelImage[0].image.toString();
     });
   }
 }

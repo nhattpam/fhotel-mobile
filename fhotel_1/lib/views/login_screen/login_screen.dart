@@ -218,6 +218,7 @@ class _LoginScreenState extends State<LoginScreen> implements LoginView {
       buttonStyle: CustomButtonStyles.fillwhiteA,
       buttonTextStyle: CustomTextStyles.bodyLargeBlue,
       onPressed: () {
+        SessionManager().setGuest('guest');
         Navigator.pushReplacementNamed(context, AppRoutes.homePage);
       },
     );
