@@ -1,8 +1,11 @@
 import 'package:fhotel_1/data/models/reservation.dart';
 import 'package:fhotel_1/data/repository/list_reservation_repo.dart';
+import 'package:fhotel_1/presenters/vn_pay_presenter.dart';
+import 'package:fhotel_1/views/checkout/vn_pay_view.dart';
 import 'package:fhotel_1/views/tabbar_booking_and_service/list_reservation_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart' as html;
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/app_export.dart';
 import '../../presenters/list_reservation_presenter.dart';
@@ -17,22 +20,24 @@ class CheckoutScreen extends StatefulWidget {
   CheckoutScreenState createState() => CheckoutScreenState();
 }
 
-class CheckoutScreenState extends State<CheckoutScreen> implements ListReservationView {
+class CheckoutScreenState extends State<CheckoutScreen> implements ListReservationView, VnPayView {
   TextEditingController listmasteroneController = TextEditingController();
   int? numberOfDays;
   String? checkInDate;
   String? checkOutDate;
   String selectedPaymentMethod = "Vui lòng chọn phương thức thanh toán"; // Default text
   late ListReservationPresenter _presenter;
+  late VnPayPresenter _vnPresenter;
   String? _error;
   bool _isLoading = false;
   Reservation? _reservation;
-
+  String? vnpaylink;
   @override
   void initState() {
     super.initState();
     _presenter = ListReservationPresenter(this, ListReservationRepo());
     _presenter.getReservationById(widget.reservation.reservationId.toString());
+    _vnPresenter = VnPayPresenter(this);
     _calculateDates();
   }
 
@@ -945,6 +950,10 @@ class CheckoutScreenState extends State<CheckoutScreen> implements ListReservati
   Widget _buildPdng(BuildContext context) {
     return Expanded(
       child: CustomElevatedButton(
+        onPressed: () async {
+          await _vnPresenter.PaymentMethodVNPAY(widget.reservation.reservationId.toString());
+          launch(vnpaylink.toString());
+        },
         text: "Thanh toán",
         buttonStyle: CustomButtonStyles.fillBlue,
         buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,
@@ -1007,6 +1016,20 @@ class CheckoutScreenState extends State<CheckoutScreen> implements ListReservati
   void hideLoading() {
     setState(() {
       _isLoading = false;
+    });
+  }
+
+  @override
+  void onPaymentError(String error) {
+    // TODO: implement onPaymentError
+  }
+
+  @override
+  void onPaymentSuccess(String link) {
+    // TODO: implement onPaymentSuccess
+    setState(() {
+      vnpaylink = link;
+      print("Link VNPAY nè" + vnpaylink.toString());
     });
   }
 
