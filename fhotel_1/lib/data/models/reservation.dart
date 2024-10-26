@@ -1,3 +1,4 @@
+import 'package:fhotel_1/data/models/payment_method.dart';
 import 'package:fhotel_1/data/models/room_types.dart';
 import 'package:fhotel_1/data/models/user.dart';
 
@@ -8,7 +9,7 @@ class Reservation {
   String? checkOutDate;
   double? totalAmount;
   String? reservationStatus;
-  String? paymentMethodStatus;
+  String? paymentStatus;
   String? paymentMethodId;
   String? roomTypeId;
   int? numberOfRooms;
@@ -17,6 +18,7 @@ class Reservation {
   String? actualCheckOutDate;
   User? customer;
   RoomType? roomType;
+  PaymentMethod? paymentMethod;
 
   Reservation(
       {this.customerId,
@@ -25,7 +27,7 @@ class Reservation {
         this.checkOutDate,
         this.totalAmount,
         this.reservationStatus,
-        this.paymentMethodStatus,
+        this.paymentStatus,
         this.paymentMethodId,
         this.roomTypeId,
         this.numberOfRooms,
@@ -33,7 +35,8 @@ class Reservation {
         this.actualCheckInTime,
         this.actualCheckOutDate,
         this.customer,
-        this.roomType
+        this.roomType,
+        this.paymentMethod
       });
 
   Reservation.fromJson(Map<String, dynamic> json) {
@@ -43,7 +46,7 @@ class Reservation {
     checkOutDate = json['checkOutDate'];
     totalAmount = json['totalAmount'];
     reservationStatus = json['reservationStatus'];
-    paymentMethodStatus = json['paymentMethodStatus'];
+    paymentStatus = json['paymentStatus'];
     paymentMethodId = json['paymentMethodId'];
     roomTypeId = json['roomTypeId'];
     numberOfRooms = json['numberOfRooms'];
@@ -52,6 +55,7 @@ class Reservation {
     actualCheckOutDate = json['actualCheckOutDate'];
     customer = json['customer'] != null ? User.fromJson(json['customer']) : null;
     roomType = json['roomType'] != null ? RoomType.fromJson(json['roomType']) : null;
+    paymentMethod = json['paymentMethod'] != null ? PaymentMethod.fromJson(json['paymentMethod']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -62,7 +66,7 @@ class Reservation {
     data['checkOutDate'] = checkOutDate;
     data['totalAmount'] = totalAmount;
     data['reservationStatus'] = reservationStatus;
-    data['paymentMethodStatus'] = paymentMethodStatus;
+    data['paymentStatus'] = paymentStatus;
     data['paymentMethodId'] = paymentMethodId;
     data['roomTypeId'] = roomTypeId;
     data['numberOfRooms'] = numberOfRooms;
@@ -74,6 +78,9 @@ class Reservation {
     }
     if (roomType != null) {
       data['roomType'] = roomType!.toJson();
+    }
+    if (paymentMethod != null) {
+      data['paymentMethod'] = paymentMethod!.toJson();
     }
     return data;
   }

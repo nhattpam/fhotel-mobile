@@ -71,8 +71,6 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> {
                       children: [
                         _buildordersummary(context),
                         SizedBox(height: 8.h),
-                        _buildAdditional(context),
-                        SizedBox(height: 8.h),
                         _buildPaymentmethod(context),
                         SizedBox(height: 8.h),
                         _buildAdditionalone(context),
@@ -81,12 +79,16 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> {
                         SizedBox(height: 8.h),
                         _buildColumntitlepric(context),
                         SizedBox(height: 8.h),
-                        (widget.reservation.reservationStatus == 'Pending')
-                        ? SizedBox()
-                        : _buildColumnsave(context),
-                        (widget.reservation.paymentMethodStatus == 'Pending')
-                        ? SizedBox()
-                        : _buildCancel(context)
+                        (widget.reservation.reservationStatus != 'CheckIn')
+                            ? SizedBox()
+                            : _buildColumnsave(context),
+                        (widget.reservation.paymentStatus == 'Pending' &&
+                                widget.reservation.reservationStatus !=
+                                    'CheckIn' &&
+                                widget.reservation.reservationStatus !=
+                                    'Cancel')
+                            ? _buildCancel(context)
+                            : SizedBox()
                       ],
                     ),
                   ),
@@ -173,42 +175,49 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            children:[
-              widget.reservation.reservationStatus != 'Pending'
-                  ? CustomElevatedButton(
+            children: [
+              CustomElevatedButton(
                 height: 28.h,
-                width: 126.h,
-                text: "Đặt thành công",
-                buttonStyle: CustomButtonStyles.fillGreen,
-                buttonTextStyle: CustomTextStyles.bodyMediumTeal800,
-              )
-                  : CustomElevatedButton(
-                height: 28.h,
-                width: 94.h,
-                text: "Đang xử lý",
-                buttonStyle: CustomButtonStyles.fillYellow,
-                buttonTextStyle:
-                CustomTextStyles.bodyMediumSecondaryContainer,
+                width: widget.reservation.reservationStatus == 'Pending'
+                    ? 126.h
+                    : 126.h,
+                text: widget.reservation.reservationStatus == 'Cancelled'
+                    ? "Đã bị hủy"
+                    : widget.reservation.reservationStatus == 'Pending'
+                        ? "Đang xử lý"
+                        : "Đặt thành công",
+                buttonStyle: widget.reservation.reservationStatus == 'Cancelled'
+                    ? CustomButtonStyles
+                        .fillRed // Add a red style for "Cancelled"
+                    : widget.reservation.reservationStatus == 'Pending'
+                        ? CustomButtonStyles.fillYellow
+                        : CustomButtonStyles.fillGreen,
+                buttonTextStyle: widget.reservation.reservationStatus ==
+                        'Cancelled'
+                    ? CustomTextStyles
+                        .bodyMediumwhiteA700 // Add an error style for "Cancelled"
+                    : widget.reservation.reservationStatus == 'Pending'
+                        ? CustomTextStyles.bodyMediumSecondaryContainer
+                        : CustomTextStyles.bodyMediumTeal800,
               ),
               SizedBox(width: 4.h),
-              widget.reservation.paymentMethodStatus != 'Pending'
-              ? CustomElevatedButton(
-              height: 28.h,
-              width: 126.h,
-              text: "Đã thanh toán",
-              buttonStyle: CustomButtonStyles.fillGreen,
-              buttonTextStyle: CustomTextStyles.bodyMediumTeal800,
-              )
+              widget.reservation.paymentStatus == 'Paid'
+                  ? CustomElevatedButton(
+                      height: 28.h,
+                      width: 126.h,
+                      text: "Đã thanh toán",
+                      buttonStyle: CustomButtonStyles.fillGreen,
+                      buttonTextStyle: CustomTextStyles.bodyMediumTeal800,
+                    )
                   : CustomElevatedButton(
-              height: 28.h,
-              width: 94.h,
-              text: "Thanh toán sau",
-              buttonStyle: CustomButtonStyles.fillYellow,
-              buttonTextStyle: CustomTextStyles.bodyMediumSecondaryContainer,
-              ),
+                      height: 28.h,
+                      width: 126.h,
+                      text: "Chưa Thanh Toán",
+                      buttonStyle: CustomButtonStyles.fillYellow,
+                      buttonTextStyle: CustomTextStyles.bodyMediumSecondaryContainer,
+                    ),
             ],
           ),
-
           SizedBox(height: 16.h),
           Text(
             "Chi tiết đặt phòng",
@@ -318,7 +327,7 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> {
                               // ),
                               SizedBox(height: 2.h),
                               Text(
-                               "Diện tích: ${widget.reservation.roomType?.roomSize} m2",
+                                "Diện tích: ${widget.reservation.roomType?.roomSize} m2",
                                 style: theme.textTheme.bodySmall,
                               )
                             ],
@@ -362,44 +371,6 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> {
                               SizedBox(height: 6.h),
                               Text(
                                 "$numberOfDays đêm",
-                                style: theme.textTheme.titleSmall,
-                              )
-                            ],
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                SizedBox(height: 8.h),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16.h),
-                  decoration: BoxDecoration(
-                    color: appTheme.whiteA700,
-                  ),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomImageView(
-                        color: appTheme.black900.withOpacity(0.5),
-                        imagePath: ImageConstant.imgIconWrapper11,
-                        height: 24.h,
-                        width: 24.h,
-                      ),
-                      SizedBox(width: 8.h),
-                      Expanded(
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Khách",
-                                style: theme.textTheme.bodyMedium,
-                              ),
-                              SizedBox(height: 6.h),
-                              Text(
-                                "2 người lớn, 1 trẻ em",
                                 style: theme.textTheme.titleSmall,
                               )
                             ],
@@ -529,64 +500,6 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> {
                     ],
                   ),
                 ),
-                SizedBox(height: 6.h),
-                // SizedBox(
-                //   width: double.maxFinite,
-                //   child: Divider(),
-                // ),
-                // SizedBox(
-                //   width: double.maxFinite,
-                //   child: _buildWrapperTwo(
-                //     context,
-                //     valuebooking: "Miễn phí hủy phòng",
-                //   ),
-                // ),
-                // SizedBox(
-                //   width: double.maxFinite,
-                //   child: _buildWrapperTwo(
-                //     context,
-                //     valuebooking: "Áp dụng chính sách đổi lịch",
-                //   ),
-                // ),
-                // SizedBox(height: 8.h),
-                // Container(
-                //   margin: EdgeInsets.symmetric(horizontal: 16.h),
-                //   padding: EdgeInsets.symmetric(
-                //     horizontal: 16.h,
-                //     vertical: 8.h,
-                //   ),
-                //   decoration: BoxDecoration(
-                //     color: appTheme.blue50,
-                //     borderRadius: BorderRadiusStyle.roundedBorder8,
-                //   ),
-                //   width: double.maxFinite,
-                //   child: Row(
-                //     children: [
-                //       Expanded(
-                //         child: Column(
-                //           crossAxisAlignment: CrossAxisAlignment.start,
-                //           children: [
-                //             Text(
-                //               "Mã đặt chỗ",
-                //               style: theme.textTheme.bodyMedium,
-                //             ),
-                //             SizedBox(height: 4.h),
-                //             Text(
-                //               "FD8UH6",
-                //               style: theme.textTheme.titleSmall,
-                //             )
-                //           ],
-                //         ),
-                //       ),
-                //       CustomImageView(
-                //         color: Colors.blueAccent,
-                //         imagePath: ImageConstant.imgIconWrapper20,
-                //         height: 24.h,
-                //         width: 24.h,
-                //       )
-                //     ],
-                //   ),
-                // ),
                 SizedBox(height: 16.h),
               ],
             ),
@@ -596,38 +509,6 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> {
     );
   }
 
-  Widget _buildAdditional(BuildContext context) {
-    return Container(
-      width: double.maxFinite,
-      padding: EdgeInsets.symmetric(
-        horizontal: 16.h,
-        vertical: 10.h,
-      ),
-      decoration: BoxDecoration(
-        color: appTheme.whiteA700,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox(height: 2.h),
-          Text(
-            "Chính sách khách sạn và phòng",
-            style: theme.textTheme.titleMedium,
-          ),
-          SizedBox(height: 10.h),
-          Text(
-            "Áp dụng chính sách hủy phòng \nMiễn phí hủy trước 26-thg 5-2022 14:00. Nếu hủy hoặc sửa đổi sau 26-thg 5-2022 14:01, phí hủy đặt phòng sẽ được tính.",
-            maxLines: 4,
-            overflow: TextOverflow.ellipsis,
-            style: theme.textTheme.bodyMedium!.copyWith(
-              height: 1.50,
-            ),
-          )
-        ],
-      ),
-    );
-  }
 
   Widget _buildPaymentmethod(BuildContext context) {
     return Container(
@@ -693,7 +574,7 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> {
                 Padding(
                   padding: EdgeInsets.only(left: 8.h),
                   child: Text(
-                    "VIB 006969",
+                    (widget.reservation.paymentMethod?.paymentMethodName).toString(),
                     style: theme.textTheme.titleSmall,
                   ),
                 )
@@ -786,12 +667,9 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> {
           SizedBox(height: 10.h),
           SizedBox(
             width: double.maxFinite,
-            child: _buildWrapperFive(
-              context,
-              labelguestTwo: "Họ tên",
-              datavalueone:
-                  (widget.reservation.customer?.name).toString()
-            ),
+            child: _buildWrapperFive(context,
+                labelguestTwo: "Họ tên",
+                datavalueone: (widget.reservation.customer?.name).toString()),
           ),
           SizedBox(
             width: double.maxFinite,
@@ -838,9 +716,10 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> {
           SizedBox(
             width: double.maxFinite,
             child: _buildWrapperFive(context,
-                labelguestTwo: "${widget.reservation.numberOfRooms} Phòng ${widget.reservation.roomType?.hotel?.hotelName}",
-                datavalueone: "${NumberFormat('#,###', 'en_US')
-                        .format(widget.reservation.totalAmount)} ₫"),
+                labelguestTwo:
+                    "${widget.reservation.numberOfRooms} Phòng ${widget.reservation.roomType?.hotel?.hotelName}",
+                datavalueone:
+                    "${NumberFormat('#,###', 'en_US').format(widget.reservation.totalAmount)} ₫"),
           ),
           SizedBox(height: 6.h),
           // SizedBox(
@@ -852,8 +731,8 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> {
             width: double.maxFinite,
             child: _buildWrapperFive(context,
                 labelguestTwo: "Tổng cộng",
-                datavalueone: "${NumberFormat('#,###', 'en_US')
-                        .format(widget.reservation.totalAmount)} ₫"),
+                datavalueone:
+                    "${NumberFormat('#,###', 'en_US').format(widget.reservation.totalAmount)} ₫"),
           )
         ],
       ),
@@ -868,7 +747,7 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> {
         mainAxisSize: MainAxisSize.min,
         children: [
           CustomElevatedButton(
-            onPressed: (){
+            onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
                     builder: (context) =>
@@ -893,7 +772,7 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> {
         mainAxisSize: MainAxisSize.min,
         children: [
           CustomElevatedButton(
-            onPressed: (){
+            onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
                     builder: (context) =>

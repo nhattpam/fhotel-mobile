@@ -96,7 +96,7 @@ class CheckoutScreenState extends State<CheckoutScreen> implements ListReservati
                         (widget.reservation.checkOutDate).toString(),
                         (widget.reservation.totalAmount ?? 0),
                         (widget.reservation.customerId).toString(),
-                        'Not Paid',
+                        (widget.reservation.paymentStatus).toString(),
                         (widget.reservation.reservationStatus).toString(),
                         '03c20593-9817-4cda-982f-7c8e7ee162e8',
                         (widget.reservation.createdDate).toString()
@@ -120,7 +120,7 @@ class CheckoutScreenState extends State<CheckoutScreen> implements ListReservati
                         (widget.reservation.checkOutDate).toString(),
                         (widget.reservation.totalAmount ?? 0),
                         (widget.reservation.customerId).toString(),
-                        'Not Paid',
+                        (widget.reservation.paymentStatus).toString(),
                         (widget.reservation.reservationStatus).toString(),
                         '1dfab560-eef5-4297-9c26-03c3364f10e6',
                         (widget.reservation.createdDate).toString()
@@ -140,7 +140,7 @@ class CheckoutScreenState extends State<CheckoutScreen> implements ListReservati
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: _buildAppbar(context),
+        // appBar: _buildAppbar(context),
         body: SizedBox(
           width: double.maxFinite,
           child: SingleChildScrollView(
@@ -968,8 +968,8 @@ class CheckoutScreenState extends State<CheckoutScreen> implements ListReservati
   Widget _buildXabIc(BuildContext context) {
     return Expanded(
       child: CustomOutlinedButton(
-        onPressed: (){
-          _presenter.updateReservation(
+        onPressed: () async {
+          await _presenter.updateReservation(
               (widget.reservation.reservationId).toString(),
               (widget.reservation.numberOfRooms ?? 0),
               (widget.reservation.roomTypeId).toString(),
@@ -978,11 +978,26 @@ class CheckoutScreenState extends State<CheckoutScreen> implements ListReservati
               (widget.reservation.totalAmount ?? 0),
               (widget.reservation.customerId).toString(),
               'Not Paid',
-              'Cancel',
+              'Cancelled',
               selectedPaymentMethodId,
               (widget.reservation.createdDate).toString()
-
           );
+          AwesomeDialog(
+            context: context,
+            animType: AnimType.scale,
+            dialogType: DialogType.success,
+            body: const Center(
+              child: Text(
+                'Hủy đặt phòng thành công!!!',
+                style: TextStyle(fontStyle: FontStyle.italic),
+              ),
+            ),
+            // title: 'Warning',
+            // desc:   'This is also Ignored',
+            btnOkOnPress: () {
+              Navigator.pushReplacementNamed(context, AppRoutes.homePage);
+            },
+          ).show();
         },
         height: 40.h,
         text: "Hủy đặt phòng",
@@ -998,6 +1013,24 @@ class CheckoutScreenState extends State<CheckoutScreen> implements ListReservati
         onPressed: () async {
           await _vnPresenter.PaymentMethodVNPAY(widget.reservation.reservationId.toString());
           launch(vnpaylink.toString());
+          if(_reservation?.paymentStatus == 'Paid'){
+            AwesomeDialog(
+              context: context,
+              animType: AnimType.scale,
+              dialogType: DialogType.success,
+              body: const Center(
+                child: Text(
+                  'Thanh toán thành công !!',
+                  style: TextStyle(fontStyle: FontStyle.italic),
+                ),
+              ),
+              // title: 'Warning',
+              // desc:   'This is also Ignored',
+              btnOkOnPress: () {
+                Navigator.pushReplacementNamed(context, AppRoutes.homePage);
+              },
+            ).show();
+          }
         },
         text: "Thanh toán",
         buttonStyle: CustomButtonStyles.fillBlue,

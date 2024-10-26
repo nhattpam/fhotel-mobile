@@ -1,6 +1,10 @@
 import 'package:badges/badges.dart' as badges; // Alias the badges package
+import 'package:fhotel_1/data/models/service.dart';
+import 'package:fhotel_1/data/repository/list_service.dart';
+import 'package:fhotel_1/presenters/list_service_presenter.dart';
 import 'package:fhotel_1/views/search_service_result/search_service_result.dart';
 import 'package:fhotel_1/views/service_cart/service_cart.dart';
+import 'package:fhotel_1/views/service_listing_screen/list_service_view.dart';
 import 'package:fhotel_1/widgets/custom_search_view.dart';
 import 'package:flutter/material.dart';
 
@@ -17,10 +21,21 @@ class ServiceListingScreen extends StatefulWidget {
   ServiceListingScreenState createState() => ServiceListingScreenState();
 }
 
-class ServiceListingScreenState extends State<ServiceListingScreen> {
+class ServiceListingScreenState extends State<ServiceListingScreen> implements ListServiceView{
   TextEditingController searchController = TextEditingController();
   int _currentIndex = 1;
   int cartItemCount = 5;
+  late ListServicePresenter _presenter;
+  bool _isLoading = false;
+  List<Service> _services = [];
+  String? _error;
+
+  @override
+  void initState() {
+    super.initState();
+    _presenter = ListServicePresenter(this, ListServiceRepo());
+    _presenter.getServices(); // Fetch the list of hotels when the screen loads
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +51,15 @@ class ServiceListingScreenState extends State<ServiceListingScreen> {
                 width: double.maxFinite,
                 child: Column(
                   children: [
-                    SizedBox(height: 22.h),
-                    _buildColumnheyhalalg(context),
+                    SizedBox(height: 32.h),
+                    Container(
+                      margin: EdgeInsets.fromLTRB(20.h, 0, 20.h, 0),
+                      child: _buildRowopen(
+                        context,
+                        openone: "Loại dịch vụ",
+                        seeallone: "Xem tất cả",
+                      ),
+                    ),
                     SizedBox(height: 16.h),
                     _buildListpizzaone(context),
                     SizedBox(height: 38.h),
@@ -382,5 +404,36 @@ class ServiceListingScreenState extends State<ServiceListingScreen> {
         )
       ],
     );
+  }
+
+  // Show loading indicator
+  @override
+  void showLoading() {
+    setState(() {
+      _isLoading = true;
+    });
+  }
+
+  // Hide loading indicator
+  @override
+  void hideLoading() {
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+
+  @override
+  void onGetServicesError(String error) {
+    setState(() {
+      _error = error;
+    });
+  }
+
+  @override
+  void onGetServicesSuccess(List<Service> services) {
+    setState(() {
+      _services = services;
+    });
   }
 }

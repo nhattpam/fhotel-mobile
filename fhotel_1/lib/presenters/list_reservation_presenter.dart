@@ -46,7 +46,7 @@ class ListReservationPresenter {
       String checkOutDate,
       double totalAmount,
       String customerId,
-      String paymentMethodStatus,
+      String paymentStatus,
       String reservationStatus,
       String paymentMethodId,
       String createDate,
@@ -61,7 +61,7 @@ class ListReservationPresenter {
         checkOutDate: checkOutDate,
         totalAmount: totalAmount,
         customerId: customerId,
-        paymentMethodStatus: paymentMethodStatus,
+        paymentStatus: paymentStatus,
         reservationStatus: reservationStatus,
         paymentMethodId: paymentMethodId,
         createdDate: createDate

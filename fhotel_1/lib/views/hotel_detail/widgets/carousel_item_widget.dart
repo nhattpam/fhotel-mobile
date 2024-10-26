@@ -115,14 +115,14 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
 
   void _showGuestPolicyModalBottomSheet(BuildContext context) {
     String cancellationTimeBefore9PM =
-        _refundPolicies[0].cancellationTime.toString();
+    _refundPolicies[0].cancellationTime.toString();
     String cancellationTimeAfter9PM =
-        _refundPolicies[1].cancellationTime.toString();
+    _refundPolicies[1].cancellationTime.toString();
 
     String refundPercentageBefore9PM =
-        _refundPolicies[0].refundPercentage.toString();
+    _refundPolicies[0].refundPercentage.toString();
     String refundPercentageAfter9PM =
-        _refundPolicies[1].refundPercentage.toString();
+    _refundPolicies[1].refundPercentage.toString();
 
     String descriptionBefore9PM = _refundPolicies[0].description.toString();
     String descriptionAfter9PM = _refundPolicies[1].description.toString();
@@ -133,91 +133,90 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
 
     String chargePercentageAfter6PM = _policies[0].chargePercentage.toString();
     String chargePercentageBetween6PM =
-        _policies[1].chargePercentage.toString();
+    _policies[1].chargePercentage.toString();
     String chargePercentageBetween2PM =
-        _policies[2].chargePercentage.toString();
+    _policies[2].chargePercentage.toString();
 
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
         return SingleChildScrollView(
           child: Container(
-            // Your modal bottom sheet content here
             child: html.Html(
               data: """
-              <h2>Guest Policies</h2>
+              <h2>Chính Sách Khách</h2>
 
-              <h3>General Terms and Conditions</h3>
-
-              <ul>
-                <li>The primary guest must be above the age of 16 years to be able to check-in the hotel.</li>
-                <li>It is mandatory for guests to present a valid photo identification document at the time of check-in. The identification proofs accepted are National ID card (Chung Minh Nhan Dan), Driving License, or Passport. Without the original copy of a valid ID, the guest will not be allowed to check-in.</li>
-                <li>Stay of 1 child up to the age of 5 years is complimentary without the use of an extra bed. Breakfast charges may still be applicable for the child.</li>
-                <li>Pets are not allowed in the hotel premises.</li>
-                <li>Should any action by a guest be deemed inappropriate by the hotel or if any inappropriate behaviour is brought to the attention of the hotel staff, the hotel reserves the right to take action against the guest after the allegations have been investigated.</li>
-                <li>A discounted booking cannot be modified. Additionally, in the case of an early check-out for such a booking, the booking amount paid cannot be refunded.</li>
-                <li>Our hotels in certain destinations may have different policies applicable for specific times during the year.</li>
-                <li>Guests shall be liable for any damage, except normal wear and tear to Hotel assets. Guests shall keep the Hotel room in a good condition and maintain hygiene and cleanliness.</li>
-                <li>Certain policies are booking specific and are informed to the customer while making the booking.</li>
-                <li>Guests may be contacted closer to their check-in date to confirm their arrival status or arrival time through calls or messages. In case we do not receive a response from the guest after multiple attempts, the booking may be put on hold or cancelled. In case of availability, the hotel will try to reinstate your booking when you contact us back or make a payment through our payment options.</li>
-                <li>As we continue to strive to improve our services, we may reach out to guests to get feedback on their experience through calls or messages.</li>
-              </ul>
-
-              <h3>Booking Extension Policy</h3>
+              <h3>Điều Khoản Và Điều Kiện Chung</h3>
 
               <ul>
-                <li>Extension of a booking would be provided at current room rates and is subject to availability.</li>
-                <li>Current room rates can be different from the rates at which the rooms were first booked.</li>
+                <li>Khách chính phải trên 16 tuổi để có thể nhận phòng tại khách sạn.</li>
+                <li>Bắt buộc khách phải xuất trình giấy tờ tùy thân hợp lệ tại thời điểm nhận phòng. Các giấy tờ chấp nhận bao gồm Chứng minh nhân dân, Giấy phép lái xe hoặc Hộ chiếu. Nếu không có bản gốc của giấy tờ hợp lệ, khách sẽ không được nhận phòng.</li>
+                <li>Miễn phí lưu trú cho 1 trẻ em dưới 5 tuổi nếu không sử dụng giường phụ. Có thể vẫn áp dụng phí ăn sáng cho trẻ em.</li>
+                <li>Không cho phép thú cưng vào khu vực khách sạn.</li>
+                <li>Khách sạn có quyền hành động đối với khách nếu hành vi của khách bị cho là không phù hợp sau khi đã điều tra cáo buộc.</li>
+                <li>Không thể sửa đổi đối với các đặt phòng đã được chiết khấu. Trường hợp trả phòng sớm, số tiền đặt phòng đã thanh toán sẽ không được hoàn lại.</li>
+                <li>Một số khách sạn ở các điểm đến khác nhau có thể áp dụng chính sách khác nhau vào các thời điểm nhất định trong năm.</li>
+                <li>Khách phải chịu trách nhiệm cho bất kỳ thiệt hại nào, ngoại trừ hao mòn thông thường đối với tài sản của khách sạn. Khách phải giữ phòng khách sạn trong tình trạng tốt và duy trì vệ sinh và sạch sẽ.</li>
+                <li>Một số chính sách áp dụng riêng cho từng đặt phòng và được thông báo cho khách khi thực hiện đặt phòng.</li>
+                <li>Khách có thể được liên hệ gần đến ngày nhận phòng để xác nhận trạng thái hoặc thời gian đến của họ qua cuộc gọi hoặc tin nhắn. Nếu không nhận được phản hồi từ khách sau nhiều lần liên hệ, đặt phòng có thể bị tạm dừng hoặc hủy bỏ. Trong trường hợp có phòng trống, khách sạn sẽ cố gắng khôi phục đặt phòng khi khách liên hệ lại hoặc thanh toán qua các phương thức thanh toán của chúng tôi.</li>
+                <li>Trong quá trình nỗ lực cải thiện dịch vụ, chúng tôi có thể liên hệ với khách để lấy ý kiến phản hồi về trải nghiệm của họ qua cuộc gọi hoặc tin nhắn.</li>
               </ul>
 
-              <h3>Cancellation Policy</h3>
-              <h4>Cancelling an FHotel is as fast and easy as booking one</h4>
+              <h3>Chính Sách Gia Hạn Đặt Phòng</h3>
+
+              <ul>
+                <li>Gia hạn đặt phòng sẽ được cung cấp theo mức giá phòng hiện tại và tùy thuộc vào tình trạng phòng trống.</li>
+                <li>Giá phòng hiện tại có thể khác với giá khi đặt phòng ban đầu.</li>
+              </ul>
+
+              <h3>Chính Sách Hủy Đặt Phòng</h3>
+              <h4>Hủy đặt phòng tại FHotel dễ dàng và nhanh chóng như đặt phòng</h4>
               
-              <p>We would love to host you but in case your plans change, our simple cancellation process makes sure you receive a quick confirmation and fast refunds. Our standard check-in time is 2 PM and you can check-in any time after that till your reservation is valid. </p>
+              <p>Chúng tôi mong muốn phục vụ bạn, nhưng trong trường hợp kế hoạch thay đổi, quy trình hủy đơn giản của chúng tôi đảm bảo bạn nhận được xác nhận nhanh chóng và hoàn tiền nhanh chóng. Thời gian nhận phòng tiêu chuẩn là 2 giờ chiều và bạn có thể nhận phòng bất kỳ lúc nào sau đó cho đến khi đặt phòng hợp lệ.</p>
 
               <ul>
-                <li>$descriptionBefore9PM	| Free cancellation ($cancellationTimeBefore9PM, $refundPercentageBefore9PM% refund).</li>
-                <li>$descriptionAfter9PM	| $cancellationTimeAfter9PM, $refundPercentageAfter9PM% refund</li>
+                <li>$descriptionBefore9PM	| Hủy miễn phí ($cancellationTimeBefore9PM, hoàn lại $refundPercentageBefore9PM%).</li>
+                <li>$descriptionAfter9PM	| $cancellationTimeAfter9PM, hoàn lại $refundPercentageAfter9PM%</li>
               </ul>
               
-              <h4>Before check-in</h4>
+              <h4>Trước khi nhận phòng</h4>
 
-              <p>We will fully refund any booking cancelled up to 24 hours prior to the scheduled check-in date. For any cancellation within 24 hours of scheduled check-in, the complete booking amount shall be deducted as cancellation charges.</p>
-              <h4>On the date of check-in</h4>
+              <p>Chúng tôi sẽ hoàn lại đầy đủ cho bất kỳ đặt phòng nào hủy trước thời gian 24 giờ so với ngày nhận phòng đã lên lịch. Đối với bất kỳ hủy nào trong vòng 24 giờ trước khi nhận phòng đã lên lịch, toàn bộ số tiền đặt phòng sẽ được trừ làm phí hủy.</p>
+              <h4>Ngày nhận phòng</h4>
 
-              <p>In case you decide to cancel a booking after the scheduled check-in time or do not show up at the hotel, the complete booking amount shall be deducted as cancellation/no-show charges.</p>
+              <p>Trong trường hợp bạn quyết định hủy sau thời gian nhận phòng đã lên lịch hoặc không đến khách sạn, toàn bộ số tiền đặt phòng sẽ được trừ làm phí hủy/không đến.</p>
 
-              <h4>Mid-Stay Cancellations</h4>
+              <h4>Hủy giữa kỳ lưu trú</h4>
 
-              <p>During your stay, if you decide to shorten your booking before 2 pm, you will be charged for one night. If you decide to shorten your booking after 2 pm, you will be charged for the next two nights. Money paid for the remaining nights will be refunded as per the refund policy.</p>
+              <p>Trong thời gian lưu trú, nếu bạn quyết định rút ngắn đặt phòng trước 2 giờ chiều, bạn sẽ bị tính phí một đêm. Nếu bạn quyết định rút ngắn đặt phòng sau 2 giờ chiều, bạn sẽ bị tính phí hai đêm. Số tiền đã thanh toán cho các đêm còn lại sẽ được hoàn lại theo chính sách hoàn tiền.</p>
 
-              <h3>Payment Policy</h3>
+              <h3>Chính Sách Thanh Toán</h3>
 
-              <p>For bookings of more than 7 nights, guests have to settle all outstanding payments on a weekly basis. The hotel will be unable to provide further accommodation prior to settlement of the outstanding amount.</p>
+              <p>Đối với các đặt phòng trên 7 đêm, khách phải thanh toán các khoản nợ hàng tuần. Khách sạn sẽ không cung cấp chỗ ở thêm nếu chưa thanh toán các khoản nợ.</p>
 
-              <h3>Early Check-in and Late Check-out</h3>
-              <h4>Early check-in (subject to availability)</h4>
+              <h3>Nhận Phòng Sớm và Trả Phòng Muộn</h3>
+              <h4>Nhận phòng sớm (tùy thuộc vào tình trạng phòng trống)</h4>
 
-              <p>Will incur extra charges depending on the time:</p>
-
-              <ul>
-                <li>Before 8 AM: 100% charges for one day payable as per room rates of the previous day.</li>
-                <li>Between 8 AM and 12 PM: 30% charges payable as per room rates of the previous day, depending on hotel policy.</li>
-                <li>Between 12 PM and 2 PM: Complimentary (no extra charge).</li>
-              </ul>
-              <h4>Late check-out (subject to availability))</h4>
-
-              <p>May incur extra charges:</p>
+              <p>Sẽ phát sinh phí bổ sung tùy theo thời gian:</p>
 
               <ul>
-                <li>$policyBetween2PM: Complimentary ($chargePercentageBetween2PM%).</li>
-                <li>$policyBetween6PM: $chargePercentageBetween6PM% charges payable as per room rates of the next day.</li>
-                <li>$policyAfter6PM: $chargePercentageAfter6PM% charges payable as per room rates of the next day.</li>
+                <li>Trước 8 giờ sáng: Tính phí 100% cho một ngày theo giá phòng ngày trước.</li>
+                <li>Từ 8 giờ sáng đến 12 giờ trưa: Tính phí 30% theo giá phòng ngày trước, tùy chính sách khách sạn.</li>
+                <li>Từ 12 giờ trưa đến 2 giờ chiều: Miễn phí (không thu phí thêm).</li>
+              </ul>
+              <h4>Trả phòng muộn (tùy thuộc vào tình trạng phòng trống)</h4>
+
+              <p>Có thể phát sinh phí bổ sung:</p>
+
+              <ul>
+                <li>$policyBetween2PM: Miễn phí ($chargePercentageBetween2PM%).</li>
+                <li>$policyBetween6PM: Tính phí $chargePercentageBetween6PM% theo giá phòng ngày tiếp theo.</li>
+                <li>$policyAfter6PM: Tính phí $chargePercentageAfter6PM% theo giá phòng ngày tiếp theo.</li>
               </ul>
 
-              <h3>Hotel Specific Policies</h3>
+              <h3>Chính Sách Đặc Thù của Khách Sạn</h3>
 
-              <p>Hotel-specific amenities are captured on the website and app. Guests are advised to refer to the same before booking. Some hotels may deny entry of visitors to rooms, so it’s advisable to confirm with the hotel before inviting visitors into the rooms.</p>
+              <p>Các tiện nghi của khách sạn được liệt kê trên trang web và ứng dụng. Khách được khuyến khích tham khảo trước khi đặt phòng. Một số khách sạn có thể từ chối khách mời vào phòng, vì vậy nên xác nhận với khách sạn trước khi mời khách vào phòng.</p>
             """,
               style: {
                 "body": html.Style(
