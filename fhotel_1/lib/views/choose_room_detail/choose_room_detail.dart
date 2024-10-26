@@ -195,9 +195,7 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
       // Handle any errors during the calculation
       print("Error calculating total amount: $e");
       // Optionally notify the user of the error
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Failed to calculate total amount")),
-      );
+
     }
   }
   void _showCalendarModalBottomSheet(BuildContext context) {
@@ -517,9 +515,7 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
                                       ),
                                       const Spacer(),
                                       Text(
-                                        dateStarSelected.toString() +
-                                            "-" +
-                                            dateEndSelected.toString(),
+                                        "$dateStarSelected-$dateEndSelected",
                                         style: theme.textTheme.titleSmall,
                                       )
                                     ],
@@ -530,17 +526,17 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
                               SizedBox(
                                 width: double.maxFinite,
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          if (error)
-                                            Text(
-                                              'Không đủ phòng còn trống',
-                                              style: TextStyle(color: Colors.red),
-                                            ),
-                                          Align(
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        if (error)
+                                          Text(
+                                            'Chỉ còn trống ${_roomType!.availableRooms} phòng',
+                                            style: TextStyle(color: Colors.red),
+                                          ),
+                                        Align(
                                           alignment: Alignment.bottomCenter,
                                           child: Padding(
                                             padding: EdgeInsets.only(left: 8.h),
@@ -549,22 +545,46 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
                                               style: theme.textTheme.bodyMedium,
                                             ),
                                           ),
-                                                                              ),
-                                        ],
+                                        ),
+                                      ],
+                                    ),
+                                    // const Spacer(),
+                                    // IconButton(
+                                    //   icon: Icon(Icons.remove),
+                                    //   onPressed: _decrementRooms,
+                                    // ),
+                                    SizedBox(
+                                      width: 40, // Adjust width to keep layout consistent
+                                      child: TextFormField(
+                                        initialValue: quantity.toString(),
+                                        textAlign: TextAlign.center,
+                                        keyboardType: TextInputType.number,
+                                        style: theme.textTheme.titleSmall,
+                                        onFieldSubmitted: (value) {
+                                          final newQuantity = int.tryParse(value) ?? quantity;
+                                          setState(() {
+                                            if (_roomType != null && _roomType!.availableRooms != null) {
+                                              if (newQuantity <= _roomType!.availableRooms!) {
+                                                error = false;
+                                                quantity = newQuantity;
+                                                _calculateTotalAmount();
+                                              } else {
+                                                error = true;
+                                              }
+                                            }
+                                          });
+                                        },
+                                        decoration: InputDecoration(
+                                          isDense: true,
+                                          contentPadding: EdgeInsets.zero,
+                                          border: InputBorder.none,
+                                        ),
                                       ),
-                                    const Spacer(),
-                                    IconButton(
-                                      icon: Icon(Icons.remove),
-                                      onPressed: _decrementRooms,
                                     ),
-                                    Text(
-                                      quantity.toString(),
-                                      style: theme.textTheme.titleSmall,
-                                    ),
-                                    IconButton(
-                                      icon: Icon(Icons.add),
-                                      onPressed: _incrementRooms,
-                                    ),
+                                    // IconButton(
+                                    //   icon: Icon(Icons.add),
+                                    //   onPressed: _incrementRooms,
+                                    // ),
                                   ],
                                 ),
                               ),
@@ -658,12 +678,15 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
                         "Tổng giá tiền",
                         style: theme.textTheme.titleSmall,
                       ),
-                      Text(
-                        NumberFormat('#,###', 'en_US').format(_totalAmount) +
-                            " ₫",
-                        // _roomType?.basePrice.toString() ?? '',
-                        style: theme.textTheme.titleSmall,
+                      _totalAmount != null && _totalAmount! > 0
+                          ? Text(
+                        "${NumberFormat('#,###', 'en_US').format(_totalAmount)} ₫",
+                        style: CustomTextStyles.titleSmallBlue,
                       )
+                          : Text(
+                        "0 ₫",
+                        style: CustomTextStyles.titleSmallBlue,
+                      ),
                     ],
                   ),
                 )
@@ -729,6 +752,12 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
                 widget.roomTypeId,
                 quantity
               );
+
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                    builder: (context) =>
+                        CheckoutScreen(reservation: newReservation)),
+              );
               // Show success dialog
               AwesomeDialog(
                 context: context,
@@ -741,11 +770,7 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
                   ),
                 ),
                 btnOkOnPress: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            CheckoutScreen(reservation: newReservation)),
-                  );
+
                 },
               ).show();
             } else {

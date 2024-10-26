@@ -8,6 +8,8 @@ class Reservation {
   String? checkOutDate;
   double? totalAmount;
   String? reservationStatus;
+  String? paymentMethodStatus;
+  String? paymentMethodId;
   String? roomTypeId;
   int? numberOfRooms;
   String? createdDate;
@@ -23,6 +25,8 @@ class Reservation {
         this.checkOutDate,
         this.totalAmount,
         this.reservationStatus,
+        this.paymentMethodStatus,
+        this.paymentMethodId,
         this.roomTypeId,
         this.numberOfRooms,
         this.createdDate,
@@ -39,6 +43,8 @@ class Reservation {
     checkOutDate = json['checkOutDate'];
     totalAmount = json['totalAmount'];
     reservationStatus = json['reservationStatus'];
+    paymentMethodStatus = json['paymentMethodStatus'];
+    paymentMethodId = json['paymentMethodId'];
     roomTypeId = json['roomTypeId'];
     numberOfRooms = json['numberOfRooms'];
     createdDate = json['createdDate'];
@@ -56,6 +62,8 @@ class Reservation {
     data['checkOutDate'] = checkOutDate;
     data['totalAmount'] = totalAmount;
     data['reservationStatus'] = reservationStatus;
+    data['paymentMethodStatus'] = paymentMethodStatus;
+    data['paymentMethodId'] = paymentMethodId;
     data['roomTypeId'] = roomTypeId;
     data['numberOfRooms'] = numberOfRooms;
     data['createdDate'] = createdDate;

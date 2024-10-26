@@ -186,7 +186,7 @@ class EditProfileScreenState extends State<EditProfileScreen>
           ),
         ),
         title: AppbarTitle(
-          text: "Edit Profile",
+          text: "Thay đổi thông tin",
           margin: EdgeInsets.only(left: 8.h),
         ),
         // actions: [
@@ -246,8 +246,8 @@ class EditProfileScreenState extends State<EditProfileScreen>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Name".toUpperCase(),
-            style: CustomTextStyles.bodyLargeGray600,
+            'Tên',
+            style: TextStyle(color: Colors.blue),
           ),
           if (nameError != null)
             Text(
@@ -285,8 +285,8 @@ class EditProfileScreenState extends State<EditProfileScreen>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Email".toUpperCase(),
-            style: CustomTextStyles.bodyLargeGray600,
+            'Email',
+            style: TextStyle(color: Colors.blue),
           ),
           SizedBox(
             height: 8.h,
@@ -310,8 +310,8 @@ class EditProfileScreenState extends State<EditProfileScreen>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Password".toUpperCase(),
-            style: CustomTextStyles.bodyLargeGray600,
+            'Mật khẩu',
+            style: TextStyle(color: Colors.blue),
           ),
           SizedBox(
             height: 8.h,
@@ -346,8 +346,8 @@ class EditProfileScreenState extends State<EditProfileScreen>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Phone Number".toUpperCase(),
-            style: CustomTextStyles.bodyLargeGray600,
+            'Số điện thoại',
+            style: TextStyle(color: Colors.blue),
           ),
           if (phoneNumberError != null)
             Text(
@@ -386,8 +386,8 @@ class EditProfileScreenState extends State<EditProfileScreen>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Identification Number".toUpperCase(),
-            style: CustomTextStyles.bodyLargeGray600,
+            'Căn cước công dân',
+            style: TextStyle(color: Colors.blue),
           ),
           if (idNumberError != null)
             Text(
@@ -427,8 +427,8 @@ class EditProfileScreenState extends State<EditProfileScreen>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Address".toUpperCase(),
-            style: CustomTextStyles.bodyLargeGray600,
+            'Địa chỉ',
+            style: TextStyle(color: Colors.blue),
           ),
           if (addressError != null)
             Text(
@@ -471,32 +471,25 @@ class EditProfileScreenState extends State<EditProfileScreen>
               setState(() {
                 _isLoading = true; // Optional: show a loading indicator
               });
-              final email = emailInputController.text;
-              final password = passwordInputController.text;
               final name = nameInputController.text;
               final idNumber = iDNumberInputController.text;
               final phoneNumber = phoneNumberInputController.text;
               final address = addressInputController.text;
-              bool genderValue = selectedGender == 'Male' ? true : false;
 
               if (name.isEmpty) {
                 setState(() {
                   nameError = 'Không được để trống tên';
                 });
               }
-              if (idNumber.isEmpty) {
-                setState(() {
-                  idNumberError = 'Identification Number cannot be empty';
-                });
-              }
+
               if (phoneNumber.isEmpty) {
                 setState(() {
-                  phoneNumberError = 'Phone Number cannot be empty';
+                  phoneNumberError = 'Không được để trống số điện thoại';
                 });
               }
               if (address.isEmpty) {
                 setState(() {
-                  addressError = 'Address cannot be empty';
+                  addressError = 'Không được để trống địa chỉ';
                 });
               }
 
@@ -518,7 +511,7 @@ class EditProfileScreenState extends State<EditProfileScreen>
                     dialogType: DialogType.success,
                     body: const Center(
                       child: Text(
-                        'Edit Account Success!!!',
+                        'Thay đổi thông tin thành công',
                         style: TextStyle(fontStyle: FontStyle.italic),
                       ),
                     ),
@@ -544,7 +537,7 @@ class EditProfileScreenState extends State<EditProfileScreen>
                     dialogType: DialogType.success,
                     body: const Center(
                       child: Text(
-                        'Edit Account Success!!!',
+                        'Thay đổi thông tin thành công!!!',
                         style: TextStyle(fontStyle: FontStyle.italic),
                       ),
                     ),
@@ -561,7 +554,7 @@ class EditProfileScreenState extends State<EditProfileScreen>
 
               }
             },
-            text: "Save".toUpperCase(),
+            text: "Lưu thay đổi",
             margin: EdgeInsets.only(bottom: 12.h),
             buttonStyle: CustomButtonStyles.fillBlue,
             buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,

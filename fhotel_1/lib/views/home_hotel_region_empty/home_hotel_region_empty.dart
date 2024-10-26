@@ -30,8 +30,8 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
     implements ListHotelView, SearchView {
   int sliderIndex = 1;
   int _currentIndex = 0;
-  String dateStarSelected = "02/02/2022";
-  String dateEndSelected = "02/02/2022";
+  String dateStarSelected = "02/10/2024";
+  String dateEndSelected = "02/10/2024";
   List<Map<String, dynamic>> selectedRoomData = [];
   String _searchQuery = ''; // Add a variable to store the search query
   late SearchPresenter _searchPresenter;
@@ -201,23 +201,19 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
       items: const [
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
-          label: 'Hotel',
+          label: 'Khách sạn',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.fastfood_outlined),
-          label: 'Service',
+          label: 'Dịch vụ',
         ),
         BottomNavigationBarItem(
           icon: FaIcon(FontAwesomeIcons.moneyBill1),
-          label: 'My Booking',
+          label: 'Lịch sử giao dịch',
         ),
-        // BottomNavigationBarItem(
-        //   icon: Icon(Icons.wallet),
-        //   label: 'Transaction',
-        // ),
         BottomNavigationBarItem(
           icon: Icon(Icons.person),
-          label: 'Profile',
+          label: 'Tôi',
         ),
       ],
       selectedFontSize: 12,
@@ -255,7 +251,7 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
             });
             return "${room['roomType']}: ${room['quantity']}";
           }).join(", ") // Concatenate room info
-        : "Select room and guests"; // Default placeholder text
+        : "Chọn loại phòng bạn muốn tìm"; // Default placeholder text
 
     List<RoomSearchRequest> searchRequests = selectedRoomData.map((room) {
       return RoomSearchRequest(

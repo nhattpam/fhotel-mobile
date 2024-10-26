@@ -26,6 +26,7 @@ class CheckoutScreenState extends State<CheckoutScreen> implements ListReservati
   String? checkInDate;
   String? checkOutDate;
   String selectedPaymentMethod = "Vui lòng chọn phương thức thanh toán"; // Default text
+  String selectedPaymentMethodId = ""; // Default text
   late ListReservationPresenter _presenter;
   late VnPayPresenter _vnPresenter;
   String? _error;
@@ -86,6 +87,20 @@ class CheckoutScreenState extends State<CheckoutScreen> implements ListReservati
                 onTap: () {
                   setState(() {
                     selectedPaymentMethod = "VNPay"; // Update the state
+                    selectedPaymentMethodId = '03c20593-9817-4cda-982f-7c8e7ee162e8';
+                    _presenter.updateReservation(
+                        (widget.reservation.reservationId).toString(),
+                        (widget.reservation.numberOfRooms ?? 0),
+                        (widget.reservation.roomTypeId).toString(),
+                        (widget.reservation.checkInDate).toString(),
+                        (widget.reservation.checkOutDate).toString(),
+                        (widget.reservation.totalAmount ?? 0),
+                        (widget.reservation.customerId).toString(),
+                        'Not Paid',
+                        (widget.reservation.reservationStatus).toString(),
+                        '03c20593-9817-4cda-982f-7c8e7ee162e8',
+                        (widget.reservation.createdDate).toString()
+                        );
                   });
                   Navigator.pop(context);
                 },
@@ -96,6 +111,20 @@ class CheckoutScreenState extends State<CheckoutScreen> implements ListReservati
                 onTap: () {
                   setState(() {
                     selectedPaymentMethod = "Thanh toán tại khách sạn"; // Update the state
+                    selectedPaymentMethodId = '1dfab560-eef5-4297-9c26-03c3364f10e6';
+                    _presenter.updateReservation(
+                        (widget.reservation.reservationId).toString(),
+                        (widget.reservation.numberOfRooms ?? 0),
+                        (widget.reservation.roomTypeId).toString(),
+                        (widget.reservation.checkInDate).toString(),
+                        (widget.reservation.checkOutDate).toString(),
+                        (widget.reservation.totalAmount ?? 0),
+                        (widget.reservation.customerId).toString(),
+                        'Not Paid',
+                        (widget.reservation.reservationStatus).toString(),
+                        '1dfab560-eef5-4297-9c26-03c3364f10e6',
+                        (widget.reservation.createdDate).toString()
+                        );
                   });
                   Navigator.pop(context);
                 },
@@ -350,7 +379,7 @@ class CheckoutScreenState extends State<CheckoutScreen> implements ListReservati
                               // ),
                               SizedBox(height: 2.h),
                               Text(
-                                "Kích thước phòng" +(widget.reservation.roomType?.roomSize)
+                                "Diện tích " +(widget.reservation.roomType?.roomSize)
                                     .toString() + " m2",
                                 style: theme.textTheme.bodySmall,
                               )
@@ -939,6 +968,22 @@ class CheckoutScreenState extends State<CheckoutScreen> implements ListReservati
   Widget _buildXabIc(BuildContext context) {
     return Expanded(
       child: CustomOutlinedButton(
+        onPressed: (){
+          _presenter.updateReservation(
+              (widget.reservation.reservationId).toString(),
+              (widget.reservation.numberOfRooms ?? 0),
+              (widget.reservation.roomTypeId).toString(),
+              (widget.reservation.checkInDate).toString(),
+              (widget.reservation.checkOutDate).toString(),
+              (widget.reservation.totalAmount ?? 0),
+              (widget.reservation.customerId).toString(),
+              'Not Paid',
+              'Cancel',
+              selectedPaymentMethodId,
+              (widget.reservation.createdDate).toString()
+
+          );
+        },
         height: 40.h,
         text: "Hủy đặt phòng",
         buttonStyle: CustomButtonStyles.outlineBlue,
@@ -960,6 +1005,7 @@ class CheckoutScreenState extends State<CheckoutScreen> implements ListReservati
       ),
     );
   }
+
   Widget _buildRowxablc(BuildContext context) {
     return Container(
       padding: EdgeInsets.fromLTRB(16.h, 6.h, 16.h, 8.h),

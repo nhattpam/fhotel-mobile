@@ -183,23 +183,19 @@ class UserProfileScreenState extends State<UserProfileScreen>
       items: const [
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
-          label: 'Hotel',
+          label: 'Khách sạn',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.fastfood_outlined),
-          label: 'Service',
+          label: 'Dịch vụ',
         ),
         BottomNavigationBarItem(
           icon: FaIcon(FontAwesomeIcons.moneyBill1),
-          label: 'My Booking',
+          label: 'Lịch sử giao dịch',
         ),
-        // BottomNavigationBarItem(
-        //   icon: Icon(Icons.wallet),
-        //   label: 'Transaction',
-        // ),
         BottomNavigationBarItem(
           icon: Icon(Icons.person),
-          label: 'Profile',
+          label: 'Tôi',
         ),
       ],
       selectedFontSize: 12,
@@ -285,7 +281,7 @@ class UserProfileScreenState extends State<UserProfileScreen>
               color: Colors.orangeAccent,
               context,
               userOne: ImageConstant.imgCircle24x24,
-              addressesOne: "Personal Info",
+              addressesOne: "Trang cá nhân",
             ),
           ),
           // SizedBox(height: 16.h),
@@ -375,7 +371,7 @@ class UserProfileScreenState extends State<UserProfileScreen>
               color: Colors.red,
               context,
               userOne: ImageConstant.imgImage12,
-              addressesOne: "FAQS",
+              addressesOne: "Trung tâm trợ giúp",
             ),
           ),
           SizedBox(height: 16.h),
@@ -386,7 +382,7 @@ class UserProfileScreenState extends State<UserProfileScreen>
               color: Colors.blueAccent,
               context,
               userOne: ImageConstant.imgImage11,
-              addressesOne: "Settings",
+              addressesOne: "Thiết lập",
             ),
           ),
           SizedBox(height: 16.h),
@@ -397,7 +393,7 @@ class UserProfileScreenState extends State<UserProfileScreen>
               color: Colors.purple,
               context,
               userOne: ImageConstant.imgImage13,
-              addressesOne: "Log Out",
+              addressesOne: "Đăng xuất",
             ),
           )
         ],

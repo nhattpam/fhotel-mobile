@@ -43,7 +43,13 @@ class Maincontent7ItemWidgetState extends State<Maincontent7ItemWidget> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(height: 4.h),
-            _buildTthnhcng(context),
+            Row(
+                children:[
+                 _buildTthnhcng(context),
+                  SizedBox(width: 4.h),
+                  _buildPayment(context),
+                ],
+            ),
             SizedBox(height: 12.h),
             SizedBox(
               width: double.maxFinite,
@@ -119,6 +125,23 @@ class Maincontent7ItemWidgetState extends State<Maincontent7ItemWidget> {
             height: 28.h,
             width: 94.h,
             text: "Đang xử lý",
+            buttonStyle: CustomButtonStyles.fillYellow,
+            buttonTextStyle: CustomTextStyles.bodyMediumSecondaryContainer,
+          );
+  }
+  Widget _buildPayment(BuildContext context) {
+    return widget.reservation.paymentMethodStatus != 'Pending'
+        ? CustomElevatedButton(
+            height: 28.h,
+            width: 126.h,
+            text: "Đã thanh toán",
+            buttonStyle: CustomButtonStyles.fillGreen,
+            buttonTextStyle: CustomTextStyles.bodyMediumTeal800,
+          )
+        : CustomElevatedButton(
+            height: 28.h,
+            width: 94.h,
+            text: "Thanh toán sau",
             buttonStyle: CustomButtonStyles.fillYellow,
             buttonTextStyle: CustomTextStyles.bodyMediumSecondaryContainer,
           );

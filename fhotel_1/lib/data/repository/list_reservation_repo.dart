@@ -46,5 +46,30 @@ class ListReservationRepo {
       throw Exception('Failed to fetch reservation.');
     }
   }
+  Future<bool> updateReservation(Reservation reservation) async {
+    String reservationId = reservation.reservationId.toString();
+    final url = Uri.parse('$_baseUrl/reservations/$reservationId');
+    print(url);
+    try {
+      final response = await http.put(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          // Add any authentication headers here
+        },
+        body: jsonEncode(reservation.toJson()),
+      );
+      print(jsonEncode(reservation.toJson()));
+
+      if (response.statusCode == 200) {
+        return true; // Update successful
+      } else {
+        print('Failed to update reservation. Status code: ${response.statusCode}');
+        return false; // Update failed
+      }
+    } catch (e) {
+      throw Exception('Failed to update reservation');
+    }
+  }
 
 }

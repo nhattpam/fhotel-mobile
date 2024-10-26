@@ -196,23 +196,19 @@ class ServiceListingScreenState extends State<ServiceListingScreen> {
       items: const [
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
-          label: 'Hotel',
+          label: 'Khách sạn',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.fastfood_outlined),
-          label: 'Service',
+          label: 'Dịch vụ',
         ),
         BottomNavigationBarItem(
           icon: FaIcon(FontAwesomeIcons.moneyBill1),
-          label: 'My Booking',
+          label: 'Lịch sử giao dịch',
         ),
-        // BottomNavigationBarItem(
-        //   icon: Icon(Icons.wallet),
-        //   label: 'Transaction',
-        // ),
         BottomNavigationBarItem(
           icon: Icon(Icons.person),
-          label: 'Profile',
+          label: 'Tôi',
         ),
       ],
       selectedFontSize: 12,

@@ -1,4 +1,6 @@
 import 'package:fhotel_1/data/models/reservation.dart';
+import 'package:fhotel_1/data/models/room_types.dart';
+import 'package:fhotel_1/data/models/user.dart';
 import 'package:fhotel_1/data/repository/list_reservation_repo.dart';
 import 'package:fhotel_1/views/tabbar_booking_and_service/list_reservation_view.dart';
 
@@ -36,5 +38,42 @@ class ListReservationPresenter {
       _view.hideLoading(); // Hide loading after the process
     }
   }
+  Future<void> updateReservation(
+      String reservationId,
+      int numberOfRooms,
+      String roomTypeId,
+      String checkInDate,
+      String checkOutDate,
+      double totalAmount,
+      String customerId,
+      String paymentMethodStatus,
+      String reservationStatus,
+      String paymentMethodId,
+      String createDate,
+      ) async {
 
+    // Call the authenticate method from the network layer
+    Reservation reservation = Reservation(
+        reservationId: reservationId,
+        numberOfRooms: numberOfRooms,
+        roomTypeId: roomTypeId,
+        checkInDate: checkInDate,
+        checkOutDate: checkOutDate,
+        totalAmount: totalAmount,
+        customerId: customerId,
+        paymentMethodStatus: paymentMethodStatus,
+        reservationStatus: reservationStatus,
+        paymentMethodId: paymentMethodId,
+        createdDate: createDate
+        );
+    _view.showLoading();
+
+    bool success = await _reservationRepo.updateReservation(reservation);
+
+    if (success) {
+      _view.hideLoading();
+    } else {
+      _view.showLoading();
+    }
+  }
 }

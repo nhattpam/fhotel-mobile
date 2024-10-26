@@ -346,7 +346,7 @@ class _HotelListingNearbyScreenState extends State<HotelListingNearbyScreen>
                     AppRoutes.hotelDetail,
                     arguments: {
                       'hotelId': _hotels[index].hotelId.toString(),
-                      "checkInDate":  '25/10/2024',
+                      "checkInDate":  '26/10/2024',
                       "checkOutDate": '27/10/2024',
                       "numberOfRooms": 3,
                     },

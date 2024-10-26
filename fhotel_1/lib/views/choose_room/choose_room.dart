@@ -463,9 +463,13 @@ class ChooseRoomFullScreenState extends State<ChooseRoomFullScreen>
                             child: RichText(
                               text: TextSpan(
                                 children: [
-                                  TextSpan(
+                                  _roomPrices[index] != null && _roomPrices[index]! > 0
+                                      ? TextSpan(
                                     text: NumberFormat('#,###', 'en_US').format(_roomPrices[index]) + " ₫",
-                                    // _roomTypes[index].basePrice.toString(),
+                                    style: CustomTextStyles.titleSmallBlue,
+                                  )
+                                      : TextSpan(
+                                    text: "0 ₫",
                                     style: CustomTextStyles.titleSmallBlue,
                                   ),
                                   TextSpan(

@@ -14,14 +14,14 @@ class UserProfilePresenter {
   // Validate email logic
   String? validateEmail(String? email) {
     if (email == null || email.isEmpty) {
-      return 'Email cannot be empty';
+      return 'Không được để trống email';
     }
     RegExp regex = RegExp(
       r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$',
     );
     final isEmailValid = regex.hasMatch(email);
     if (!isEmailValid) {
-      return 'Please enter a valid email';
+      return 'Hãy nhập đúng định dạng email';
     }
     return null; // Email is valid
   }
@@ -30,10 +30,10 @@ class UserProfilePresenter {
   Future<String?> validateCurrentPassword(String? password) async{
     final exists = await _searchService.checkPasswordExistence(query: password);
     if (!exists) {
-      return 'This is not your current password'; // Notify that the email is already taken
+      return 'Đây không phải mật khẩu của bạn'; // Notify that the email is already taken
     }
     if (password == null || password.isEmpty) {
-      return 'Current Password cannot be empty';
+      return 'Mật khẩu hiện tại không được để trống';
     }
     return null; // Password is valid
   }
@@ -41,10 +41,10 @@ class UserProfilePresenter {
   Future<String?> validatePassword(String? password) async{
     final exists = await _searchService.checkPasswordExistence(query: password);
     if (exists) {
-      return 'This is your current password'; // Notify that the email is already taken
+      return 'Mật khẩu mới trùng với mật khẩu hiện tại'; // Notify that the email is already taken
     }
     if (password == null || password.isEmpty) {
-      return 'Password cannot be empty';
+      return 'Không được để trống mật khẩu';
     }
     return null; // Password is valid
   }
@@ -52,10 +52,10 @@ class UserProfilePresenter {
   // Validate confirm password logic
   String? validateRePassword(String? password, String? repassword) {
     if (repassword == null || repassword.isEmpty) {
-      return 'Password cannot be empty';
+      return 'Mật khẩu xac nhận không được để trống';
     }
     if (password != repassword ) {
-      return 'Passwords do not match';
+      return 'Mật khẩu không trùng khớp';
     }
     return null; // Password is valid
   }
@@ -71,10 +71,10 @@ class UserProfilePresenter {
   // Validate Identification Number logic
   String? validateIdNumber(String? idNumber) {
     if (idNumber == null || idNumber.isEmpty) {
-      return 'Identification Number cannot be empty';
+      return 'Không được để trống căn cước công dân';
     }
     if(idNumber.length != 9 && idNumber.length != 12){
-      return 'Identification Number must be either 9 or 12 digits';
+      return 'Căn cước công dân phải có 9 hoặc 12 số';
     }
     return null; // Identification Number is valid
   }
@@ -83,13 +83,13 @@ class UserProfilePresenter {
   Future<String?> validatePhoneNumber(String? phoneNumber) async {
     final exists = await _searchService.checkIdNumberExistence(query: phoneNumber);
     if (exists) {
-      return 'This Phone Number already exists'; // Notify that the email is already taken
+      return 'Số điện thoại này đã được sử dụng'; // Notify that the email is already taken
     }
     if (phoneNumber == null || phoneNumber.isEmpty) {
-      return 'Phone Number cannot be empty';
+      return 'Không được để trống số điện thoại';
     }
     if(phoneNumber.length != 10 && phoneNumber.length != 11){
-      return 'Phone number must be 10 or 11 digits';
+      return 'Số điện thoại phải gồm 10 hoặc 11 số';
     }
     return null; // Phone Number is valid
   }
@@ -98,7 +98,7 @@ class UserProfilePresenter {
   // Validate Address logic
   String? validateAddress(String? address) {
     if (address == null || address.isEmpty) {
-      return 'Address cannot be empty';
+      return 'Không được để trống địa chỉ';
     }
     return null; // Address is valid
   }

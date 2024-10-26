@@ -79,12 +79,12 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
-                  "Change Password",
+                  "Đổi mật khẩu",
                   style: TextStyle(fontSize: 25, color: Colors.indigoAccent),
                 ),
                 SizedBox(height: 24.h),
                 Text(
-                  "Protect your account by change password",
+                  "Bảo vệ tài khoản của bạn bằng cách thay đổi mật khẩu",
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.center,
@@ -132,6 +132,10 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Text(
+          'Mật khẩu mới',
+          style: TextStyle(color: Colors.blue),
+        ),
         if (newPasswordError != null)
           Text(
             newPasswordError!,
@@ -143,7 +147,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
             focusNode: focusNodes[0],
             fillColor: appTheme.blue50,
             controller: newPasswordInputController,
-            hintText: "New Password",
+            hintText: "Mật khẩu mới",
             hintStyle: const TextStyle(color: Colors.grey),
             textInputAction: TextInputAction.done,
             textInputType: TextInputType.visiblePassword,
@@ -171,6 +175,10 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Text(
+          'Mật khẩu hiện tại',
+          style: TextStyle(color: Colors.blue),
+        ),
         if (currentPasswordError != null)
           Text(
             currentPasswordError!,
@@ -182,7 +190,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
             focusNode: focusNodes[1],
             fillColor: appTheme.blue50,
             controller: currentPasswordInputController,
-            hintText: "Current Password",
+            hintText: "Mật khẩu hiện tại",
             hintStyle: const TextStyle(color: Colors.grey),
             textInputAction: TextInputAction.done,
             textInputType: TextInputType.visiblePassword,
@@ -210,6 +218,10 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Text(
+          'Xác nhận mật khẩu',
+          style: TextStyle(color: Colors.blue),
+        ),
         if (confirmPasswordError != null)
           Text(
             confirmPasswordError!,
@@ -221,7 +233,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
             focusNode: focusNodes[2],
             fillColor: appTheme.blue50,
             controller: confirmPasswordInputController,
-            hintText: "Confirm Password",
+            hintText: "Xác nhận mật khẩu",
             hintStyle: const TextStyle(color: Colors.grey),
             textInputAction: TextInputAction.done,
             textInputType: TextInputType.visiblePassword,
@@ -255,17 +267,17 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
 
         if (currentPassword.isEmpty) {
           setState(() {
-            currentPasswordError = 'Current Password cannot be empty';
+            currentPasswordError = 'Mật khẩu hiện tại không được để trống';
           });
         }
         if (newPassword.isEmpty) {
           setState(() {
-            newPasswordError = 'New Password cannot be empty';
+            newPasswordError = 'Mật khẩu mới không được để trống';
           });
         }
         if (confirmPassword.isEmpty) {
           setState(() {
-            confirmPasswordError = 'Confirm Password cannot be empty';
+            confirmPasswordError = 'Xác nhận mật khẩu không được để trống';
           });
         }
         // Perform final validation
@@ -295,7 +307,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
             dialogType: DialogType.success,
             body: const Center(
               child: Text(
-                'Change Password Success!!!',
+                'Đổi mật khẩu thành công!!!',
                 style: TextStyle(fontStyle: FontStyle.italic),
               ),
             ),
@@ -309,7 +321,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
       },
       buttonStyle: CustomButtonStyles.fillBlue,
       buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,
-      text: "Change Password",
+      text: "Đổi mật khẩu",
       margin: EdgeInsets.only(right: 8.h),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:fhotel_1/data/models/reservation.dart';
+import 'package:fhotel_1/views/guest_information_book/guest_information_book.dart';
 import 'package:fhotel_1/views/my_booking_check_in/my_booking_checkin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart' as html;
@@ -82,7 +83,10 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> {
                         SizedBox(height: 8.h),
                         (widget.reservation.reservationStatus == 'Pending')
                         ? SizedBox()
-                        : _buildColumnsave(context)
+                        : _buildColumnsave(context),
+                        (widget.reservation.paymentMethodStatus == 'Pending')
+                        ? SizedBox()
+                        : _buildCancel(context)
                       ],
                     ),
                   ),
@@ -168,22 +172,43 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          widget.reservation.reservationStatus != 'Pending'
+          Row(
+            children:[
+              widget.reservation.reservationStatus != 'Pending'
+                  ? CustomElevatedButton(
+                height: 28.h,
+                width: 126.h,
+                text: "Đặt thành công",
+                buttonStyle: CustomButtonStyles.fillGreen,
+                buttonTextStyle: CustomTextStyles.bodyMediumTeal800,
+              )
+                  : CustomElevatedButton(
+                height: 28.h,
+                width: 94.h,
+                text: "Đang xử lý",
+                buttonStyle: CustomButtonStyles.fillYellow,
+                buttonTextStyle:
+                CustomTextStyles.bodyMediumSecondaryContainer,
+              ),
+              SizedBox(width: 4.h),
+              widget.reservation.paymentMethodStatus != 'Pending'
               ? CustomElevatedButton(
-                  height: 28.h,
-                  width: 126.h,
-                  text: "Đặt thành công",
-                  buttonStyle: CustomButtonStyles.fillGreen,
-                  buttonTextStyle: CustomTextStyles.bodyMediumTeal800,
-                )
-              : CustomElevatedButton(
-                  height: 28.h,
-                  width: 94.h,
-                  text: "Đang xử lý",
-                  buttonStyle: CustomButtonStyles.fillYellow,
-                  buttonTextStyle:
-                      CustomTextStyles.bodyMediumSecondaryContainer,
-                ),
+              height: 28.h,
+              width: 126.h,
+              text: "Đã thanh toán",
+              buttonStyle: CustomButtonStyles.fillGreen,
+              buttonTextStyle: CustomTextStyles.bodyMediumTeal800,
+              )
+                  : CustomElevatedButton(
+              height: 28.h,
+              width: 94.h,
+              text: "Thanh toán sau",
+              buttonStyle: CustomButtonStyles.fillYellow,
+              buttonTextStyle: CustomTextStyles.bodyMediumSecondaryContainer,
+              ),
+            ],
+          ),
+
           SizedBox(height: 16.h),
           Text(
             "Chi tiết đặt phòng",
@@ -293,7 +318,7 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> {
                               // ),
                               SizedBox(height: 2.h),
                               Text(
-                               "Kích thước phòng: ${widget.reservation.roomType?.roomSize} m2",
+                               "Diện tích: ${widget.reservation.roomType?.roomSize} m2",
                                 style: theme.textTheme.bodySmall,
                               )
                             ],
@@ -772,7 +797,7 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> {
             width: double.maxFinite,
             child: _buildWrapperFive(
               context,
-              labelguestTwo: "Sô điện thoại",
+              labelguestTwo: "Số điện thoại",
               datavalueone:
                   (widget.reservation.customer?.phoneNumber).toString(),
             ),
@@ -850,9 +875,34 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> {
                         MyBookingCheckin(reservation: widget.reservation)),
               );
             },
-            text: "Check-in",
+            text: "Xem phòng",
             margin: EdgeInsets.only(bottom: 12.h),
             buttonStyle: CustomButtonStyles.fillBlue,
+            buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCancel(BuildContext context) {
+    return Container(
+      width: double.maxFinite,
+      padding: EdgeInsets.symmetric(horizontal: 24.h),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          CustomElevatedButton(
+            onPressed: (){
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                    builder: (context) =>
+                        GuestInformationBookForOthersScreen()),
+              );
+            },
+            text: "Hủy đặt phòng",
+            margin: EdgeInsets.only(bottom: 12.h),
+            buttonStyle: CustomButtonStyles.fillRed,
             buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,
           )
         ],
