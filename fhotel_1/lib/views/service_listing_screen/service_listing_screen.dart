@@ -9,6 +9,7 @@ import 'package:fhotel_1/views/service_cart/service_cart.dart';
 import 'package:fhotel_1/views/service_listing_screen/list_service_view.dart';
 import 'package:fhotel_1/widgets/custom_search_view.dart';
 import 'package:flutter/material.dart';
+import 'package:grouped_list/grouped_list.dart';
 
 import '../../core/app_export.dart';
 import '../../data/models/service_type.dart';
@@ -24,7 +25,8 @@ class ServiceListingScreen extends StatefulWidget {
   ServiceListingScreenState createState() => ServiceListingScreenState();
 }
 
-class ServiceListingScreenState extends State<ServiceListingScreen> implements ListServiceView{
+class ServiceListingScreenState extends State<ServiceListingScreen>
+    implements ListServiceView {
   TextEditingController searchController = TextEditingController();
   int _currentIndex = 1;
   int cartItemCount = 5;
@@ -68,72 +70,156 @@ class ServiceListingScreenState extends State<ServiceListingScreen> implements L
                       ),
                     ),
                     SizedBox(height: 16.h),
-                    _buildListpizzaone(context),
-                    SizedBox(height: 38.h),
-                    Container(
-                      margin: EdgeInsets.fromLTRB(20.h, 0, 20.h, 0),
-                      child: _buildRowopen(
-                        context,
-                        openone: "Open Restaurants",
-                        seeallone: "See All",
+                    SizedBox(
+                      height: 32.h,
+                      width: 294.h,
+                      child: ListView.separated(
+                        padding: EdgeInsets.only(right: 34.h),
+                        scrollDirection: Axis.horizontal,
+                        separatorBuilder: (context, index) {
+                          return SizedBox(
+                            width: 8.h,
+                          );
+                        },
+                        itemCount: _typeServices.length,
+                        itemBuilder: (context, index) {
+                          String name =
+                              _typeServices[index].serviceTypeName.toString();
+                          return ChipTheme(
+                            data: ChipTheme.of(context).copyWith(
+                              backgroundColor: Colors.white,
+                              selectedColor: Colors.blue,
+                              disabledColor: Colors.grey,
+                              shape: RoundedRectangleBorder(
+                                side: const BorderSide(
+                                  color: Colors.grey, // Border color
+                                  width: 1, // Border width
+                                ),
+                                borderRadius: BorderRadius.circular(
+                                    50), // Rounded corners
+                              ),
+                            ),
+                            child: Chip(
+                              label: Text(
+                                name,
+                              ),
+                              // selected: false,
+                              // onSelected: (bool selected) {},
+                            ),
+                          );
+                        },
                       ),
                     ),
+                    SizedBox(height: 38.h),
                     Container(
                       width: double.maxFinite,
                       margin: EdgeInsets.symmetric(horizontal: 12.h),
                       padding: EdgeInsets.symmetric(horizontal: 10.h),
-                      // Provide a fixed height to the ListView.builder
                       child: SizedBox(
-                        height: 300.h, // You can adjust the height as needed
-                        child: ListView.builder(
-                          itemCount: _services.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return GestureDetector(
-                              onTap: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const ServiceDetailScreen()),
-                                );
-                              },
-                              child: Container(
-                                margin: EdgeInsets.only(bottom: 10.h),
-                                padding: EdgeInsets.all(12.h),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(10.h),
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    CustomImageView(
-                                      imagePath: ImageConstant.imgImage170x128,
-                                      height: 140.h,
-                                      width: double.maxFinite,
-                                      radius: BorderRadius.circular(10.h),
-                                    ),
-                                    SizedBox(height: 6.h),
-                                    Text(
-                                      "Rose Garden Restaurant",
-                                      style: CustomTextStyles.titleSmallGray600,
-                                    ),
-                                    SizedBox(height: 2.h),
-                                    Text(
-                                      "Burger - Chicken - Riche - Wings",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium,
-                                    ),
-                                    SizedBox(height: 12.h),
-                                    _buildRowszone(context),
-                                  ],
+                          height: 500.h, // Adjust the height as needed
+                          child: GroupedListView<Services, String>(
+                            elements: _services,
+                            // Your list of services
+                            groupBy: (element) =>
+                                (element.serviceType?.serviceTypeName)
+                                    .toString(),
+                            // Grouping criteria
+                            groupHeaderBuilder: (Services service) => Padding(
+                              padding: EdgeInsets.symmetric(vertical: 8.0.h),
+                              child: Text(
+                                (service.serviceType?.serviceTypeName)
+                                    .toString(), // Display the group name
+                                style: TextStyle(
+                                  fontSize: 18.h,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                            );
-                          },
-                        ),
-                      ),
-                    ),
+                            ),
+                            itemBuilder: (context, Services service) {
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const ServiceDetailScreen()),
+                                  );
+                                },
+                                child: Container(
+                                  margin: EdgeInsets.only(bottom: 10.h),
+                                  padding: EdgeInsets.all(12.h),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10.h),
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Image.network(
+                                        service.image.toString(),
+                                        height: 140.h,
+                                        width: double.maxFinite,
+                                        // radius: BorderRadius.circular(10.h),
+                                      ),
+                                      SizedBox(height: 6.h),
+                                      Text(
+                                        service.serviceName.toString(),
+                                        // Adjust according to your model
+                                        style:
+                                            CustomTextStyles.titleSmallGray600,
+                                      ),
+                                      SizedBox(height: 12.h),
+                                      SizedBox(
+                                        width: double.maxFinite,
+                                        child: Row(
+                                          crossAxisAlignment: CrossAxisAlignment.end,
+                                          children: [
+                                            SizedBox(
+                                              width: 100.h,
+                                              child: Row(
+                                                children: [
+                                                  Text(
+                                                  "Giá ",
+                                                    style: CustomTextStyles
+                                                        .titleSmallGray600,
+                                                  ),
+                                                  Text(
+                                                  NumberFormat('#,###', 'en_US').format(service.price) + " ₫",
+                                                    style: CustomTextStyles
+                                                        .titleSmallGray600,
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                            // SizedBox(width: 12.h),
+                                            // Row(
+                                            //   mainAxisAlignment: MainAxisAlignment.end,
+                                            //   mainAxisSize: MainAxisSize.min,
+                                            //   children: [
+                                            //     CustomImageView(
+                                            //       imagePath: ImageConstant.imgImage170x128,
+                                            //       height: 16.h,
+                                            //       width: 22.h,
+                                            //     ),
+                                            //     Padding(
+                                            //       padding: EdgeInsets.only(left: 8.h),
+                                            //       child: Text(
+                                            //         "Free",
+                                            //         style: CustomTextStyles.titleSmallGray600,
+                                            //       ),
+                                            //     )
+                                            //   ],
+                                            // ),
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          )),
+                    )
                   ],
                 ),
               ),
@@ -306,79 +392,6 @@ class ServiceListingScreenState extends State<ServiceListingScreen> implements L
     );
   }
 
-  Widget _buildRowszone(BuildContext context) {
-    return SizedBox(
-      width: double.maxFinite,
-      child: Row(
-        children: [
-          SizedBox(
-            width: 46.h,
-            child: Row(
-              children: [
-                Expanded(
-                  child: Icon(
-                    Icons.star, // Star icon
-                    color: Colors.yellow, // Yellow color
-                    size: 20.h, // Set the size to match the previous height
-                  ),
-                ),
-                SizedBox(width: 4.h),
-                Text(
-                  "4.7",
-                  style: CustomTextStyles.titleSmallGray600,
-                )
-              ],
-            ),
-          ),
-          // SizedBox(width: 12.h),
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.end,
-          //   mainAxisSize: MainAxisSize.min,
-          //   children: [
-          //     CustomImageView(
-          //       imagePath: ImageConstant.imgImage170x128,
-          //       height: 16.h,
-          //       width: 22.h,
-          //     ),
-          //     Padding(
-          //       padding: EdgeInsets.only(left: 8.h),
-          //       child: Text(
-          //         "Free",
-          //         style: CustomTextStyles.titleSmallGray600,
-          //       ),
-          //     )
-          //   ],
-          // ),
-          SizedBox(width: 12.h),
-          Expanded(
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 12.h),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.watch_later_outlined, // Star icon
-                    color: Colors.grey, // Set the color to yellow
-                    size: 20.h, // Adjust the size according to your requirement
-                  ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 8.h),
-                      child: Text(
-                        "20 min",
-                        style: CustomTextStyles.titleSmallGray600,
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
   Widget _buildRowopen(
     BuildContext context, {
     required String openone,
@@ -428,7 +441,6 @@ class ServiceListingScreenState extends State<ServiceListingScreen> implements L
       _isLoading = false;
     });
   }
-
 
   @override
   void onGetServicesError(String error) {

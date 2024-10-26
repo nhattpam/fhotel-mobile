@@ -1,3 +1,5 @@
+import 'package:fhotel_1/data/models/service_type.dart';
+
 class Services {
   String? serviceId;
   String? serviceName;
@@ -6,6 +8,7 @@ class Services {
   String? description;
   String? serviceTypeId;
   bool? isActive;
+  ServiceType? serviceType;
 
   Services(
       {this.serviceId,
@@ -14,7 +17,8 @@ class Services {
         this.image,
         this.description,
         this.serviceTypeId,
-        this.isActive});
+        this.isActive,
+      this.serviceType});
 
   Services.fromJson(Map<String, dynamic> json) {
     serviceId = json['serviceId'];
@@ -24,6 +28,8 @@ class Services {
     description = json['description'];
     serviceTypeId = json['serviceTypeId'];
     isActive = json['isActive'];
+    serviceType = json['serviceType'] != null ? ServiceType.fromJson(json['serviceType']) : null;
+
   }
 
   Map<String, dynamic> toJson() {
@@ -35,6 +41,7 @@ class Services {
     data['description'] = description;
     data['serviceTypeId'] = serviceTypeId;
     data['isActive'] = isActive;
+    data['serviceType'] = serviceType;
     return data;
   }
 }
