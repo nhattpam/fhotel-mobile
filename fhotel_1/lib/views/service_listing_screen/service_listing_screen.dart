@@ -1,7 +1,9 @@
 import 'package:badges/badges.dart' as badges; // Alias the badges package
 import 'package:fhotel_1/data/models/service.dart';
 import 'package:fhotel_1/data/repository/list_service.dart';
+import 'package:fhotel_1/data/repository/service_type_repo.dart';
 import 'package:fhotel_1/presenters/list_service_presenter.dart';
+import 'package:fhotel_1/presenters/service_type_presenter.dart';
 import 'package:fhotel_1/views/search_service_result/search_service_result.dart';
 import 'package:fhotel_1/views/service_cart/service_cart.dart';
 import 'package:fhotel_1/views/service_listing_screen/list_service_view.dart';
@@ -9,6 +11,7 @@ import 'package:fhotel_1/widgets/custom_search_view.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/app_export.dart';
+import '../../data/models/service_type.dart';
 import '../service_detail_screen/service_detail_screen.dart';
 import 'widgets/listpizza_one_item_widget.dart';
 
@@ -26,15 +29,19 @@ class ServiceListingScreenState extends State<ServiceListingScreen> implements L
   int _currentIndex = 1;
   int cartItemCount = 5;
   late ListServicePresenter _presenter;
+  late ServiceTypePresenter _typePresenter;
   bool _isLoading = false;
-  List<Service> _services = [];
+  List<Services> _services = [];
+  List<ServiceType> _typeServices = [];
   String? _error;
 
   @override
   void initState() {
     super.initState();
     _presenter = ListServicePresenter(this, ListServiceRepo());
+    _typePresenter = ServiceTypePresenter(this, ServiceTypeRepo());
     _presenter.getServices(); // Fetch the list of hotels when the screen loads
+    _typePresenter.getServiceTypes();
   }
 
   @override
@@ -79,7 +86,7 @@ class ServiceListingScreenState extends State<ServiceListingScreen> implements L
                       child: SizedBox(
                         height: 300.h, // You can adjust the height as needed
                         child: ListView.builder(
-                          itemCount: 10,
+                          itemCount: _services.length,
                           itemBuilder: (BuildContext context, int index) {
                             return GestureDetector(
                               onTap: () {
@@ -431,9 +438,19 @@ class ServiceListingScreenState extends State<ServiceListingScreen> implements L
   }
 
   @override
-  void onGetServicesSuccess(List<Service> services) {
+  void onGetServicesSuccess(List<Services> services) {
     setState(() {
       _services = services;
+      print(_services);
     });
+  }
+
+  @override
+  void onGetServiceTypesSuccess(List<ServiceType> types) {
+    setState(() {
+      _typeServices = types;
+      print(_typeServices);
+    });
+    // TODO: implement onGetServiceTypesSuccess
   }
 }

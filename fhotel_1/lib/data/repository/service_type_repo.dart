@@ -1,23 +1,24 @@
 import 'dart:convert';
 import 'package:fhotel_1/data/models/service.dart';
+import 'package:fhotel_1/data/models/service_type.dart';
 import 'package:http/http.dart' as http;
 
-class ListServiceRepo {
+class ServiceTypeRepo {
   final String _baseUrl = 'https://fhotelapi.azurewebsites.net/api';
 
-  Future<List<Services>> getServices() async {
+  Future<List<ServiceType>> getServiceTypes() async {
 
-    final url = Uri.parse('$_baseUrl/services');
+    final url = Uri.parse('$_baseUrl/service-types');
 
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
       List<dynamic> responseData = json.decode(response.body);
       return responseData
-          .map((hotelJson) => Services.fromJson(hotelJson))
+          .map((hotelJson) => ServiceType.fromJson(hotelJson))
           .toList();
     } else {
-      throw Exception('Failed to fetch services.');
+      throw Exception('Failed to fetch service type.');
     }
   }
 }

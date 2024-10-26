@@ -14,7 +14,8 @@ class ListServicePresenter {
   Future<void> getServices() async {
     _view.showLoading(); // Show loading before fetching data
     try {
-      List<Service> services = await _serviceRepo.getServices();
+      List<Services> services = await _serviceRepo.getServices();
+      print(services);
       _view.onGetServicesSuccess(services); // Pass the data to the view on success
     } catch (error) {
       _view.onGetServicesError(error.toString()); // Pass the error to the view on failure

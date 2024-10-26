@@ -1,24 +1,22 @@
-class Service {
+class Services {
   String? serviceId;
   String? serviceName;
-  int? price;
+  double? price;
   String? image;
   String? description;
   String? serviceTypeId;
   bool? isActive;
-  ServiceType? serviceType;
 
-  Service(
+  Services(
       {this.serviceId,
         this.serviceName,
         this.price,
         this.image,
         this.description,
         this.serviceTypeId,
-        this.isActive,
-        this.serviceType});
+        this.isActive});
 
-  Service.fromJson(Map<String, dynamic> json) {
+  Services.fromJson(Map<String, dynamic> json) {
     serviceId = json['serviceId'];
     serviceName = json['serviceName'];
     price = json['price'];
@@ -26,13 +24,10 @@ class Service {
     description = json['description'];
     serviceTypeId = json['serviceTypeId'];
     isActive = json['isActive'];
-    serviceType = json['serviceType'] != null
-        ? ServiceType.fromJson(json['serviceType'])
-        : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = new Map<String, dynamic>();
     data['serviceId'] = serviceId;
     data['serviceName'] = serviceName;
     data['price'] = price;
@@ -40,28 +35,6 @@ class Service {
     data['description'] = description;
     data['serviceTypeId'] = serviceTypeId;
     data['isActive'] = isActive;
-    if (serviceType != null) {
-      data['serviceType'] = serviceType!.toJson();
-    }
-    return data;
-  }
-}
-
-class ServiceType {
-  String? serviceTypeId;
-  String? serviceTypeName;
-
-  ServiceType({this.serviceTypeId, this.serviceTypeName});
-
-  ServiceType.fromJson(Map<String, dynamic> json) {
-    serviceTypeId = json['serviceTypeId'];
-    serviceTypeName = json['serviceTypeName'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['serviceTypeId'] = serviceTypeId;
-    data['serviceTypeName'] = serviceTypeName;
     return data;
   }
 }
