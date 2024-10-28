@@ -2,7 +2,6 @@ import 'package:fhotel_1/data/models/order.dart';
 import 'package:fhotel_1/data/models/reservation.dart';
 import 'package:fhotel_1/data/models/service.dart';
 import 'package:fhotel_1/data/repository/list_reservation_repo.dart';
-import 'package:fhotel_1/data/repository/order_repo.dart';
 import 'package:fhotel_1/presenters/list_reservation_presenter.dart';
 import 'package:fhotel_1/presenters/order_detail_presenter.dart';
 import 'package:fhotel_1/presenters/order_presenter.dart';
@@ -238,7 +237,7 @@ class ServiceDetailScreenState extends State<ServiceDetailScreen> implements Lis
                             return DropdownMenuItem<Reservation>(
                               value: reservation,
                               child: Text(
-                                "Phòng số 1",
+                                "Đặt chỗ ",
                                 // reservation.reservationId.toString(), // Replace with the appropriate display property
                                 style: theme.textTheme.titleSmall,
                               ),

@@ -5,6 +5,7 @@ import '../../core/app_export.dart';
 
 class OrderRepo {
   final String _baseUrl = 'https://fhotelapi.azurewebsites.net/api';
+  final customerId = SessionManager().getUserId();
 
   Future<Order> create(Order order) async {
     final url = Uri.parse('$_baseUrl/orders');
@@ -37,4 +38,25 @@ class OrderRepo {
       throw Exception('Error creating order');
     }
   }
+
+  Future<List<Order>> getOrderByCustomerlId() async {
+
+    final url = Uri.parse('$_baseUrl/users/$customerId/orders');
+    final response = await http.get(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final List<dynamic> responseData = json.decode(response.body);
+
+      // Mapping the list of dynamic to List<RoomImage>
+      return responseData.map((data) => Order.fromJson(data)).toList();
+    } else {
+      throw Exception('Failed to fetch order by customer id.');
+    }
+  }
+
 }

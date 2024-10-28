@@ -1,4 +1,5 @@
 import 'package:fhotel_1/data/models/order.dart';
+import 'package:fhotel_1/data/models/service.dart';
 
 class OrderDetail {
   String? orderDetailId;
@@ -7,6 +8,7 @@ class OrderDetail {
   String? roomFacilityId;
   int? quantity;
   Order? order;
+  Services? services;
 
   OrderDetail(
       {this.orderDetailId,
@@ -14,7 +16,8 @@ class OrderDetail {
         this.serviceId,
         this.roomFacilityId,
         this.quantity,
-      this.order});
+      this.order,
+      this.services});
 
   OrderDetail.fromJson(Map<String, dynamic> json) {
     orderDetailId = json['orderDetailId'];
@@ -23,6 +26,7 @@ class OrderDetail {
     roomFacilityId = json['roomFacilityId'];
     quantity = json['quantity'];
     order = json['order'] != null ? Order.fromJson(json['order']) : null;
+    services = json['services'] != null ? Services.fromJson(json['services']) : null;
 
   }
 
@@ -35,6 +39,9 @@ class OrderDetail {
     data['quantity'] = quantity;
     if (order != null) {
       data['order'] = order!.toJson();
+    }
+    if (services != null) {
+      data['services'] = services!.toJson();
     }
 
     return data;

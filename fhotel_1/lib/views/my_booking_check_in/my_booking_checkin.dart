@@ -163,21 +163,49 @@ class MyBookingCheckinState extends State<MyBookingCheckin> implements ListRoomS
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          widget.reservation.reservationStatus != 'Pending'
-              ? CustomElevatedButton(
-            height: 28.h,
-            width: 126.h,
-            text: "Đặt thành công",
-            buttonStyle: CustomButtonStyles.fillGreen,
-            buttonTextStyle: CustomTextStyles.bodyMediumTeal800,
-          )
-              : CustomElevatedButton(
-            height: 28.h,
-            width: 94.h,
-            text: "Đang xử lý",
-            buttonStyle: CustomButtonStyles.fillYellow,
-            buttonTextStyle:
-            CustomTextStyles.bodyMediumSecondaryContainer,
+          Row(
+            children: [
+              CustomElevatedButton(
+                height: 28.h,
+                width: widget.reservation.reservationStatus == 'Pending'
+                    ? 126.h
+                    : 126.h,
+                text: widget.reservation.reservationStatus == 'Cancelled'
+                    ? "Đã bị hủy"
+                    : widget.reservation.reservationStatus == 'Pending'
+                    ? "Đang xử lý"
+                    : "Đặt thành công",
+                buttonStyle: widget.reservation.reservationStatus == 'Cancelled'
+                    ? CustomButtonStyles
+                    .fillRed // Add a red style for "Cancelled"
+                    : widget.reservation.reservationStatus == 'Pending'
+                    ? CustomButtonStyles.fillYellow
+                    : CustomButtonStyles.fillGreen,
+                buttonTextStyle: widget.reservation.reservationStatus ==
+                    'Cancelled'
+                    ? CustomTextStyles
+                    .bodyMediumwhiteA700 // Add an error style for "Cancelled"
+                    : widget.reservation.reservationStatus == 'Pending'
+                    ? CustomTextStyles.bodyMediumSecondaryContainer
+                    : CustomTextStyles.bodyMediumTeal800,
+              ),
+              SizedBox(width: 4.h),
+              widget.reservation.paymentStatus == 'Paid'
+                  ? CustomElevatedButton(
+                height: 28.h,
+                width: 126.h,
+                text: "Đã thanh toán",
+                buttonStyle: CustomButtonStyles.fillGreen,
+                buttonTextStyle: CustomTextStyles.bodyMediumTeal800,
+              )
+                  : CustomElevatedButton(
+                height: 28.h,
+                width: 126.h,
+                text: "Chưa Thanh Toán",
+                buttonStyle: CustomButtonStyles.fillYellow,
+                buttonTextStyle: CustomTextStyles.bodyMediumSecondaryContainer,
+              ),
+            ],
           ),
           SizedBox(height: 16.h),
           Text(
