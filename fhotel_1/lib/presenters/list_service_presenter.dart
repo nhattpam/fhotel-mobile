@@ -24,4 +24,18 @@ class ListServicePresenter {
     }
   }
 
+  Future<void> getServiceById(String serviceId) async {
+    _view.showLoading(); // Show loading before fetching data
+    try {
+      // Call the network method to get the customer by ID
+      final service = await _serviceRepo.getServiceById(serviceId);
+      // Notify the view about success
+      _view.onGetServiceSuccess(service);
+    } catch (error) {
+      // Notify the view about failure
+      _view.onGetServicesError('Error fetching services: $error');
+    } finally{
+      _view.hideLoading(); // Hide loading after the process
+    }
+  }
 }

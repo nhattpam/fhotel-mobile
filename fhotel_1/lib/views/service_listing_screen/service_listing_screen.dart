@@ -36,6 +36,7 @@ class ServiceListingScreenState extends State<ServiceListingScreen>
   List<Services> _services = [];
   List<ServiceType> _typeServices = [];
   String? _error;
+  Services? _service;
 
   @override
   void initState() {
@@ -140,8 +141,7 @@ class ServiceListingScreenState extends State<ServiceListingScreen>
                                 onTap: () {
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                            const ServiceDetailScreen()),
+                                        builder: (context) => ServiceDetailScreen(service: service)),
                                   );
                                 },
                                 child: Container(
@@ -453,7 +453,6 @@ class ServiceListingScreenState extends State<ServiceListingScreen>
   void onGetServicesSuccess(List<Services> services) {
     setState(() {
       _services = services;
-      print(_services);
     });
   }
 
@@ -461,8 +460,14 @@ class ServiceListingScreenState extends State<ServiceListingScreen>
   void onGetServiceTypesSuccess(List<ServiceType> types) {
     setState(() {
       _typeServices = types;
-      print(_typeServices);
     });
     // TODO: implement onGetServiceTypesSuccess
+  }
+
+  @override
+  void onGetServiceSuccess(Services service) {
+    setState(() {
+      _service = service;
+    });
   }
 }

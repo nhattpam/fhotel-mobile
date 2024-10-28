@@ -20,4 +20,25 @@ class ListServiceRepo {
       throw Exception('Failed to fetch services.');
     }
   }
+
+  Future<Services> getServiceById(String serviceId) async {
+
+    final url = Uri.parse('$_baseUrl/users/$serviceId');
+
+    final response = await http.get(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final responseData = json.decode(response.body);
+
+      return Services.fromJson(responseData);
+    } else {
+      throw Exception('Failed to get service.');
+    }
+  }
+
 }

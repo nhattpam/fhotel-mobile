@@ -1,12 +1,19 @@
+import 'package:fhotel_1/data/models/service.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/app_export.dart';
 
-class ServiceDetailScreen extends StatelessWidget {
-  const ServiceDetailScreen({Key? key})
-      : super(
-          key: key,
-        );
+class ServiceDetailScreen extends StatefulWidget {
+  final Services service;
+
+  ServiceDetailScreen({super.key, required this.service});
+
+  @override
+  ServiceDetailScreenState createState() => ServiceDetailScreenState();
+}
+
+class ServiceDetailScreenState extends State<ServiceDetailScreen> {
+  int quantity = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -17,10 +24,10 @@ class ServiceDetailScreen extends StatelessWidget {
           width: double.maxFinite,
           child: Column(children: [
             // _buildStackclockone(context),
-            _buildscrollview(context)
+            _buildscrollview(context),
+            _buildAddcart(context)
           ]),
         ),
-        bottomNavigationBar: _buildAddcart(context),
       ),
     );
   }
@@ -29,7 +36,7 @@ class ServiceDetailScreen extends StatelessWidget {
     return CustomAppBar(
         leadingWidth: 40.h,
         leading: AppbarLeadingImage(
-          onTap: (){
+          onTap: () {
             Navigator.pop(context);
           },
           imagePath: ImageConstant.imgChevronLeft,
@@ -103,90 +110,12 @@ class ServiceDetailScreen extends StatelessWidget {
               _buildHeadingImage(context),
               SizedBox(height: 22.h),
               Text(
-                "Burger Bistro",
+                widget.service.serviceName.toString(),
                 style: CustomTextStyles.titleSmallGray600,
-              ),
-              SizedBox(height: 2.h),
-              SizedBox(
-                width: double.maxFinite,
-                child: Row(
-                  children: [
-                    CustomImageView(
-                      imagePath: ImageConstant.imgImage170x128,
-                      height: 22.h,
-                      width: 22.h,
-                      radius: BorderRadius.circular(
-                        10.h,
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 10.h),
-                      child: Text(
-                        "Rose Garden",
-                        style: CustomTextStyles.bodyMediumGray600,
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              SizedBox(height: 18.h),
-              SizedBox(
-                width: double.maxFinite,
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.star, // Star icon
-                      color: Colors.yellow, // Set the color to yellow
-                      size:
-                          20.h, // Adjust the size according to your requirement
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 10.h),
-                      child: Text(
-                        "4.7",
-                        style: CustomTextStyles.titleSmallGray600,
-                      ),
-                    ),
-                    // Spacer(
-                    //   flex: 26,
-                    // ),
-                    // Icon(
-                    //   Icons.watch_later_outlined,             // Star icon
-                    //   color: Colors.grey,    // Set the color to yellow
-                    //   size: 20.h,              // Adjust the size according to your requirement
-                    // ),
-                    // Padding(
-                    //   padding: EdgeInsets.only(left: 10.h),
-                    //   child: Text(
-                    //     "Free",
-                    //     style: CustomTextStyles.titleSmallGray600,
-                    //   ),
-                    // ),
-                    Spacer(
-                      flex: 26,
-                    ),
-                    Icon(
-                      Icons.watch_later_outlined, // Star icon
-                      color: Colors.grey, // Set the color to yellow
-                      size:
-                          20.h, // Adjust the size according to your requirement
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 10.h),
-                      child: Text(
-                        "20 min",
-                        style: CustomTextStyles.titleSmallGray600,
-                      ),
-                    ),
-                    Spacer(
-                      flex: 47,
-                    )
-                  ],
-                ),
               ),
               SizedBox(height: 20.h),
               Text(
-                "Maecenas sed diam eget risus varius blandit sit amet non magna. Integer posuere erat a ante venenatis dapibus posuere velit aliquet.",
+                widget.service.description.toString(),
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,
                 style: theme.textTheme.bodyMedium!.copyWith(
@@ -375,28 +304,11 @@ class ServiceDetailScreen extends StatelessWidget {
             width: double.maxFinite,
             height: double.maxFinite,
             decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(ImageConstant.imgImage170x129),
-                // Your image path here
-                fit: BoxFit.cover,
-              ),
               borderRadius: BorderRadiusStyle.roundedBorder8,
             ),
-          ),
-          // Overlaying Icon Button
-          Positioned(
-            right: 20.h, // Position it slightly away from the right edge
-            bottom: 20.h, // Position it slightly away from the bottom edge
-            child: CustomIconButton(
-              height: 36.h,
-              width: 36.h,
-              padding: EdgeInsets.all(10.h),
-              decoration: IconButtonStyleHelper.fillBlack,
-              child: Icon(
-                Icons.favorite, // Heart icon
-                color: Colors.red, // Change the color to red for the heart icon
-                size: 24.h, // Adjust the size if needed
-              ),
+            child: Image.network(
+                widget.service.image.toString(),
+              fit: BoxFit.cover,
             ),
           ),
         ],
@@ -405,6 +317,7 @@ class ServiceDetailScreen extends StatelessWidget {
   }
 
   Widget _buildAddcart(BuildContext context) {
+    double price = (quantity * ((widget.service.price) as num)).toDouble();
     return Container(
       height: 115.h,
       width: double.maxFinite,
@@ -439,6 +352,43 @@ class ServiceDetailScreen extends StatelessWidget {
                       Align(
                         alignment: Alignment.topCenter,
                         child: Text(
+                          "Số lượng",
+                          style: theme.textTheme.titleSmall,
+                        ),
+                      ),
+                      Spacer(),
+                      SizedBox(
+                        width: 40, // Adjust width to keep layout consistent
+                        child: TextFormField(
+                          initialValue: quantity.toString(),
+                          textAlign: TextAlign.center,
+                          keyboardType: TextInputType.number,
+                          style: theme.textTheme.titleSmall,
+                          onFieldSubmitted: (value) {
+                            final newQuantity = int.tryParse(value) ?? quantity;
+                            setState(() {
+                              quantity = newQuantity;
+                            });
+                          },
+                          decoration: InputDecoration(
+                            isDense: true,
+                            contentPadding: EdgeInsets.zero,
+                            border: InputBorder.none,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  width: double.maxFinite,
+                  margin: EdgeInsets.only(top: 10.h),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Align(
+                        alignment: Alignment.topCenter,
+                        child: Text(
                           "Tổng giá tiền",
                           style: theme.textTheme.titleSmall,
                         ),
@@ -447,29 +397,14 @@ class ServiceDetailScreen extends StatelessWidget {
                       Align(
                         alignment: Alignment.bottomCenter,
                         child: Text(
-                          "8.000.000 ₫",
+                          NumberFormat('#,###', 'en_US').format(price) + " ₫",
                           style: CustomTextStyles.titleSmallBlue,
                         ),
                       ),
-                      CustomImageView(
-                        color: appTheme.black900.withOpacity(0.3),
-                        imagePath: ImageConstant.imgIconWrapper17,
-                        height: 24.h,
-                        width: 24.h,
-                        margin: EdgeInsets.only(left: 4.h),
-                      )
                     ],
                   ),
                 )
               ],
-            ),
-          ),
-          SizedBox(height: 4.h),
-          Padding(
-            padding: EdgeInsets.only(right: 14.h),
-            child: Text(
-              "Đã bao gồm thuế",
-              style: TextStyle(color: appTheme.black900.withOpacity(0.5)),
             ),
           ),
           SizedBox(height: 4.h),
