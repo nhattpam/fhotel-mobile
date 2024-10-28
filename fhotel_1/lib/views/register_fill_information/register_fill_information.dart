@@ -418,6 +418,7 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
     ''',
             );
             EmailOTP.config(
+                expiry: 5,
                 emailTheme: EmailTheme.v1,
                 appEmail: "contact@westory.com",
                 appName: "FHotel OTP",
@@ -445,8 +446,11 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
                       phoneNumber: phoneNumber,
                       image: _imageUrl.toString(),
                       isActive: false);
-                 await _registerpresenter.registerUser(email, password, name, address, idNumber, phoneNumber, _imageUrl.toString());
-                  Navigator.pushReplacementNamed(context, AppRoutes.otpScreen,
+                  await _registerpresenter.registerUser(email, password, name,
+                      address, idNumber, phoneNumber, _imageUrl.toString());
+                  Navigator.pushReplacementNamed(
+                    context,
+                    AppRoutes.otpScreen,
                     arguments: {
                       'user': user,
                       'otp': generatedOtp,

@@ -26,9 +26,9 @@ class OrderDetail {
     roomFacilityId = json['roomFacilityId'];
     quantity = json['quantity'];
     order = json['order'] != null ? Order.fromJson(json['order']) : null;
-    services = json['services'] != null ? Services.fromJson(json['services']) : null;
-
+    services = json['service'] != null ? Services.fromJson(json['service']) : null; // Updated key
   }
+
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();

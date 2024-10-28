@@ -7,8 +7,8 @@ class GetOrderDetailRepo {
   final String _baseUrl = 'https://fhotelapi.azurewebsites.net/api';
 
   Future<OrderDetail> getOrderDetailByOrderId(String orderId) async {
-
     final url = Uri.parse('$_baseUrl/orders/$orderId/order-details');
+    print('Requesting URL: $url');
 
     final response = await http.get(
       url,
@@ -19,10 +19,16 @@ class GetOrderDetailRepo {
 
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
-
-      return OrderDetail.fromJson(responseData);
+      if (responseData.isNotEmpty) {
+        final orderDetail = OrderDetail.fromJson(responseData[0]);
+        print((responseData[0]));
+        print(orderDetail.services?.serviceName);
+        return orderDetail;
+      } else {
+        throw Exception('No order details found for the provided order ID.');
+      }
     } else {
-      throw Exception('Failed to fetch order detail by order id.');
+      throw Exception('Failed to fetch order detail. Status code: ${response.statusCode}');
     }
   }
 

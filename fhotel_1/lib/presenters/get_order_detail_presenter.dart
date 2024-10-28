@@ -12,7 +12,7 @@ class GetOrderDetailPresenter {
     _view.showLoading(); // Show loading indicator
     try {
       final orderDetails = await _orderDetailRepo.getOrderDetailByOrderId(orderId);
-
+      print(orderDetails);
       // Ensure that showFacility is called even if the facilities list is empty
       _view.showOrderDetail(orderDetails);
 
