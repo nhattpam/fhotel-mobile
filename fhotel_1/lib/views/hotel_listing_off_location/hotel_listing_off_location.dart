@@ -44,7 +44,7 @@ class HotelListingOffLocationScreen extends StatelessWidget {
         ),
       ),
       title: AppbarTitle(
-        text: "Khách sạn gần bạn",
+        text: "Khách sạn phổ biến",
         margin: EdgeInsets.only(left: 8.h),
       ),
       actions: [

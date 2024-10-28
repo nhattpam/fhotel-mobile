@@ -8,18 +8,7 @@ class SearchPresenter {
 
   SearchPresenter(this.view, this.searchService);
 
-  // Future<void> searchRoomTypes(
-  //     String? roomTypeName,
-  //     int quantity,
-  //     String? cityName) async {
-  //   try {
-  //     final roomTypes = await searchService.searchRoomTypes(
-  //         roomTypeName, quantity, cityName);
-  //     view.onSearchComplete(roomTypes);
-  //   } catch (error) {
-  //     view.onSearchError(error.toString());
-  //   }
-  // }
+
   Future<void> searchListRoomTypes(List<RoomSearchRequest> searchRequests, String? cityName) async {
     try {
       final roomTypes = await searchService.searchListRoomTypes(searchRequests, cityName);

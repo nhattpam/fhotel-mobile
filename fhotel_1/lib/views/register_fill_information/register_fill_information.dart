@@ -401,8 +401,8 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
               host: "smtp.gmail.com",
               emailPort: EmailPort.port587,
               secureType: SecureType.tls,
-              username: "meowlish.company@gmail.com",
-              password: "ybpy zzfk taaa glbd",
+              username: "companyfhotel@gmail.com",
+              password: "ubqk btun nour lonv",
             );
 
             EmailOTP.setTemplate(
@@ -420,7 +420,7 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
             EmailOTP.config(
                 expiry: 5,
                 emailTheme: EmailTheme.v1,
-                appEmail: "contact@westory.com",
+                appEmail: "companyfhotel@gmail.com",
                 appName: "FHotel OTP",
                 otpLength: 5,
                 otpType: OTPType.numeric);

@@ -3,15 +3,17 @@ import 'package:fhotel_1/data/models/reservation.dart';
 class Order {
   String? orderId;
   String? reservationId;
+  double? totalAmount;
   String? orderedDate;
   String? orderStatus;
   Reservation? reservation;
 
-  Order({this.orderId, this.reservationId, this.orderedDate, this.orderStatus, this.reservation});
+  Order({this.orderId, this.reservationId,this.totalAmount, this.orderedDate, this.orderStatus, this.reservation});
 
   Order.fromJson(Map<String, dynamic> json) {
     orderId = json['orderId'];
     reservationId = json['reservationId'];
+    totalAmount = json['totalAmount'];
     orderedDate = json['orderedDate'];
     orderStatus = json['orderStatus'];
     reservation = json['reservation'] != null ? Reservation.fromJson(json['reservation']) : null;
@@ -21,6 +23,7 @@ class Order {
     final Map<String, dynamic> data =  Map<String, dynamic>();
     data['orderId'] = orderId;
     data['reservationId'] = reservationId;
+    data['totalAmount'] = totalAmount;
     data['orderedDate'] = orderedDate;
     data['orderStatus'] = orderStatus;
     if (reservation != null) {

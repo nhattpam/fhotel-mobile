@@ -135,7 +135,7 @@ class MyServiceDetailState extends State<MyServiceDetail>
               SizedBox(height: 22.h),
               (_orderDetail?.services?.serviceName) != null
               ? Text(
-                (_orderDetail?.services?.serviceName).toString(),
+                "Dịch vụ: "+ (_orderDetail?.services?.serviceName).toString(),
                 style: CustomTextStyles.titleSmallGray600,
               )
               : Skeleton(
@@ -144,7 +144,7 @@ class MyServiceDetailState extends State<MyServiceDetail>
               SizedBox(height: 20.h),
               (_orderDetail?.services?.description) != null
               ? Text(
-                (_orderDetail?.services?.description).toString(),
+                "Miêu tả: " + (_orderDetail?.services?.description).toString(),
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,
                 style: theme.textTheme.bodyMedium!.copyWith(

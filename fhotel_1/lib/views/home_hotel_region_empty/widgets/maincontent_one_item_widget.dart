@@ -1,4 +1,5 @@
 import 'package:fhotel_1/core/app_export.dart';
+import 'package:fhotel_1/core/utils/skeleton.dart';
 import 'package:flutter/material.dart';
 
   class MaincontentOneltemWidget extends StatefulWidget {
@@ -18,13 +19,7 @@ import 'package:flutter/material.dart';
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushReplacementNamed(
-          context,
-          AppRoutes.hotelDetail,
-          arguments: {
-            'hotelId': widget.hotelId,
-          },
-        );
+        Navigator.pushNamed(context, AppRoutes.hotelListing);
       },
       child: SizedBox(
         width: 128.h,
@@ -44,13 +39,18 @@ import 'package:flutter/material.dart';
             child: Stack(
               alignment: Alignment.center,
               children: [
-                CustomImageView(
+                widget.image != null
+               ? CustomImageView(
                   imagePath: widget.image,
                   height: 170.h,
                   width: double.maxFinite,
                   radius: BorderRadius.circular(
                     8.h,
                   ),
+                )
+                : Skeleton(
+                  height: 170.h,
+                  width: double.maxFinite,
                 ),
                 Align(
                   alignment: Alignment.bottomCenter,
@@ -66,8 +66,8 @@ import 'package:flutter/material.dart';
                         begin: Alignment(0.5, 0),
                         end: Alignment(0.5, 1),
                         colors: [
-                          theme.colorScheme.primary.withOpacity(0),
-                          theme.colorScheme.primary
+                          Colors.white.withOpacity(0),
+                          Colors.blueAccent
                         ],
                       ),
                     ),
@@ -78,15 +78,9 @@ import 'package:flutter/material.dart';
                         SizedBox(height: 26.h),
                         Text(
                           widget.name,
-                          style: CustomTextStyles.titleSmallBlue,
+                          style: CustomTextStyles.bodySmallBlack900,
                         ),
                         SizedBox(height: 6.h),
-                        // Text(
-                        //   widget.description,
-                        //   style: CustomTextStyles.bodySmallWhiteA700,
-                        //   overflow: TextOverflow.ellipsis,
-                        //   maxLines: 1,
-                        // )
                       ],
                     ),
                   ),

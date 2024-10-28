@@ -107,7 +107,7 @@ class _HotelListingNearbyScreenState extends State<HotelListingNearbyScreen>
           ),
         ),
         title: AppbarTitle(
-          text: "Khách sạn gần bạn",
+          text: "Khách sạn phổ biến",
           margin: EdgeInsets.only(left: 8.h),
         ),
         actions: [
@@ -305,7 +305,7 @@ class _HotelListingNearbyScreenState extends State<HotelListingNearbyScreen>
   }
 
   Widget _buildListOne(BuildContext context) {
-    return _isLoading
+    return (_hotelImage.isEmpty)
         ? ListView.separated(
             padding: EdgeInsets.zero,
             physics: const NeverScrollableScrollPhysics(),
@@ -339,6 +339,9 @@ class _HotelListingNearbyScreenState extends State<HotelListingNearbyScreen>
             },
             itemCount: _hotels.length,
             itemBuilder: (context, index) {
+              HotelImage hotelImage = _hotelImage.length > index
+                  ? _hotelImage[index]
+                  : HotelImage();
               return GestureDetector(
                 onTap: () {
                   Navigator.pushReplacementNamed(
@@ -386,7 +389,7 @@ class _HotelListingNearbyScreenState extends State<HotelListingNearbyScreen>
                                   borderRadius: BorderRadius.circular(8.h),
                                 ),
                                 child: CachedNetworkImage(
-                                  imageUrl: hotelImage,
+                                  imageUrl: hotelImage.image.toString() ?? "",
                                   // Use the imageUrl property
                                   fit: BoxFit.fitWidth,
                                 ),
@@ -537,7 +540,6 @@ class _HotelListingNearbyScreenState extends State<HotelListingNearbyScreen>
   void onGetHotelImagesSuccess(List<HotelImage> hotels) {
     setState(() {
       _hotelImage = hotels;
-      hotelImage = _hotelImage[0].image.toString();
     });
   }
 }

@@ -1,3 +1,4 @@
+import 'package:fhotel_1/core/utils/skeleton.dart';
 import 'package:fhotel_1/data/models/hotel_image.dart';
 import 'package:fhotel_1/data/repository/search_service.dart';
 import 'package:fhotel_1/presenters/search_presenter.dart';
@@ -772,7 +773,8 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
             ),
           ),
           SizedBox(height: 10.h),
-          SizedBox(
+          (_hotelImage.isNotEmpty)
+          ? SizedBox(
             height: 170.h,
             width: 344.h,
             child: ListView.separated(
@@ -788,8 +790,7 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
                 HotelImage hotelImage = _hotelImage.length > index
                     ? _hotelImage[index]
                     : HotelImage();
-                print(hotelImage);
-                return _hotels[index].isActive ?? false
+                return (_hotels[index].isActive ?? false)
                     ? MaincontentOneltemWidget(
                         hotelId: _hotels[index].hotelId.toString(),
                         image: hotelImage.image.toString(),
@@ -797,7 +798,27 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
                         rate: _hotels[index]?.star ?? 0,
                         description: _hotels[index].description.toString(),
                       )
-                    : Container();
+                    : const SizedBox();
+              },
+            ),
+          )
+          : SizedBox(
+            height: 170.h,
+            width: 344.h,
+            child: ListView.separated(
+              padding: EdgeInsets.only(left: 14.h),
+              scrollDirection: Axis.horizontal,
+              separatorBuilder: (context, index) {
+                return SizedBox(
+                  width: 8.h,
+                );
+              },
+              itemCount: 4,
+              itemBuilder: (context, index) {
+                return Skeleton(
+                  height: 200.h,
+                  width: 150.h,
+                );
               },
             ),
           )

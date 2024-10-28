@@ -41,6 +41,7 @@ class MyServiceWidgetState extends State<MyServiceWidget> implements GetOrderDet
               SizedBox(
                 width: double.maxFinite,
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
                       "Trạng thái ",
@@ -49,22 +50,25 @@ class MyServiceWidgetState extends State<MyServiceWidget> implements GetOrderDet
                       ),
                     ),
                     (widget.order.orderStatus != null)
-                        ?  Text(
-                          "${widget.order.orderStatus}",
-                          style: theme.textTheme.titleMedium!.copyWith(
-                            color: appTheme.black900,
-                          ).merge(
-                            TextStyle(
-                              color: widget.order.orderStatus == 'Pending'
-                                  ? Colors.yellow
-                                  : widget.order.orderStatus == 'Cancel'
-                                  ? Colors.red
-                                  : widget.order.orderStatus == 'Done'
-                                  ? Colors.green
-                                  : Colors.black, // Default color if none match
-                            ),
-                          ),
-                        )
+                        ?  CustomElevatedButton(
+                      height: 28.h,
+                      width: widget.order.orderStatus == 'Pending' ? 126.h : 126.h,
+                      text: widget.order.orderStatus == 'Cancelled'
+                          ? "Đã bị hủy"
+                          : widget.order.orderStatus == 'Pending'
+                          ? "Đang xử lý"
+                          : "Đặt thành công",
+                      buttonStyle: widget.order.orderStatus == 'Cancelled'
+                          ? CustomButtonStyles.fillRed // Add a red style for "Cancelled"
+                          : widget.order.orderStatus == 'Pending'
+                          ? CustomButtonStyles.fillYellow
+                          : CustomButtonStyles.fillGreen,
+                      buttonTextStyle: widget.order.orderStatus == 'Cancelled'
+                          ? CustomTextStyles.bodyMediumwhiteA700 // Add an error style for "Cancelled"
+                          : widget.order.orderStatus == 'Pending'
+                          ? CustomTextStyles.bodyMediumSecondaryContainer
+                          : CustomTextStyles.bodyMediumTeal800,
+                    )
                         :  Skeleton(width: 150.h)
 
                   ],
@@ -143,7 +147,7 @@ class MyServiceWidgetState extends State<MyServiceWidget> implements GetOrderDet
                             child: Row(
                               children: [
                                 Text(
-                                  "Giá: \$35.25",
+                                  "Giá: ${NumberFormat('#,###', 'en_US').format(widget.order.totalAmount)} ₫",
                                   style: CustomTextStyles.titleSmallGray600,
                                 ),
                                 Padding(
@@ -169,23 +173,6 @@ class MyServiceWidgetState extends State<MyServiceWidget> implements GetOrderDet
                                   child: Skeleton(
                                     width: 50.h,
                                   )
-                                ),
-                                Align(
-                                  alignment: Alignment.topCenter,
-                                  child: Container(
-                                    height: 4.h,
-                                    width: 4.h,
-                                    margin: EdgeInsets.only(
-                                      left: 8.h,
-                                      top: 6.h,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      color: appTheme.gray10002,
-                                      borderRadius: BorderRadius.circular(
-                                        2.h,
-                                      ),
-                                    ),
-                                  ),
                                 ),
                               ],
                             ),
