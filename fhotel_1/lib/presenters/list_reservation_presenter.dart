@@ -1,6 +1,4 @@
 import 'package:fhotel_1/data/models/reservation.dart';
-import 'package:fhotel_1/data/models/room_types.dart';
-import 'package:fhotel_1/data/models/user.dart';
 import 'package:fhotel_1/data/repository/list_reservation_repo.dart';
 import 'package:fhotel_1/views/tabbar_booking_and_service/list_reservation_view.dart';
 

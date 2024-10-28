@@ -4,7 +4,6 @@ import 'package:fhotel_1/data/repository/list_room_stay_history.dart';
 import 'package:fhotel_1/presenters/list_room_stay_history_presenter.dart';
 import 'package:fhotel_1/views/my_booking_check_in/my_booking_checkin_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart' as html;
 import 'package:grouped_list/grouped_list.dart';
 
 import '../../core/app_export.dart';

@@ -1,8 +1,5 @@
-import 'package:fhotel_1/data/repository/register_customer_repo.dart';
-import 'package:fhotel_1/data/repository/search_service.dart';
 import 'package:fhotel_1/data/repository/vn_pay_repo.dart';
 import 'package:fhotel_1/views/checkout/vn_pay_view.dart';
-import 'package:fhotel_1/views/register_fill_information/register_fill_information_view.dart';
 
 
 class VnPayPresenter {

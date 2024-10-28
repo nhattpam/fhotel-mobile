@@ -1,11 +1,7 @@
-import 'package:fhotel_1/data/models/service.dart';
 import 'package:fhotel_1/data/repository/service_type_repo.dart';
-import 'package:fhotel_1/views/hotel_listing_nearby_screen/list_hotel_view.dart';
 import 'package:fhotel_1/views/service_listing_screen/list_service_view.dart';
 
-import '../data/models/hotel.dart';
 import '../data/models/service_type.dart';
-import '../data/repository/list_hotel_repo.dart';
 
 class ServiceTypePresenter {
   final ListServiceView _view;

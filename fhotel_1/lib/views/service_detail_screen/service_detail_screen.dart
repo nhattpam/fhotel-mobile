@@ -1,4 +1,13 @@
+import 'package:fhotel_1/data/models/order.dart';
+import 'package:fhotel_1/data/models/reservation.dart';
 import 'package:fhotel_1/data/models/service.dart';
+import 'package:fhotel_1/data/repository/list_reservation_repo.dart';
+import 'package:fhotel_1/data/repository/order_repo.dart';
+import 'package:fhotel_1/presenters/list_reservation_presenter.dart';
+import 'package:fhotel_1/presenters/order_detail_presenter.dart';
+import 'package:fhotel_1/presenters/order_presenter.dart';
+import 'package:fhotel_1/views/choose_room_detail/create_reservation_view.dart';
+import 'package:fhotel_1/views/tabbar_booking_and_service/list_reservation_view.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/app_export.dart';
@@ -12,8 +21,25 @@ class ServiceDetailScreen extends StatefulWidget {
   ServiceDetailScreenState createState() => ServiceDetailScreenState();
 }
 
-class ServiceDetailScreenState extends State<ServiceDetailScreen> {
+class ServiceDetailScreenState extends State<ServiceDetailScreen> implements ListReservationView, CreateReservationView{
   int quantity = 1;
+
+  late ListReservationPresenter _presenter;
+  late OrderPresenter _orderPresenter;
+  late OrderDetailPresenter _orderDetailPresenter;
+  List<Reservation> _reservation = [];
+  Reservation? selectedReservation;
+  String? _error;
+  bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _presenter = ListReservationPresenter(this, ListReservationRepo()); // Initialize the presenter
+    _presenter.getListReservationByCustomerId(); // Fetch customer data
+    _orderPresenter = OrderPresenter(this); // Initialize the presenter
+    _orderDetailPresenter = OrderDetailPresenter(this);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -123,166 +149,6 @@ class ServiceDetailScreenState extends State<ServiceDetailScreen> {
                 ),
               ),
               SizedBox(height: 16.h),
-              // SizedBox(
-              //   width: double.maxFinite,
-              //   child: Row(
-              //     children: [
-              //       Text(
-              //         "Size:".toUpperCase(),
-              //         style: theme.textTheme.bodyMedium,
-              //       ),
-              //       Expanded(
-              //         child: Container(
-              //           margin: EdgeInsets.only(
-              //             left: 14.h,
-              //             right: 112.h,
-              //           ),
-              //           child: SingleChildScrollView(
-              //             scrollDirection: Axis.horizontal,
-              //             child: Wrap(
-              //               direction: Axis.horizontal,
-              //               spacing: 10.h,
-              //               children: List.generate(
-              //                 3,
-              //                 (index) {
-              //                   return ServiceDetailItemWidget();
-              //                 },
-              //               ),
-              //             ),
-              //           ),
-              //         ),
-              //       ),
-              //     ],
-              //   ),
-              // ),
-              // SizedBox(height: 20.h),
-              // SizedBox(
-              //   width: double.maxFinite,
-              //   child: Column(
-              //     crossAxisAlignment: CrossAxisAlignment.start,
-              //     children: [
-              //       Text(
-              //         "ingridents".toUpperCase(),
-              //         style: CustomTextStyles.titleSmallGray600,
-              //       ),
-              //       SizedBox(height: 29.h),
-              //       SizedBox(
-              //         width: double.maxFinite,
-              //         child: Row(
-              //           crossAxisAlignment: CrossAxisAlignment.start,
-              //           children: [
-              //             Expanded(
-              //               child: _buildcolumnchicken(
-              //                 context,
-              //                 iconbutton: ImageConstant.imgImage170x128,
-              //                 chickenone: "Salt",
-              //               ),
-              //             ),
-              //             SizedBox(width: 18.h),
-              //             Expanded(
-              //               child: _buildcolumnchicken(
-              //                 context,
-              //                 iconbutton: ImageConstant.imgImage170x128,
-              //                 chickenone: "Salt",
-              //               ),
-              //             ),
-              //             SizedBox(width: 18.h),
-              //             Expanded(
-              //               child: _buildcolumnchicken(
-              //                 context,
-              //                 iconbutton: ImageConstant.imgImage170x128,
-              //                 chickenone: "Chicken",
-              //               ),
-              //             ),
-              //             SizedBox(width: 18.h),
-              //             Expanded(
-              //               child: Align(
-              //                 alignment: Alignment.center,
-              //                 child: _buildcolumnchicken(
-              //                   context,
-              //                   iconbutton: ImageConstant.imgImage170x128,
-              //                   chickenone: "onion\n(Alergy)",
-              //                 ),
-              //               ),
-              //             ),
-              //             SizedBox(width: 18.h),
-              //             Expanded(
-              //               child: _buildcolumnchicken(
-              //                 context,
-              //                 iconbutton: ImageConstant.imgImage170x128,
-              //                 chickenone: "Garlic",
-              //               ),
-              //             ),
-              //             SizedBox(width: 18.h),
-              //             Expanded(
-              //               child: Align(
-              //                 alignment: Alignment.center,
-              //                 child: _buildcolumnchicken(
-              //                   context,
-              //                   iconbutton: ImageConstant.imgImage170x128,
-              //                   chickenone: "Pappers@ (Alergy)",
-              //                 ),
-              //               ),
-              //             )
-              //           ],
-              //         ),
-              //       ),
-              //       SizedBox(height: 10.h),
-              //       SizedBox(
-              //         width: double.maxFinite,
-              //         child: Row(
-              //           children: [
-              //             _buildcolumnchicken(
-              //               context,
-              //               iconbutton: ImageConstant.imgImage170x128,
-              //               chickenone: "Ginger",
-              //             ),
-              //             SizedBox(width: 8.h),
-              //             _buildcolumnorangel(
-              //               context,
-              //               iconbuttonFive: ImageConstant.imgImage170x128,
-              //               orangeone: "Broccoli",
-              //             ),
-              //             SizedBox(width: 8.h),
-              //             _buildcolumnorangel(
-              //               context,
-              //               iconbuttonFive: ImageConstant.imgImage170x128,
-              //               orangeone: "Orange",
-              //             ),
-              //             SizedBox(width: 8.h),
-              //             Expanded(
-              //               child: Container(
-              //                 width: double.maxFinite,
-              //                 padding: EdgeInsets.only(left: 8.h),
-              //                 child: Column(
-              //                   crossAxisAlignment: CrossAxisAlignment.start,
-              //                   children: [
-              //                     CustomIconButton(
-              //                       height: 50.h,
-              //                       width: 50.h,
-              //                       padding: EdgeInsets.all(12.h),
-              //                       child: CustomImageView(
-              //                         imagePath: ImageConstant.imgImage170x128,
-              //                       ),
-              //                     ),
-              //                     SizedBox(height: 4.h),
-              //                     Padding(
-              //                       padding: EdgeInsets.only(left: 2.h),
-              //                       child: Text(
-              //                         "Walnut",
-              //                         style: theme.textTheme.labelLarge,
-              //                       ),
-              //                     )
-              //                   ],
-              //                 ),
-              //               ),
-              //             )
-              //           ],
-              //         ),
-              //       )
-              //     ],
-              //   ),
-              // )
             ],
           ),
         ),
@@ -319,7 +185,7 @@ class ServiceDetailScreenState extends State<ServiceDetailScreen> {
   Widget _buildAddcart(BuildContext context) {
     double price = (quantity * ((widget.service.price) as num)).toDouble();
     return Container(
-      height: 115.h,
+      height: 150.h,
       width: double.maxFinite,
       decoration: BoxDecoration(
         color: appTheme.whiteA700,
@@ -343,6 +209,48 @@ class ServiceDetailScreenState extends State<ServiceDetailScreen> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
+                Container(
+                  width: double.maxFinite,
+                  margin: EdgeInsets.only(top: 10.h),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Align(
+                        alignment: Alignment.topCenter,
+                        child: Text(
+                          "Chọn Phòng muốn đặt dịch vụ",
+                          style: theme.textTheme.titleSmall,
+                        ),
+                      ),
+                      Spacer(),
+                      SizedBox(
+                        width: 103, // Adjust width as needed
+                        child: DropdownButton<Reservation>(
+                          value: selectedReservation, // Define this variable to store the selected reservation
+                          onChanged: (Reservation? newValue) {
+                            setState(() {
+                              selectedReservation = newValue;
+                            });
+                          },
+                          items: _reservation
+                              .where((reservation) => reservation.reservationStatus == 'CheckIn')
+                              .map<DropdownMenuItem<Reservation>>((Reservation reservation) {
+                            return DropdownMenuItem<Reservation>(
+                              value: reservation,
+                              child: Text(
+                                "Phòng số 1",
+                                // reservation.reservationId.toString(), // Replace with the appropriate display property
+                                style: theme.textTheme.titleSmall,
+                              ),
+                            );
+                          }).toList(),
+                          isDense: true,
+                          underline: SizedBox(),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
                 Container(
                   width: double.maxFinite,
                   margin: EdgeInsets.only(top: 10.h),
@@ -429,6 +337,41 @@ class ServiceDetailScreenState extends State<ServiceDetailScreen> {
 
   Widget _buildChnphng(BuildContext context) {
     return CustomElevatedButton(
+      onPressed: () async {
+        if(selectedReservation == null){
+          AwesomeDialog(
+            context: context,
+            animType: AnimType.scale,
+            dialogType: DialogType.error,
+            body: const Center(
+              child: Text(
+                'Vui lòng chọn phòng để đặt dịch vụ!!!',
+                style: TextStyle(fontStyle: FontStyle.italic),
+              ),
+            ),
+            btnCancelOnPress: () {
+              // Navigator.pop(context);
+            },
+          ).show();
+        }
+        // print((selectedReservation?.reservationId).toString());
+        Order newOrder = await _orderPresenter.createOrder((selectedReservation?.reservationId).toString());
+        await _orderDetailPresenter.createOrderDetail((newOrder.orderId).toString(), (widget.service.serviceId).toString(), quantity);
+        AwesomeDialog(
+          context: context,
+          animType: AnimType.scale,
+          dialogType: DialogType.success,
+          body: const Center(
+            child: Text(
+              'Đặt thành công!!!',
+              style: TextStyle(fontStyle: FontStyle.italic),
+            ),
+          ),
+          btnOkOnPress: () {
+            Navigator.pop(context);
+          },
+        ).show();
+      },
       text: "Gọi món",
       buttonStyle: CustomButtonStyles.fillBlue,
       buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,
@@ -460,5 +403,52 @@ class ServiceDetailScreenState extends State<ServiceDetailScreen> {
         )
       ],
     );
+  }
+
+  @override
+  void hideLoading() {
+    // TODO: implement hideLoading
+  }
+
+  @override
+  void onGetReservationsError(String error) {
+    // TODO: implement onGetReservationsError
+  }
+
+  @override
+  void onGetReservationsSuccess(List<Reservation> reservations) {
+    setState(() {
+      _reservation = reservations;
+    });
+  }
+
+  @override
+  void showLoading() {
+    // TODO: implement showLoading
+  }
+
+  @override
+  void onGetReservationSuccess(Reservation reservation) {
+    // TODO: implement onGetReservationSuccess
+  }
+
+  @override
+  void onCreateError(String error) {
+    // TODO: implement onCreateError
+  }
+
+  @override
+  void onCreateSuccess() {
+    // TODO: implement onCreateSuccess
+  }
+
+  @override
+  void onCreateTotalAmountSuccess(double totalAmount) {
+    // TODO: implement onCreateTotalAmountSuccess
+  }
+
+  @override
+  void showValidationError(String field, String message) {
+    // TODO: implement showValidationError
   }
 }

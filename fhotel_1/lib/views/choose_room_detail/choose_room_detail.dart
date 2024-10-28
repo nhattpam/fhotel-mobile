@@ -15,7 +15,6 @@ import '../../data/models/room_types.dart';
 import '../../data/repository/list_room_type_repo.dart';
 import '../../presenters/list_room_type_presenter.dart';
 import '../choose_room/choose_room_view.dart';
-import '../my_booking_details/my_booking_details.dart';
 import 'create_reservation_view.dart';
 
 class ChooseRoomRoomDetailScreen extends StatefulWidget {
@@ -753,11 +752,6 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
                 quantity
               );
 
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                    builder: (context) =>
-                        CheckoutScreen(reservation: newReservation)),
-              );
               // Show success dialog
               AwesomeDialog(
                 context: context,
@@ -770,7 +764,11 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
                   ),
                 ),
                 btnOkOnPress: () {
-
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            CheckoutScreen(reservation: newReservation)),
+                  );
                 },
               ).show();
             } else {

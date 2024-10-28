@@ -232,14 +232,14 @@ class ServiceListingScreenState extends State<ServiceListingScreen>
   PreferredSizeWidget _buildAppbar(BuildContext context) {
     return CustomAppBar(
         title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.center,
           // Adjusts alignment
           children: [
             AppbarTitle(
-              text: "Danh sách dịch vụ",
+              text: "Dịch vụ",
               margin: EdgeInsets.only(left: 8.h),
             ),
-            _buildCartIconWithBadge(cartItemCount)
+            // _buildCartIconWithBadge(cartItemCount)
           ],
         ),
         styleType: Style.bgFill);

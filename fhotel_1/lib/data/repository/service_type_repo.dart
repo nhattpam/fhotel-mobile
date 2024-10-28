@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:fhotel_1/data/models/service.dart';
+
 import 'package:fhotel_1/data/models/service_type.dart';
 import 'package:http/http.dart' as http;
 
