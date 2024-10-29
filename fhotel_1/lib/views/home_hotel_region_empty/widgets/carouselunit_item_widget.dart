@@ -1,6 +1,6 @@
 import 'package:carousel_slider_plus/carousel_slider_plus.dart';
 import 'package:fhotel_1/core/app_export.dart';
-import 'package:fhotel_1/data/models/facility.dart';
+import 'package:fhotel_1/data/models/room_facility.dart';
 import 'package:fhotel_1/data/models/type.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -29,7 +29,7 @@ class _CarouselunitItemWidgetState extends State<CarouselunitItemWidget> impleme
   void initState() {
     super.initState();
     _presenter = ListRoomTypePresenter(this, ListRoomTypeRepo());
-    _presenter.getRoomImage(widget.roomTypeId);
+    _presenter.getRoomImages(widget.roomTypeId);
     _presenter.getRoomTypeById(widget.roomTypeId);
   }
 
@@ -166,8 +166,13 @@ class _CarouselunitItemWidgetState extends State<CarouselunitItemWidget> impleme
   }
 
   @override
-  void showFacility(List<Facility> roomTypes) {
+  void showFacility(List<RoomFacility> roomTypes) {
     // TODO: implement showFacility
+  }
+
+  @override
+  void onGetSingleRoomImageSuccess(RoomImage roomImage) {
+    // TODO: implement onGetSingleRoomImageSuccess
   }
 
 }

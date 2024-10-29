@@ -1,15 +1,7 @@
 import 'package:fhotel_1/core/utils/skeleton.dart';
 import 'package:fhotel_1/data/models/order.dart';
 import 'package:fhotel_1/data/models/order_detail.dart';
-import 'package:fhotel_1/data/models/reservation.dart';
-import 'package:fhotel_1/data/models/service.dart';
-import 'package:fhotel_1/data/repository/list_reservation_repo.dart';
 import 'package:fhotel_1/presenters/get_order_detail_presenter.dart';
-import 'package:fhotel_1/presenters/list_reservation_presenter.dart';
-import 'package:fhotel_1/presenters/order_detail_presenter.dart';
-import 'package:fhotel_1/presenters/order_presenter.dart';
-import 'package:fhotel_1/views/choose_room_detail/create_reservation_view.dart';
-import 'package:fhotel_1/views/tabbar_booking_and_service/list_reservation_view.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/app_export.dart';

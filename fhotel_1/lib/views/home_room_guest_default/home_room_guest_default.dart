@@ -1,4 +1,4 @@
-import 'package:fhotel_1/data/models/facility.dart';
+import 'package:fhotel_1/data/models/room_facility.dart';
 import 'package:fhotel_1/data/models/room_image.dart';
 import 'package:fhotel_1/data/models/room_types.dart';
 import 'package:fhotel_1/data/models/type.dart';
@@ -534,8 +534,13 @@ class HomeRoomGuestFilledBottomsheetState
   }
 
   @override
-  void showFacility(List<Facility> roomTypes) {
+  void showFacility(List<RoomFacility> roomTypes) {
     // TODO: implement showFacility
+  }
+
+  @override
+  void onGetSingleRoomImageSuccess(RoomImage roomImage) {
+    // TODO: implement onGetSingleRoomImageSuccess
   }
 
 }

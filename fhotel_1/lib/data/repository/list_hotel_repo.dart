@@ -27,7 +27,6 @@ class ListHotelRepo {
   Future<List<HotelImage>> getHotelImageByHotelId(String hotelId) async {
 
     final url = Uri.parse('$_baseUrl/hotels/$hotelId/hotel-images');
-    print("This is image link " + url.toString());
     final response = await http.get(
       url,
       headers: {
@@ -37,14 +36,38 @@ class ListHotelRepo {
 
     if (response.statusCode == 200) {
       final List<dynamic> responseData = json.decode(response.body);
-      print("This is response image link " + responseData.toString());
 
       // Mapping the list of dynamic to List<RoomImage>
-      return responseData.map((data) => HotelImage.fromJson(data)).toList();
+      return responseData
+          .map((data) => HotelImage.fromJson(data))
+          .toList();
     } else {
       throw Exception('Failed to fetch hotel images.');
     }
   }
 
+  Future<HotelImage> getSingleHotelImageByHotelId(String hotelId) async {
+    final url = Uri.parse('$_baseUrl/hotels/$hotelId/hotel-images');
+    print('Requesting URL: $url');
 
+    final response = await http.get(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final responseData = json.decode(response.body);
+      if (responseData.isNotEmpty) {
+        final hotelImage = HotelImage.fromJson(responseData[0]);
+        print((responseData[0]));
+        return hotelImage;
+      } else {
+        throw Exception('No image found for the provided hotel ID.');
+      }
+    } else {
+      throw Exception('Failed to fetch hotel image. Status code: ${response.statusCode}');
+    }
+  }
 }

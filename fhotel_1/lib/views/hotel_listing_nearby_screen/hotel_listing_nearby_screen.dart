@@ -2,6 +2,7 @@ import 'package:fhotel_1/core/app_export.dart';
 import 'package:fhotel_1/core/utils/skeleton.dart';
 import 'package:fhotel_1/data/models/hotel_image.dart';
 import 'package:fhotel_1/views/hotel_listing_filter_bottomsheet/hotel_listing_filter_bottomsheet.dart';
+import 'package:fhotel_1/views/hotel_listing_nearby_screen/widgets/list_one_item_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../../data/models/hotel.dart';
@@ -22,7 +23,6 @@ class _HotelListingNearbyScreenState extends State<HotelListingNearbyScreen>
   List<Hotel> _hotels = [];
   String? _error;
   List<HotelImage> _hotelImage = [];
-  String hotelImage = 'https://casf.com.au/wp-content/uploads/2022/01/silver_grey.png';
   @override
   void initState() {
     super.initState();
@@ -305,7 +305,7 @@ class _HotelListingNearbyScreenState extends State<HotelListingNearbyScreen>
   }
 
   Widget _buildListOne(BuildContext context) {
-    return (_hotelImage.isEmpty)
+    return (_hotels.isEmpty)
         ? ListView.separated(
             padding: EdgeInsets.zero,
             physics: const NeverScrollableScrollPhysics(),
@@ -339,9 +339,6 @@ class _HotelListingNearbyScreenState extends State<HotelListingNearbyScreen>
             },
             itemCount: _hotels.length,
             itemBuilder: (context, index) {
-              HotelImage hotelImage = _hotelImage.length > index
-                  ? _hotelImage[index]
-                  : HotelImage();
               return GestureDetector(
                 onTap: () {
                   Navigator.pushReplacementNamed(
@@ -355,150 +352,17 @@ class _HotelListingNearbyScreenState extends State<HotelListingNearbyScreen>
                     },
                   );
                 },
-                child: Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 12.h,
-                    vertical: 10.h,
-                  ),
-                  decoration: BoxDecoration(
-                    color: appTheme.whiteA700,
-                    borderRadius: BorderRadiusStyle.circleBorder16,
-                  ),
-                  child: Row(
-                    children: [
-                      Card(
-                        clipBehavior: Clip.antiAlias,
-                        elevation: 0,
-                        margin: EdgeInsets.zero,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadiusStyle.roundedBorder8,
-                        ),
-                        child: Container(
-                          height: 120.h,
-                          width: 120.h,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadiusStyle.roundedBorder8,
-                          ),
-                          child: Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              Container(
-                                height: 150.h,
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8.h),
-                                ),
-                                child: CachedNetworkImage(
-                                  imageUrl: hotelImage.image.toString() ?? "",
-                                  // Use the imageUrl property
-                                  fit: BoxFit.fitWidth,
-                                ),
-                              ),
-                              IntrinsicHeight(
-                                child: Align(
-                                  alignment: Alignment.bottomCenter,
-                                  child: Container(
-                                    height: 100.h,
-                                    padding: EdgeInsets.symmetric(vertical: 4.h),
-                                    child: Row(
-                                      crossAxisAlignment: CrossAxisAlignment.end,
-                                      children: [
-                                        CustomImageView(
-                                          color: appTheme.whiteA700,
-                                          imagePath: ImageConstant.imgIconWrapper13,
-                                          height: 24.h,
-                                          width: 24.h,
-                                          margin: EdgeInsets.only(top: 28.h),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(bottom: 2.h),
-                                          child: Text(
-                                            "380m",
-                                            style: CustomTextStyles.bodySmallWhiteA700,
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 12.h),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              _hotels[index].hotelName.toString(),
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: theme.textTheme.bodyMedium!.copyWith(
-                                height: 1.50,
-                              ),
-                            ),
-                            SizedBox(height: 4.h),
-                            CustomRatingBar(
-                              color: Colors.yellow,
-                              ignoreGestures: true,
-                              initialRating:  _hotels[index].star?.toDouble(),
-                            ),
-                            SizedBox(height: 6.h),
-                            SizedBox(
-                              width: double.maxFinite,
-                              child: Row(
-                                children: [
-                                  CustomImageView(
-                                    imagePath: ImageConstant.imgIconWrapper12,
-                                    color: Colors.blueAccent,
-                                    height: 15.h,
-                                    width: 15.h,
-                                  ),
-                                  Align(
-                                    alignment: Alignment.bottomCenter,
-                                    child: Padding(
-                                      padding: EdgeInsets.only(left: 8.h),
-                                      child: Text(
-                                        "8,6",
-                                        style: theme.textTheme.bodyMedium,
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: 8.h),
-                            SizedBox(
-                              width: double.maxFinite,
-                              child: Row(
-                                children: [
-                                  Text(
-                                    '0',
-                                    style: CustomTextStyles.titleSmallBlue,
-                                  ),
-                                  Align(
-                                    alignment: Alignment.topCenter,
-                                    child: Padding(
-                                      padding: EdgeInsets.only(left: 4.h),
-                                      child: Text(
-                                        "/ phòng / đêm",
-                                        style: CustomTextStyles.bodySmallOnPrimary10,
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
+                child: ListHotelWidget(
+                  hotelId: _hotels[index].hotelId.toString() ?? "",
+                  name: _hotels[index].hotelName.toString() ?? "",
+                  rate: _hotels[index].star ?? 0,
+                  basePrice: 200000,
+                  checkInDate: '1/11/2024',
+                  checkOutDate: '2/11/2024',
+                  numberOfRooms: 1,
+                  image: '',
                 ),
               );
-
             },
           );
   }
@@ -523,7 +387,6 @@ class _HotelListingNearbyScreenState extends State<HotelListingNearbyScreen>
   void onGetHotelsSuccess(List<Hotel> hotels) {
     setState(() async {
       _hotels = hotels;
-      await _presenter.loadRoomImages(_hotels);
       _error = null;
     });
   }
@@ -541,5 +404,10 @@ class _HotelListingNearbyScreenState extends State<HotelListingNearbyScreen>
     setState(() {
       _hotelImage = hotels;
     });
+  }
+
+  @override
+  void onGetSingleHotelImageSuccess(HotelImage hotels) {
+    // TODO: implement onGetSingleHotelImageSuccess
   }
 }

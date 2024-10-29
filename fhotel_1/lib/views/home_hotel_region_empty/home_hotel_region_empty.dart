@@ -44,7 +44,7 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
   List<String> searchHistory = [];
   String roomType = ''; // Add a variable to store the search query
   int quantity = 0; // Add a variable to store the search query
-  List<HotelImage> _hotelImage = [];
+  HotelImage? _hotelImage;
 
   @override
   void initState() {
@@ -773,7 +773,7 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
             ),
           ),
           SizedBox(height: 10.h),
-          (_hotelImage.isNotEmpty)
+          (_hotels.isNotEmpty)
           ? SizedBox(
             height: 170.h,
             width: 344.h,
@@ -787,13 +787,10 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
               },
               itemCount: _hotels.length,
               itemBuilder: (context, index) {
-                HotelImage hotelImage = _hotelImage.length > index
-                    ? _hotelImage[index]
-                    : HotelImage();
                 return (_hotels[index].isActive ?? false)
                     ? MaincontentOneltemWidget(
                         hotelId: _hotels[index].hotelId.toString(),
-                        image: hotelImage.image.toString(),
+                        image: '',
                         name: _hotels[index].hotelName.toString(),
                         rate: _hotels[index]?.star ?? 0,
                         description: _hotels[index].description.toString(),
@@ -906,7 +903,6 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
   void onGetHotelsSuccess(List<Hotel> hotels) {
     setState(() async {
       _hotels = hotels;
-      await _presenter.loadRoomImages(_hotels);
       _error = null;
     });
   }
@@ -937,6 +933,13 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
 
   @override
   void onGetHotelImagesSuccess(List<HotelImage> hotels) {
+    setState(() {
+    });
+  }
+
+  @override
+  void onGetSingleHotelImageSuccess(HotelImage hotels) {
+    // TODO: implement onGetSingleHotelImageSuccess
     setState(() {
       _hotelImage = hotels;
     });

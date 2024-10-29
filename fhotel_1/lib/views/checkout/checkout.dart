@@ -140,7 +140,7 @@ class CheckoutScreenState extends State<CheckoutScreen> implements ListReservati
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        // appBar: _buildAppbar(context),
+        appBar: _buildAppbar(context),
         body: SizedBox(
           width: double.maxFinite,
           child: SingleChildScrollView(
@@ -1013,24 +1013,25 @@ class CheckoutScreenState extends State<CheckoutScreen> implements ListReservati
         onPressed: () async {
           await _vnPresenter.PaymentMethodVNPAY(widget.reservation.reservationId.toString());
           launch(vnpaylink.toString());
-          if(_reservation?.paymentStatus == 'Paid'){
-            AwesomeDialog(
-              context: context,
-              animType: AnimType.scale,
-              dialogType: DialogType.success,
-              body: const Center(
-                child: Text(
-                  'Thanh toán thành công !!',
-                  style: TextStyle(fontStyle: FontStyle.italic),
-                ),
+          AwesomeDialog(
+            context: context,
+            animType: AnimType.scale,
+            dialogType: DialogType.success,
+            body: const Center(
+              child: Text(
+                'Thanh toán thành công !!',
+                style: TextStyle(fontStyle: FontStyle.italic),
               ),
-              // title: 'Warning',
-              // desc:   'This is also Ignored',
-              btnOkOnPress: () {
-                Navigator.pushReplacementNamed(context, AppRoutes.homePage);
-              },
-            ).show();
-          }
+            ),
+            // title: 'Warning',
+            // desc:   'This is also Ignored',
+            btnOkOnPress: () {
+              Navigator.pushReplacementNamed(context, AppRoutes.homePage);
+            },
+          ).show();
+
+          // if(_reservation?.paymentStatus == 'Paid'){
+          // }
         },
         text: "Thanh toán",
         buttonStyle: CustomButtonStyles.fillBlue,

@@ -1,6 +1,8 @@
 import 'package:fhotel_1/core/app_export.dart';
 import 'package:fhotel_1/core/utils/skeleton.dart';
 import 'package:fhotel_1/data/models/hotel_image.dart';
+import 'package:fhotel_1/data/repository/list_hotel_repo.dart';
+import 'package:fhotel_1/presenters/list_hotel_presenter.dart';
 import 'package:fhotel_1/views/hotel_edit_search/hotel_edit_search.dart';
 import 'package:fhotel_1/views/hotel_listing_filter_bottomsheet/hotel_listing_filter_bottomsheet.dart';
 import 'package:fhotel_1/views/hotel_listing_nearby_screen/widgets/list_one_item_widget.dart';
@@ -31,6 +33,12 @@ class _ListHotelBySearchState extends State<ListHotelBySearch>
   int numberOfRooms2 = 0;
   int? numberOfDays;
   Key _pageKey = UniqueKey();
+  late HotelPresenter _presenter;
+  @override
+  void initState() {
+    super.initState();
+    _presenter = HotelPresenter(this, ListHotelRepo());
+  }
 
   @override
   void didChangeDependencies() {
@@ -406,21 +414,18 @@ class _ListHotelBySearchState extends State<ListHotelBySearch>
       itemCount: (listHotel2.isNotEmpty) ? listHotel2.length : listHotel.length,
       itemBuilder: (context, index) {
         final currentList = (listHotel2.isNotEmpty) ? listHotel2 : listHotel;
-        HotelImage hotelImage = _hotelImage.length > index
-            ? _hotelImage[index]
-            : HotelImage();
         return
           // _hotels[index].isActive ?? false
           // ?
           ListHotelWidget(
             hotelId: currentList[index].hotelId.toString() ?? "",
-            image: hotelImage.image.toString() ?? "",
             name: currentList[index].hotelName.toString() ?? "",
             rate: currentList[index].star ?? 0,
             basePrice: 200000,
             checkInDate: (checkInDate2?.isNotEmpty ?? false) ? checkInDate2.toString() : checkInDate.toString(),
             checkOutDate: (checkOutDate2?.isNotEmpty ?? false) ? checkOutDate2.toString() : checkOutDate.toString(),
             numberOfRooms: (numberOfRooms2 != 0) ? numberOfRooms2 : numberOfRooms,
+            image: _hotelImage[index].image.toString(),
           );
         // : Container();
       },
@@ -464,5 +469,10 @@ class _ListHotelBySearchState extends State<ListHotelBySearch>
     setState(() {
       _hotelImage = hotels;
     });
+  }
+
+  @override
+  void onGetSingleHotelImageSuccess(HotelImage hotels) {
+    // TODO: implement onGetSingleHotelImageSuccess
   }
 }

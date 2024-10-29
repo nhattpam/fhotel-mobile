@@ -7,5 +7,6 @@ abstract class ListHotelView {
   void hideLoading();
   void onGetHotelsSuccess(List<Hotel> hotels);
   void onGetHotelImagesSuccess(List<HotelImage> hotels);
+  void onGetSingleHotelImageSuccess(HotelImage hotels);
   void onGetHotelsError(String error);
 }

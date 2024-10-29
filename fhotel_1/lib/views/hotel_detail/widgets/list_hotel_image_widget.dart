@@ -29,7 +29,7 @@ class _ListHotelImageWidgetState extends State<ListHotelImageWidget> implements 
   void initState() {
     super.initState();
     _presenter = HotelPresenter(this, ListHotelRepo());
-    _presenter.getHotelImage(widget.hotelId);
+    _presenter.getHotelImages(widget.hotelId);
   }
 
   // Generates list of GestureDetector-wrapped images for tapping and zooming
@@ -142,7 +142,6 @@ class _ListHotelImageWidgetState extends State<ListHotelImageWidget> implements 
   void onGetHotelsSuccess(List<Hotel> hotels) {
     setState(() async {
       _hotels = hotels;
-      await _presenter.loadRoomImages(_hotels);
       _error = null;
     });
   }
@@ -176,6 +175,11 @@ class _ListHotelImageWidgetState extends State<ListHotelImageWidget> implements 
     setState(() {
       _hotelImage = hotels;
     });
+  }
+
+  @override
+  void onGetSingleHotelImageSuccess(HotelImage hotels) {
+    // TODO: implement onGetSingleHotelImageSuccess
   }
 
 }

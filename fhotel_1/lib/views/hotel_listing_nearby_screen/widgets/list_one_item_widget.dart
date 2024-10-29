@@ -1,6 +1,12 @@
+import 'package:fhotel_1/core/utils/skeleton.dart';
+import 'package:fhotel_1/data/models/hotel.dart';
+import 'package:fhotel_1/data/models/hotel_image.dart';
+import 'package:fhotel_1/presenters/list_hotel_presenter.dart';
+import 'package:fhotel_1/views/hotel_listing_nearby_screen/list_hotel_view.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/app_export.dart';
+import '../../../data/repository/list_hotel_repo.dart';
 
 class ListHotelWidget extends StatefulWidget {
   final String hotelId;
@@ -17,7 +23,18 @@ class ListHotelWidget extends StatefulWidget {
   _ListHotelWidgetState createState() => _ListHotelWidgetState();
 }
 
-class _ListHotelWidgetState extends State<ListHotelWidget> {
+class _ListHotelWidgetState extends State<ListHotelWidget> implements ListHotelView{
+  late HotelPresenter _presenter;
+  bool _isLoading = false;
+  String? _error;
+  HotelImage? _hotelImage;
+  @override
+  void initState() {
+    super.initState();
+    _presenter = HotelPresenter(this, ListHotelRepo());
+    _presenter.getHotelImage(widget.hotelId); // Fetch the list of hotels when the screen loads
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -60,12 +77,31 @@ class _ListHotelWidgetState extends State<ListHotelWidget> {
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
-                    CustomImageView(
-                      imagePath: widget.image,
+                    (_hotelImage?.image != null)
+                    ? Container(
                       height: 120.h,
                       width: double.maxFinite,
-                      radius: BorderRadius.circular(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(
                         8.h,
+                      ),
+                      ),
+                      child: CachedNetworkImage(
+                        imageUrl: (_hotelImage?.image).toString(),
+                        fit: BoxFit.fitWidth,
+                      ),
+                    )
+                    : Container(
+                      height: 120.h,
+                      width: double.maxFinite,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(
+                        8.h,
+                      ),
+                      ),
+                      child: Skeleton(
+                        height: 120.h,
+                        width: double.maxFinite,
                       ),
                     ),
                     IntrinsicHeight(
@@ -172,6 +208,39 @@ class _ListHotelWidgetState extends State<ListHotelWidget> {
         ),
       ),
     );
+  }
+
+  @override
+  void hideLoading() {
+    // TODO: implement hideLoading
+  }
+
+  @override
+  void onGetHotelImagesSuccess(List<HotelImage> hotels) {
+    // TODO: implement onGetHotelImagesSuccess
+  }
+
+  @override
+  void onGetHotelsError(String error) {
+    // TODO: implement onGetHotelsError
+  }
+
+  @override
+  void onGetHotelsSuccess(List<Hotel> hotels) {
+    // TODO: implement onGetHotelsSuccess
+  }
+
+  @override
+  void onGetSingleHotelImageSuccess(HotelImage hotels) {
+    // TODO: implement onGetSingleHotelImageSuccess
+    setState(() {
+      _hotelImage = hotels;
+    });
+  }
+
+  @override
+  void showLoading() {
+    // TODO: implement showLoading
   }
 
 }

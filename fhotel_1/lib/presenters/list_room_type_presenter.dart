@@ -25,23 +25,6 @@ class ListRoomTypePresenter {
     }
   }
 
-  Future<void> loadRoomImages(List<RoomType> roomTypes) async {
-    _view.showLoading();
-    List<RoomImage> roomImages = [];
-
-    for (var roomType in roomTypes) {
-      try {
-        List<RoomImage> images = await _listRoomTypeRepo.getRoomImageByRoomTypeId(roomType.roomTypeId.toString());
-        roomImages.addAll(images); // Collect all images
-      } catch (error) {
-        print("Error fetching room images for ${roomType.roomTypeId}: $error");
-        // Handle the error appropriately, maybe add a placeholder or null image
-        roomImages.add(RoomImage()); // Placeholder for failed requests
-      }
-    }
-    _view.hideLoading();
-    _view.onGetRoomImageSuccess(roomImages);
-  }
 
   Future<void> loadRoomPrice(List<RoomType> roomTypes) async {
     _view.showLoading();
@@ -65,6 +48,17 @@ class ListRoomTypePresenter {
   }
 
   void getRoomImage(String roomTypeId) async {
+    _view.showLoading();
+    try {
+      final roomImages = await _listRoomTypeRepo.getSingleRoomImageByRoomTypeId(roomTypeId);
+      _view.hideLoading();
+      _view.onGetSingleRoomImageSuccess(roomImages);
+    } catch (e) {
+      _view.hideLoading();
+      // _view.showError('Failed to load amenities');
+    }
+  }
+  void getRoomImages(String roomTypeId) async {
     _view.showLoading();
     try {
       final roomImages = await _listRoomTypeRepo.getRoomImageByRoomTypeId(roomTypeId);

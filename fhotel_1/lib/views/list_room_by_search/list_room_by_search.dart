@@ -1,4 +1,4 @@
-import 'package:fhotel_1/data/models/facility.dart';
+import 'package:fhotel_1/data/models/room_facility.dart';
 import 'package:fhotel_1/data/models/room_image.dart';
 import 'package:fhotel_1/data/models/type.dart';
 import 'package:flutter/material.dart';
@@ -335,7 +335,6 @@ class ListRoomBySearchState extends State<ListRoomBySearch>
                       ),
                       child: CachedNetworkImage(
                         imageUrl: roomImage.image.toString(),
-                        // Use the imageUrl property
                         fit: BoxFit.fitWidth,
                       ),
                     ),
@@ -529,7 +528,12 @@ class ListRoomBySearchState extends State<ListRoomBySearch>
   }
 
   @override
-  void showFacility(List<Facility> roomTypes) {
+  void showFacility(List<RoomFacility> roomTypes) {
     // TODO: implement showFacility
+  }
+
+  @override
+  void onGetSingleRoomImageSuccess(RoomImage roomImage) {
+    // TODO: implement onGetSingleRoomImageSuccess
   }
 }

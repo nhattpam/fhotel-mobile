@@ -25,6 +25,17 @@ class HotelPresenter {
   void getHotelImage(String hotelId) async {
     _view.showLoading();
     try {
+      final roomImages = await _hotelService.getSingleHotelImageByHotelId(hotelId);
+      _view.hideLoading();
+      _view.onGetSingleHotelImageSuccess(roomImages);
+    } catch (e) {
+      _view.hideLoading();
+      // _view.showError('Failed to load amenities');
+    }
+  }
+  void getHotelImages(String hotelId) async {
+    _view.showLoading();
+    try {
       final roomImages = await _hotelService.getHotelImageByHotelId(hotelId);
       _view.hideLoading();
       _view.onGetHotelImagesSuccess(roomImages);
@@ -33,21 +44,5 @@ class HotelPresenter {
       // _view.showError('Failed to load amenities');
     }
   }
-  Future<void> loadRoomImages(List<Hotel> hotelImage) async {
-    _view.showLoading();
-    List<HotelImage> hotelImages = [];
 
-    for (var image in hotelImage) {
-      try {
-        List<HotelImage> images = await _hotelService.getHotelImageByHotelId(image.hotelId.toString());
-        hotelImages.addAll(images); // Collect all images
-      } catch (error) {
-        print("Error fetching room images for ${image.hotelId}: $error");
-        // Handle the error appropriately, maybe add a placeholder or null image
-        hotelImages.add(HotelImage()); // Placeholder for failed requests
-      }
-    }
-    _view.hideLoading();
-    _view.onGetHotelImagesSuccess(hotelImages);
-  }
 }

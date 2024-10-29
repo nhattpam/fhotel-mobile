@@ -1,4 +1,4 @@
-import 'package:fhotel_1/data/models/facility.dart';
+import 'package:fhotel_1/data/models/room_facility.dart';
 import 'package:fhotel_1/data/models/type.dart';
 import 'package:fhotel_1/data/models/user.dart';
 import 'package:fhotel_1/presenters/create_reservation.dart';
@@ -41,7 +41,7 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
   late ListRoomTypePresenter _presenter;
   late CreateReservation _createReservation;
   double? _totalAmount = 0;
-  List<Facility> _facilities = [];
+  List<RoomFacility> _facilities = [];
   SessionManager sessionManager = SessionManager();
   String? dateStarSelected;
   String? dateEndSelected;
@@ -449,7 +449,25 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
                       ],
                     ),
                   ),
-                  SizedBox(height: 8.h),
+                  SizedBox(
+                    width: double.maxFinite,
+                    child: Divider(),
+                  ),
+                  Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 16.h,
+                      vertical: 12.h,
+                    ),
+                    color: Colors.white,
+                    child: Text(
+                      "Các tiện nghi của khách sạn:",
+                      textAlign: TextAlign.start,
+                      style: theme.textTheme.titleSmall!.copyWith(
+                        color: theme.colorScheme.onPrimary,
+                      ),
+                    ),
+                  ),
                   _facilities.isNotEmpty
                       ? Container(
                           height: 200,
@@ -457,15 +475,11 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
                           child: ListView.builder(
                             itemCount: _facilities.length,
                             itemBuilder: (context, index) {
-                              print(_facilities);
                               return SizedBox(
                                 width: double.maxFinite,
                                 child: _buildSectionOne(
                                   context,
-                                  titleone: _facilities[index]
-                                      .facilityName
-                                      .toString(),
-                                  descriptionOne: '',
+                                  descriptionOne: (_facilities[index].facility?.facilityName).toString(),
                                 ),
                               );
                             },
@@ -811,7 +825,6 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
 
   Widget _buildSectionOne(
     BuildContext context, {
-    required String titleone,
     required String descriptionOne,
   }) {
     return Container(
@@ -822,14 +835,7 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 14.h),
-          Text(
-            titleone,
-            style: theme.textTheme.titleSmall!.copyWith(
-              color: theme.colorScheme.onPrimary,
-            ),
-          ),
-          SizedBox(height: 6.h),
+          SizedBox(height: 16.h),
           Container(
             width: double.maxFinite,
             padding: EdgeInsets.only(left: 6.h),
@@ -926,9 +932,14 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
   }
 
   @override
-  void showFacility(List<Facility> facilities) {
+  void showFacility(List<RoomFacility> facilities) {
     setState(() {
       _facilities = facilities; // Update state with the fetched images
     });
+  }
+
+  @override
+  void onGetSingleRoomImageSuccess(RoomImage roomImage) {
+    // TODO: implement onGetSingleRoomImageSuccess
   }
 }

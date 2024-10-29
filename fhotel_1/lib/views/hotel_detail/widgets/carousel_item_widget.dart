@@ -81,18 +81,18 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
   }
 
   @override
-  void didChangeDependencies() {
+  void didChangeDependencies() async {
     super.didChangeDependencies();
 
     // Retrieve the arguments passed safely in didChangeDependencies
     final Map<String, dynamic> args =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    hotelId = args['hotelId'];
+    hotelId = args['hotelId'] as String;
     checkInDate = args['checkInDate'] as String;
     checkOutDate = args['checkOutDate'] as String;
     numberOfRooms = args['numberOfRooms'] as int;
     // Fetch the hotel details using the presenter
-    _presenter.getHotelById(hotelId);
+    await _presenter.getHotelById(hotelId);
     _presenter.getHotelAmenities(hotelId);
   }
 
@@ -1067,7 +1067,7 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
 
   Widget _buildSumsectionat(BuildContext context) {
     return Container(
-      height: 115.h,
+      height: 57.h,
       width: double.maxFinite,
       decoration: BoxDecoration(
         color: appTheme.whiteA700,
@@ -1082,44 +1082,44 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          Container(
-            width: double.maxFinite,
-            padding: EdgeInsets.symmetric(horizontal: 16.h),
-            decoration: BoxDecoration(
-              color: appTheme.whiteA700,
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  width: double.maxFinite,
-                  margin: EdgeInsets.only(top: 10.h),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Giá phòng mỗi đêm từ",
-                        style: theme.textTheme.titleSmall,
-                      ),
-                      Text(
-                        "2.000.000 đ",
-                        style: theme.textTheme.titleSmall,
-                      )
-                    ],
-                  ),
-                )
-              ],
-            ),
-          ),
-          SizedBox(height: 4.h),
-          Padding(
-            padding: EdgeInsets.only(right: 14.h),
-            child: Text(
-              "Đã bao gồm thuế",
-              style: theme.textTheme.bodySmall,
-            ),
-          ),
-          SizedBox(height: 4.h),
+          // Container(
+          //   width: double.maxFinite,
+          //   padding: EdgeInsets.symmetric(horizontal: 16.h),
+          //   decoration: BoxDecoration(
+          //     color: appTheme.whiteA700,
+          //   ),
+          //   child: Column(
+          //     mainAxisSize: MainAxisSize.min,
+          //     children: [
+          //       Container(
+          //         width: double.maxFinite,
+          //         margin: EdgeInsets.only(top: 10.h),
+          //         child: Row(
+          //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //           children: [
+          //             Text(
+          //               "Giá phòng mỗi đêm từ",
+          //               style: theme.textTheme.titleSmall,
+          //             ),
+          //             Text(
+          //               "2.000.000 đ",
+          //               style: theme.textTheme.titleSmall,
+          //             )
+          //           ],
+          //         ),
+          //       )
+          //     ],
+          //   ),
+          // ),
+          // SizedBox(height: 4.h),
+          // Padding(
+          //   padding: EdgeInsets.only(right: 14.h),
+          //   child: Text(
+          //     "Đã bao gồm thuế",
+          //     style: theme.textTheme.bodySmall,
+          //   ),
+          // ),
+          // SizedBox(height: 4.h),
           Container(
             width: double.maxFinite,
             padding: EdgeInsets.symmetric(
@@ -1314,5 +1314,10 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
   @override
   void onGetHotelsSuccess(List<Hotel> hotels) {
     // TODO: implement onGetHotelsSuccess
+  }
+
+  @override
+  void onGetSingleHotelImageSuccess(HotelImage hotels) {
+    // TODO: implement onGetSingleHotelImageSuccess
   }
 }

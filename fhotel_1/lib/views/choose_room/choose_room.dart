@@ -1,7 +1,8 @@
-import 'package:fhotel_1/data/models/facility.dart';
+import 'package:fhotel_1/data/models/room_facility.dart';
 import 'package:fhotel_1/data/models/room_image.dart';
 import 'package:fhotel_1/data/models/type.dart';
 import 'package:fhotel_1/data/repository/list_room_type_repo.dart';
+import 'package:fhotel_1/views/choose_room/widgets/choose_room_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/app_export.dart';
@@ -27,7 +28,6 @@ class ChooseRoomFullScreenState extends State<ChooseRoomFullScreen>
   String? checkOutDate;
   int numberOfRooms = 0;
   int? numberOfDays;
-
   List<double?> _roomPrices = [];
   List<RoomType> _roomTypes = [];
   List<RoomImage> _roomImage = [];
@@ -292,7 +292,7 @@ class ChooseRoomFullScreenState extends State<ChooseRoomFullScreen>
   }
 
   Widget _buildList(BuildContext context) {
-    return _isLoading
+    return _roomTypes.isEmpty && _roomPrices.isEmpty
         ? ListView.separated(
             padding: EdgeInsets.zero,
             physics: const NeverScrollableScrollPhysics(),
@@ -326,193 +326,8 @@ class ChooseRoomFullScreenState extends State<ChooseRoomFullScreen>
             separatorBuilder: (context, index) => SizedBox(height: 12.h),
             itemCount: _roomTypes.length,
             itemBuilder: (context, index) {
-              RoomImage roomImage = _roomImage.length > index
-                  ? _roomImage[index]
-                  : RoomImage(); // Default or placeholder
-              return Container(
-                width: double.maxFinite,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadiusStyle.roundedBorder8,
-                  border: Border.all(
-                    color: appTheme.black900.withOpacity(0.2),
-                    width: 1.h,
-                  ),
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SizedBox(height: 8.h),
-                    Container(
-                      padding: EdgeInsets.fromLTRB(16.h, 8.h, 16.h, 6.h),
-                      decoration: BoxDecoration(
-                        color: appTheme.whiteA700,
-                        border: Border(
-                          bottom: BorderSide(
-                            color: appTheme.blueGray50,
-                            width: 1.h,
-                          ),
-                        ),
-                      ),
-                      width: double.maxFinite,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            height: 150.h,
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8.h),
-                            ),
-                            child: CachedNetworkImage(
-                              imageUrl: roomImage.image.toString(),
-                              // Use the imageUrl property
-                              fit: BoxFit.fitWidth,
-                            ),
-                          ),
-                          SizedBox(height: 8.h),
-                          Text(
-                            (_roomTypes[index].type?.typeName).toString(),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: theme.textTheme.titleSmall!
-                                .copyWith(height: 1.50),
-                          ),
-                          SizedBox(height: 2.h),
-                          Text(
-                            "Room size: ${_roomTypes[index].roomSize.toString()}m2",
-                            style: theme.textTheme.bodySmall,
-                          ),
-                          SizedBox(height: 8.h),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 8.h),
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 16.h),
-                      decoration: BoxDecoration(
-                        color: appTheme.whiteA700,
-                      ),
-                      width: double.maxFinite,
-                      child: Row(
-                        children: [
-                          CustomImageView(
-                            imagePath: ImageConstant.imgIconWrapper15,
-                            height: 24.h,
-                            width: 24.h,
-                          ),
-                          Align(
-                            alignment: Alignment.bottomCenter,
-                            child: Padding(
-                              padding: EdgeInsets.only(left: 8.h),
-                              child: Text(
-                                "Tối đa ${_roomTypes[index].type?.maxOccupancy.toString() ?? ''} người",
-                                style: theme.textTheme.bodyMedium,
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 8.h),
-                    // Container(
-                    //   padding: EdgeInsets.symmetric(horizontal: 16.h),
-                    //   decoration: BoxDecoration(
-                    //     color: appTheme.whiteA700,
-                    //   ),
-                    //   width: double.maxFinite,
-                    //   child: Row(
-                    //     children: [
-                    //       CustomImageView(
-                    //         imagePath: ImageConstant.imgIconWrapper16,
-                    //         height: 24.h,
-                    //         width: 24.h,
-                    //       ),
-                    //       // Align(
-                    //       //   alignment: Alignment.bottomCenter,
-                    //       //   child: Padding(
-                    //       //     padding: EdgeInsets.only(left: 8.h),
-                    //       //     child: Text(
-                    //       //       "2 giường đơn, 1 giường cỡ queen",
-                    //       //       style: theme.textTheme.bodyMedium,
-                    //       //     ),
-                    //       //   ),
-                    //       // )
-                    //     ],
-                    //   ),
-                    // ),
-                    // SizedBox(height: 8.h),
-                    SizedBox(
-                      width: double.maxFinite,
-                      child: Divider(),
-                    ),
-                    SizedBox(height: 6.h),
-                    Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 16.h,
-                        vertical: 8.h,
-                      ),
-                      decoration: BoxDecoration(
-                        color: appTheme.whiteA700,
-                      ),
-                      width: double.maxFinite,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Align(
-                            alignment: Alignment.bottomCenter,
-                            child: RichText(
-                              text: TextSpan(
-                                children: [
-                                  _roomPrices[index] != null && _roomPrices[index]! > 0
-                                      ? TextSpan(
-                                    text: NumberFormat('#,###', 'en_US').format(_roomPrices[index]) + " ₫",
-                                    style: CustomTextStyles.titleSmallBlue,
-                                  )
-                                      : TextSpan(
-                                    text: "0 ₫",
-                                    style: CustomTextStyles.titleSmallBlue,
-                                  ),
-                                  TextSpan(
-                                    text: "/ phòng / đêm",
-                                    style: CustomTextStyles.bodySmallOnPrimary,
-                                  )
-                                ],
-                              ),
-                              textAlign: TextAlign.left,
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              _showDetailModalBottomSheet(context,
-                                  _roomTypes[index].roomTypeId.toString());
-                            },
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 12.h,
-                                vertical: 2.h,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Colors.blueAccent,
-                                borderRadius: BorderRadiusStyle.roundedBorder4,
-                              ),
-                              child: const Column(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "Xem chi tiết phòng",
-                                    style: TextStyle(color: Colors.white),
-                                  )
-                                ],
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              );
+               return ChooseRoomWidget(hotelId: (_roomTypes[index].roomTypeId).toString(), roomTypes: _roomTypes[index], checkInDate: checkInDate.toString(), checkOutDate: checkOutDate.toString(), numberOfRooms: numberOfRooms, price: (_roomPrices[index] ?? 0).toDouble(),
+               );
             },
           );
   }
@@ -532,7 +347,6 @@ class ChooseRoomFullScreenState extends State<ChooseRoomFullScreen>
   void showRoomTypes(List<RoomType> roomTypes) {
     setState(() async {
       _roomTypes = roomTypes;
-      await _presenter.loadRoomImages(_roomTypes);
       await _presenter.loadRoomPrice(_roomTypes);
       setState(() {
         _isLoading = false;
@@ -565,7 +379,12 @@ class ChooseRoomFullScreenState extends State<ChooseRoomFullScreen>
   }
 
   @override
-  void showFacility(List<Facility> facilities) {
+  void showFacility(List<RoomFacility> facilities) {
     // TODO: implement showFacility
+  }
+
+  @override
+  void onGetSingleRoomImageSuccess(RoomImage roomImage) {
+    // TODO: implement onGetSingleRoomImageSuccess
   }
 }

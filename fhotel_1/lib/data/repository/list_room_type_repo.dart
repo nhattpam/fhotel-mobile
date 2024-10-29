@@ -1,4 +1,4 @@
-import 'package:fhotel_1/data/models/facility.dart';
+import 'package:fhotel_1/data/models/room_facility.dart';
 import 'package:fhotel_1/data/models/room_image.dart';
 import 'package:fhotel_1/data/models/room_types.dart';
 import 'package:fhotel_1/data/models/type.dart';
@@ -25,7 +25,6 @@ class ListRoomTypeRepo {
 
   Future<List<RoomImage>> getRoomImageByRoomTypeId(String roomTypeId) async {
     final url = Uri.parse('$_baseUrl/room-types/$roomTypeId/room-images');
-    print("This is image link " + url.toString());
     final response = await http.get(
       url,
       headers: {
@@ -35,8 +34,6 @@ class ListRoomTypeRepo {
 
     if (response.statusCode == 200) {
       final List<dynamic> responseData = json.decode(response.body);
-      print("This is response image link " + responseData.toString());
-
       // Mapping the list of dynamic to List<RoomImage>
       return responseData.map((data) => RoomImage.fromJson(data)).toList();
     } else {
@@ -115,16 +112,43 @@ class ListRoomTypeRepo {
     }
   }
 
-  Future<List<Facility>> getFacilityByRoomTypeId(String roomTypeId) async {
-    final response = await http.get(Uri.parse('$_baseUrl/room-types/$roomTypeId/room-facilities'));
 
+  Future<List<RoomFacility>> getFacilityByRoomTypeId(String roomTypeId) async {
+
+    final url = Uri.parse('$_baseUrl/room-types/$roomTypeId/room-facilities');
+    print(url);
+    final response = await http.get(url);
     if (response.statusCode == 200) {
       List<dynamic> responseData = json.decode(response.body);
       return responseData
-          .map((data) => Facility.fromJson(data))
+          .map((typeJson) => RoomFacility.fromJson(typeJson))
           .toList();
     } else {
-      throw Exception('Failed to load list facility');
+      throw Exception('Failed to fetch room facility.');
     }
   }
+  Future<RoomImage> getSingleRoomImageByRoomTypeId(String roomTypeId) async {
+    final url = Uri.parse('$_baseUrl/room-types/$roomTypeId/room-images');
+    print(url);
+    final response = await http.get(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final responseData = json.decode(response.body);
+      if (responseData.isNotEmpty) {
+        final roomImage = RoomImage.fromJson(responseData[0]);
+        print((responseData[0]));
+        return roomImage;
+      } else {
+        throw Exception('No image found for the provided room ID.');
+      }
+    } else {
+      throw Exception('Failed to fetch room image. Status code: ${response.statusCode}');
+    }
+  }
+
 }

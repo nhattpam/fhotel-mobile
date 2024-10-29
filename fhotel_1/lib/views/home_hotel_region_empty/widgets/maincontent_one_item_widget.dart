@@ -1,6 +1,12 @@
 import 'package:fhotel_1/core/app_export.dart';
 import 'package:fhotel_1/core/utils/skeleton.dart';
+import 'package:fhotel_1/data/models/hotel.dart';
+import 'package:fhotel_1/data/models/hotel_image.dart';
+import 'package:fhotel_1/data/repository/list_hotel_repo.dart';
+import 'package:fhotel_1/presenters/list_hotel_presenter.dart';
 import 'package:flutter/material.dart';
+
+import '../../hotel_listing_nearby_screen/list_hotel_view.dart';
 
   class MaincontentOneltemWidget extends StatefulWidget {
   final String hotelId;
@@ -14,8 +20,19 @@ import 'package:flutter/material.dart';
   _MaincontentOneltemWidgetState createState() => _MaincontentOneltemWidgetState();
   }
 
-  class _MaincontentOneltemWidgetState extends State<MaincontentOneltemWidget> {
-  @override
+  class _MaincontentOneltemWidgetState extends State<MaincontentOneltemWidget> implements ListHotelView{
+    late HotelPresenter _presenter;
+    bool _isLoading = false;
+    String? _error;
+    HotelImage? _hotelImage;
+    @override
+    void initState() {
+      super.initState();
+      _presenter = HotelPresenter(this, ListHotelRepo());
+      _presenter.getHotelImage(widget.hotelId); // Fetch the list of hotels when the screen loads
+    }
+
+    @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
@@ -39,9 +56,9 @@ import 'package:flutter/material.dart';
             child: Stack(
               alignment: Alignment.center,
               children: [
-                widget.image != null
+                _hotelImage != null
                ? CustomImageView(
-                  imagePath: widget.image,
+                  imagePath: _hotelImage?.image.toString(),
                   height: 170.h,
                   width: double.maxFinite,
                   radius: BorderRadius.circular(
@@ -91,5 +108,37 @@ import 'package:flutter/material.dart';
         ),
       ),
     );
+  }
+
+  @override
+  void hideLoading() {
+    // TODO: implement hideLoading
+  }
+
+  @override
+  void onGetHotelImagesSuccess(List<HotelImage> hotels) {
+    // TODO: implement onGetHotelImagesSuccess
+  }
+
+  @override
+  void onGetHotelsError(String error) {
+    // TODO: implement onGetHotelsError
+  }
+
+  @override
+  void onGetHotelsSuccess(List<Hotel> hotels) {
+    // TODO: implement onGetHotelsSuccess
+  }
+
+    @override
+    void onGetSingleHotelImageSuccess(HotelImage hotels) {
+      // TODO: implement onGetSingleHotelImageSuccess
+      setState(() {
+        _hotelImage = hotels;
+      });
+    }
+  @override
+  void showLoading() {
+    // TODO: implement showLoading
   }
 }
