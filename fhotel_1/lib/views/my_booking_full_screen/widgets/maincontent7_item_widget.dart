@@ -85,19 +85,17 @@ class Maincontent7ItemWidgetState extends State<Maincontent7ItemWidget> {
             SizedBox(
               width: double.maxFinite,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text(
-                    "Mã đặt chỗ: 453653657",
-                    style: theme.textTheme.labelLarge,
-                  ),
+                  // Text(
+                  //   "Mã đặt chỗ: 453653657",
+                  //   style: theme.textTheme.labelLarge,
+                  // ),
                   Padding(
                     padding: EdgeInsets.only(top: 10.h),
                     child: Text(
-                      NumberFormat('#,###', 'en_US')
-                              .format(widget.reservation.totalAmount) +
-                          " ₫",
+                     "Giá: ${NumberFormat('#,###', 'en_US').format(widget.reservation.totalAmount)} ₫",
                       style: CustomTextStyles.titleSmallBlue,
                     ),
                   )

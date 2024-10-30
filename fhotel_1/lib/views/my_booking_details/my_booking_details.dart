@@ -1,3 +1,4 @@
+import 'package:fhotel_1/core/utils/skeleton.dart';
 import 'package:fhotel_1/data/models/reservation.dart';
 import 'package:fhotel_1/views/guest_information_book/guest_information_book.dart';
 import 'package:fhotel_1/views/my_booking_check_in/my_booking_checkin.dart';
@@ -326,9 +327,13 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> {
                               //   ),
                               // ),
                               SizedBox(height: 2.h),
-                              Text(
-                                "Diện tích: ${widget.reservation.roomType?.roomSize} m2",
+                              (widget.reservation.roomType?.roomSize != null)
+                              ? Text(
+                                "Diện tích: ${NumberFormat('#,###', 'en_US').format(widget.reservation.roomType?.roomSize)}m²",
                                 style: theme.textTheme.bodySmall,
+                              )
+                                  : Skeleton(
+                                width: 50.h,
                               )
                             ],
                           ),

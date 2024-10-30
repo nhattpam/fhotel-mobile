@@ -117,10 +117,12 @@ class _ChooseRoomWidgetState extends State<ChooseRoomWidget> implements ChooseRo
                       .copyWith(height: 1.50),
                 ),
                 SizedBox(height: 2.h),
-                Text(
-                  "Room size: ${NumberFormat('#,###', 'en_US').format(widget.roomTypes.roomSize)}m²",
+                (widget.roomTypes.roomSize != null)
+                ? Text(
+                  "Diện tích: ${NumberFormat('#,###', 'en_US').format(widget.roomTypes.roomSize)}m²",
                   style: theme.textTheme.bodySmall,
-                ),
+                )
+                    : Skeleton(width: 50.h),
                 SizedBox(height: 8.h),
               ],
             ),

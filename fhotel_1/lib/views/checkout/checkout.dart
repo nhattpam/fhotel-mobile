@@ -1,3 +1,4 @@
+import 'package:fhotel_1/core/utils/skeleton.dart';
 import 'package:fhotel_1/data/models/reservation.dart';
 import 'package:fhotel_1/data/repository/list_reservation_repo.dart';
 import 'package:fhotel_1/presenters/vn_pay_presenter.dart';
@@ -168,7 +169,8 @@ class CheckoutScreenState extends State<CheckoutScreen>
   }
 
   void _showPaymentSuccessDialog(BuildContext context) async {
-    await _presenter.getReservationById(widget.reservation.reservationId.toString());
+    await _presenter
+        .getReservationById(widget.reservation.reservationId.toString());
     if (_reservation?.paymentStatus == 'Paid') {
       AwesomeDialog(
         context: context,
@@ -184,7 +186,7 @@ class CheckoutScreenState extends State<CheckoutScreen>
           Navigator.pushReplacementNamed(context, AppRoutes.homePage);
         },
       ).show();
-    } else{
+    } else {
       AwesomeDialog(
         context: context,
         animType: AnimType.scale,
@@ -196,8 +198,7 @@ class CheckoutScreenState extends State<CheckoutScreen>
           ),
         ),
         btnOkColor: Colors.red,
-        btnOkOnPress: () {
-        },
+        btnOkOnPress: () {},
       ).show();
     }
   }
@@ -444,13 +445,12 @@ class CheckoutScreenState extends State<CheckoutScreen>
                               //   ),
                               // ),
                               SizedBox(height: 2.h),
-                              Text(
-                                "Diện tích " +
-                                    (widget.reservation.roomType?.roomSize)
-                                        .toString() +
-                                    " m2",
-                                style: theme.textTheme.bodySmall,
-                              )
+                              (widget.reservation.roomType?.roomSize != null)
+                                  ? Text(
+                                      "Diện tích: ${NumberFormat('#,###', 'en_US').format(widget.reservation.roomType?.roomSize)}m²",
+                                      style: theme.textTheme.bodySmall,
+                                    )
+                                  : Skeleton(width: 50.h)
                             ],
                           ),
                         ),
@@ -950,8 +950,10 @@ class CheckoutScreenState extends State<CheckoutScreen>
     return Expanded(
       child: CustomElevatedButton(
         onPressed: () async {
-          await _presenter.getReservationById((widget.reservation.reservationId).toString());
-          if(_reservation?.paymentMethodId == '1dfab560-eef5-4297-9c26-03c3364f10e6'){
+          await _presenter.getReservationById(
+              (widget.reservation.reservationId).toString());
+          if (_reservation?.paymentMethodId ==
+              '1dfab560-eef5-4297-9c26-03c3364f10e6') {
             AwesomeDialog(
               context: context,
               animType: AnimType.scale,
@@ -967,7 +969,8 @@ class CheckoutScreenState extends State<CheckoutScreen>
               },
             ).show();
           }
-          if(_reservation?.paymentMethodId == '03c20593-9817-4cda-982f-7c8e7ee162e8') {
+          if (_reservation?.paymentMethodId ==
+              '03c20593-9817-4cda-982f-7c8e7ee162e8') {
             await _vnPresenter.PaymentMethodVNPAY(
                 widget.reservation.reservationId.toString());
             launch(vnpaylink.toString());

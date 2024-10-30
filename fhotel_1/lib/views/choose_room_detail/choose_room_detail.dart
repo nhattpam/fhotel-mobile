@@ -370,7 +370,7 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
                                       child: SizedBox(
                                         width: 286.h,
                                         child: Text(
-                                          "Room size: ${NumberFormat('#,###', 'en_US').format(_roomType?.roomSize)}m²",
+                                          "Diện tích: ${NumberFormat('#,###', 'en_US').format(_roomType?.roomSize)}m²",
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           style: theme.textTheme.bodyMedium!
