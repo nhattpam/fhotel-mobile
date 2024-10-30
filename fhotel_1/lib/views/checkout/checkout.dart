@@ -208,7 +208,7 @@ class CheckoutScreenState extends State<CheckoutScreen>
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: _buildAppbar(context),
+        // appBar: _buildAppbar(context),
         body: SizedBox(
           width: double.maxFinite,
           child: SingleChildScrollView(

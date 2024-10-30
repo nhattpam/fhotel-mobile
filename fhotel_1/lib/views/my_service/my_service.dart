@@ -64,7 +64,7 @@ class MyServiceState extends State<MyService>
             Expanded(
               child: GroupedListView<Order, String>(
                 shrinkWrap: true,
-                elements: _orders,
+                elements: _orders..sort((a, b) => (a.orderedDate.toString()).compareTo(b.orderedDate.toString())),
                 groupBy: (orders) {
                   DateTime parsedDate =
                       DateTime.parse(orders.orderedDate.toString());
