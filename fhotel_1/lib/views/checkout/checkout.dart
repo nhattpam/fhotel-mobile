@@ -950,9 +950,28 @@ class CheckoutScreenState extends State<CheckoutScreen>
     return Expanded(
       child: CustomElevatedButton(
         onPressed: () async {
-          await _vnPresenter.PaymentMethodVNPAY(
-              widget.reservation.reservationId.toString());
-          launch(vnpaylink.toString());
+          await _presenter.getReservationById((widget.reservation.reservationId).toString());
+          if(_reservation?.paymentMethodId == '1dfab560-eef5-4297-9c26-03c3364f10e6'){
+            AwesomeDialog(
+              context: context,
+              animType: AnimType.scale,
+              dialogType: DialogType.success,
+              body: const Center(
+                child: Text(
+                  'Bạn đã hoàn tất đặt phòng !!',
+                  style: TextStyle(fontStyle: FontStyle.italic),
+                ),
+              ),
+              btnOkOnPress: () {
+                Navigator.pushReplacementNamed(context, AppRoutes.homePage);
+              },
+            ).show();
+          }
+          if(_reservation?.paymentMethodId == '03c20593-9817-4cda-982f-7c8e7ee162e8') {
+            await _vnPresenter.PaymentMethodVNPAY(
+                widget.reservation.reservationId.toString());
+            launch(vnpaylink.toString());
+          }
         },
         text: "Thanh toán",
         buttonStyle: CustomButtonStyles.fillBlue,

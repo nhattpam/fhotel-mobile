@@ -70,7 +70,7 @@ import '../../hotel_listing_nearby_screen/list_hotel_view.dart';
                 _hotelImage != null
                ? CustomImageView(
                   imagePath: _hotelImage?.image.toString(),
-                  height: 170.h,
+                  height: 100.h,
                   width: double.maxFinite,
                   radius: BorderRadius.circular(
                     8.h,
