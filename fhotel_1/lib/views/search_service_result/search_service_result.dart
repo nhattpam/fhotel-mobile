@@ -1,15 +1,22 @@
 import 'package:badges/badges.dart' as badges; // Alias the badges package
 import 'package:fhotel_1/core/app_export.dart';
+import 'package:fhotel_1/data/models/service.dart';
 import 'package:fhotel_1/views/search_service_result/widgets/search_service_result_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_grid_list/responsive_grid_list.dart';
 
-class SearchServiceResult extends StatelessWidget {
-  SearchServiceResult({Key? key})
-      : super(
-          key: key,
-        );
-  int cartItemCount = 5;
+import '../service_detail_screen/service_detail_screen.dart';
+
+class SearchServiceResult extends StatefulWidget {
+  final List<Services> service;
+
+  SearchServiceResult({super.key, required this.service});
+
+  @override
+  SearchServiceResultState createState() => SearchServiceResultState();
+}
+
+class SearchServiceResultState extends State<SearchServiceResult>{
 
   @override
   Widget build(BuildContext context) {
@@ -40,52 +47,70 @@ class SearchServiceResult extends StatelessWidget {
 
   PreferredSizeWidget _buildAppbar(BuildContext context) {
     return CustomAppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          // Adjusts alignment
-          children: [
-            AppbarTitle(
-              text: "Danh sách Pizza",
-              margin: EdgeInsets.only(left: 8.h),
-            ),
-            _buildCartIconWithBadge(cartItemCount)
-          ],
+        leadingWidth: 40.h,
+        leading: AppbarLeadingImage(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          imagePath: ImageConstant.imgChevronLeft,
+          margin: EdgeInsets.only(
+            left: 16.h,
+            top: 16.h,
+            bottom: 16.h,
+          ),
         ),
+        title: AppbarTitle(
+          text: "${widget.service[0].serviceType?.serviceTypeName}",
+          margin: EdgeInsets.only(left: 8.h),
+        ),
+        actions: [
+          Container(
+            margin: EdgeInsets.only(
+              top: 16.h,
+              right: 16.h,
+              bottom: 16.h,
+            ),
+            decoration: BoxDecoration(
+              color: appTheme.black900.withOpacity(0.2),
+              borderRadius: BorderRadius.circular(
+                12.h,
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                AppbarImage(
+                  imagePath: ImageConstant.imgIconLeft,
+                  margin: EdgeInsets.only(
+                    left: 8.h,
+                    top: 4.h,
+                    bottom: 4.h,
+                  ),
+                ),
+                // SizedBox(width: 8.h),
+                Padding(
+                  padding: EdgeInsets.only(left: 17.h),
+                  child: const Text(
+                    "|",
+                    style: TextStyle(color: Colors.black),
+                  ),
+                ),
+                AppbarIconbutton(
+                  imagePath: ImageConstant.imgDivider,
+                  margin: EdgeInsets.symmetric(
+                    horizontal: 8.h,
+                    vertical: 4.h,
+                  ),
+                ),
+              ],
+            ),
+          )
+        ],
         styleType: Style.bgFill);
   }
 
-  Widget _buildCartIconWithBadge(int cartItemCount) {
-    return Container(
-      margin: EdgeInsets.only(
-        top: 16.h,
-        right: 16.h,
-        bottom: 16.h,
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          // AppbarImage or an icon for shopping cart
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8.h, vertical: 4.h),
-            child: badges.Badge(
-              badgeColor: Colors.redAccent, // Use the alias for the badge
-              badgeContent: Text(
-                // Use 'badge' instead of 'badgeContent'
-                cartItemCount.toString(),
-                style: const TextStyle(color: Colors.white),
-              ),
-              child: Icon(
-                Icons.shopping_bag_outlined,
-                size: 28.h,
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+
 
   Widget _buildColumnpopularbu(BuildContext context) {
     return SizedBox(
@@ -94,7 +119,7 @@ class SearchServiceResult extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Popular Pizza",
+            "Tất cả ${widget.service[0].serviceType?.serviceTypeName}:",
             style: theme.textTheme.titleLarge,
           ),
           SizedBox(height: 18.h),
@@ -110,9 +135,81 @@ class SearchServiceResult extends StatelessWidget {
               children: items,
             ),
             gridItems: List.generate(
-              4,
+              widget.service.length,
               (index) {
-                return FoodBurgersItemWidget();
+                return GestureDetector(
+                  onTap: (){
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                          builder: (context) => ServiceDetailScreen(service: widget.service[index])),
+                    );
+                  },
+                  child: Container(
+                    color: Colors.white,
+                    height: 200.h,
+                    width: double.infinity,
+                    child: Stack(
+                      alignment: Alignment.bottomCenter,
+                      children: [
+                        Container(
+                          width: double.maxFinite,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 12.h,
+                            vertical: 10.h,
+                          ),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(height: 38.h),
+                              Text(
+                                (widget.service[index].serviceName).toString() ,
+                                maxLines: 2,
+                                style: CustomTextStyles.titleSmallBlue,
+                              ),
+                              SizedBox(
+                                width: double.maxFinite,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Align(
+                                      alignment: Alignment.bottomCenter,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(bottom: 2.h),
+                                        child: Text(
+                                         "Giá: ${NumberFormat('#,###', 'en_US').format(widget.service[index].price)} ₫",
+                                          style: CustomTextStyles.titleSmallGray600,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.topCenter,
+                          child: Container(
+                            height: 120.h,
+                            width: 122.h,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(
+                                14.h,
+                              ),
+                            ),
+                            child: Image.network(
+                              (widget.service[index].image).toString(),
+                              fit: BoxFit.cover,
+                              height: 120.h,
+                              width: 122.h,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
               },
             ),
           )

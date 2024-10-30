@@ -85,26 +85,37 @@ class ServiceListingScreenState extends State<ServiceListingScreen>
                         itemBuilder: (context, index) {
                           String name =
                               _typeServices[index].serviceTypeName.toString();
-                          return ChipTheme(
-                            data: ChipTheme.of(context).copyWith(
-                              backgroundColor: Colors.white,
-                              selectedColor: Colors.blue,
-                              disabledColor: Colors.grey,
-                              shape: RoundedRectangleBorder(
-                                side: const BorderSide(
-                                  color: Colors.grey, // Border color
-                                  width: 1, // Border width
+                          return GestureDetector(
+                            onTap: () {
+                              // Create a new list containing only the services with the desired serviceTypeName
+                              List<Services> filteredServices = _services.where((service) => service.serviceType?.serviceTypeName == name).toList();
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => SearchServiceResult(service: filteredServices),
                                 ),
-                                borderRadius: BorderRadius.circular(
-                                    50), // Rounded corners
+                              );
+                            },
+                            child: ChipTheme(
+                              data: ChipTheme.of(context).copyWith(
+                                backgroundColor: Colors.white,
+                                selectedColor: Colors.blue,
+                                disabledColor: Colors.grey,
+                                shape: RoundedRectangleBorder(
+                                  side: const BorderSide(
+                                    color: Colors.grey, // Border color
+                                    width: 1, // Border width
+                                  ),
+                                  borderRadius: BorderRadius.circular(
+                                      50), // Rounded corners
+                                ),
                               ),
-                            ),
-                            child: Chip(
-                              label: Text(
-                                name,
+                              child: Chip(
+                                label: Text(
+                                  name,
+                                ),
+                                // selected: false,
+                                // onSelected: (bool selected) {},
                               ),
-                              // selected: false,
-                              // onSelected: (bool selected) {},
                             ),
                           );
                         },
@@ -225,45 +236,6 @@ class ServiceListingScreenState extends State<ServiceListingScreen>
         styleType: Style.bgFill);
   }
 
-  Widget _buildCartIconWithBadge(int cartItemCount) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => MyCartScreen()),
-        );
-      },
-      child: Container(
-        margin: EdgeInsets.only(
-          top: 16.h,
-          right: 16.h,
-          bottom: 16.h,
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // AppbarImage or an icon for shopping cart
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8.h, vertical: 4.h),
-              child: badges.Badge(
-                badgeColor: Colors.redAccent, // Use the alias for the badge
-                badgeContent: Text(
-                  // Use 'badge' instead of 'badgeContent'
-                  cartItemCount.toString(),
-                  style: const TextStyle(color: Colors.white),
-                ),
-                child: Icon(
-                  Icons.shopping_bag_outlined,
-                  size: 28.h,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 
   Widget _buildBottomNavigationBar(BuildContext context) {
     return BottomNavigationBar(
@@ -310,65 +282,6 @@ class ServiceListingScreenState extends State<ServiceListingScreen>
       selectedLabelStyle: CustomTextStyles.bodyLargeGray600,
       selectedItemColor: Colors.blueAccent,
       unselectedItemColor: Colors.blue,
-    );
-  }
-
-  Widget _buildColumnheyhalalg(BuildContext context) {
-    return Container(
-      width: double.maxFinite,
-      margin: EdgeInsets.symmetric(horizontal: 12.h),
-      padding: EdgeInsets.symmetric(horizontal: 10.h),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          CustomSearchView(
-            controller: searchController,
-            hintText: "Search dishes, restaurants",
-            contentPadding: EdgeInsets.symmetric(
-              horizontal: 18.h,
-              vertical: 22.h,
-            ),
-          ),
-          SizedBox(height: 32.h),
-          SizedBox(
-            width: double.maxFinite,
-            child: _buildRowopen(
-              context,
-              openone: "All Categories",
-              seeallone: "See All",
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget _buildListpizzaone(BuildContext context) {
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: Container(
-        margin: EdgeInsets.only(left: 24.h),
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Wrap(
-            direction: Axis.horizontal,
-            spacing: 16.h,
-            children: List.generate(
-              3,
-              (index) {
-                return GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                            builder: (context) => SearchServiceResult()),
-                      );
-                    },
-                    child: const ListpizzaOneItemWidget());
-              },
-            ),
-          ),
-        ),
-      ),
     );
   }
 
