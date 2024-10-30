@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 
 import '../../hotel_listing_nearby_screen/list_hotel_view.dart';
 
-  class MaincontentOneltemWidget extends StatefulWidget {
+class MaincontentOneltemWidget extends StatefulWidget {
   final String hotelId;
   final String image;
   final String name;
@@ -16,25 +16,37 @@ import '../../hotel_listing_nearby_screen/list_hotel_view.dart';
   final String description;
   final String checkInDate;
   final String checkOutDate;
-  const MaincontentOneltemWidget({super.key, required this.hotelId ,required this.image, required this.name, required this.rate, required this.description, required this.checkInDate, required this.checkOutDate});
+
+  const MaincontentOneltemWidget(
+      {super.key,
+      required this.hotelId,
+      required this.image,
+      required this.name,
+      required this.rate,
+      required this.description,
+      required this.checkInDate,
+      required this.checkOutDate});
 
   @override
-  _MaincontentOneltemWidgetState createState() => _MaincontentOneltemWidgetState();
+  _MaincontentOneltemWidgetState createState() =>
+      _MaincontentOneltemWidgetState();
+}
+
+class _MaincontentOneltemWidgetState extends State<MaincontentOneltemWidget>
+    implements ListHotelView {
+  late HotelPresenter _presenter;
+  bool _isLoading = false;
+  String? _error;
+  HotelImage? _hotelImage;
+
+  @override
+  void initState() {
+    super.initState();
+    _presenter = HotelPresenter(this, ListHotelRepo());
+    _presenter.getHotelImage(widget.hotelId); // Fetch the list of hotels when the screen loads
   }
 
-  class _MaincontentOneltemWidgetState extends State<MaincontentOneltemWidget> implements ListHotelView{
-    late HotelPresenter _presenter;
-    bool _isLoading = false;
-    String? _error;
-    HotelImage? _hotelImage;
-    @override
-    void initState() {
-      super.initState();
-      _presenter = HotelPresenter(this, ListHotelRepo());
-      _presenter.getHotelImage(widget.hotelId); // Fetch the list of hotels when the screen loads
-    }
-
-    @override
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
@@ -68,18 +80,18 @@ import '../../hotel_listing_nearby_screen/list_hotel_view.dart';
               alignment: Alignment.center,
               children: [
                 _hotelImage != null
-               ? CustomImageView(
-                  imagePath: _hotelImage?.image.toString(),
-                  height: 100.h,
-                  width: double.maxFinite,
-                  radius: BorderRadius.circular(
-                    8.h,
-                  ),
-                )
-                : Skeleton(
-                  height: 170.h,
-                  width: double.maxFinite,
-                ),
+                    ? CustomImageView(
+                      imagePath: _hotelImage?.image.toString(),
+                      height: 100.h,
+                      width: double.maxFinite,
+                      radius: BorderRadius.circular(
+                        8.h,
+                      ),
+                    )
+                    : Skeleton(
+                        height: 170.h,
+                        width: double.maxFinite,
+                      ),
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Container(
@@ -143,13 +155,14 @@ import '../../hotel_listing_nearby_screen/list_hotel_view.dart';
     // TODO: implement onGetHotelsSuccess
   }
 
-    @override
-    void onGetSingleHotelImageSuccess(HotelImage hotels) {
-      // TODO: implement onGetSingleHotelImageSuccess
-      setState(() {
-        _hotelImage = hotels;
-      });
-    }
+  @override
+  void onGetSingleHotelImageSuccess(HotelImage hotels) {
+    // TODO: implement onGetSingleHotelImageSuccess
+    setState(() {
+      _hotelImage = hotels;
+    });
+  }
+
   @override
   void showLoading() {
     // TODO: implement showLoading

@@ -795,6 +795,7 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
             height: 170.h,
             width: 344.h,
             child: ListView.separated(
+              cacheExtent: 1000,
               padding: EdgeInsets.only(left: 14.h),
               scrollDirection: Axis.horizontal,
               separatorBuilder: (context, index) {
