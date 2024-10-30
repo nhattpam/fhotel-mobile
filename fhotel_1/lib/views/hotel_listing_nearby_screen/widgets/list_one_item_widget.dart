@@ -38,6 +38,19 @@ class _ListHotelWidgetState extends State<ListHotelWidget> implements ListHotelV
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        final sessionManager = SessionManager();
+
+        // Prepare the hotel session data
+        final hotelSession = {
+          'hotelName': widget.name,
+          'checkInDate': widget.checkInDate,
+          'checkOutDate': widget.checkOutDate,
+          'address': widget.address,
+        };
+
+        // Add the hotel session to the list in SharedPreferences
+        sessionManager.addHotelSession(hotelSession);
+        print(sessionManager.getHotelSessions());
         Navigator.pushReplacementNamed(
             context,
             AppRoutes.hotelDetail,

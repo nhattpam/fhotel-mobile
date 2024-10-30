@@ -122,7 +122,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
           ),
         ),
         title: AppbarTitle(
-          text: "Change Password",
+          text: "Thay đổi mật khẩu",
           margin: EdgeInsets.only(left: 8.h),
         ),
         styleType: Style.bgFill);

@@ -45,6 +45,7 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
   String roomType = ''; // Add a variable to store the search query
   int quantity = 0; // Add a variable to store the search query
   HotelImage? _hotelImage;
+  List<Map<String, dynamic>> hotelSessions = [];
 
   @override
   void initState() {
@@ -52,8 +53,16 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
     _presenter = HotelPresenter(this, ListHotelRepo());
     _presenter.getHotels(); // Fetch the list of hotels when the screen loads
     _searchPresenter = SearchPresenter(this, SearchService());
+    _loadHotelSessions();
   }
-
+  Future<void> _loadHotelSessions() async {
+    final sessionManager = SessionManager();
+    await sessionManager.init();
+    // Retrieve the list of hotel sessions
+    setState(() {
+      hotelSessions = sessionManager.getHotelSessions();
+    });
+  }
   void _showModalBottomSheet(BuildContext context) async {
     final result = await showModalBottomSheet(
       context: context,
@@ -141,8 +150,8 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
               child: SizedBox(
                 width: double.maxFinite,
                 child: Container(
-                  // height: 1032.h,
-                  height: 850.h,
+                  // height: 700.h,
+                  height: hotelSessions.isNotEmpty ? 850.h : 700.h,
                   decoration: BoxDecoration(
                     color: appTheme.gray10001,
                   ),
@@ -155,7 +164,7 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
                         children: [
                           _buildColumniconwrapp(context),
                           SizedBox(height: 16.h),
-                          _buildSection(context),
+                          if (hotelSessions.isNotEmpty) _buildSection(context),
                           SizedBox(height: 12.h),
                           // _buildSectionone(context),
                           Container(
@@ -585,9 +594,9 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
                         onPressed: () async {
                           await _searchPresenter.searchListRoomTypes(
                               searchRequests, _searchQuery);
-
+                          listHotels.isNotEmpty
                           /// Navigator to list hotel
-                          Navigator.pushNamed(
+                          ? Navigator.pushNamed(
                             context,
                             AppRoutes.hotelListingBySearch,
                             arguments: {
@@ -597,7 +606,14 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
                               "numberOfRooms": quantity,
                               "city": _searchQuery,
                             },
-                          );
+                          )
+                          : Navigator.pushNamed(context, AppRoutes.hotelListingBySearchEmpty, arguments: {
+                            "listHotels": listHotels,
+                            "checkInDate": dateStarSelected,
+                            "checkOutDate": dateEndSelected,
+                            "numberOfRooms": quantity,
+                            "city": _searchQuery,
+                          },);
                         },
                         buttonStyle: CustomButtonStyles.fillBlue,
                         buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,
@@ -655,9 +671,10 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
                   width: 8.h,
                 );
               },
-              itemCount: 2,
+              itemCount: hotelSessions.length,
               itemBuilder: (context, index) {
-                return MaincontentItemWidget();
+                final session = hotelSessions[index];
+                return MaincontentItemWidget(name: session['hotelName'], address: session['address'], checkInDate: session['checkInDate'], checkOutDate: session['checkOutDate'],);
               },
             ),
           ),

@@ -1,12 +1,19 @@
 import 'package:fhotel_1/core/app_export.dart';
 import 'package:flutter/material.dart';
 
-class MaincontentItemWidget extends StatelessWidget {
-  const MaincontentItemWidget({Key? key})
-      : super(
-          key: key,
-        );
 
+class MaincontentItemWidget extends StatefulWidget {
+  final String name;
+  final String checkInDate;
+  final String checkOutDate;
+  final String address;
+  const MaincontentItemWidget({super.key, required this.name,required this.address, required this.checkInDate, required this.checkOutDate});
+
+  @override
+  _MaincontentItemWidgetState createState() => _MaincontentItemWidgetState();
+  }
+
+  class _MaincontentItemWidgetState extends State<MaincontentItemWidget> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -43,22 +50,16 @@ class MaincontentItemWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Khách sạn Pullman Vũng Tàu",
+                        widget.name,
                         style: CustomTextStyles.titleSmallPrimary
                             .copyWith(color: Colors.blue),
                       ),
                       SizedBox(height: 4.h),
                       Text(
-                        "02/02/2022 - 04/02/2022",
+                        "Địa chỉ: ${widget.address}",
                         style: theme.textTheme.bodySmall,
+                        maxLines: 2,
                       ),
-                      SizedBox(height: 4.h),
-                      Flexible(
-                        child: Text(
-                          "2 phòng, 2 người lớn, 1 trẻ em",
-                          style: theme.textTheme.bodySmall,
-                        ),
-                      )
                     ],
                   ),
                 ),

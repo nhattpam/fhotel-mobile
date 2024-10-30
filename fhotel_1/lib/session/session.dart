@@ -49,6 +49,17 @@ class SessionManager {
     return []; // Return an empty list if no history is found
   }
 
+  void addHotelSession(Map<String, dynamic> hotelSession) {
+    List<String> sessions = _preferences?.getStringList('hotelSessions') ?? [];
+    sessions.add(json.encode(hotelSession));
+    _preferences?.setStringList('hotelSessions', sessions);
+  }
+
+  // Get the list of hotel sessions
+  List<Map<String, dynamic>> getHotelSessions() {
+    List<String> sessions = _preferences?.getStringList('hotelSessions') ?? [];
+    return sessions.map((session) => Map<String, dynamic>.from(json.decode(session))).toList();
+  }
   // Clear user session data (logout)
   void clearSession() {
     _preferences?.clear();

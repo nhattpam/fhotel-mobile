@@ -5,6 +5,7 @@ import 'package:fhotel_1/views/home_hotel_region_empty/home_hotel_region_empty.d
 import 'package:fhotel_1/views/hotel_detail_facilities_screen/hotel_detail_facilities_screen.dart';
 import 'package:fhotel_1/views/hotel_listing_nearby_screen/hotel_listing_nearby_screen.dart';
 import 'package:fhotel_1/views/hotel_rating_and_reviews/hotel_rating_and_reviews.dart';
+import 'package:fhotel_1/views/list_hotel_by_search/list_hotel_by_search_empty.dart';
 import 'package:fhotel_1/views/login_screen/login_screen.dart';
 import 'package:fhotel_1/views/otp_signup_screen/otp_signup_screen.dart';
 import 'package:fhotel_1/views/register_fill_information/register_fill_information.dart';
@@ -35,6 +36,7 @@ class AppRoutes {
   ///Hotel widgets
   static const String hotelListing = '/hotelListing';
   static const String hotelListingBySearch = '/hotelListingBySearch';
+  static const String hotelListingBySearchEmpty = '/hotelListingBySearchEmpty';
   static const String hotelDetail = '/carousel_item_widget';
   static const String hotelRatingAndReviews = '/hotel_rating_and_reviews';
   static const String hotelFacilities = '/hotel_detail_facilities_screen';
@@ -64,6 +66,7 @@ class AppRoutes {
     // homeDestination: (context) => HomeDestinationDefaultBottomsheet(),
     hotelListing: (context) => HotelListingNearbyScreen(),
     hotelListingBySearch: (context) => ListHotelBySearch(),
+    hotelListingBySearchEmpty: (context) => ListHotelBySearchEmpty(),
     hotelDetail: (context) => HotelDetailScreen(),
     hotelRatingAndReviews: (context) => HotelDetailsRatingsReviewsScreen(),
     hotelFacilities: (context) => HotelDetailsFacilitiesScreen(),
