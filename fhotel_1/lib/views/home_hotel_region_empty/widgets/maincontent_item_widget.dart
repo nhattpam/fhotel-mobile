@@ -1,25 +1,31 @@
 import 'package:fhotel_1/core/app_export.dart';
 import 'package:flutter/material.dart';
 
-
 class MaincontentItemWidget extends StatefulWidget {
   final String hotelId;
   final String name;
   final String checkInDate;
   final String checkOutDate;
   final String address;
-  const MaincontentItemWidget({super.key, required this.name,required this.address, required this.checkInDate, required this.checkOutDate, required this.hotelId});
+
+  const MaincontentItemWidget(
+      {super.key,
+      required this.name,
+      required this.address,
+      required this.checkInDate,
+      required this.checkOutDate,
+      required this.hotelId});
 
   @override
   _MaincontentItemWidgetState createState() => _MaincontentItemWidgetState();
-  }
+}
 
-  class _MaincontentItemWidgetState extends State<MaincontentItemWidget> {
+class _MaincontentItemWidgetState extends State<MaincontentItemWidget> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushReplacementNamed(
+        Navigator.pushNamed(
           context,
           AppRoutes.hotelDetail,
           arguments: {
@@ -28,7 +34,8 @@ class MaincontentItemWidget extends StatefulWidget {
             "checkOutDate": widget.checkOutDate,
             "numberOfRooms": 1,
           },
-        );      },
+        );
+      },
       child: Container(
         width: 260.h,
         padding: EdgeInsets.symmetric(
@@ -74,10 +81,6 @@ class MaincontentItemWidget extends StatefulWidget {
                 ),
               ),
             ),
-            // const VerticalDivider(
-            //   color: Colors.grey,  // Set the color of the divider
-            //   thickness: 1,       // Add space at the bottom of the divider
-            // ),
           ],
         ),
       ),

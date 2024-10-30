@@ -38,7 +38,7 @@ import '../../hotel_listing_nearby_screen/list_hotel_view.dart';
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushReplacementNamed(
+        Navigator.pushNamed(
           context,
           AppRoutes.hotelDetail,
           arguments: {
