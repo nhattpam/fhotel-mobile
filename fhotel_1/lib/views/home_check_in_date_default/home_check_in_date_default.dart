@@ -132,7 +132,6 @@ class _HomeCheckInDateDefaultBottomsheetState
       child: CalendarDatePicker2(
         config: CalendarDatePicker2Config(
           calendarType: CalendarDatePicker2Type.range,
-          // Prevent selecting past dates by setting the firstDate to today
           firstDate: DateTime.now(),
           lastDate: DateTime(DateTime.now().year + 5),
           selectedDayHighlightColor: const Color(0XFF1A94FF),
@@ -152,17 +151,19 @@ class _HomeCheckInDateDefaultBottomsheetState
             fontFamily: 'Inter',
             fontWeight: FontWeight.w400,
           ),
-          dayBorderRadius: BorderRadius.circular(
-            8.h,
-          ),
+          dayBorderRadius: BorderRadius.circular(8.h),
         ),
         value: selectedDatesFromCalendar,
         onValueChanged: (dates) {
+          // Remove duplicate dates by converting the list to a Set and back to a list
+          final uniqueDates = dates.toSet().toList();
+
           setState(() {
-            selectedDatesFromCalendar = dates;
-            choose = selectedDatesFromCalendar.length == 2;
+            selectedDatesFromCalendar = uniqueDates;
+            choose = uniqueDates.length == 2;
           });
-          print(dates);
+
+          print(uniqueDates);
         },
       ),
     );

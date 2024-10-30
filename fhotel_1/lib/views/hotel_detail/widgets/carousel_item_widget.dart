@@ -309,38 +309,6 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
                                             CrossAxisAlignment.start,
                                         children: [
                                           Container(
-                                            width: 150.h,
-                                            padding: EdgeInsets.symmetric(
-                                              horizontal: 8.h,
-                                              vertical: 4.h,
-                                            ),
-                                            decoration: BoxDecoration(
-                                              color: appTheme.gray100,
-                                              borderRadius: BorderRadiusStyle
-                                                  .roundedBorder8,
-                                            ),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  "Khách sạn",
-                                                  style: CustomTextStyles
-                                                      .bodySmallOnPrimary10,
-                                                ),
-                                                SizedBox(width: 4.h),
-                                                CustomRatingBar(
-                                                  color: Colors.yellow,
-                                                  ignoreGestures: true,
-                                                  initialRating: _hotel?.star
-                                                          ?.toDouble() ??
-                                                      0,
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          SizedBox(height: 12.h),
-                                          Container(
                                             decoration: BoxDecoration(
                                               color: appTheme.whiteA700,
                                             ),
@@ -748,7 +716,6 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
                                       "Mô tả khách sạn",
                                       style: theme.textTheme.titleMedium,
                                     ),
-                                    SizedBox(height: 10.h),
                                     Container(
                                       width: double.maxFinite,
                                       decoration: BoxDecoration(
@@ -767,11 +734,9 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
                                                   color: Colors.black),
                                             },
                                           ),
-                                          SizedBox(height: 16.h)
                                         ],
                                       ),
                                     ),
-                                    SizedBox(height: 16.h),
                                   ],
                                 ),
                               ),

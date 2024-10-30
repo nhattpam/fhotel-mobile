@@ -96,6 +96,8 @@ import '../../hotel_listing_nearby_screen/list_hotel_view.dart';
                         Text(
                           widget.name,
                           style: CustomTextStyles.bodySmallBlack900,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
                         SizedBox(height: 6.h),
                       ],

@@ -420,12 +420,11 @@ class _ListHotelBySearchState extends State<ListHotelBySearch>
           ListHotelWidget(
             hotelId: currentList[index].hotelId.toString() ?? "",
             name: currentList[index].hotelName.toString() ?? "",
-            rate: currentList[index].star ?? 0,
-            basePrice: 200000,
+            address: currentList[index].address.toString() ?? "",
             checkInDate: (checkInDate2?.isNotEmpty ?? false) ? checkInDate2.toString() : checkInDate.toString(),
             checkOutDate: (checkOutDate2?.isNotEmpty ?? false) ? checkOutDate2.toString() : checkOutDate.toString(),
             numberOfRooms: (numberOfRooms2 != 0) ? numberOfRooms2 : numberOfRooms,
-            image: _hotelImage[index].image.toString(),
+            image: '',
           );
         // : Container();
       },

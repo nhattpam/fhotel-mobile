@@ -355,8 +355,7 @@ class _HotelListingNearbyScreenState extends State<HotelListingNearbyScreen>
                 child: ListHotelWidget(
                   hotelId: _hotels[index].hotelId.toString() ?? "",
                   name: _hotels[index].hotelName.toString() ?? "",
-                  rate: _hotels[index].star ?? 0,
-                  basePrice: 200000,
+                  address: _hotels[index].address.toString() ?? "",
                   checkInDate: '1/11/2024',
                   checkOutDate: '2/11/2024',
                   numberOfRooms: 1,

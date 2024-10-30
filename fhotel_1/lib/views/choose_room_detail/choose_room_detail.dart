@@ -1,3 +1,4 @@
+import 'package:fhotel_1/core/utils/skeleton.dart';
 import 'package:fhotel_1/data/models/room_facility.dart';
 import 'package:fhotel_1/data/models/type.dart';
 import 'package:fhotel_1/data/models/user.dart';
@@ -363,12 +364,13 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
                                     //   width: 24.h,
                                     // ),
                                     // SizedBox(width: 8.h),
-                                    Align(
+                                    (_roomType?.roomSize != null)
+                                    ? Align(
                                       alignment: Alignment.center,
                                       child: SizedBox(
                                         width: 286.h,
                                         child: Text(
-                                          "Room size:${_roomType?.roomSize.toString() ?? ''}m2",
+                                          "Room size: ${NumberFormat('#,###', 'en_US').format(_roomType?.roomSize)}m²",
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           style: theme.textTheme.bodyMedium!
@@ -378,6 +380,15 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
                                             fontSize: 12,
                                             height: 1.50,
                                           ),
+                                        ),
+                                      ),
+                                    )
+                                    : Align(
+                                      alignment: Alignment.center,
+                                      child: SizedBox(
+                                        width: 286.h,
+                                        child: Skeleton(
+                                          width: 286.h,
                                         ),
                                       ),
                                     ),

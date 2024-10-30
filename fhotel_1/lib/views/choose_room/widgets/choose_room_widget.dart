@@ -118,7 +118,7 @@ class _ChooseRoomWidgetState extends State<ChooseRoomWidget> implements ChooseRo
                 ),
                 SizedBox(height: 2.h),
                 Text(
-                  "Room size: ${widget.roomTypes.roomSize.toString()}m2",
+                  "Room size: ${NumberFormat('#,###', 'en_US').format(widget.roomTypes.roomSize)}m²",
                   style: theme.textTheme.bodySmall,
                 ),
                 SizedBox(height: 8.h),

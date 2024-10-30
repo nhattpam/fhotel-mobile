@@ -80,13 +80,25 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
+      final file = File(pickedFile.path);
+      final fileSize = await file.length();
+
+      // Check if file size is greater than 5MB (5 * 1024 * 1024 bytes)
+      if (fileSize > 5 * 1024 * 1024) {
+        // Display an error message if file size exceeds 5MB
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Hình ảnh phải nhỏ hơn 5 MB')),
+        );
+        return;
+      }
       setState(() {
         _imagePath = pickedFile.path;
       });
 
-      await _imagePresenter.pickImageAndUpload(File(_imagePath));
+      await _imagePresenter.pickImageAndUpload(file);
     }
   }
+
 
   void _unfocusAllExcept(int index) {
     for (int i = 0; i < focusNodes.length; i++) {

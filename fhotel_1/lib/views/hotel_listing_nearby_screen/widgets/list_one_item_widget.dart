@@ -14,10 +14,9 @@ class ListHotelWidget extends StatefulWidget {
   final String name;
   final String checkInDate;
   final String checkOutDate;
+  final String address;
   final int numberOfRooms;
-  final int rate;
-  final num basePrice;
-  const ListHotelWidget({super.key, required this.hotelId ,required this.image, required this.name, required this.rate,required this.basePrice, required this.checkInDate, required this.checkOutDate, required this.numberOfRooms});
+  const ListHotelWidget({super.key, required this.hotelId ,required this.image, required this.name,required this.address, required this.checkInDate, required this.checkOutDate, required this.numberOfRooms});
 
   @override
   _ListHotelWidgetState createState() => _ListHotelWidgetState();
@@ -104,34 +103,34 @@ class _ListHotelWidgetState extends State<ListHotelWidget> implements ListHotelV
                         width: double.maxFinite,
                       ),
                     ),
-                    IntrinsicHeight(
-                      child: Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Container(
-                          height: 100.h,
-                          padding: EdgeInsets.symmetric(vertical: 4.h),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              CustomImageView(
-                                color: appTheme.whiteA700,
-                                imagePath: ImageConstant.imgIconWrapper13,
-                                height: 24.h,
-                                width: 24.h,
-                                margin: EdgeInsets.only(top: 28.h),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(bottom: 2.h),
-                                child: Text(
-                                  "380m",
-                                  style: CustomTextStyles.bodySmallWhiteA700,
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    )
+                    // IntrinsicHeight(
+                    //   child: Align(
+                    //     alignment: Alignment.bottomCenter,
+                    //     child: Container(
+                    //       height: 100.h,
+                    //       padding: EdgeInsets.symmetric(vertical: 4.h),
+                    //       child: Row(
+                    //         crossAxisAlignment: CrossAxisAlignment.end,
+                    //         children: [
+                    //           CustomImageView(
+                    //             color: appTheme.whiteA700,
+                    //             imagePath: ImageConstant.imgIconWrapper13,
+                    //             height: 24.h,
+                    //             width: 24.h,
+                    //             margin: EdgeInsets.only(top: 28.h),
+                    //           ),
+                    //           Padding(
+                    //             padding: EdgeInsets.only(bottom: 2.h),
+                    //             child: Text(
+                    //               "380m",
+                    //               style: CustomTextStyles.bodySmallWhiteA700,
+                    //             ),
+                    //           )
+                    //         ],
+                    //       ),
+                    //     ),
+                    //   ),
+                    // )
                   ],
                 ),
               ),
@@ -145,60 +144,23 @@ class _ListHotelWidgetState extends State<ListHotelWidget> implements ListHotelV
                     widget.name,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: theme.textTheme.bodyMedium!.copyWith(
-                      height: 1.50,
-                    ),
+                    style: CustomTextStyles.titleSmallBlue,
                   ),
                   SizedBox(height: 4.h),
-                  CustomRatingBar(
-                    color: Colors.yellow,
-                    ignoreGestures: true,
-                    initialRating: widget.rate.toDouble(),
-                  ),
+                  // CustomRatingBar(
+                  //   color: Colors.yellow,
+                  //   ignoreGestures: true,
+                  //   initialRating: widget.rate.toDouble(),
+                  // ),
                   SizedBox(height: 6.h),
                   SizedBox(
                     width: double.maxFinite,
-                    child: Row(
-                      children: [
-                        CustomImageView(
-                          imagePath: ImageConstant.imgIconWrapper12,
-                          color: Colors.blueAccent,
-                          height: 15.h,
-                          width: 15.h,
-                        ),
-                        Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Padding(
-                            padding: EdgeInsets.only(left: 8.h),
-                            child: Text(
-                              "8,6",
-                              style: theme.textTheme.bodyMedium,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 8.h),
-                  SizedBox(
-                    width: double.maxFinite,
-                    child: Row(
-                      children: [
-                        Text(
-                          widget.basePrice.toString(),
-                          style: CustomTextStyles.titleSmallBlue,
-                        ),
-                        Align(
-                          alignment: Alignment.topCenter,
-                          child: Padding(
-                            padding: EdgeInsets.only(left: 4.h),
-                            child: Text(
-                              "/ phòng / đêm",
-                              style: CustomTextStyles.bodySmallOnPrimary10,
-                            ),
-                          ),
-                        )
-                      ],
+                    child: Text(
+                      "Địa chỉ: ${widget.address}",
+                      style: theme.textTheme.bodyMedium!.copyWith(
+                        height: 1.50,
+                      ),
+                      maxLines: 3,
                     ),
                   )
                 ],

@@ -31,8 +31,8 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
     implements ListHotelView, SearchView {
   int sliderIndex = 1;
   int _currentIndex = 0;
-  String dateStarSelected = "02/10/2024";
-  String dateEndSelected = "02/10/2024";
+  String dateStarSelected = DateFormat('dd/MM/yyyy').format(DateTime.now());
+  String dateEndSelected = DateFormat('dd/MM/yyyy').format(DateTime.now().add(Duration(days: 1)));
   List<Map<String, dynamic>> selectedRoomData = [];
   String _searchQuery = ''; // Add a variable to store the search query
   late SearchPresenter _searchPresenter;
