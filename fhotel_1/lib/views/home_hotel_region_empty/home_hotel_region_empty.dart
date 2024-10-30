@@ -810,7 +810,7 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
                         image: '',
                         name: _hotels[index].hotelName.toString(),
                         rate: _hotels[index]?.star ?? 0,
-                        description: _hotels[index].description.toString(),
+                        description: _hotels[index].description.toString(), checkInDate: dateStarSelected, checkOutDate: dateEndSelected,
                       )
                     : const SizedBox();
               },

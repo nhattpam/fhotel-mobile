@@ -14,7 +14,9 @@ import '../../hotel_listing_nearby_screen/list_hotel_view.dart';
   final String name;
   final int rate;
   final String description;
-  const MaincontentOneltemWidget({super.key, required this.hotelId ,required this.image, required this.name, required this.rate, required this.description});
+  final String checkInDate;
+  final String checkOutDate;
+  const MaincontentOneltemWidget({super.key, required this.hotelId ,required this.image, required this.name, required this.rate, required this.description, required this.checkInDate, required this.checkOutDate});
 
   @override
   _MaincontentOneltemWidgetState createState() => _MaincontentOneltemWidgetState();
@@ -36,7 +38,16 @@ import '../../hotel_listing_nearby_screen/list_hotel_view.dart';
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, AppRoutes.hotelListing);
+        Navigator.pushReplacementNamed(
+          context,
+          AppRoutes.hotelDetail,
+          arguments: {
+            'hotelId': widget.hotelId,
+            "checkInDate": widget.checkInDate,
+            "checkOutDate": widget.checkOutDate,
+            "numberOfRooms": 1,
+          },
+        );
       },
       child: SizedBox(
         width: 128.h,
