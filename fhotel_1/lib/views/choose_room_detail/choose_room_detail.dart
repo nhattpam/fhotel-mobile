@@ -927,7 +927,7 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
   }
 
   @override
-  void onGetPriceSuccess(List<double?> price) {
+  void onGetPriceSuccess(double price) {
     // TODO: implement onGetPriceSuccess
   }
 

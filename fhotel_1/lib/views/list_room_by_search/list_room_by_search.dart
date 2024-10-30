@@ -523,7 +523,7 @@ class ListRoomBySearchState extends State<ListRoomBySearch>
   }
 
   @override
-  void onGetPriceSuccess(List<double?> price) {
+  void onGetPriceSuccess(double price) {
     // TODO: implement onGetPriceSuccess
   }
 

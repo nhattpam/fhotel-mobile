@@ -17,7 +17,7 @@ abstract class ChooseRoomView {
   void onGetRoomImageSuccess(List<RoomImage> roomImage);
   void onGetSingleRoomImageSuccess(RoomImage roomImage);
 
-  void onGetPriceSuccess(List<double?> price);
+  void onGetPriceSuccess(double price);
 
   void onGetRoomTypeSuccess(RoomType hotel);
 

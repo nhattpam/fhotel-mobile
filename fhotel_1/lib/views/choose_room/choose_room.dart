@@ -326,7 +326,7 @@ class ChooseRoomFullScreenState extends State<ChooseRoomFullScreen>
             separatorBuilder: (context, index) => SizedBox(height: 12.h),
             itemCount: _roomTypes.length,
             itemBuilder: (context, index) {
-               return ChooseRoomWidget(hotelId: (_roomTypes[index].roomTypeId).toString(), roomTypes: _roomTypes[index], checkInDate: checkInDate.toString(), checkOutDate: checkOutDate.toString(), numberOfRooms: numberOfRooms, price: (_roomPrices[index] ?? 0).toDouble(),
+               return ChooseRoomWidget(hotelId: (_roomTypes[index].roomTypeId).toString(), roomTypes: _roomTypes[index], checkInDate: checkInDate.toString(), checkOutDate: checkOutDate.toString(), numberOfRooms: numberOfRooms,
                );
             },
           );
@@ -347,7 +347,6 @@ class ChooseRoomFullScreenState extends State<ChooseRoomFullScreen>
   void showRoomTypes(List<RoomType> roomTypes) {
     setState(() async {
       _roomTypes = roomTypes;
-      await _presenter.loadRoomPrice(_roomTypes);
       setState(() {
         _isLoading = false;
       }); // Hide loading indicator
@@ -372,10 +371,8 @@ class ChooseRoomFullScreenState extends State<ChooseRoomFullScreen>
   }
 
   @override
-  void onGetPriceSuccess(List<double?> price) {
-    setState(() {
-      _roomPrices = price;
-    });
+  void onGetPriceSuccess(double price) {
+
   }
 
   @override

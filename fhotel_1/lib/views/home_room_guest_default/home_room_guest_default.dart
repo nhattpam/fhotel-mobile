@@ -529,7 +529,7 @@ class HomeRoomGuestFilledBottomsheetState
   }
 
   @override
-  void onGetPriceSuccess(List<double?> price) {
+  void onGetPriceSuccess(double price) {
     // TODO: implement onGetPriceSuccess
   }
 

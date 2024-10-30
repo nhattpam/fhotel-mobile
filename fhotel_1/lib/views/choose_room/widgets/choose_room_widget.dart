@@ -21,9 +21,8 @@ class ChooseRoomWidget extends StatefulWidget {
   final String checkInDate;
   final String checkOutDate;
   final int numberOfRooms;
-  final double price;
   final RoomType roomTypes;
-  const ChooseRoomWidget({super.key, required this.hotelId, required this.roomTypes, required this.checkInDate, required this.checkOutDate, required this.numberOfRooms, required this.price});
+  const ChooseRoomWidget({super.key, required this.hotelId, required this.roomTypes, required this.checkInDate, required this.checkOutDate, required this.numberOfRooms});
 
   @override
   _ChooseRoomWidgetState createState() => _ChooseRoomWidgetState();
@@ -34,11 +33,13 @@ class _ChooseRoomWidgetState extends State<ChooseRoomWidget> implements ChooseRo
   bool _isLoading = false;
   String? _error;
   RoomImage? singleRoomImage;
+  double? roomPrice;
   @override
   void initState() {
     super.initState();
     _presenter = ListRoomTypePresenter(this, ListRoomTypeRepo());
     _presenter.getRoomImage(widget.hotelId); // Fetch the list of hotels when the screen loads
+    _presenter.loadRoomPrice(widget.hotelId);
   }
   void _showDetailModalBottomSheet(BuildContext context, String roomTypeId) {
     showModalBottomSheet(
@@ -83,7 +84,8 @@ class _ChooseRoomWidgetState extends State<ChooseRoomWidget> implements ChooseRo
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
+                (singleRoomImage?.image != null)
+                ? Container(
                   height: 150.h,
                   width: double.infinity,
                   decoration: BoxDecoration(
@@ -94,6 +96,17 @@ class _ChooseRoomWidgetState extends State<ChooseRoomWidget> implements ChooseRo
                     // Use the imageUrl property
                     fit: BoxFit.fitWidth,
                   ),
+                )
+                : Container(
+                  height: 150.h,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8.h),
+                  ),
+                  child: Skeleton(
+                    height: 150.h,
+                    width: double.infinity,
+                  )
                 ),
                 SizedBox(height: 8.h),
                 Text(
@@ -162,9 +175,9 @@ class _ChooseRoomWidgetState extends State<ChooseRoomWidget> implements ChooseRo
                   child: RichText(
                     text: TextSpan(
                       children: [
-                        widget.price != null && widget.price! > 0
+                        roomPrice != null && roomPrice! > 0
                             ? TextSpan(
-                          text: NumberFormat('#,###', 'en_US').format(widget.price) + " ₫",
+                          text: NumberFormat('#,###', 'en_US').format(roomPrice) + " ₫",
                           style: CustomTextStyles.titleSmallBlue,
                         )
                             : TextSpan(
@@ -182,8 +195,7 @@ class _ChooseRoomWidgetState extends State<ChooseRoomWidget> implements ChooseRo
                 ),
                 GestureDetector(
                   onTap: () {
-                    _showDetailModalBottomSheet(context,
-                        widget.roomTypes.roomTypeId.toString());
+                    _showDetailModalBottomSheet(context, widget.roomTypes.roomTypeId.toString());
                   },
                   child: Container(
                     padding: EdgeInsets.symmetric(
@@ -220,8 +232,11 @@ class _ChooseRoomWidgetState extends State<ChooseRoomWidget> implements ChooseRo
   }
 
   @override
-  void onGetPriceSuccess(List<double?> price) {
+  void onGetPriceSuccess(double price) {
     // TODO: implement onGetPriceSuccess
+    setState(() {
+      roomPrice = price;
+    });
   }
 
   @override
