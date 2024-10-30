@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:fhotel_1/core/utils/skeleton.dart';
 import 'package:fhotel_1/presenters/user_profile_presenter.dart';
 import 'package:fhotel_1/views/register_fill_information/upload_image_view.dart';
 import 'package:flutter/material.dart';
@@ -94,7 +95,6 @@ class EditProfileScreenState extends State<EditProfileScreen>
     }
   }
 
-
   void _unfocusAllExcept(int index) {
     for (int i = 0; i < focusNodes.length; i++) {
       if (i != index) {
@@ -131,30 +131,42 @@ class EditProfileScreenState extends State<EditProfileScreen>
                       alignment: Alignment.center,
                       children: [
                         if (_imageUrl != null) ...[
-                          ClipOval( // Show this when _imageUrl is not null
+                          ClipOval(
+                            // Show this when _imageUrl is not null
                             child: Image.network(
-                              _imageUrl!,
-                              fit: BoxFit.cover, // Adjust the fit as necessary
-                              height: 100.h, // Set height to match the container
-                              width: 100.h,  // Set width to match the container
+                              _imageUrl ?? '',
+                              fit: BoxFit.cover,
+                              // Adjust the fit as necessary
+                              height: 100.h,
+                              // Set height to match the container
+                              width: 100.h, // Set width to match the container
                             ),
                           ),
                           GestureDetector(
-                            onTap: _pickImage, // You can adjust this logic as necessary
+                            onTap:
+                                _pickImage, // You can adjust this logic as necessary
                           )
-                        ]
-                        else if (_customer?.image != null) ...[
-                          Image.network(
-                            _customer?.image ?? '',
-                            fit: BoxFit.cover, // Adjust the fit as necessary
-                            height: 100.h, // Set height to match the container
-                            width: 100.h,  // Set width to match the container
-                          ),
+                        ] else if (_customer?.image != null) ...[
+                          (_customer?.image != null && _customer?.image != '')
+                              ? Image.network(
+                                  _customer?.image ?? '',
+                                  fit: BoxFit.cover,
+                                  // Adjust the fit as necessary
+                                  height: 100.h,
+                                  // Set height to match the container
+                                  width:
+                                      100.h, // Set width to match the container
+                                )
+                              : Skeleton(
+                                  height: 100.h,
+                                  // Set height to match the container
+                                  width: 100.h,
+                                ),
                           GestureDetector(
-                            onTap: _pickImage, // You can adjust this logic as necessary
+                            onTap:
+                                _pickImage, // You can adjust this logic as necessary
                           )
-                        ]
-                        else
+                        ] else
                           GestureDetector(
                             onTap: _pickImage,
                           ),
@@ -188,7 +200,7 @@ class EditProfileScreenState extends State<EditProfileScreen>
     return CustomAppBar(
         leadingWidth: 40.h,
         leading: AppbarLeadingImage(
-          onTap: (){
+          onTap: () {
             Navigator.pop(context);
           },
           imagePath: ImageConstant.imgChevronLeft,
@@ -259,7 +271,7 @@ class EditProfileScreenState extends State<EditProfileScreen>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Tên',
+            'Họ và Tên',
             style: TextStyle(color: Colors.blue),
           ),
           if (nameError != null)
@@ -270,22 +282,26 @@ class EditProfileScreenState extends State<EditProfileScreen>
           SizedBox(
             height: 8.h,
           ),
-          CustomTextFormField(
-            focusNode: focusNodes[0],
-            controller: nameInputController,
-            hintText: "${_customer?.name}",
-            hintStyle: CustomTextStyles.bodyLargeGray600,
-            contentPadding: EdgeInsets.all(20.h),
-            onChanged: (value) {
-              final error = _presenter.validateName(value); // Validate password on change
-              setState(() {
-                nameError = error; // Clear the error if validation passes
-              });
-            },
-            onTap: () {
-              _unfocusAllExcept(0); // Unfocus all except the email field
-            },
-          )
+          (_customer?.name != null)
+              ? CustomTextFormField(
+                  focusNode: focusNodes[0],
+                  controller: nameInputController,
+                  hintText: "${_customer?.name}",
+                  // (_customer?.name != null) ? "${_customer?.name}" : "",
+                  hintStyle: CustomTextStyles.bodyLargeGray600,
+                  contentPadding: EdgeInsets.all(20.h),
+                  onChanged: (value) {
+                    final error = _presenter
+                        .validateName(value); // Validate password on change
+                    setState(() {
+                      nameError = error; // Clear the error if validation passes
+                    });
+                  },
+                  onTap: () {
+                    _unfocusAllExcept(0); // Unfocus all except the email field
+                  },
+                )
+              : Skeleton(width: 300.h, height: 60.h)
         ],
       ),
     );
@@ -304,13 +320,14 @@ class EditProfileScreenState extends State<EditProfileScreen>
           SizedBox(
             height: 8.h,
           ),
-          CustomTextFormField(
-            readOnly: true,
-            controller: emailInputController,
-            hintText: "${_customer?.email}",
-            hintStyle: CustomTextStyles.bodyLargeGray600,
-            contentPadding: EdgeInsets.all(20.h),
-          )
+          (_customer?.email != null)
+              ? CustomTextFormField(
+                  readOnly: true,
+                  controller: emailInputController,
+                  hintText: "${_customer?.email}",
+                  hintStyle: CustomTextStyles.bodyLargeGray600,
+                  contentPadding: EdgeInsets.all(20.h))
+              : Skeleton(width: 300.h, height: 60.h),
         ],
       ),
     );
@@ -333,8 +350,7 @@ class EditProfileScreenState extends State<EditProfileScreen>
             onTap: () {
               Navigator.pushReplacementNamed(
                   context, AppRoutes.userChangePassword,
-                arguments: _customer
-              );
+                  arguments: _customer);
             },
             child: AbsorbPointer(
               child: CustomTextFormField(
@@ -370,23 +386,27 @@ class EditProfileScreenState extends State<EditProfileScreen>
           SizedBox(
             height: 8.h,
           ),
-          CustomTextFormField(
-            focusNode: focusNodes[2],
-            controller: phoneNumberInputController,
-            hintText: "${_customer?.phoneNumber}",
-            hintStyle: CustomTextStyles.bodyLargeGray600,
-            textInputType: TextInputType.phone,
-            contentPadding: EdgeInsets.all(20.h),
-            onChanged: (value) async {
-              final error = await _presenter.validatePhoneNumber(value); // Validate password on change
-              setState(() {
-                phoneNumberError = error; // Clear the error if validation passes
-              });
-            },
-            onTap: () {
-              _unfocusAllExcept(2); // Unfocus all except the email field
-            },
-          )
+          (_customer?.phoneNumber != null)
+              ? CustomTextFormField(
+                  focusNode: focusNodes[2],
+                  controller: phoneNumberInputController,
+                  hintText: "${_customer?.phoneNumber}",
+                  hintStyle: CustomTextStyles.bodyLargeGray600,
+                  textInputType: TextInputType.phone,
+                  contentPadding: EdgeInsets.all(20.h),
+                  onChanged: (value) async {
+                    final error = await _presenter.validatePhoneNumber(
+                        value); // Validate password on change
+                    setState(() {
+                      phoneNumberError =
+                          error; // Clear the error if validation passes
+                    });
+                  },
+                  onTap: () {
+                    _unfocusAllExcept(2); // Unfocus all except the email field
+                  },
+                )
+              : Skeleton(width: 300.h, height: 60.h),
         ],
       ),
     );
@@ -410,24 +430,28 @@ class EditProfileScreenState extends State<EditProfileScreen>
           SizedBox(
             height: 8.h,
           ),
-          CustomTextFormField(
-            readOnly: true,
-            focusNode: focusNodes[3],
-            controller: iDNumberInputController,
-            hintText: "${_customer?.identificationNumber}",
-            hintStyle: CustomTextStyles.bodyLargeGray600,
-            textInputType: TextInputType.number,
-            contentPadding: EdgeInsets.all(20.h),
-            onChanged: (value) {
-              final error = _presenter.validateIdNumber(value); // Validate password on change
-              setState(() {
-                idNumberError = error; // Clear the error if validation passes
-              });
-            },
-            onTap: () {
-              _unfocusAllExcept(3); // Unfocus all except the email field
-            },
-          )
+          (_customer?.identificationNumber != null)
+              ? CustomTextFormField(
+                  readOnly: true,
+                  focusNode: focusNodes[3],
+                  controller: iDNumberInputController,
+                  hintText: "${_customer?.identificationNumber}",
+                  hintStyle: CustomTextStyles.bodyLargeGray600,
+                  textInputType: TextInputType.number,
+                  contentPadding: EdgeInsets.all(20.h),
+                  onChanged: (value) {
+                    final error = _presenter
+                        .validateIdNumber(value); // Validate password on change
+                    setState(() {
+                      idNumberError =
+                          error; // Clear the error if validation passes
+                    });
+                  },
+                  onTap: () {
+                    _unfocusAllExcept(3); // Unfocus all except the email field
+                  },
+                )
+              : Skeleton(width: 300.h, height: 60.h),
         ],
       ),
     );
@@ -451,22 +475,26 @@ class EditProfileScreenState extends State<EditProfileScreen>
           SizedBox(
             height: 8.h,
           ),
-          CustomTextFormField(
-            focusNode: focusNodes[4],
-            controller: addressInputController,
-            hintText: "${_customer?.address}",
-            hintStyle: CustomTextStyles.bodyLargeGray600,
-            contentPadding: EdgeInsets.all(20.h),
-            onChanged: (value) {
-              final error = _presenter.validateAddress(value); // Validate password on change
-              setState(() {
-                addressError = error; // Clear the error if validation passes
-              });
-            },
-            onTap: () {
-              _unfocusAllExcept(4); // Unfocus all except the email field
-            },
-          )
+          (_customer?.address != null)
+              ? CustomTextFormField(
+                  focusNode: focusNodes[4],
+                  controller: addressInputController,
+                  hintText: "${_customer?.address}",
+                  hintStyle: CustomTextStyles.bodyLargeGray600,
+                  contentPadding: EdgeInsets.all(20.h),
+                  onChanged: (value) {
+                    final error = _presenter
+                        .validateAddress(value); // Validate password on change
+                    setState(() {
+                      addressError =
+                          error; // Clear the error if validation passes
+                    });
+                  },
+                  onTap: () {
+                    _unfocusAllExcept(4); // Unfocus all except the email field
+                  },
+                )
+              : Skeleton(width: 300.h, height: 60.h),
         ],
       ),
     );
@@ -506,9 +534,12 @@ class EditProfileScreenState extends State<EditProfileScreen>
                 });
               }
 
-              if (nameError == null  && idNumberError == null && phoneNumberError == null && addressError == null) {
-                 // await _presenter.updateCustomer(_customer!.userId.toString(),_customer!.email.toString(), _customer!.password.toString(), firstName, lastName, address, genderValue, idNumber, phoneNumber, _imageUrl.toString(), _customer!.createdDate.toString());
-                if (_imageUrl == '' || _imageUrl == null){
+              if (nameError == null &&
+                  idNumberError == null &&
+                  phoneNumberError == null &&
+                  addressError == null) {
+                // await _presenter.updateCustomer(_customer!.userId.toString(),_customer!.email.toString(), _customer!.password.toString(), firstName, lastName, address, genderValue, idNumber, phoneNumber, _imageUrl.toString(), _customer!.createdDate.toString());
+                if (_imageUrl == '' || _imageUrl == null) {
                   await _presenter.updateCustomer(
                       _customer!.userId.toString(),
                       _customer!.email.toString(),
@@ -517,7 +548,8 @@ class EditProfileScreenState extends State<EditProfileScreen>
                       address,
                       idNumber,
                       phoneNumber,
-                      _customer!.image.toString(), true);
+                      _customer!.image.toString(),
+                      true);
                   AwesomeDialog(
                     context: context,
                     animType: AnimType.scale,
@@ -531,10 +563,11 @@ class EditProfileScreenState extends State<EditProfileScreen>
                     // title: 'Warning',
                     // desc:   'This is also Ignored',
                     btnOkOnPress: () {
-                      Navigator.pushReplacementNamed(context, AppRoutes.homePage);
+                      Navigator.pushReplacementNamed(
+                          context, AppRoutes.homePage);
                     },
                   ).show();
-                }else {
+                } else {
                   await _presenter.updateCustomer(
                       _customer!.userId.toString(),
                       _customer!.email.toString(),
@@ -543,7 +576,8 @@ class EditProfileScreenState extends State<EditProfileScreen>
                       address,
                       idNumber,
                       phoneNumber,
-                      _imageUrl.toString(), true);
+                      _imageUrl.toString(),
+                      true);
                   AwesomeDialog(
                     context: context,
                     animType: AnimType.scale,
@@ -557,14 +591,14 @@ class EditProfileScreenState extends State<EditProfileScreen>
                     // title: 'Warning',
                     // desc:   'This is also Ignored',
                     btnOkOnPress: () {
-                      Navigator.pushReplacementNamed(context, AppRoutes.homePage);
+                      Navigator.pushReplacementNamed(
+                          context, AppRoutes.homePage);
                     },
                   ).show();
                 }
-                 setState(() {
-                   _isLoading = false; // Stop the loading indicator
-                 });
-
+                setState(() {
+                  _isLoading = false; // Stop the loading indicator
+                });
               }
             },
             text: "Lưu thay đổi",

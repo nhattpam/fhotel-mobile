@@ -221,12 +221,16 @@ class UserProfileScreenState extends State<UserProfileScreen>
             child: Stack(
               alignment: Alignment.center,
               children: [
-                if(_customer?.image != null)
-                Image.network(
-                  _customer?.image ?? '',
-                  fit: BoxFit.cover, // Adjust the fit as necessary
+                (_customer?.image != null && _customer?.image != '')
+                ? Image.network(
+                  _customer?.image ?? 'https://htmlcolorcodes.com/assets/images/colors/steel-gray-color-solid-background-1920x1080.png',
+                  fit: BoxFit.fill, // Adjust the fit as necessary
                   height: 100.h, // Set height to match the container
                   width: 100.h,  // Set width to match the container
+                )
+                : Skeleton(
+                  width: 100.h,
+                  height: 100.h,
                 ),
               ],
             ),
@@ -236,7 +240,7 @@ class UserProfileScreenState extends State<UserProfileScreen>
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _isLoading
+                _customer?.name == null
                     ? const Skeleton(
                         width: 120,
                         height: 30,
@@ -246,7 +250,7 @@ class UserProfileScreenState extends State<UserProfileScreen>
                         style: CustomTextStyles.titleSmallGray600,
                       ),
                 SizedBox(height: 8.h),
-                _isLoading
+                _customer?.email == null
                     ? const Skeleton(
                         width: 150,
                         height: 30,
@@ -298,61 +302,6 @@ class UserProfileScreenState extends State<UserProfileScreen>
     );
   }
 
-  // Widget _buildTwo(BuildContext context) {
-  //   return Container(
-  //     width: double.maxFinite,
-  //     padding: EdgeInsets.all(20.h),
-  //     decoration: BoxDecoration(
-  //       color: appTheme.gray10002,
-  //       borderRadius: BorderRadiusStyle.circleBorder16,
-  //     ),
-  //     child: Column(
-  //       mainAxisSize: MainAxisSize.min,
-  //       children: [
-  //         SizedBox(
-  //           width: double.maxFinite,
-  //           child: _buildAddress(
-  //             color: Colors.blueAccent,
-  //             context,
-  //             userOne: ImageConstant.imgImage170x128,
-  //             addressesOne: "Cart",
-  //           ),
-  //         ),
-  //         SizedBox(height: 16.h),
-  //         SizedBox(
-  //           width: double.maxFinite,
-  //           child: _buildAddress(
-  //             color: Colors.red,
-  //             context,
-  //             userOne: ImageConstant.imgImage170x128,
-  //             addressesOne: "Favourite",
-  //           ),
-  //         ),
-  //         SizedBox(height: 16.h),
-  //         SizedBox(
-  //           width: double.maxFinite,
-  //           child: _buildAddress(
-  //             color: Colors.orangeAccent,
-  //             context,
-  //             userOne: ImageConstant.imgImage170x128,
-  //             addressesOne: "Notifications",
-  //           ),
-  //         ),
-  //         SizedBox(height: 16.h),
-  //         SizedBox(
-  //           width: double.maxFinite,
-  //           child: _buildAddress(
-  //             color: Colors.blueAccent,
-  //             context,
-  //             userOne: ImageConstant.imgImage170x128,
-  //             addressesOne: "Payment Method",
-  //           ),
-  //         )
-  //       ],
-  //     ),
-  //   );
-  // }
-
   Widget _buildThree(BuildContext context) {
     return Container(
       width: double.maxFinite,
@@ -382,7 +331,7 @@ class UserProfileScreenState extends State<UserProfileScreen>
               color: Colors.blueAccent,
               context,
               userOne: ImageConstant.imgImage11,
-              addressesOne: "Thiết lập",
+              addressesOne: "Cài đặt",
             ),
           ),
           SizedBox(height: 16.h),

@@ -150,6 +150,7 @@ class CheckoutScreenState extends State<CheckoutScreen>
     switch (state) {
       case AppLifecycleState.resumed:
         _showPaymentSuccessDialog(context);
+        print("app in resumed");
         break;
       case AppLifecycleState.inactive:
         print("app in inactive");
