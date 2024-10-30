@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 
 
 class MaincontentItemWidget extends StatefulWidget {
+  final String hotelId;
   final String name;
   final String checkInDate;
   final String checkOutDate;
   final String address;
-  const MaincontentItemWidget({super.key, required this.name,required this.address, required this.checkInDate, required this.checkOutDate});
+  const MaincontentItemWidget({super.key, required this.name,required this.address, required this.checkInDate, required this.checkOutDate, required this.hotelId});
 
   @override
   _MaincontentItemWidgetState createState() => _MaincontentItemWidgetState();
@@ -18,8 +19,16 @@ class MaincontentItemWidget extends StatefulWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, AppRoutes.hotelListing);
-      },
+        Navigator.pushReplacementNamed(
+          context,
+          AppRoutes.hotelDetail,
+          arguments: {
+            'hotelId': widget.hotelId,
+            "checkInDate": widget.checkInDate,
+            "checkOutDate": widget.checkOutDate,
+            "numberOfRooms": 1,
+          },
+        );      },
       child: Container(
         width: 260.h,
         padding: EdgeInsets.symmetric(

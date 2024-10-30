@@ -674,7 +674,7 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
               itemCount: hotelSessions.length,
               itemBuilder: (context, index) {
                 final session = hotelSessions[index];
-                return MaincontentItemWidget(name: session['hotelName'], address: session['address'], checkInDate: session['checkInDate'], checkOutDate: session['checkOutDate'],);
+                return MaincontentItemWidget(name: session['hotelName'], address: session['address'], checkInDate: dateStarSelected, checkOutDate: dateEndSelected, hotelId: session['hotelId'],);
               },
             ),
           ),

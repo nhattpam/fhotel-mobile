@@ -42,6 +42,7 @@ class _ListHotelWidgetState extends State<ListHotelWidget> implements ListHotelV
 
         // Prepare the hotel session data
         final hotelSession = {
+          'hotelId': widget.hotelId,
           'hotelName': widget.name,
           'checkInDate': widget.checkInDate,
           'checkOutDate': widget.checkOutDate,
