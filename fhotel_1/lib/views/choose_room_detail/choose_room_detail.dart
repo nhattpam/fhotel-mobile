@@ -46,9 +46,11 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
   SessionManager sessionManager = SessionManager();
   String? dateStarSelected;
   String? dateEndSelected;
-  int quantity = 0;
+  int quantity = 1;
   RoomType? _roomType;
   bool error = false;
+  TextEditingController _quantityController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -58,6 +60,7 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
     _presenter.getFacilityByRoomTypeId(widget.roomTypeId);
     dateStarSelected = widget.checkInDate;
     dateEndSelected = widget.checkOutDate;
+    _quantityController.text = quantity.toString();
     quantity = widget.numberOfRooms;
     _calculateTotalAmount();
   }
@@ -229,13 +232,13 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
     });
   }
 
-
   void _incrementRooms() {
     setState(() {
       if (_roomType != null && _roomType!.availableRooms != null) {
         if (quantity < _roomType!.availableRooms!) {
           error = false;
           quantity++;
+          _quantityController.text = quantity.toString();
           _calculateTotalAmount();
         } else {
           error = true;
@@ -244,14 +247,12 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
     });
   }
 
-
-
-
   void _decrementRooms() {
     if (quantity > 1) { // Ensure quantity doesn't go below 0
       setState(() {
         error = false;
         quantity--;
+        _quantityController.text = quantity.toString();
         _calculateTotalAmount();
       });
     }
@@ -321,34 +322,6 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              // Container(
-                              //   width: 150.h,
-                              //   padding: EdgeInsets.symmetric(
-                              //     horizontal: 8.h,
-                              //     vertical: 4.h,
-                              //   ),
-                              //   decoration: BoxDecoration(
-                              //     color: appTheme.gray100,
-                              //     borderRadius: BorderRadiusStyle.roundedBorder8,
-                              //   ),
-                              //   child: Row(
-                              //     mainAxisAlignment: MainAxisAlignment.center,
-                              //     children: [
-                              //       Text(
-                              //         "Khách sạn",
-                              //         style:
-                              //         CustomTextStyles.bodySmallOnPrimary10,
-                              //       ),
-                              //       SizedBox(width: 4.h),
-                              //       CustomRatingBar(
-                              //         color: Colors.yellow,
-                              //         ignoreGestures: true,
-                              //         initialRating: 5,
-                              //       ),
-                              //     ],
-                              //   ),
-                              // ),
-                              // SizedBox(height: 12.h),
                               Container(
                                 decoration: BoxDecoration(
                                   color: appTheme.whiteA700,
@@ -357,13 +330,6 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    // CustomImageView(
-                                    //   color: appTheme.black900.withOpacity(0.5),
-                                    //   imagePath: ImageConstant.imgIconWrapperGray600,
-                                    //   height: 24.h,
-                                    //   width: 24.h,
-                                    // ),
-                                    // SizedBox(width: 8.h),
                                     (_roomType?.roomSize != null)
                                     ? Align(
                                       alignment: Alignment.center,
@@ -496,7 +462,47 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
                             },
                           ),
                         )
-                      : SizedBox(),
+                      : Container(
+                    height: 29,
+                    width: double.infinity,
+                    child: SizedBox(
+                      width: double.maxFinite,
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 16.h),
+                        decoration: BoxDecoration(
+                          color: appTheme.whiteA700,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              width: double.maxFinite,
+                              padding: EdgeInsets.only(left: 6.h),
+                              decoration: BoxDecoration(
+                                color: appTheme.whiteA700,
+                              ),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'Khách sạn này chưa có tiện nghi',
+                                    maxLines: 5,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: theme.textTheme.bodyMedium!.copyWith(
+                                      color: theme.colorScheme.onPrimary,
+                                      height: 1.50,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    )
+                  ),
                   SizedBox(height: 8.h),
                   Container(
                     width: double.maxFinite,
@@ -572,43 +578,48 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
                                         ),
                                       ],
                                     ),
-                                    // const Spacer(),
-                                    // IconButton(
-                                    //   icon: Icon(Icons.remove),
-                                    //   onPressed: _decrementRooms,
-                                    // ),
-                                    SizedBox(
-                                      width: 40, // Adjust width to keep layout consistent
-                                      child: TextFormField(
-                                        initialValue: quantity.toString(),
-                                        textAlign: TextAlign.center,
-                                        keyboardType: TextInputType.number,
-                                        style: theme.textTheme.titleSmall,
-                                        onFieldSubmitted: (value) {
-                                          final newQuantity = int.tryParse(value) ?? quantity;
-                                          setState(() {
-                                            if (_roomType != null && _roomType!.availableRooms != null) {
-                                              if (newQuantity <= _roomType!.availableRooms!) {
-                                                error = false;
-                                                quantity = newQuantity;
-                                                _calculateTotalAmount();
-                                              } else {
-                                                error = true;
-                                              }
+                                    const Spacer(),
+                                    IconButton(
+                                      icon: Icon(Icons.remove),
+                                      onPressed: _decrementRooms,
+                                    ),
+                                  SizedBox(
+                                    width: quantity > 9 ? 30 : 20,
+                                    child: TextFormField(
+                                      controller: _quantityController,
+                                      textAlign: TextAlign.center,
+                                      keyboardType: TextInputType.number,
+                                      style: Theme.of(context).textTheme.titleSmall,
+                                      onFieldSubmitted: (value) {
+                                        int newQuantity = int.tryParse(value) ?? quantity;
+
+                                        // Prevent 0 or values lower than 1
+                                        if (newQuantity < 1) newQuantity = 1;
+
+                                        setState(() {
+                                          if (_roomType != null && _roomType!.availableRooms != null) {
+                                            if (newQuantity <= _roomType!.availableRooms!) {
+                                              error = false;
+                                              quantity = newQuantity;
+                                              _quantityController.text = quantity.toString();
+                                              _calculateTotalAmount();
+                                            } else {
+                                              error = true;
                                             }
-                                          });
-                                        },
-                                        decoration: InputDecoration(
-                                          isDense: true,
-                                          contentPadding: EdgeInsets.zero,
-                                          border: InputBorder.none,
-                                        ),
+                                          }
+                                        });
+                                      },
+                                      decoration: InputDecoration(
+                                        isDense: true,
+                                        contentPadding: EdgeInsets.zero,
+                                        border: InputBorder.none,
                                       ),
                                     ),
-                                    // IconButton(
-                                    //   icon: Icon(Icons.add),
-                                    //   onPressed: _incrementRooms,
-                                    // ),
+                                  ),
+                                    IconButton(
+                                      icon: Icon(Icons.add),
+                                      onPressed: _incrementRooms,
+                                    ),
                                   ],
                                 ),
                               ),

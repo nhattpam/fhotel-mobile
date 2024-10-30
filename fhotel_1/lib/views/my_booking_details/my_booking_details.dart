@@ -536,11 +536,6 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> {
                   "Phương thức thanh toán",
                   style: theme.textTheme.titleMedium,
                 ),
-                // CustomImageView(
-                //   imagePath: ImageConstant.imgArrowRightGray600,
-                //   height: 24.h,
-                //   width: 24.h,
-                // )
               ],
             ),
           ),
@@ -579,7 +574,7 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> {
                 Padding(
                   padding: EdgeInsets.only(left: 8.h),
                   child: Text(
-                    (widget.reservation.paymentMethod?.paymentMethodName).toString(),
+                    (widget.reservation.paymentMethod?.paymentMethodName != null) ? (widget.reservation.paymentMethod?.paymentMethodName).toString() : 'Chưa chọn phương thức thanh toán',
                     style: theme.textTheme.titleSmall,
                   ),
                 )

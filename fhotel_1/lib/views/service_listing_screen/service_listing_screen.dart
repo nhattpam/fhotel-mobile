@@ -56,8 +56,7 @@ class ServiceListingScreenState extends State<ServiceListingScreen>
           backgroundColor: appTheme.gray10001,
           body: SizedBox(
             width: double.maxFinite,
-            child: SingleChildScrollView(
-              child: SizedBox(
+            child: SizedBox(
                 width: double.maxFinite,
                 child: Column(
                   children: [
@@ -73,9 +72,9 @@ class ServiceListingScreenState extends State<ServiceListingScreen>
                     SizedBox(height: 16.h),
                     SizedBox(
                       height: 32.h,
-                      width: 294.h,
+                      width: double.maxFinite,
                       child: ListView.separated(
-                        padding: EdgeInsets.only(right: 34.h),
+                        padding: EdgeInsets.only(left: 14.h, right: 14.h),
                         scrollDirection: Axis.horizontal,
                         separatorBuilder: (context, index) {
                           return SizedBox(
@@ -117,7 +116,7 @@ class ServiceListingScreenState extends State<ServiceListingScreen>
                       margin: EdgeInsets.symmetric(horizontal: 12.h),
                       padding: EdgeInsets.symmetric(horizontal: 10.h),
                       child: SizedBox(
-                          height: 500.h, // Adjust the height as needed
+                          height: 470.h, // Adjust the height as needed
                           child: GroupedListView<Services, String>(
                             elements: _services,
                             // Your list of services
@@ -172,7 +171,8 @@ class ServiceListingScreenState extends State<ServiceListingScreen>
                                       SizedBox(
                                         width: double.maxFinite,
                                         child: Row(
-                                          crossAxisAlignment: CrossAxisAlignment.end,
+                                          mainAxisAlignment: MainAxisAlignment.end,
+                                          // crossAxisAlignment: CrossAxisAlignment.end,
                                           children: [
                                             SizedBox(
                                               width: 100.h,
@@ -191,25 +191,6 @@ class ServiceListingScreenState extends State<ServiceListingScreen>
                                                 ],
                                               ),
                                             ),
-                                            // SizedBox(width: 12.h),
-                                            // Row(
-                                            //   mainAxisAlignment: MainAxisAlignment.end,
-                                            //   mainAxisSize: MainAxisSize.min,
-                                            //   children: [
-                                            //     CustomImageView(
-                                            //       imagePath: ImageConstant.imgImage170x128,
-                                            //       height: 16.h,
-                                            //       width: 22.h,
-                                            //     ),
-                                            //     Padding(
-                                            //       padding: EdgeInsets.only(left: 8.h),
-                                            //       child: Text(
-                                            //         "Free",
-                                            //         style: CustomTextStyles.titleSmallGray600,
-                                            //       ),
-                                            //     )
-                                            //   ],
-                                            // ),
                                           ],
                                         ),
                                       )
@@ -223,7 +204,6 @@ class ServiceListingScreenState extends State<ServiceListingScreen>
                   ],
                 ),
               ),
-            ),
           ),
           bottomNavigationBar: _buildBottomNavigationBar(context)),
     );

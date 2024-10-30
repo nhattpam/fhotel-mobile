@@ -22,7 +22,7 @@ class ServiceDetailScreen extends StatefulWidget {
 
 class ServiceDetailScreenState extends State<ServiceDetailScreen> implements ListReservationView, CreateReservationView{
   int quantity = 1;
-
+  TextEditingController _quantityController = TextEditingController();
   late ListReservationPresenter _presenter;
   late OrderPresenter _orderPresenter;
   late OrderDetailPresenter _orderDetailPresenter;
@@ -38,8 +38,24 @@ class ServiceDetailScreenState extends State<ServiceDetailScreen> implements Lis
     _presenter.getListReservationByCustomerId(); // Fetch customer data
     _orderPresenter = OrderPresenter(this); // Initialize the presenter
     _orderDetailPresenter = OrderDetailPresenter(this);
+    _quantityController.text = quantity.toString();
+
+  }
+  void _incrementRooms() {
+    setState(() {
+      quantity++;
+      _quantityController.text = quantity.toString();
+    });
   }
 
+  void _decrementRooms() {
+    setState(() {
+      if (quantity > 1) {
+        quantity--;
+        _quantityController.text = quantity.toString();
+      }
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -48,7 +64,6 @@ class ServiceDetailScreenState extends State<ServiceDetailScreen> implements Lis
         body: SizedBox(
           width: double.maxFinite,
           child: Column(children: [
-            // _buildStackclockone(context),
             _buildscrollview(context),
             _buildAddcart(context)
           ]),
@@ -135,13 +150,13 @@ class ServiceDetailScreenState extends State<ServiceDetailScreen> implements Lis
               _buildHeadingImage(context),
               SizedBox(height: 22.h),
               Text(
-                widget.service.serviceName.toString(),
+               "Dịch vụ: ${widget.service.serviceName}",
                 style: CustomTextStyles.titleSmallGray600,
               ),
               SizedBox(height: 20.h),
               Text(
-                widget.service.description.toString(),
-                maxLines: 3,
+                "Miêu tả: ${widget.service.description}",
+                maxLines: 10,
                 overflow: TextOverflow.ellipsis,
                 style: theme.textTheme.bodyMedium!.copyWith(
                   height: 1.71,
@@ -184,7 +199,7 @@ class ServiceDetailScreenState extends State<ServiceDetailScreen> implements Lis
   Widget _buildAddcart(BuildContext context) {
     double price = (quantity * ((widget.service.price) as num)).toDouble();
     return Container(
-      height: 150.h,
+      height: 175.h,
       width: double.maxFinite,
       decoration: BoxDecoration(
         color: appTheme.whiteA700,
@@ -264,17 +279,24 @@ class ServiceDetailScreenState extends State<ServiceDetailScreen> implements Lis
                         ),
                       ),
                       Spacer(),
+                      IconButton(
+                        icon: Icon(Icons.remove),
+                        onPressed: _decrementRooms,
+                      ),
                       SizedBox(
-                        width: 40, // Adjust width to keep layout consistent
+                        width: quantity > 9 ? 20 : 10,
                         child: TextFormField(
-                          initialValue: quantity.toString(),
+                          controller: _quantityController,
                           textAlign: TextAlign.center,
                           keyboardType: TextInputType.number,
-                          style: theme.textTheme.titleSmall,
+                          style: Theme.of(context).textTheme.titleSmall,
                           onFieldSubmitted: (value) {
-                            final newQuantity = int.tryParse(value) ?? quantity;
+                            int newQuantity = int.tryParse(value) ?? quantity;
+                            if (newQuantity < 1) newQuantity = 1;
+
                             setState(() {
                               quantity = newQuantity;
+                              _quantityController.text = quantity.toString();
                             });
                           },
                           decoration: InputDecoration(
@@ -283,6 +305,10 @@ class ServiceDetailScreenState extends State<ServiceDetailScreen> implements Lis
                             border: InputBorder.none,
                           ),
                         ),
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.add),
+                        onPressed: _incrementRooms,
                       ),
                     ],
                   ),
@@ -304,7 +330,7 @@ class ServiceDetailScreenState extends State<ServiceDetailScreen> implements Lis
                       Align(
                         alignment: Alignment.bottomCenter,
                         child: Text(
-                          NumberFormat('#,###', 'en_US').format(price) + " ₫",
+                          "${NumberFormat('#,###', 'en_US').format(price)} ₫",
                           style: CustomTextStyles.titleSmallBlue,
                         ),
                       ),

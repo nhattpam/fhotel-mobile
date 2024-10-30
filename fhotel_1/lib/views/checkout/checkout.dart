@@ -390,14 +390,21 @@ class CheckoutScreenState extends State<CheckoutScreen>
                         width: 24.h,
                       ),
                       SizedBox(width: 8.h),
-                      Expanded(
-                        child: Text(
-                          (_reservation?.roomType?.hotel?.hotelName).toString(),
-                          style: CustomTextStyles.bodyMediumwhiteA700,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
+                      (_reservation?.roomType?.hotel?.hotelName != null)
+                          ? Expanded(
+                              child: Text(
+                                (_reservation?.roomType?.hotel?.hotelName)
+                                    .toString(),
+                                style: CustomTextStyles.bodyMediumwhiteA700,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            )
+                          : Expanded(
+                              child: Skeleton(
+                                width: 100.h,
+                              ),
+                            ),
                     ],
                   ),
                 ),
@@ -524,15 +531,17 @@ class CheckoutScreenState extends State<CheckoutScreen>
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Loại giường",
+                                "Loại phòng",
                                 style: theme.textTheme.bodyMedium,
                               ),
                               SizedBox(height: 6.h),
-                              Text(
-                                (_reservation?.roomType?.type?.typeName)
-                                    .toString(),
-                                style: theme.textTheme.titleSmall,
-                              )
+                              (_reservation?.roomType?.type?.typeName != null)
+                                  ? Text(
+                                      (_reservation?.roomType?.type?.typeName)
+                                          .toString(),
+                                      style: theme.textTheme.titleSmall,
+                                    )
+                                  : Skeleton(width: 100.h)
                             ],
                           ),
                         ),
@@ -934,7 +943,7 @@ class CheckoutScreenState extends State<CheckoutScreen>
             // title: 'Warning',
             // desc:   'This is also Ignored',
             btnOkOnPress: () {
-              Navigator.pushReplacementNamed(context, AppRoutes.homePage);
+              Navigator.pop(context); // Close login dialog
             },
           ).show();
         },
@@ -974,6 +983,21 @@ class CheckoutScreenState extends State<CheckoutScreen>
             await _vnPresenter.PaymentMethodVNPAY(
                 widget.reservation.reservationId.toString());
             launch(vnpaylink.toString());
+          } else{
+            AwesomeDialog(
+              context: context,
+              animType: AnimType.scale,
+              dialogType: DialogType.error,
+              body: const Center(
+                child: Text(
+                  'Vui lòng chọn phương thức thanh toán !!',
+                  style: TextStyle(fontStyle: FontStyle.italic),
+                ),
+              ),
+              btnOkColor: Colors.red,
+              btnOkOnPress: () {
+              },
+            ).show();
           }
         },
         text: "Thanh toán",
