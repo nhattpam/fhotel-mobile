@@ -122,7 +122,7 @@ class _ChooseRoomWidgetState extends State<ChooseRoomWidget> implements ChooseRo
                   "Diện tích: ${NumberFormat('#,###', 'en_US').format(widget.roomTypes.roomSize)}m²",
                   style: theme.textTheme.bodySmall,
                 )
-                    : Skeleton(width: 50.h),
+                    : Skeleton(width: 20.h),
                 SizedBox(height: 8.h),
               ],
             ),

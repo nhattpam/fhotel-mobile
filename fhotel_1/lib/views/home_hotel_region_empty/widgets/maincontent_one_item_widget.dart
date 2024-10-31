@@ -81,6 +81,7 @@ class _MaincontentOneltemWidgetState extends State<MaincontentOneltemWidget>
               children: [
                 _hotelImage != null
                     ? CustomImageView(
+                      fit: BoxFit.contain,
                       imagePath: _hotelImage?.image.toString(),
                       height: 100.h,
                       width: double.maxFinite,

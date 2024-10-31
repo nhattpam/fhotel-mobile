@@ -123,7 +123,7 @@ class HomeRoomGuestFilledBottomsheetState
           Align(
             alignment: Alignment.bottomCenter,
             child: Text(
-              "Chọn số phòng và loại phòng",
+              "Chọn số lượng phòng và loại phòng",
               style: theme.textTheme.titleMedium,
             ),
           ),
@@ -195,7 +195,7 @@ class HomeRoomGuestFilledBottomsheetState
                                             elevation: 0, // Remove shadow/elevation
                                           ),
                                           child: Text(
-                                            "Phòng ${_types[index].typeName}",
+                                            "${_types[index].typeName}",
                                             // "${dropdownItemList[index]}",
                                             style: CustomTextStyles.titleSmallGray600.copyWith(
                                               color: appTheme.gray600,

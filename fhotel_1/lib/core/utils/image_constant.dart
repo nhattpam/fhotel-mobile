@@ -83,8 +83,7 @@ class ImageConstant {
   static String imgDivider = '$imagePath/circle-xmark-regular.svg';
   static String imgIconRight = '$imagePath/img_icon_right.svg';
   static String imgIconWrapperGray600 = '$imagePath/map-marker-alt-solid.svg';
-  static String imgIconWrapperBlueGray700 =
-      '$imagePath/img_icon_wrapper_blue_gray_700.svg';
+  static String imgIconWrapperBlueGray700 = '$imagePath/location-crosshairs-solid.svg';
   static String imgIconWrapperGray60024x24 = '$imagePath/calendar-regular.svg';
   static String imgIconWrapper24x24 = '$imagePath/door-open-solid.svg';
   static String imgIconWrapper1 = '$imagePath/filter-solid.svg';

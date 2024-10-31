@@ -299,7 +299,8 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SizedBox(height: 2.h),
-                        html.Html(
+                        _roomType?.description != null
+                       ? html.Html(
                           data: """
                                $description
                               """,
@@ -308,6 +309,10 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
                                 fontWeight: FontWeight.normal,
                                 color: Colors.black),
                           },
+                        )
+                        : Skeleton(
+                          width: 400.h,
+                          height: 50.h,
                         ),
                         // Text(
                         //   _roomType?.description.toString() ?? '',
@@ -352,9 +357,9 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
                                     : Align(
                                       alignment: Alignment.center,
                                       child: SizedBox(
-                                        width: 286.h,
+                                        width: 100.h,
                                         child: Skeleton(
-                                          width: 286.h,
+                                          width: 100.h,
                                         ),
                                       ),
                                     ),
@@ -376,7 +381,8 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
                                       height: 18.h,
                                       width: 18.h,
                                     ),
-                                    Align(
+                                    (_roomType?.type?.maxOccupancy != null)
+                                    ? Align(
                                       alignment: Alignment.bottomCenter,
                                       child: Padding(
                                         padding: EdgeInsets.only(left: 8.h),
@@ -384,6 +390,15 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
                                           "Tối đa ${_roomType?.type?.maxOccupancy.toString() ?? ''} người",
                                           style: theme.textTheme.bodyMedium,
                                         ),
+                                      ),
+                                    )
+                                    : Align(
+                                      alignment: Alignment.bottomCenter,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(left: 8.h),
+                                        child: Skeleton(
+                                          width: 100.h,
+                                        )
                                       ),
                                     )
                                   ],
@@ -404,7 +419,8 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
                                       height: 18.h,
                                       width: 18.h,
                                     ),
-                                    Align(
+                                    (_roomType?.type?.typeName != null)
+                                    ? Align(
                                       alignment: Alignment.bottomCenter,
                                       child: Padding(
                                         padding: EdgeInsets.only(left: 8.h),
@@ -414,6 +430,15 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
                                               '',
                                           style: theme.textTheme.bodyMedium,
                                         ),
+                                      ),
+                                    )
+                                    : Align(
+                                      alignment: Alignment.bottomCenter,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(left: 8.h),
+                                        child: Skeleton(
+                                          width: 100.h,
+                                        )
                                       ),
                                     )
                                   ],

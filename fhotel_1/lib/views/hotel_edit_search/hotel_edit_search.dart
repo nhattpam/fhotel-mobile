@@ -481,7 +481,6 @@ class EditSearchBottomsheetState extends State<EditSearchBottomsheet> implements
             onPressed: () async{
               await _searchPresenter.searchListRoomTypes(
                   searchRequests, _searchQuery);
-
               Navigator.pop(context, {
                 "listHotels": listHotels,
                 'checkInDate': dateStarSelected.isNotEmpty ? dateStarSelected : widget.checkInDate,
@@ -489,7 +488,6 @@ class EditSearchBottomsheetState extends State<EditSearchBottomsheet> implements
                 "numberOfRooms": quantity,
                 'city': _searchQuery.isNotEmpty ? _searchQuery : widget.city,
               });
-
             },
             buttonStyle: CustomButtonStyles.fillBlue,
             buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,

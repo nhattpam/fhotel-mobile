@@ -52,7 +52,7 @@ class _ListHotelWidgetState extends State<ListHotelWidget> implements ListHotelV
         // Add the hotel session to the list in SharedPreferences
         sessionManager.addHotelSession(hotelSession);
         print(sessionManager.getHotelSessions());
-        Navigator.pushReplacementNamed(
+        Navigator.pushNamed(
             context,
             AppRoutes.hotelDetail,
           arguments: {

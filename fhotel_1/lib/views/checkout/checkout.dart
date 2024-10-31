@@ -107,7 +107,7 @@ class CheckoutScreenState extends State<CheckoutScreen>
                         (widget.reservation.totalAmount ?? 0),
                         (widget.reservation.customerId).toString(),
                         (widget.reservation.paymentStatus).toString(),
-                        (widget.reservation.reservationStatus).toString(),
+                        'Pending',
                         '03c20593-9817-4cda-982f-7c8e7ee162e8',
                         (widget.reservation.createdDate).toString());
                   });
@@ -119,8 +119,7 @@ class CheckoutScreenState extends State<CheckoutScreen>
                 title: Text("Thanh toán tại khách sạn"),
                 onTap: () {
                   setState(() {
-                    selectedPaymentMethod =
-                        "Thanh toán tại khách sạn"; // Update the state
+                    selectedPaymentMethod = "Thanh toán tại khách sạn"; // Update the state
                     selectedPaymentMethodId =
                         '1dfab560-eef5-4297-9c26-03c3364f10e6';
                     _presenter.updateReservation(
@@ -132,7 +131,7 @@ class CheckoutScreenState extends State<CheckoutScreen>
                         (widget.reservation.totalAmount ?? 0),
                         (widget.reservation.customerId).toString(),
                         (widget.reservation.paymentStatus).toString(),
-                        (widget.reservation.reservationStatus).toString(),
+                        'Pending',
                         '1dfab560-eef5-4297-9c26-03c3364f10e6',
                         (widget.reservation.createdDate).toString());
                   });
@@ -193,7 +192,7 @@ class CheckoutScreenState extends State<CheckoutScreen>
         dialogType: DialogType.error,
         body: const Center(
           child: Text(
-            'Thanh toán thất bại !!',
+            'Thanh toán thất bại,\nVui lòng thử lại !!',
             style: TextStyle(fontStyle: FontStyle.italic),
           ),
         ),
@@ -208,7 +207,6 @@ class CheckoutScreenState extends State<CheckoutScreen>
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        // appBar: _buildAppbar(context),
         body: SizedBox(
           width: double.maxFinite,
           child: SingleChildScrollView(
@@ -322,22 +320,22 @@ class CheckoutScreenState extends State<CheckoutScreen>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          widget.reservation.reservationStatus != 'Pending'
-              ? CustomElevatedButton(
-                  height: 28.h,
-                  width: 126.h,
-                  text: "Đặt thành công",
-                  buttonStyle: CustomButtonStyles.fillGreen,
-                  buttonTextStyle: CustomTextStyles.bodyMediumTeal800,
-                )
-              : CustomElevatedButton(
-                  height: 28.h,
-                  width: 94.h,
-                  text: "Đang xử lý",
-                  buttonStyle: CustomButtonStyles.fillYellow,
-                  buttonTextStyle:
-                      CustomTextStyles.bodyMediumSecondaryContainer,
-                ),
+          // widget.reservation.reservationStatus != 'Pending'
+          //     ? CustomElevatedButton(
+          //         height: 28.h,
+          //         width: 126.h,
+          //         text: "Đặt thành công",
+          //         buttonStyle: CustomButtonStyles.fillGreen,
+          //         buttonTextStyle: CustomTextStyles.bodyMediumTeal800,
+          //       )
+          //     : CustomElevatedButton(
+          //         height: 28.h,
+          //         width: 94.h,
+          //         text: "Đang xử lý",
+          //         buttonStyle: CustomButtonStyles.fillYellow,
+          //         buttonTextStyle:
+          //             CustomTextStyles.bodyMediumSecondaryContainer,
+          //       ),
           SizedBox(height: 16.h),
           Text(
             "Chi tiết đặt phòng",
@@ -1076,7 +1074,6 @@ class CheckoutScreenState extends State<CheckoutScreen>
     // TODO: implement onPaymentSuccess
     setState(() {
       vnpaylink = link;
-      print("Link VNPAY nè" + vnpaylink.toString());
     });
   }
 }

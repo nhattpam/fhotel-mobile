@@ -291,20 +291,6 @@ class _ListHotelBySearchState extends State<ListHotelBySearch>
               style: CustomTextStyles.bodyMediumwhiteA700,
             ),
           ),
-          // CustomImageView(
-          //   color: Colors.white,
-          //   imagePath: ImageConstant.imgIconWrapper11,
-          //   height: 24.h,
-          //   width: 24.h,
-          //   margin: EdgeInsets.only(left: 20.h),
-          // ),
-          // Padding(
-          //   padding: EdgeInsets.only(left: 4.h),
-          //   child: Text(
-          //     "3",
-          //     style: CustomTextStyles.bodyMediumwhiteA700,
-          //   ),
-          // ),
           Padding(
             padding: EdgeInsets.only(left: 20.h),
             child: CustomIconButton(

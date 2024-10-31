@@ -50,16 +50,28 @@ class SessionManager {
   }
 
   void addHotelSession(Map<String, dynamic> hotelSession) {
+    // Retrieve existing sessions from SharedPreferences
     List<String> sessions = _preferences?.getStringList('hotelSessions') ?? [];
-    sessions.add(json.encode(hotelSession));
-    _preferences?.setStringList('hotelSessions', sessions);
+
+    // Decode sessions and check for a duplicate by hotelId
+    bool isDuplicate = sessions.any((session) {
+      final existingSession = Map<String, dynamic>.from(json.decode(session));
+      return existingSession['hotelId'] == hotelSession['hotelId'];
+    });
+
+    // Only add the new session if it's not a duplicate
+    if (!isDuplicate) {
+      sessions.add(json.encode(hotelSession));
+      _preferences?.setStringList('hotelSessions', sessions);
+    }
   }
 
-  // Get the list of hotel sessions
+// Get the list of hotel sessions
   List<Map<String, dynamic>> getHotelSessions() {
     List<String> sessions = _preferences?.getStringList('hotelSessions') ?? [];
     return sessions.map((session) => Map<String, dynamic>.from(json.decode(session))).toList();
   }
+
   // Clear user session data (logout)
   void clearSession() {
     _preferences?.clear();

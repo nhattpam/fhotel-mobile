@@ -174,7 +174,7 @@ class MyServiceDetailState extends State<MyServiceDetail>
                   ),
                   child: Image.network(
                     (_orderDetail?.services?.image).toString(),
-                    fit: BoxFit.cover,
+                    fit: BoxFit.contain,
                   ),
                 ),
               ],

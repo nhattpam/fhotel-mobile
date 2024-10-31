@@ -188,7 +188,7 @@ class ServiceDetailScreenState extends State<ServiceDetailScreen> implements Lis
             ),
             child: Image.network(
                 widget.service.image.toString(),
-              fit: BoxFit.cover,
+              fit: BoxFit.contain,
             ),
           ),
         ],

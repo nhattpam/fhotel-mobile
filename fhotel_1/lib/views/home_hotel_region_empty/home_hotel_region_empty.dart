@@ -151,7 +151,7 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
                 width: double.maxFinite,
                 child: Container(
                   // height: 700.h,
-                  height: hotelSessions.isNotEmpty ? 850.h : 700.h,
+                  height: hotelSessions.isNotEmpty ? 780.h : 700.h,
                   decoration: BoxDecoration(
                     color: appTheme.gray10001,
                   ),
@@ -259,8 +259,8 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
               roomType = room['typeId'];
               quantity = room['quantity'];
             });
-            return "${room['roomType']}: ${room['quantity']}";
-          }).join(", ") // Concatenate room info
+            return "Loại ${room['roomType']}, Số lượng: ${room['quantity']}";
+          }).join("\n") // Concatenate room info
         : "Chọn loại phòng bạn muốn tìm"; // Default placeholder text
 
     List<RoomSearchRequest> searchRequests = selectedRoomData.map((room) {
@@ -348,6 +348,20 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
                               ),
                             ),
                             SizedBox(width: 6.h),
+                            ///Test current Location
+                            Padding(
+                              padding: EdgeInsets.only(top: 10.h),
+                              child: CustomIconButton(
+                                height: 24.h,
+                                width: 24.h,
+                                padding: EdgeInsets.all(4.h),
+                                decoration: IconButtonStyleHelper.fillBlackTL12,
+                                child: CustomImageView(
+                                  imagePath:
+                                      ImageConstant.imgIconWrapperBlueGray700,
+                                ),
+                              ),
+                            )
                           ],
                         ),
                       ),
@@ -542,7 +556,7 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          "Số phòng và loại phòng",
+                                          "Số lượng phòng và loại phòng",
                                           style: theme.textTheme.bodyMedium!
                                               .copyWith(
                                             color: theme.colorScheme.onPrimary,
@@ -789,10 +803,9 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
               ],
             ),
           ),
-          SizedBox(height: 10.h),
           (_hotels.isNotEmpty)
           ? SizedBox(
-            height: 170.h,
+            height: 128.h,
             width: 344.h,
             child: ListView.separated(
               cacheExtent: 1000,
@@ -818,7 +831,7 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
             ),
           )
           : SizedBox(
-            height: 170.h,
+            height: 128.h,
             width: 344.h,
             child: ListView.separated(
               padding: EdgeInsets.only(left: 14.h),
@@ -831,7 +844,7 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
               itemCount: 4,
               itemBuilder: (context, index) {
                 return Skeleton(
-                  height: 200.h,
+                  height: 128.h,
                   width: 150.h,
                 );
               },

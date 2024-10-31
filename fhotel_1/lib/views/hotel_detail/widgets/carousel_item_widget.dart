@@ -896,9 +896,9 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
             scrollDirection: Axis.horizontal,
             itemCount: 3, // Specify the number of items
             itemBuilder: (context, index) {
-              return Padding(
-                padding: EdgeInsets.only(right: 8.h), // Add spacing between items
-                child: Expanded(
+              return SizedBox(
+                child: Padding(
+                  padding: EdgeInsets.only(right: 8.h), // Add spacing between items
                   child: Container(
                     width: 200.h, // Set a fixed width for each item
                     padding: EdgeInsets.symmetric(
@@ -978,44 +978,6 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          // Container(
-          //   width: double.maxFinite,
-          //   padding: EdgeInsets.symmetric(horizontal: 16.h),
-          //   decoration: BoxDecoration(
-          //     color: appTheme.whiteA700,
-          //   ),
-          //   child: Column(
-          //     mainAxisSize: MainAxisSize.min,
-          //     children: [
-          //       Container(
-          //         width: double.maxFinite,
-          //         margin: EdgeInsets.only(top: 10.h),
-          //         child: Row(
-          //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //           children: [
-          //             Text(
-          //               "Giá phòng mỗi đêm từ",
-          //               style: theme.textTheme.titleSmall,
-          //             ),
-          //             Text(
-          //               "2.000.000 đ",
-          //               style: theme.textTheme.titleSmall,
-          //             )
-          //           ],
-          //         ),
-          //       )
-          //     ],
-          //   ),
-          // ),
-          // SizedBox(height: 4.h),
-          // Padding(
-          //   padding: EdgeInsets.only(right: 14.h),
-          //   child: Text(
-          //     "Đã bao gồm thuế",
-          //     style: theme.textTheme.bodySmall,
-          //   ),
-          // ),
-          // SizedBox(height: 4.h),
           Container(
             width: double.maxFinite,
             padding: EdgeInsets.symmetric(

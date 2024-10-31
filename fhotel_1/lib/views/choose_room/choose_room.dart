@@ -302,21 +302,132 @@ class ChooseRoomFullScreenState extends State<ChooseRoomFullScreen>
                 height: 12.h,
               );
             },
-            itemCount: 2,
+            itemCount: 3,
             itemBuilder: (context, index) {
               return Container(
-                  width: double.maxFinite,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadiusStyle.roundedBorder8,
-                    border: Border.all(
-                      color: appTheme.black900.withOpacity(0.2),
-                      width: 1.h,
-                    ),
+                width: double.maxFinite,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadiusStyle.roundedBorder8,
+                  border: Border.all(
+                    color: appTheme.black900.withOpacity(0.2),
+                    width: 1.h,
                   ),
-                  child: const Skeleton(
-                    height: 300,
-                    width: 200,
-                  ));
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SizedBox(height: 8.h),
+                    Container(
+                      padding: EdgeInsets.fromLTRB(16.h, 8.h, 16.h, 6.h),
+                      decoration: BoxDecoration(
+                        color: appTheme.whiteA700,
+                        border: Border(
+                          bottom: BorderSide(
+                            color: appTheme.blueGray50,
+                            width: 1.h,
+                          ),
+                        ),
+                      ),
+                      width: double.maxFinite,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                              height: 150.h,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8.h),
+                              ),
+                              child: Skeleton(
+                                height: 150.h,
+                                width: double.infinity,
+                              )),
+                          SizedBox(height: 8.h),
+                          Skeleton(
+                            width: 200.h,
+                          ),
+                          SizedBox(height: 2.h),
+                          Skeleton(width: 100.h),
+                          SizedBox(height: 8.h),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 8.h),
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 16.h),
+                      decoration: BoxDecoration(
+                        color: appTheme.whiteA700,
+                      ),
+                      width: double.maxFinite,
+                      child: Row(
+                        children: [
+                          CustomImageView(
+                            imagePath: ImageConstant.imgIconWrapper15,
+                            height: 24.h,
+                            width: 24.h,
+                          ),
+                          Align(
+                            alignment: Alignment.bottomCenter,
+                            child: Padding(
+                                padding: EdgeInsets.only(left: 8.h),
+                                child: Skeleton(
+                                  width: 100.h,
+                                )),
+                          )
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 8.h),
+                    SizedBox(
+                      width: double.maxFinite,
+                      child: Divider(),
+                    ),
+                    SizedBox(height: 6.h),
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 16.h,
+                        vertical: 8.h,
+                      ),
+                      decoration: BoxDecoration(
+                        color: appTheme.whiteA700,
+                      ),
+                      width: double.maxFinite,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Skeleton(width: 100.h)),
+                          GestureDetector(
+                            onTap: () {
+                            },
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 12.h,
+                                vertical: 2.h,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.blueAccent,
+                                borderRadius: BorderRadiusStyle.roundedBorder4,
+                              ),
+                              child: const Column(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Xem chi tiết phòng",
+                                    style: TextStyle(color: Colors.white),
+                                  )
+                                ],
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              );
             },
           )
         : ListView.separated(
@@ -326,8 +437,13 @@ class ChooseRoomFullScreenState extends State<ChooseRoomFullScreen>
             separatorBuilder: (context, index) => SizedBox(height: 12.h),
             itemCount: _roomTypes.length,
             itemBuilder: (context, index) {
-               return ChooseRoomWidget(hotelId: (_roomTypes[index].roomTypeId).toString(), roomTypes: _roomTypes[index], checkInDate: checkInDate.toString(), checkOutDate: checkOutDate.toString(), numberOfRooms: numberOfRooms,
-               );
+              return ChooseRoomWidget(
+                hotelId: (_roomTypes[index].roomTypeId).toString(),
+                roomTypes: _roomTypes[index],
+                checkInDate: checkInDate.toString(),
+                checkOutDate: checkOutDate.toString(),
+                numberOfRooms: numberOfRooms,
+              );
             },
           );
   }
@@ -371,9 +487,7 @@ class ChooseRoomFullScreenState extends State<ChooseRoomFullScreen>
   }
 
   @override
-  void onGetPriceSuccess(double price) {
-
-  }
+  void onGetPriceSuccess(double price) {}
 
   @override
   void showFacility(List<RoomFacility> facilities) {
