@@ -45,10 +45,11 @@ class ListlabelvalueltemWidget extends StatelessWidget {
                               style: theme.textTheme.bodyMedium,
                             ),
                             SizedBox(height: 6.h),
-                            Text(
-                              "9,0/10",
-                              style: theme.textTheme.titleSmall,
-                            )
+                            CustomRatingBar(
+                              color: Colors.yellow,
+                              ignoreGestures: true,
+                              initialRating: 5,
+                            ),
                           ],
                         ),
                       ),

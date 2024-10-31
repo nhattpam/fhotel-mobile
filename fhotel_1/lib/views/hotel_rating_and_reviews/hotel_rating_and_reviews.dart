@@ -1,4 +1,5 @@
 import 'package:fhotel_1/views/hotel_rating_and_reviews/widgets/list_label_item_value_widget.dart';
+import 'package:fhotel_1/views/write_review/write_review_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/app_export.dart';
@@ -16,6 +17,7 @@ class HotelDetailsRatingsReviewsScreenState
     with TickerProviderStateMixin {
   late TabController tabviewController;
   GlobalKey<NavigatorState> navigatorKey = GlobalKey();
+  final List<String> ratings = ["5 sao", "4 sao", "3 sao", "2 sao", "1 sao"];
 
   @override
   void initState() {
@@ -41,67 +43,81 @@ class HotelDetailsRatingsReviewsScreenState
                   color: appTheme.gray10001,
                 ),
               ),
-              TabBar(
-                controller: tabviewController,
-                labelPadding: EdgeInsets.zero,
-                labelColor: appTheme.blue600,
-                labelStyle: TextStyle(
-                  fontSize: 15.fSize,
-                  fontFamily: 'Mulish',
-                  fontWeight: FontWeight.w800,
-                ),
-                unselectedLabelColor: appTheme.black900.withOpacity(0.5),
-                unselectedLabelStyle: TextStyle(
-                  fontSize: 15.fSize,
-                  fontFamily: 'Mulish',
-                  fontWeight: FontWeight.w800,
-                ),
-                dividerColor: appTheme.black900.withOpacity(0.5),
-                indicatorColor: Colors.blueAccent,
-                indicatorSize: TabBarIndicatorSize.tab,
-                tabs: const [
-                  Tab(
-                    child: Text(
-                      "Tất cả",
-                    ),
-                  ),
-                  Tab(
-                    child: Text(
-                      "Phòng sạch",
-                    ),
-                  ),
-                  Tab(
-                    child: Text(
-                      "Nhân viên thân thiện",
-                      maxLines: 1,
-                      // overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                ],
-              ),
-              Expanded(
-                child: TabBarView(
-                  controller: tabviewController,
-                  children: [
-                    Expanded(
-                      child: Container(
-                        width: double.maxFinite,
-                        padding: EdgeInsets.symmetric(vertical: 12.h),
-                        decoration: BoxDecoration(
-                          color: appTheme.whiteA700,
-                        ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [_buildListlabelvalue(context)],
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
+              _buildListlabelvalue(context),
+              // TabBar(
+              //   controller: tabviewController,
+              //   labelPadding: EdgeInsets.zero,
+              //   labelColor: appTheme.blue600,
+              //   labelStyle: TextStyle(
+              //     fontSize: 15.fSize,
+              //     fontFamily: 'Mulish',
+              //     fontWeight: FontWeight.w800,
+              //   ),
+              //   unselectedLabelColor: appTheme.black900.withOpacity(0.5),
+              //   unselectedLabelStyle: TextStyle(
+              //     fontSize: 15.fSize,
+              //     fontFamily: 'Mulish',
+              //     fontWeight: FontWeight.w800,
+              //   ),
+              //   dividerColor: appTheme.black900.withOpacity(0.5),
+              //   indicatorColor: Colors.blueAccent,
+              //   indicatorSize: TabBarIndicatorSize.tab,
+              //   tabs: const [
+              //     Tab(
+              //       child: Text(
+              //         "Tất cả",
+              //       ),
+              //     ),
+              //     Tab(
+              //       child: Text(
+              //         "Phòng sạch",
+              //       ),
+              //     ),
+              //     Tab(
+              //       child: Text(
+              //         "Nhân viên thân thiện",
+              //         maxLines: 1,
+              //         // overflow: TextOverflow.ellipsis,
+              //       ),
+              //     ),
+              //   ],
+              // ),
+              // Expanded(
+              //   child: TabBarView(
+              //     controller: tabviewController,
+              //     children: [
+              //       Expanded(
+              //         child: Container(
+              //           width: double.maxFinite,
+              //           padding: EdgeInsets.symmetric(vertical: 12.h),
+              //           decoration: BoxDecoration(
+              //             color: appTheme.whiteA700,
+              //           ),
+              //           child: Column(
+              //             mainAxisSize: MainAxisSize.max,
+              //             crossAxisAlignment: CrossAxisAlignment.start,
+              //             children: [_buildListlabelvalue(context)],
+              //           ),
+              //         ),
+              //       )
+              //     ],
+              //   ),
+              // ),
             ],
           ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => WriteReviewScreen(), // Replace with your review screen
+              ),
+            );
+          },
+          backgroundColor: appTheme.blue600,
+          child: const Icon(Icons.edit), // You can customize the icon
+          tooltip: "Write a review",
         ),
       ),
     );
@@ -177,7 +193,7 @@ class HotelDetailsRatingsReviewsScreenState
       ),
       width: double.maxFinite,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Align(
@@ -188,7 +204,7 @@ class HotelDetailsRatingsReviewsScreenState
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
-                    "8, 6",
+                    "4,6/5",
                     style: TextStyle(
                         fontSize: 30,
                         color: Colors.blueAccent,
@@ -210,103 +226,47 @@ class HotelDetailsRatingsReviewsScreenState
               ),
             ),
           ),
-          Padding(
-            padding: EdgeInsets.only(left: 14.h),
-            child: VerticalDivider(
-              width: 1.h,
-              thickness: 1.h,
-              indent: 8.h,
-            ),
-          ),
-          Expanded(
-            child: Column(
-              children: [
-                SizedBox(
-                  width: double.maxFinite,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(left: 14.h),
-                        child: Text(
-                          "Sạch sẽ",
-                          style: CustomTextStyles.bodySmallBlack900,
-                        ),
+          SizedBox(
+            height: 50.h,
+            width: 200.h,
+            child: GridView.builder(
+              padding: EdgeInsets.only(left: 16.h),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3, // 2 items per row
+                mainAxisSpacing: 8, // Vertical spacing between items
+                crossAxisSpacing: 8, // Horizontal spacing between items
+                childAspectRatio: 3, // Adjust as needed for the chip size
+              ),
+              itemCount: ratings.length,
+              itemBuilder: (context, index) {
+                return ChipTheme(
+                  data: ChipTheme.of(context).copyWith(
+                    backgroundColor: Colors.white,
+                    selectedColor: Colors.blue,
+                    disabledColor: Colors.grey,
+                    shape: RoundedRectangleBorder(
+                      side: const BorderSide(
+                        color: Colors.grey,
+                        width: 1,
                       ),
-                      CustomRatingBar(
-                        color: Colors.yellow,
-                        ignoreGestures: true,
-                        initialRating: 5,
-                      ),
-                    ],
+                      borderRadius: BorderRadius.circular(50),
+                    ),
                   ),
-                ),
-                SizedBox(height: 2.h),
-                SizedBox(
-                  width: double.maxFinite,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(left: 14.h),
-                        child: Text(
-                          "Thoải mái",
-                          style: CustomTextStyles.bodySmallBlack900,
-                        ),
+                  child: Chip(
+                    padding: const EdgeInsets.only(bottom :10),
+                    label: Text(
+                      ratings[index],
+                      // textAlign: TextAlign.center,
+                      style: TextStyle(
+                        height: 1, // Adjusts text's vertical position
                       ),
-                      CustomRatingBar(
-                        color: Colors.yellow,
-                        ignoreGestures: true,
-                        initialRating: 4,
-                      ),
-                    ],
+                    ),
                   ),
-                ),
-                SizedBox(height: 2.h),
-                SizedBox(
-                  width: double.maxFinite,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(left: 14.h),
-                        child: Text(
-                          "Thức ăn",
-                          style: CustomTextStyles.bodySmallBlack900,
-                        ),
-                      ),
-                      CustomRatingBar(
-                        color: Colors.yellow,
-                        ignoreGestures: true,
-                        initialRating: 3,
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 2.h),
-                SizedBox(
-                  width: double.maxFinite,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(left: 14.h),
-                        child: Text(
-                          "Vị trí",
-                          style: CustomTextStyles.bodySmallBlack900,
-                        ),
-                      ),
-                      CustomRatingBar(
-                        color: Colors.yellow,
-                        ignoreGestures: true,
-                        initialRating: 2,
-                      ),
-                    ],
-                  ),
-                )
-              ],
+                );
+              },
             ),
           )
+
         ],
       ),
     );

@@ -418,7 +418,7 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
                                                       MainAxisAlignment.center,
                                                   children: [
                                                     const Text(
-                                                      "8,6",
+                                                      "4,6/5",
                                                       style: TextStyle(
                                                           fontSize: 30,
                                                           color:
@@ -476,49 +476,6 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
                                             ],
                                           ),
                                         ),
-                                      ),
-                                    ),
-                                    SizedBox(height: 14.h),
-                                    SizedBox(
-                                      height: 28.h,
-                                      width: 472.h,
-                                      child: ListView.separated(
-                                        padding: EdgeInsets.only(left: 16.h),
-                                        scrollDirection: Axis.horizontal,
-                                        separatorBuilder: (context, index) {
-                                          return SizedBox(
-                                            width: 8.h,
-                                          );
-                                        },
-                                        itemCount: 3,
-                                        itemBuilder: (context, index) {
-                                          return ChipTheme(
-                                            data:
-                                                ChipTheme.of(context).copyWith(
-                                              backgroundColor: Colors.white,
-                                              selectedColor: Colors.blue,
-                                              disabledColor: Colors.grey,
-                                              shape: RoundedRectangleBorder(
-                                                side: const BorderSide(
-                                                  color: Colors.grey,
-                                                  // Border color
-                                                  width: 1, // Border width
-                                                ),
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                        50), // Rounded corners
-                                              ),
-                                            ),
-                                            child: const Chip(
-                                              label: Text(
-                                                "1 sao",
-                                                textAlign: TextAlign.center,
-                                              ),
-                                              // selected: false,
-                                              // onSelected: (bool selected) {},
-                                            ),
-                                          );
-                                        },
                                       ),
                                     ),
                                     SizedBox(height: 14.h),
@@ -934,77 +891,51 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
         SizedBox(height: 6.h),
         SizedBox(
           width: double.maxFinite,
-          child: Row(
-            children: [
-              Expanded(
-                child: Container(
-                  width: double.maxFinite,
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 16.h,
-                    vertical: 6.h,
-                  ),
-                  decoration: BoxDecoration(
-                    color: appTheme.gray10001,
-                    borderRadius: BorderRadiusStyle.roundedBorder8,
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Khách sạn mới và đẹp, gần biển đi lại thuận tiện nhân viên nhiệt tình và thân thiện. Xung...",
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: theme.textTheme.bodyMedium!.copyWith(
-                          height: 1.50,
+          height: 100.h, // Set a fixed height for the horizontal scroll view if necessary
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: 3, // Specify the number of items
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: EdgeInsets.only(right: 8.h), // Add spacing between items
+                child: Expanded(
+                  child: Container(
+                    width: 200.h, // Set a fixed width for each item
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 16.h,
+                      vertical: 6.h,
+                    ),
+                    decoration: BoxDecoration(
+                      color: appTheme.gray10001,
+                      borderRadius: BorderRadiusStyle.roundedBorder8,
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Nguyen Van A", // Change based on index
+                          style: theme.textTheme.bodySmall,
                         ),
-                      ),
-                      SizedBox(height: 4.h),
-                      Text(
-                        "Nguyen V.A.",
-                        style: theme.textTheme.bodySmall,
-                      ),
-                    ],
+                        SizedBox(height: 4.h),
+                        Text(
+                          "Khách sạn mới và đẹp, gần biển đi lại thuận tiện nhân viên nhiệt tình và thân thiện. Xung...",
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                          style: theme.textTheme.bodyMedium!.copyWith(
+                            height: 1.50,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(width: 8.h),
-              Expanded(
-                child: Container(
-                  width: double.maxFinite,
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 16.h,
-                    vertical: 8.h,
-                  ),
-                  decoration: BoxDecoration(
-                    color: appTheme.gray10001,
-                    borderRadius: BorderRadiusStyle.roundedBorder8,
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Khách sạn mới và đẹp, gần biển đi lại thuận tiện nhân viên nhiệt tình và thân thiện. Xung ",
-                        overflow: TextOverflow.ellipsis,
-                        style: theme.textTheme.bodyMedium!.copyWith(
-                          height: 1.50,
-                        ),
-                        maxLines: 3,
-                      ),
-                      SizedBox(height: 2.h),
-                      Text(
-                        "Tran V.B.",
-                        style: theme.textTheme.bodySmall,
-                      )
-                    ],
-                  ),
-                ),
-              )
-            ],
+              );
+            },
           ),
         )
+
       ]),
     );
   }
