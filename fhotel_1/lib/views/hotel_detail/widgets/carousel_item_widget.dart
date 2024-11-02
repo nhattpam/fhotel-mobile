@@ -1,4 +1,5 @@
 import 'package:fhotel_1/core/utils/skeleton.dart';
+import 'package:fhotel_1/data/models/feedback.dart';
 import 'package:fhotel_1/data/models/hotel_image.dart';
 import 'package:fhotel_1/data/models/late_checkout_policy.dart';
 import 'package:fhotel_1/data/models/refund_policy.dart';
@@ -49,13 +50,13 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
   int? numberOfDays;
 
   List<HotelAmenity> _amenities = [];
+  List<Feedbacks> _feedbacks = [];
   List<LateCheckOutPolicy> _policies = [];
   List<RefundPolicy> _refundPolicies = [];
 
   @override
   void initState() {
     super.initState();
-
     tabviewController = TabController(length: 4, vsync: this);
     tabviewController.addListener(() {
       switch (tabviewController.index) {
@@ -74,8 +75,7 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
       }
     });
     _presenter = HotelDetailPresenter(this);
-    _policyPresenter =
-        LateCheckoutPolicyPresenter(this, LateCheckoutPolicyRepo());
+    _policyPresenter = LateCheckoutPolicyPresenter(this, LateCheckoutPolicyRepo());
     _policyPresenter.getLateCheckOutPolicies();
     _policyRefundPresenter = RefundPolicyPresenter(this, RefundPolicyRepo());
     _policyRefundPresenter.getRefundPolicies();
@@ -95,6 +95,7 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
     // Fetch the hotel details using the presenter
     await _presenter.getHotelById(hotelId);
     _presenter.getHotelAmenities(hotelId);
+    _presenter.getHotelFeedbacks(hotelId);
   }
 
   void _scrollToSection(GlobalKey key) {
@@ -407,7 +408,10 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
                                                         Navigator.pushNamed(
                                                             context,
                                                             AppRoutes
-                                                                .hotelRatingAndReviews);
+                                                                .hotelRatingAndReviews,
+                                                        arguments:{
+                                                          "listHotels": _feedbacks,
+                                                        });
                                                       },
                                                       color: Colors.blueAccent,
                                                       imagePath: ImageConstant
@@ -472,7 +476,7 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
                                                             ),
                                                           ),
                                                           Text(
-                                                            "từ 288 lượt đánh giá",
+                                                            "từ ${_feedbacks.length} lượt đánh giá",
                                                             style: theme
                                                                 .textTheme
                                                                 .bodySmall,
@@ -904,7 +908,7 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
           height: 100.h, // Set a fixed height for the horizontal scroll view if necessary
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            itemCount: 3, // Specify the number of items
+            itemCount: _feedbacks.length, // Specify the number of items
             itemBuilder: (context, index) {
               return SizedBox(
                 child: Padding(
@@ -925,13 +929,21 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "Nguyen Van A", // Change based on index
+                          (_feedbacks[index].reservation?.customer?.name).toString(),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis, // Change based on index
                           style: theme.textTheme.bodySmall,
                         ),
                         SizedBox(height: 4.h),
+                        CustomRatingBar(
+                          color: Colors.yellow,
+                          ignoreGestures: true,
+                          initialRating: (_feedbacks[index].hotelRating)?.toDouble(),
+                        ),
+                        SizedBox(height: 4.h),
                         Text(
-                          "Khách sạn mới và đẹp, gần biển đi lại thuận tiện nhân viên nhiệt tình và thân thiện. Xung...",
-                          maxLines: 3,
+                          (_feedbacks[index].comment).toString(),
+                          maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: theme.textTheme.bodyMedium!.copyWith(
                             height: 1.50,
@@ -1187,5 +1199,12 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
   @override
   void onGetSingleHotelImageSuccess(HotelImage hotels) {
     // TODO: implement onGetSingleHotelImageSuccess
+  }
+
+  @override
+  void showFeedbacks(List<Feedbacks> feedbacks) {
+    setState(() {
+      _feedbacks = feedbacks;
+    });
   }
 }

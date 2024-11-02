@@ -1,3 +1,4 @@
+import 'package:fhotel_1/data/models/feedback.dart';
 import 'package:fhotel_1/views/hotel_rating_and_reviews/widgets/list_label_item_value_widget.dart';
 import 'package:fhotel_1/views/write_review/write_review_screen.dart';
 import 'package:flutter/material.dart';
@@ -17,11 +18,32 @@ class HotelDetailsRatingsReviewsScreenState extends State<HotelDetailsRatingsRev
   late TabController tabviewController;
   GlobalKey<NavigatorState> navigatorKey = GlobalKey();
   final List<String> ratings = ["5 sao", "4 sao", "3 sao", "2 sao", "1 sao"];
+  List<Feedbacks> _feedbacks = [];
 
   @override
   void initState() {
     super.initState();
     tabviewController = TabController(length: 3, vsync: this);
+  }
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    // Safely retrieve the arguments passed to the route
+    final arguments = ModalRoute.of(context)?.settings.arguments;
+    if (arguments != null && arguments is Map) {
+      setState(() {
+        final feedback = arguments['listHotels'];
+        if (feedback is List<Feedbacks>) {
+          _feedbacks = feedback;
+        } else {
+          print('Error: Invalid listHotels argument');
+        }
+      });
+    } else {
+      // Handle the case where arguments are null or not a Map
+      print('Error: No arguments found or invalid argument type');
+    }
   }
 
   @override
@@ -222,7 +244,7 @@ class HotelDetailsRatingsReviewsScreenState extends State<HotelDetailsRatingsRev
                   ),
                   SizedBox(height: 4.h),
                   Text(
-                    "từ 288 lượt đánh giá",
+                    "từ ${_feedbacks.length} lượt đánh giá",
                     style: theme.textTheme.bodySmall,
                   )
                 ],
@@ -343,9 +365,98 @@ class HotelDetailsRatingsReviewsScreenState extends State<HotelDetailsRatingsRev
               height: 12.h,
             );
           },
-          itemCount: 5,
+          itemCount: _feedbacks.length,
           itemBuilder: (context, index) {
-            return ListlabelvalueltemWidget();
+            return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Container(
+                width: double.maxFinite,
+                margin: EdgeInsets.only(right: 32.h),
+                child: Column(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        color: appTheme.whiteA700,
+                      ),
+                      width: double.maxFinite,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CustomImageView(
+                            imagePath: ImageConstant.imgCircle24x24,
+                            height: 24.h,
+                            width: 24.h,
+                            margin: EdgeInsets.only(top: 8.h),
+                          ),
+                          SizedBox(width: 8.h),
+                          Expanded(
+                            child: Align(
+                              alignment: Alignment.bottomLeft,
+                              child: Padding(
+                                padding: EdgeInsets.only(top: 8.h),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      (_feedbacks[index].reservation?.customer?.name).toString(),
+                                      style: theme.textTheme.bodyMedium,
+                                    ),
+                                    SizedBox(height: 6.h),
+                                    CustomRatingBar(
+                                      color: Colors.yellow,
+                                      ignoreGestures: true,
+                                      initialRating: (_feedbacks[index].hotelRating)?.toDouble(),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 8.h),
+                          Padding(
+                            padding: EdgeInsets.only(top: 8.h),
+                            child: Text(
+                              (_feedbacks[index].createdDate).toString(),
+                              style: CustomTextStyles.bodySmall10,
+                            ),
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Container(
+                width: double.maxFinite,
+                padding: EdgeInsets.symmetric(
+                  horizontal: 16.h,
+                  vertical: 4.h,
+                ),
+                decoration: BoxDecoration(
+                  color: appTheme.whiteA700,
+                  border: Border(
+                    bottom: BorderSide(
+                      color: appTheme.blueGray50,
+                      width: 1.h,
+                    ),
+                  ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      (_feedbacks[index].comment).toString(),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: theme.textTheme.bodyMedium!.copyWith(
+                        height: 1.50,
+                      ),
+                    ),
+                    SizedBox(height: 10.h)
+                  ],
+                ),
+              )
+            ]);
           },
         ),
       ),

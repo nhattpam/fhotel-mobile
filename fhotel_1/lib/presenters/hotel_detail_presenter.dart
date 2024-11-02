@@ -32,4 +32,15 @@ class HotelDetailPresenter {
       // _view.showError('Failed to load amenities');
     }
   }
+  void getHotelFeedbacks(String hotelId) async {
+    _view.showLoading();
+    try {
+      final feedbacks = await _repository.fetchFeedbacksByHotelId(hotelId);
+      _view.hideLoading();
+      _view.showFeedbacks(feedbacks);
+    } catch (e) {
+      _view.hideLoading();
+      // _view.showError('Failed to load amenities');
+    }
+  }
 }
