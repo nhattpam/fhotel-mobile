@@ -85,13 +85,13 @@ class Maincontent7ItemWidgetState extends State<Maincontent7ItemWidget> {
             SizedBox(
               width: double.maxFinite,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  // Text(
-                  //   "Mã đặt chỗ: 453653657",
-                  //   style: theme.textTheme.labelLarge,
-                  // ),
+                  Text(
+                    "Mã đặt chỗ: ${widget.reservation.code}",
+                    style: theme.textTheme.labelLarge,
+                  ),
                   Padding(
                     padding: EdgeInsets.only(top: 10.h),
                     child: Text(

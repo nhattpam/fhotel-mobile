@@ -30,6 +30,8 @@ export 'package:fhotel_1/widgets/custom_switch.dart';
 export 'package:fhotel_1/widgets/custom_text_form_field.dart';
 export 'package:fhotel_1/widgets/custome_outline_button.dart';
 export 'package:font_awesome_flutter/font_awesome_flutter.dart';
+export 'package:geocoding/geocoding.dart';
+export 'package:geolocator/geolocator.dart';
 export 'package:image_picker/image_picker.dart';
 export 'package:intl/intl.dart';
 export 'package:jwt_decode/jwt_decode.dart';

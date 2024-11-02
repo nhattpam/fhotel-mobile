@@ -1,19 +1,14 @@
 import 'package:fhotel_1/core/app_export.dart';
 import 'package:fhotel_1/core/utils/skeleton.dart';
-import 'package:fhotel_1/data/models/hotel.dart';
-import 'package:fhotel_1/data/models/hotel_image.dart';
 import 'package:fhotel_1/data/models/room_facility.dart';
 import 'package:fhotel_1/data/models/room_image.dart';
 import 'package:fhotel_1/data/models/room_types.dart';
 import 'package:fhotel_1/data/models/type.dart';
-import 'package:fhotel_1/data/repository/list_hotel_repo.dart';
-import 'package:fhotel_1/presenters/list_hotel_presenter.dart';
 import 'package:fhotel_1/presenters/list_room_type_presenter.dart';
 import 'package:flutter/material.dart';
 
 import '../../../data/repository/list_room_type_repo.dart';
 import '../../choose_room_detail/choose_room_detail.dart';
-import '../../hotel_listing_nearby_screen/list_hotel_view.dart';
 import '../choose_room_view.dart';
 
 class ChooseRoomWidget extends StatefulWidget {

@@ -1,3 +1,4 @@
+import 'package:fhotel_1/core/utils/skeleton.dart';
 import 'package:fhotel_1/data/models/order.dart';
 import 'package:fhotel_1/data/models/reservation.dart';
 import 'package:fhotel_1/data/models/service.dart';
@@ -20,7 +21,8 @@ class ServiceDetailScreen extends StatefulWidget {
   ServiceDetailScreenState createState() => ServiceDetailScreenState();
 }
 
-class ServiceDetailScreenState extends State<ServiceDetailScreen> implements ListReservationView, CreateReservationView{
+class ServiceDetailScreenState extends State<ServiceDetailScreen>
+    implements ListReservationView, CreateReservationView {
   int quantity = 1;
   TextEditingController _quantityController = TextEditingController();
   late ListReservationPresenter _presenter;
@@ -34,13 +36,14 @@ class ServiceDetailScreenState extends State<ServiceDetailScreen> implements Lis
   @override
   void initState() {
     super.initState();
-    _presenter = ListReservationPresenter(this, ListReservationRepo()); // Initialize the presenter
+    _presenter = ListReservationPresenter(
+        this, ListReservationRepo()); // Initialize the presenter
     _presenter.getListReservationByCustomerId(); // Fetch customer data
     _orderPresenter = OrderPresenter(this); // Initialize the presenter
     _orderDetailPresenter = OrderDetailPresenter(this);
     _quantityController.text = quantity.toString();
-
   }
+
   void _incrementRooms() {
     setState(() {
       quantity++;
@@ -56,6 +59,7 @@ class ServiceDetailScreenState extends State<ServiceDetailScreen> implements Lis
       }
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -63,10 +67,8 @@ class ServiceDetailScreenState extends State<ServiceDetailScreen> implements Lis
         appBar: _buildAppbar(context),
         body: SizedBox(
           width: double.maxFinite,
-          child: Column(children: [
-            _buildscrollview(context),
-            _buildAddcart(context)
-          ]),
+          child: Column(
+              children: [_buildscrollview(context), _buildAddcart(context)]),
         ),
       ),
     );
@@ -150,7 +152,7 @@ class ServiceDetailScreenState extends State<ServiceDetailScreen> implements Lis
               _buildHeadingImage(context),
               SizedBox(height: 22.h),
               Text(
-               "Dịch vụ: ${widget.service.serviceName}",
+                "Dịch vụ: ${widget.service.serviceName}",
                 style: CustomTextStyles.titleSmallGray600,
               ),
               SizedBox(height: 20.h),
@@ -180,17 +182,29 @@ class ServiceDetailScreenState extends State<ServiceDetailScreen> implements Lis
       child: Stack(
         children: [
           // Background Image
-          Container(
-            width: double.maxFinite,
-            height: double.maxFinite,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadiusStyle.roundedBorder8,
-            ),
-            child: Image.network(
-                widget.service.image.toString(),
-              fit: BoxFit.contain,
-            ),
-          ),
+          widget.service.image != null && widget.service.image != 'string'
+              ? Container(
+                  width: double.maxFinite,
+                  height: double.maxFinite,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadiusStyle.roundedBorder8,
+                  ),
+                  child: Image.network(
+                    widget.service.image.toString(),
+                    fit: BoxFit.contain,
+                  ),
+                )
+              : Container(
+                  width: double.maxFinite,
+                  height: double.maxFinite,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadiusStyle.roundedBorder8,
+                  ),
+                  child: Skeleton(
+                    width: double.maxFinite,
+                    height: double.maxFinite,
+                  ),
+                ),
         ],
       ),
     );
@@ -240,15 +254,18 @@ class ServiceDetailScreenState extends State<ServiceDetailScreen> implements Lis
                       SizedBox(
                         width: 103, // Adjust width as needed
                         child: DropdownButton<Reservation>(
-                          value: selectedReservation, // Define this variable to store the selected reservation
+                          value: selectedReservation,
+                          // Define this variable to store the selected reservation
                           onChanged: (Reservation? newValue) {
                             setState(() {
                               selectedReservation = newValue;
                             });
                           },
                           items: _reservation
-                              .where((reservation) => reservation.reservationStatus == 'CheckIn')
-                              .map<DropdownMenuItem<Reservation>>((Reservation reservation) {
+                              .where((reservation) =>
+                                  reservation.reservationStatus == 'CheckIn')
+                              .map<DropdownMenuItem<Reservation>>(
+                                  (Reservation reservation) {
                             return DropdownMenuItem<Reservation>(
                               value: reservation,
                               child: Text(
@@ -363,7 +380,7 @@ class ServiceDetailScreenState extends State<ServiceDetailScreen> implements Lis
   Widget _buildChnphng(BuildContext context) {
     return CustomElevatedButton(
       onPressed: () async {
-        if(selectedReservation == null){
+        if (selectedReservation == null) {
           AwesomeDialog(
             context: context,
             animType: AnimType.scale,
@@ -380,8 +397,12 @@ class ServiceDetailScreenState extends State<ServiceDetailScreen> implements Lis
           ).show();
         }
         // print((selectedReservation?.reservationId).toString());
-        Order newOrder = await _orderPresenter.createOrder((selectedReservation?.reservationId).toString());
-        await _orderDetailPresenter.createOrderDetail((newOrder.orderId).toString(), (widget.service.serviceId).toString(), quantity);
+        Order newOrder = await _orderPresenter
+            .createOrder((selectedReservation?.reservationId).toString());
+        await _orderDetailPresenter.createOrderDetail(
+            (newOrder.orderId).toString(),
+            (widget.service.serviceId).toString(),
+            quantity);
         AwesomeDialog(
           context: context,
           animType: AnimType.scale,

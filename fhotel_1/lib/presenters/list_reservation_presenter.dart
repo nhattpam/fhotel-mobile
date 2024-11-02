@@ -39,6 +39,7 @@ class ListReservationPresenter {
   Future<void> updateReservation(
       String reservationId,
       int numberOfRooms,
+      String code,
       String roomTypeId,
       String checkInDate,
       String checkOutDate,
@@ -54,6 +55,7 @@ class ListReservationPresenter {
     Reservation reservation = Reservation(
         reservationId: reservationId,
         numberOfRooms: numberOfRooms,
+        code: code,
         roomTypeId: roomTypeId,
         checkInDate: checkInDate,
         checkOutDate: checkOutDate,

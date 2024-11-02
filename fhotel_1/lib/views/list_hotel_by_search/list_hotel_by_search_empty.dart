@@ -1,15 +1,10 @@
 import 'package:fhotel_1/core/app_export.dart';
-import 'package:fhotel_1/core/utils/skeleton.dart';
 import 'package:fhotel_1/data/models/hotel_image.dart';
-import 'package:fhotel_1/data/repository/list_hotel_repo.dart';
-import 'package:fhotel_1/presenters/list_hotel_presenter.dart';
 import 'package:fhotel_1/views/hotel_edit_search/hotel_edit_search.dart';
 import 'package:fhotel_1/views/hotel_listing_filter_bottomsheet/hotel_listing_filter_bottomsheet.dart';
-import 'package:fhotel_1/views/hotel_listing_nearby_screen/widgets/list_one_item_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../../data/models/hotel.dart';
-import '../hotel_listing_nearby_screen/list_hotel_view.dart';
 
 class ListHotelBySearchEmpty extends StatefulWidget {
   @override

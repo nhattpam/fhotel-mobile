@@ -1,4 +1,5 @@
 import 'package:badges/badges.dart' as badges; // Alias the badges package
+import 'package:fhotel_1/core/utils/skeleton.dart';
 import 'package:fhotel_1/data/models/service.dart';
 import 'package:fhotel_1/data/repository/list_service.dart';
 import 'package:fhotel_1/data/repository/service_type_repo.dart';
@@ -165,11 +166,29 @@ class ServiceListingScreenState extends State<ServiceListingScreen>
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Image.network(
-                                        service.image.toString(),
+                                      service.image != null && service.image != 'string'
+                                     ? Container(
                                         height: 140.h,
                                         width: double.maxFinite,
-                                        // radius: BorderRadius.circular(10.h),
+                                       decoration: BoxDecoration(
+                                         borderRadius: BorderRadius.circular(10.h)
+                                       ),
+                                       child: Image.network(
+                                          service.image.toString(),
+                                          height: 140.h,
+                                          width: double.maxFinite,
+                                        ),
+                                     )
+                                      : Container(
+                                        height: 140.h,
+                                        width: double.maxFinite,
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(10.h)
+                                        ),
+                                        child: Skeleton(
+                                          height: 140.h,
+                                          width: double.maxFinite,
+                                        ),
                                       ),
                                       SizedBox(height: 6.h),
                                       Text(

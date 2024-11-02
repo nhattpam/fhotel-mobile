@@ -1,4 +1,3 @@
-import 'package:fhotel_1/data/models/hotel_image.dart';
 import 'package:fhotel_1/views/hotel_listing_nearby_screen/list_hotel_view.dart';
 
 import '../data/models/hotel.dart';

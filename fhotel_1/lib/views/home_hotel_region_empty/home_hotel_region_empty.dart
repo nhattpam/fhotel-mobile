@@ -4,6 +4,7 @@ import 'package:fhotel_1/data/repository/search_service.dart';
 import 'package:fhotel_1/presenters/search_presenter.dart';
 import 'package:fhotel_1/views/home_check_in_date_default/home_check_in_date_default.dart';
 import 'package:fhotel_1/views/home_destination_default/home_destination_default.dart';
+import 'package:fhotel_1/views/home_hotel_region_empty/location_view.dart';
 import 'package:fhotel_1/views/home_hotel_region_empty/widgets/maincontent_item_widget.dart';
 import 'package:fhotel_1/views/home_hotel_region_empty/widgets/maincontent_one_item_widget.dart';
 import 'package:fhotel_1/views/hotel_listing_nearby_screen/list_hotel_view.dart';
@@ -16,6 +17,7 @@ import '../../data/models/hotel.dart';
 import '../../data/models/search.dart';
 import '../../data/repository/list_hotel_repo.dart';
 import '../../presenters/list_hotel_presenter.dart';
+import '../../presenters/location_presenter.dart';
 import '../home_filter_bottomsheet/home_filter_bottomsheet.dart';
 import '../home_room_guest_default/home_room_guest_default.dart';
 
@@ -28,15 +30,17 @@ class HomeHotelRegionEmptyScreen extends StatefulWidget {
 }
 
 class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
-    implements ListHotelView, SearchView {
+    implements ListHotelView, SearchView, LocationView {
   int sliderIndex = 1;
   int _currentIndex = 0;
   String dateStarSelected = DateFormat('dd/MM/yyyy').format(DateTime.now());
-  String dateEndSelected = DateFormat('dd/MM/yyyy').format(DateTime.now().add(Duration(days: 1)));
+  String dateEndSelected =
+      DateFormat('dd/MM/yyyy').format(DateTime.now().add(Duration(days: 1)));
   List<Map<String, dynamic>> selectedRoomData = [];
   String _searchQuery = ''; // Add a variable to store the search query
   late SearchPresenter _searchPresenter;
   late HotelPresenter _presenter;
+  late LocationPresenter _locationPresenter;
   bool _isLoading = false;
   List<Hotel> _hotels = [];
   List<Hotel> listHotels = [];
@@ -46,6 +50,8 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
   int quantity = 0; // Add a variable to store the search query
   HotelImage? _hotelImage;
   List<Map<String, dynamic>> hotelSessions = [];
+  List<String> distance = [];
+  Position? _currentPosition;
 
   @override
   void initState() {
@@ -53,8 +59,10 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
     _presenter = HotelPresenter(this, ListHotelRepo());
     _presenter.getHotels(); // Fetch the list of hotels when the screen loads
     _searchPresenter = SearchPresenter(this, SearchService());
+    _locationPresenter = LocationPresenter(this);
     _loadHotelSessions();
   }
+
   Future<void> _loadHotelSessions() async {
     final sessionManager = SessionManager();
     await sessionManager.init();
@@ -63,6 +71,7 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
       hotelSessions = sessionManager.getHotelSessions();
     });
   }
+
   void _showModalBottomSheet(BuildContext context) async {
     final result = await showModalBottomSheet(
       context: context,
@@ -90,7 +99,8 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
               // Update the state with the selected date
               setState(() {
                 // Format the date as desired, here I’m using the default DateTime format
-                dateStarSelected = DateFormat('dd/MM/yyyy').format(selectedDate);
+                dateStarSelected =
+                    DateFormat('dd/MM/yyyy').format(selectedDate);
               });
             }
           },
@@ -99,8 +109,7 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
               // Update the state with the selected date
               setState(() {
                 // Format the date as desired, here I’m using the default DateTime format
-                dateEndSelected =
-                    DateFormat('dd/MM/yyyy').format(selectedDate);
+                dateEndSelected = DateFormat('dd/MM/yyyy').format(selectedDate);
               });
             }
           },
@@ -348,10 +357,15 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
                               ),
                             ),
                             SizedBox(width: 6.h),
+
                             ///Test current Location
                             Padding(
                               padding: EdgeInsets.only(top: 10.h),
                               child: CustomIconButton(
+                                onTap: () async {
+                                  await _locationPresenter.requestPermission();
+                                  _locationPresenter.getCurrentLocation();
+                                },
                                 height: 24.h,
                                 width: 24.h,
                                 padding: EdgeInsets.all(4.h),
@@ -608,26 +622,34 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
                         onPressed: () async {
                           await _searchPresenter.searchListRoomTypes(
                               searchRequests, _searchQuery);
-                          listHotels.isNotEmpty
-                          /// Navigator to list hotel
-                          ? Navigator.pushNamed(
-                            context,
-                            AppRoutes.hotelListingBySearch,
-                            arguments: {
-                              "listHotels": listHotels,
-                              "checkInDate": dateStarSelected,
-                              "checkOutDate": dateEndSelected,
-                              "numberOfRooms": quantity,
-                              "city": _searchQuery,
-                            },
-                          )
-                          : Navigator.pushNamed(context, AppRoutes.hotelListingBySearchEmpty, arguments: {
-                            "listHotels": listHotels,
-                            "checkInDate": dateStarSelected,
-                            "checkOutDate": dateEndSelected,
-                            "numberOfRooms": quantity,
-                            "city": _searchQuery,
-                          },);
+                             await _locationPresenter.requestPermission();
+                             await _locationPresenter.calculateDistance(listHotels);
+                             print(distance);
+                              listHotels.isNotEmpty
+                              /// Navigator to list hotel
+                              ? Navigator.pushNamed(
+                                  context,
+                                  AppRoutes.hotelListingBySearch,
+                                  arguments: {
+                                    "listHotels": listHotels,
+                                    "checkInDate": dateStarSelected,
+                                    "checkOutDate": dateEndSelected,
+                                    "numberOfRooms": quantity,
+                                    "city": _searchQuery,
+                                    "distance": distance
+                                  },
+                                )
+                              : Navigator.pushNamed(
+                                  context,
+                                  AppRoutes.hotelListingBySearchEmpty,
+                                  arguments: {
+                                    "listHotels": listHotels,
+                                    "checkInDate": dateStarSelected,
+                                    "checkOutDate": dateEndSelected,
+                                    "numberOfRooms": quantity,
+                                    "city": _searchQuery,
+                                  },
+                                );
                         },
                         buttonStyle: CustomButtonStyles.fillBlue,
                         buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,
@@ -688,7 +710,13 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
               itemCount: hotelSessions.length,
               itemBuilder: (context, index) {
                 final session = hotelSessions[index];
-                return MaincontentItemWidget(name: session['hotelName'], address: session['address'], checkInDate: dateStarSelected, checkOutDate: dateEndSelected, hotelId: session['hotelId'],);
+                return MaincontentItemWidget(
+                  name: session['hotelName'],
+                  address: session['address'],
+                  checkInDate: dateStarSelected,
+                  checkOutDate: dateEndSelected,
+                  hotelId: session['hotelId'],
+                );
               },
             ),
           ),
@@ -804,52 +832,55 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
             ),
           ),
           (_hotels.isNotEmpty)
-          ? SizedBox(
-            height: 128.h,
-            width: 344.h,
-            child: ListView.separated(
-              cacheExtent: 1000,
-              padding: EdgeInsets.only(left: 14.h),
-              scrollDirection: Axis.horizontal,
-              separatorBuilder: (context, index) {
-                return SizedBox(
-                  width: 8.h,
-                );
-              },
-              itemCount: _hotels.length,
-              itemBuilder: (context, index) {
-                return (_hotels[index].isActive ?? false)
-                    ? MaincontentOneltemWidget(
-                        hotelId: _hotels[index].hotelId.toString(),
-                        image: '',
-                        name: _hotels[index].hotelName.toString(),
-                        rate: _hotels[index]?.star ?? 0,
-                        description: _hotels[index].description.toString(), checkInDate: dateStarSelected, checkOutDate: dateEndSelected,
-                      )
-                    : const SizedBox();
-              },
-            ),
-          )
-          : SizedBox(
-            height: 128.h,
-            width: 344.h,
-            child: ListView.separated(
-              padding: EdgeInsets.only(left: 14.h),
-              scrollDirection: Axis.horizontal,
-              separatorBuilder: (context, index) {
-                return SizedBox(
-                  width: 8.h,
-                );
-              },
-              itemCount: 4,
-              itemBuilder: (context, index) {
-                return Skeleton(
+              ? SizedBox(
                   height: 128.h,
-                  width: 150.h,
-                );
-              },
-            ),
-          )
+                  width: 344.h,
+                  child: ListView.separated(
+                    cacheExtent: 1000,
+                    padding: EdgeInsets.only(left: 14.h),
+                    scrollDirection: Axis.horizontal,
+                    separatorBuilder: (context, index) {
+                      return SizedBox(
+                        width: 8.h,
+                      );
+                    },
+                    itemCount: _hotels.length,
+                    itemBuilder: (context, index) {
+                      return (_hotels[index].isActive ?? false)
+                          ? MaincontentOneltemWidget(
+                              hotelId: _hotels[index].hotelId.toString(),
+                              image: '',
+                              name: _hotels[index].hotelName.toString(),
+                              rate: _hotels[index]?.star ?? 0,
+                              description:
+                                  _hotels[index].description.toString(),
+                              checkInDate: dateStarSelected,
+                              checkOutDate: dateEndSelected,
+                            )
+                          : const SizedBox();
+                    },
+                  ),
+                )
+              : SizedBox(
+                  height: 128.h,
+                  width: 344.h,
+                  child: ListView.separated(
+                    padding: EdgeInsets.only(left: 14.h),
+                    scrollDirection: Axis.horizontal,
+                    separatorBuilder: (context, index) {
+                      return SizedBox(
+                        width: 8.h,
+                      );
+                    },
+                    itemCount: 4,
+                    itemBuilder: (context, index) {
+                      return Skeleton(
+                        height: 128.h,
+                        width: 150.h,
+                      );
+                    },
+                  ),
+                )
         ],
       ),
     );
@@ -964,8 +995,7 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
 
   @override
   void onGetHotelImagesSuccess(List<HotelImage> hotels) {
-    setState(() {
-    });
+    setState(() {});
   }
 
   @override
@@ -974,5 +1004,31 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
     setState(() {
       _hotelImage = hotels;
     });
+  }
+
+  @override
+  void updatePosition(Position position) {
+    setState(() {
+      _currentPosition = position;
+    });
+  }
+
+  @override
+  void updateAddress(String address) {
+    setState(() {
+      _searchQuery = address;
+    });
+  }
+
+  @override
+  void updateDistance(List<String> distances) {
+    setState(() {
+      distance = distances;
+    });
+  }
+
+  @override
+  void updateHotel(List<Hotel> hotels) {
+    // TODO: implement updateHotel
   }
 }

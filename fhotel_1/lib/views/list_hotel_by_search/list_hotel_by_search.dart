@@ -3,6 +3,8 @@ import 'package:fhotel_1/core/utils/skeleton.dart';
 import 'package:fhotel_1/data/models/hotel_image.dart';
 import 'package:fhotel_1/data/repository/list_hotel_repo.dart';
 import 'package:fhotel_1/presenters/list_hotel_presenter.dart';
+import 'package:fhotel_1/presenters/location_presenter.dart';
+import 'package:fhotel_1/views/home_hotel_region_empty/location_view.dart';
 import 'package:fhotel_1/views/hotel_edit_search/hotel_edit_search.dart';
 import 'package:fhotel_1/views/hotel_listing_filter_bottomsheet/hotel_listing_filter_bottomsheet.dart';
 import 'package:fhotel_1/views/hotel_listing_nearby_screen/widgets/list_one_item_widget.dart';
@@ -13,14 +15,14 @@ import '../hotel_listing_nearby_screen/list_hotel_view.dart';
 
 class ListHotelBySearch extends StatefulWidget {
   @override
-  _ListHotelBySearchState createState() =>
-      _ListHotelBySearchState();
+  _ListHotelBySearchState createState() => _ListHotelBySearchState();
 }
 
 class _ListHotelBySearchState extends State<ListHotelBySearch>
-    implements ListHotelView {
+    implements ListHotelView, LocationView {
   bool _isLoading = false;
   List<Hotel> listHotel = [];
+  List<String> distance = [];
   List<Hotel> listHotel2 = [];
   List<HotelImage> _hotelImage = [];
   String? checkInDate;
@@ -34,16 +36,21 @@ class _ListHotelBySearchState extends State<ListHotelBySearch>
   int? numberOfDays;
   Key _pageKey = UniqueKey();
   late HotelPresenter _presenter;
+  late LocationPresenter _locationPresenter;
+
+  Position? _currentPosition;
+  bool _sortByClosest = true;
+
   @override
   void initState() {
     super.initState();
     _presenter = HotelPresenter(this, ListHotelRepo());
+    _locationPresenter = LocationPresenter(this);
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-
     // Safely retrieve and cast the arguments
     final arguments = ModalRoute.of(context)?.settings.arguments;
     if (arguments != null && arguments is Map) {
@@ -60,14 +67,18 @@ class _ListHotelBySearchState extends State<ListHotelBySearch>
         } else {
           print('Error: Invalid listHotels argument');
         }
-      }
-
-      );
+        final _distance = arguments['distance'];
+        if (_distance is List<String>) {
+          distance = _distance;
+        } else {
+          print('Error: Invalid distance argument');
+        }
+      });
     } else {
       // Handle the case where arguments are null or not a Map
       print('Error: No arguments found or invalid argument type');
     }
-   }
+  }
 
   void _showHotelFilterModalBottomSheet(BuildContext context) {
     showModalBottomSheet(
@@ -95,7 +106,8 @@ class _ListHotelBySearchState extends State<ListHotelBySearch>
     if (result != null) {
       setState(() {
         checkInDate2 = result['checkInDate'] ?? checkInDate;
-        listHotel2 = result['listHotels'] ?? listHotel;  // Update listHotels with the new search result
+        listHotel2 = result['listHotels'] ??
+            listHotel; // Update listHotels with the new search result
         numberOfRooms2 = result['numberOfRooms'] ?? numberOfRooms;
         checkOutDate2 = result['checkOutDate'] ?? checkOutDate;
         city2 = result['city'] ?? city;
@@ -258,7 +270,9 @@ class _ListHotelBySearchState extends State<ListHotelBySearch>
             child: Padding(
               padding: EdgeInsets.only(left: 4.h),
               child: Text(
-                (checkInDate2?.isNotEmpty ?? false) ? checkInDate2.toString() : checkInDate.toString(),
+                (checkInDate2?.isNotEmpty ?? false)
+                    ? checkInDate2.toString()
+                    : checkInDate.toString(),
                 style: CustomTextStyles.bodyMediumwhiteA700,
               ),
             ),
@@ -287,7 +301,9 @@ class _ListHotelBySearchState extends State<ListHotelBySearch>
           Padding(
             padding: EdgeInsets.only(left: 4.h),
             child: Text(
-              (numberOfRooms2 != 0) ? numberOfRooms2.toString() : numberOfRooms.toString(),
+              (numberOfRooms2 != 0)
+                  ? numberOfRooms2.toString()
+                  : numberOfRooms.toString(),
               style: CustomTextStyles.bodyMediumwhiteA700,
             ),
           ),
@@ -295,7 +311,7 @@ class _ListHotelBySearchState extends State<ListHotelBySearch>
             padding: EdgeInsets.only(left: 20.h),
             child: CustomIconButton(
               onTap: () async {
-                 _showEditSearchModalBottomSheet(context);
+                _showEditSearchModalBottomSheet(context);
               },
               height: 24.h,
               width: 24.h,
@@ -344,8 +360,15 @@ class _ListHotelBySearchState extends State<ListHotelBySearch>
             ),
           ),
           CustomOutlinedButton(
+            onPressed: () async {
+              await _locationPresenter.requestPermission();
+              await _locationPresenter.sortDistance(listHotel, _sortByClosest);
+              setState(() {
+                _sortByClosest = !_sortByClosest;
+              });
+            },
             width: 102.h,
-            text: "Gần nhất",
+            text: _sortByClosest ? "Gần nhất" : "Xa nhất",
             leftIcon: Container(
               margin: EdgeInsets.only(right: 4.h),
               child: CustomImageView(
@@ -367,54 +390,63 @@ class _ListHotelBySearchState extends State<ListHotelBySearch>
   Widget _buildListOne(BuildContext context) {
     return _isLoading
         ? ListView.separated(
-      padding: EdgeInsets.zero,
-      physics: const NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      separatorBuilder: (context, index) {
-        return SizedBox(
-          height: 12.h,
-        );
-      },
-      itemCount: 4,
-      itemBuilder: (context, index) {
-        return Container(
-            padding: EdgeInsets.symmetric(
-              horizontal: 12.h,
-              vertical: 10.h,
-            ),
-            child: const Skeleton(
-              height: 120,
-              width: 120,
-            ));
-      },
-    )
+            padding: EdgeInsets.zero,
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            separatorBuilder: (context, index) {
+              return SizedBox(
+                height: 12.h,
+              );
+            },
+            itemCount: 4,
+            itemBuilder: (context, index) {
+              return Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 12.h,
+                    vertical: 10.h,
+                  ),
+                  child: const Skeleton(
+                    height: 120,
+                    width: 120,
+                  ));
+            },
+          )
         : ListView.separated(
-      padding: EdgeInsets.zero,
-      physics: const NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      separatorBuilder: (context, index) {
-        return SizedBox(
-          height: 12.h,
-        );
-      },
-      itemCount: (listHotel2.isNotEmpty) ? listHotel2.length : listHotel.length,
-      itemBuilder: (context, index) {
-        final currentList = (listHotel2.isNotEmpty) ? listHotel2 : listHotel;
-        return
-          // _hotels[index].isActive ?? false
-          // ?
-          ListHotelWidget(
-            hotelId: currentList[index].hotelId.toString() ?? "",
-            name: currentList[index].hotelName.toString() ?? "",
-            address: currentList[index].address.toString() ?? "",
-            checkInDate: (checkInDate2?.isNotEmpty ?? false) ? checkInDate2.toString() : checkInDate.toString(),
-            checkOutDate: (checkOutDate2?.isNotEmpty ?? false) ? checkOutDate2.toString() : checkOutDate.toString(),
-            numberOfRooms: (numberOfRooms2 != 0) ? numberOfRooms2 : numberOfRooms,
-            image: '',
+            padding: EdgeInsets.zero,
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            separatorBuilder: (context, index) {
+              return SizedBox(
+                height: 12.h,
+              );
+            },
+            itemCount:
+                (listHotel2.isNotEmpty) ? listHotel2.length : listHotel.length,
+            itemBuilder: (context, index) {
+              final currentList =
+                  (listHotel2.isNotEmpty) ? listHotel2 : listHotel;
+              return
+                  // _hotels[index].isActive ?? false
+                  // ?
+                  ListHotelWidget(
+                hotelId: currentList[index].hotelId.toString(),
+                name: currentList[index].hotelName.toString(),
+                address:
+                    '${currentList[index].address}, ${currentList[index].district?.districtName}, ${currentList[index].district?.city?.cityName}',
+                checkInDate: (checkInDate2?.isNotEmpty ?? false)
+                    ? checkInDate2.toString()
+                    : checkInDate.toString(),
+                checkOutDate: (checkOutDate2?.isNotEmpty ?? false)
+                    ? checkOutDate2.toString()
+                    : checkOutDate.toString(),
+                numberOfRooms:
+                    (numberOfRooms2 != 0) ? numberOfRooms2 : numberOfRooms,
+                image: '',
+                distance: distance.isNotEmpty ? distance[index] : '',
+              );
+              // : Container();
+            },
           );
-        // : Container();
-      },
-    );
   }
 
   @override
@@ -459,5 +491,29 @@ class _ListHotelBySearchState extends State<ListHotelBySearch>
   @override
   void onGetSingleHotelImageSuccess(HotelImage hotels) {
     // TODO: implement onGetSingleHotelImageSuccess
+  }
+
+  @override
+  void updateAddress(String address) {
+    // TODO: implement updateAddress
+  }
+
+  @override
+  void updateDistance(List<String> distances) {
+    setState(() {
+      distance = distances;
+    });
+  }
+
+  @override
+  void updateHotel(List<Hotel> hotels) {
+    setState(() {
+      listHotel = hotels;
+    });
+  }
+
+  @override
+  void updatePosition(Position position) {
+    // TODO: implement updatePosition
   }
 }

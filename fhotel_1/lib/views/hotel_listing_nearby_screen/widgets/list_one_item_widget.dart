@@ -15,8 +15,9 @@ class ListHotelWidget extends StatefulWidget {
   final String checkInDate;
   final String checkOutDate;
   final String address;
+  final String distance;
   final int numberOfRooms;
-  const ListHotelWidget({super.key, required this.hotelId ,required this.image, required this.name,required this.address, required this.checkInDate, required this.checkOutDate, required this.numberOfRooms});
+  const ListHotelWidget({super.key, required this.hotelId ,required this.image, required this.name,required this.address, required this.checkInDate, required this.checkOutDate, required this.numberOfRooms, required this.distance});
 
   @override
   _ListHotelWidgetState createState() => _ListHotelWidgetState();
@@ -32,6 +33,20 @@ class _ListHotelWidgetState extends State<ListHotelWidget> implements ListHotelV
     super.initState();
     _presenter = HotelPresenter(this, ListHotelRepo());
     _presenter.getHotelImage(widget.hotelId); // Fetch the list of hotels when the screen loads
+    _fetchHotelImage();
+  }
+
+  @override
+  void didUpdateWidget(covariant ListHotelWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Check if the hotelId has changed (e.g., after sorting)
+    if (oldWidget.hotelId != widget.hotelId) {
+      _fetchHotelImage(); // Re-fetch the hotel image when the widget is updated
+    }
+  }
+
+  void _fetchHotelImage() {
+    _presenter.getHotelImage(widget.hotelId);
   }
 
   @override
@@ -117,34 +132,41 @@ class _ListHotelWidgetState extends State<ListHotelWidget> implements ListHotelV
                         width: double.maxFinite,
                       ),
                     ),
-                    // IntrinsicHeight(
-                    //   child: Align(
-                    //     alignment: Alignment.bottomCenter,
-                    //     child: Container(
-                    //       height: 100.h,
-                    //       padding: EdgeInsets.symmetric(vertical: 4.h),
-                    //       child: Row(
-                    //         crossAxisAlignment: CrossAxisAlignment.end,
-                    //         children: [
-                    //           CustomImageView(
-                    //             color: appTheme.whiteA700,
-                    //             imagePath: ImageConstant.imgIconWrapper13,
-                    //             height: 24.h,
-                    //             width: 24.h,
-                    //             margin: EdgeInsets.only(top: 28.h),
-                    //           ),
-                    //           Padding(
-                    //             padding: EdgeInsets.only(bottom: 2.h),
-                    //             child: Text(
-                    //               "380m",
-                    //               style: CustomTextStyles.bodySmallWhiteA700,
-                    //             ),
-                    //           )
-                    //         ],
-                    //       ),
-                    //     ),
-                    //   ),
-                    // )
+                    ///Test Location Distance
+                    widget.distance != null && widget.distance.isNotEmpty
+                    ? IntrinsicHeight(
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Container(
+                          height: 100.h,
+                          padding: EdgeInsets.symmetric(vertical: 4.h),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              CustomImageView(
+                                color: appTheme.black900,
+                                imagePath: ImageConstant.imgIconWrapper13,
+                                height: 24.h,
+                                width: 24.h,
+                                margin: EdgeInsets.only(top: 28.h),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(bottom: 2.h),
+                                child: Text(
+                                  "${widget.distance} km",
+                                  style: CustomTextStyles.bodyLargeBlue.copyWith(
+                                    fontSize: 16.0, // Adjust the font size as needed
+                                    fontWeight: FontWeight.bold, // Make the text bold
+                                    color: Colors.black, // You can specify a different color if needed
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    )
+                        : Skeleton()
                   ],
                 ),
               ),

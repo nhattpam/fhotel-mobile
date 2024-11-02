@@ -5,6 +5,7 @@ import 'package:fhotel_1/data/models/user.dart';
 class Reservation {
   String? customerId;
   String? reservationId;
+  String? code;
   String? checkInDate;
   String? checkOutDate;
   double? totalAmount;
@@ -23,6 +24,7 @@ class Reservation {
   Reservation(
       {this.customerId,
       this.reservationId,
+      this.code,
         this.checkInDate,
         this.checkOutDate,
         this.totalAmount,
@@ -42,6 +44,7 @@ class Reservation {
   Reservation.fromJson(Map<String, dynamic> json) {
     customerId = json['customerId'];
     reservationId = json['reservationId'];
+    code = json['code'];
     checkInDate = json['checkInDate'];
     checkOutDate = json['checkOutDate'];
     totalAmount = json['totalAmount'];
@@ -62,6 +65,7 @@ class Reservation {
     final Map<String, dynamic> data =  Map<String, dynamic>();
     data['customerId'] = customerId;
     data['reservationId'] = reservationId;
+    data['code'] = code;
     data['checkInDate'] = checkInDate;
     data['checkOutDate'] = checkOutDate;
     data['totalAmount'] = totalAmount;

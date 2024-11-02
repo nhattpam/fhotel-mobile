@@ -505,7 +505,52 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> {
                     ],
                   ),
                 ),
-                SizedBox(height: 16.h),
+                SizedBox(height: 8.h),
+                SizedBox(
+                  width: double.maxFinite,
+                  child: Divider(),
+                ),
+                SizedBox(height: 8.h),
+
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 16.h),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 16.h,
+                    vertical: 8.h,
+                  ),
+                  decoration: BoxDecoration(
+                    color: appTheme.blue50,
+                    borderRadius: BorderRadiusStyle.roundedBorder8,
+                  ),
+                  width: double.maxFinite,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Mã đặt chỗ",
+                              style: theme.textTheme.bodyMedium,
+                            ),
+                            SizedBox(height: 4.h),
+                            Text(
+                              (widget.reservation?.code).toString(),
+                              style: theme.textTheme.titleSmall,
+                            )
+                          ],
+                        ),
+                      ),
+                      CustomImageView(
+                        color: Colors.blueAccent,
+                        imagePath: ImageConstant.imgIconWrapper20,
+                        height: 24.h,
+                        width: 24.h,
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(height: 8.h),
               ],
             ),
           )

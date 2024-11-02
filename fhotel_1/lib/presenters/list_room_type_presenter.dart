@@ -1,4 +1,3 @@
-import 'package:fhotel_1/data/models/room_image.dart';
 import 'package:fhotel_1/data/repository/list_room_type_repo.dart';
 import 'package:fhotel_1/views/choose_room/choose_room_view.dart';
 

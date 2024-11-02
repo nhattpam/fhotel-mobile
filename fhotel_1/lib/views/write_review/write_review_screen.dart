@@ -1,20 +1,23 @@
 import 'package:fhotel_1/core/app_export.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:fhotel_1/presenters/create_feedback_presenter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
-class WriteReviewScreen extends StatelessWidget {
-  WriteReviewScreen({super.key});
+class WriteReviewScreen extends StatefulWidget {
+  const WriteReviewScreen({Key? key}) : super(key: key);
 
+  @override
+  WriteReviewScreenState createState() => WriteReviewScreenState();
+}
+
+class WriteReviewScreenState extends State<WriteReviewScreen> {
   TextEditingController titleInputController = TextEditingController();
 
   TextEditingController reviewsInputController = TextEditingController();
 
-  TextEditingController usernameInputController = TextEditingController();
-
-  TextEditingController emailInputController = TextEditingController();
-
+  double rating = 0;
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  late CreateFeedbackPresenter _presenter;
 
   @override
   Widget build(BuildContext context) {
@@ -51,9 +54,7 @@ class WriteReviewScreen extends StatelessWidget {
                             children: [
                               Text(
                                 "Đánh giá: ",
-                                style: TextStyle(
-                                  color: Colors.black
-                                ),
+                                style: TextStyle(color: Colors.black),
                               ),
                               Container(
                                 width: 210,
@@ -64,12 +65,14 @@ class WriteReviewScreen extends StatelessWidget {
                                     allowHalfRating: true,
                                     itemCount: 5,
                                     itemPadding:
-                                    EdgeInsets.symmetric(horizontal: 4),
+                                        EdgeInsets.symmetric(horizontal: 4),
                                     itemBuilder: (context, index) => Icon(
                                         Icons.star,
                                         color: Colors.amberAccent),
                                     onRatingUpdate: (rate) async {
-
+                                      setState(() {
+                                        rating = rate;
+                                      });
                                     },
                                     itemSize: 30),
                               )
@@ -165,9 +168,12 @@ class WriteReviewScreen extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildChnphng(BuildContext context) {
     return CustomElevatedButton(
       onPressed: () {
+        /// '' = reservationId
+        _presenter.createFeedbacks('', reviewsInputController.text, rating);
         Navigator.pop(context);
       },
       text: "Đánh giá",
@@ -175,5 +181,4 @@ class WriteReviewScreen extends StatelessWidget {
       buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,
     );
   }
-
 }

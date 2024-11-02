@@ -101,6 +101,7 @@ class CheckoutScreenState extends State<CheckoutScreen>
                     _presenter.updateReservation(
                         (widget.reservation.reservationId).toString(),
                         (widget.reservation.numberOfRooms ?? 0),
+                        (widget.reservation.code).toString(),
                         (widget.reservation.roomTypeId).toString(),
                         (widget.reservation.checkInDate).toString(),
                         (widget.reservation.checkOutDate).toString(),
@@ -125,6 +126,7 @@ class CheckoutScreenState extends State<CheckoutScreen>
                     _presenter.updateReservation(
                         (widget.reservation.reservationId).toString(),
                         (widget.reservation.numberOfRooms ?? 0),
+                        (widget.reservation.code).toString(),
                         (widget.reservation.roomTypeId).toString(),
                         (widget.reservation.checkInDate).toString(),
                         (widget.reservation.checkOutDate).toString(),
@@ -168,8 +170,7 @@ class CheckoutScreenState extends State<CheckoutScreen>
   }
 
   void _showPaymentSuccessDialog(BuildContext context) async {
-    await _presenter
-        .getReservationById(widget.reservation.reservationId.toString());
+    await _presenter.getReservationById(widget.reservation.reservationId.toString());
     if (_reservation?.paymentStatus == 'Paid') {
       AwesomeDialog(
         context: context,
@@ -919,6 +920,7 @@ class CheckoutScreenState extends State<CheckoutScreen>
           await _presenter.updateReservation(
               (widget.reservation.reservationId).toString(),
               (widget.reservation.numberOfRooms ?? 0),
+              (widget.reservation.code).toString(),
               (widget.reservation.roomTypeId).toString(),
               (widget.reservation.checkInDate).toString(),
               (widget.reservation.checkOutDate).toString(),

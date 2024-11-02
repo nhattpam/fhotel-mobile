@@ -360,6 +360,7 @@ class _HotelListingNearbyScreenState extends State<HotelListingNearbyScreen>
                   checkOutDate: '2/11/2024',
                   numberOfRooms: 1,
                   image: '',
+                  distance: '',
                 ),
               );
             },

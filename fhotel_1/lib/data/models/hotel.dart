@@ -1,3 +1,5 @@
+import 'package:fhotel_1/data/models/district.dart';
+
 class Hotel {
   String? hotelId;
   String? hotelName;
@@ -12,7 +14,7 @@ class Hotel {
   String? createdDate;
   String? updatedDate;
   bool? isActive;
-  City? city;
+  District? district;
   Owner? owner;
 
   Hotel(
@@ -29,7 +31,7 @@ class Hotel {
         this.createdDate,
         this.updatedDate,
         this.isActive,
-        this.city,
+        this.district,
         this.owner});
 
   Hotel.fromJson(Map<String, dynamic> json) {
@@ -46,7 +48,7 @@ class Hotel {
     createdDate = json['createdDate'];
     updatedDate = json['updatedDate'];
     isActive = json['isActive'];
-    city = json['city'] != null ? City.fromJson(json['city']) : null;
+    district = json['district'] != null ? District.fromJson(json['district']) : null;
     owner = json['owner'] != null ? Owner.fromJson(json['owner']) : null;
   }
 
@@ -65,8 +67,8 @@ class Hotel {
     data['createdDate'] = createdDate;
     data['updatedDate'] = updatedDate;
     data['isActive'] = isActive;
-    if (city != null) {
-      data['city'] = city!.toJson();
+    if (district != null) {
+      data['district'] = district!.toJson();
     }
     if (owner != null) {
       data['owner'] = owner!.toJson();

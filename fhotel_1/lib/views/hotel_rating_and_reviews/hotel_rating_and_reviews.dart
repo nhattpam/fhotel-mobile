@@ -12,8 +12,7 @@ class HotelDetailsRatingsReviewsScreen extends StatefulWidget {
       HotelDetailsRatingsReviewsScreenState();
 }
 
-class HotelDetailsRatingsReviewsScreenState
-    extends State<HotelDetailsRatingsReviewsScreen>
+class HotelDetailsRatingsReviewsScreenState extends State<HotelDetailsRatingsReviewsScreen>
     with TickerProviderStateMixin {
   late TabController tabviewController;
   GlobalKey<NavigatorState> navigatorKey = GlobalKey();
