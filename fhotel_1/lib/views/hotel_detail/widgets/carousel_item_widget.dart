@@ -27,7 +27,11 @@ class HotelDetailScreen extends StatefulWidget {
 
 class HotelDetailScreenState extends State<HotelDetailScreen>
     with TickerProviderStateMixin
-    implements HotelDetailView, LateCheckoutPolicyView, RefundPolicyView, ListHotelView {
+    implements
+        HotelDetailView,
+        LateCheckoutPolicyView,
+        RefundPolicyView,
+        ListHotelView {
   int sliderIndex = 1;
   late TabController tabviewController;
 
@@ -75,7 +79,8 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
       }
     });
     _presenter = HotelDetailPresenter(this);
-    _policyPresenter = LateCheckoutPolicyPresenter(this, LateCheckoutPolicyRepo());
+    _policyPresenter =
+        LateCheckoutPolicyPresenter(this, LateCheckoutPolicyRepo());
     _policyPresenter.getLateCheckOutPolicies();
     _policyRefundPresenter = RefundPolicyPresenter(this, RefundPolicyRepo());
     _policyRefundPresenter.getRefundPolicies();
@@ -117,14 +122,14 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
 
   void _showGuestPolicyModalBottomSheet(BuildContext context) {
     String cancellationTimeBefore9PM =
-    _refundPolicies[0].cancellationTime.toString();
+        _refundPolicies[0].cancellationTime.toString();
     String cancellationTimeAfter9PM =
-    _refundPolicies[1].cancellationTime.toString();
+        _refundPolicies[1].cancellationTime.toString();
 
     String refundPercentageBefore9PM =
-    _refundPolicies[0].refundPercentage.toString();
+        _refundPolicies[0].refundPercentage.toString();
     String refundPercentageAfter9PM =
-    _refundPolicies[1].refundPercentage.toString();
+        _refundPolicies[1].refundPercentage.toString();
 
     String descriptionBefore9PM = _refundPolicies[0].description.toString();
     String descriptionAfter9PM = _refundPolicies[1].description.toString();
@@ -135,9 +140,9 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
 
     String chargePercentageAfter6PM = _policies[0].chargePercentage.toString();
     String chargePercentageBetween6PM =
-    _policies[1].chargePercentage.toString();
+        _policies[1].chargePercentage.toString();
     String chargePercentageBetween2PM =
-    _policies[2].chargePercentage.toString();
+        _policies[2].chargePercentage.toString();
 
     showModalBottomSheet(
       context: context,
@@ -176,11 +181,11 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
               
               <p>Chúng tôi mong muốn phục vụ bạn, nhưng trong trường hợp kế hoạch thay đổi, quy trình hủy đơn giản của chúng tôi đảm bảo bạn nhận được xác nhận nhanh chóng và hoàn tiền nhanh chóng. Thời gian nhận phòng tiêu chuẩn là 2 giờ chiều và bạn có thể nhận phòng bất kỳ lúc nào sau đó cho đến khi đặt phòng hợp lệ.</p>
 
-              <ul>
-                <li>$descriptionBefore9PM	| Hủy miễn phí ($cancellationTimeBefore9PM, hoàn lại $refundPercentageBefore9PM%).</li>
-                <li>$descriptionAfter9PM	| $cancellationTimeAfter9PM, hoàn lại $refundPercentageAfter9PM%</li>
-              </ul>
-              
+               <ul>
+                 <li>$descriptionBefore9PM	| Hủy miễn phí ($cancellationTimeBefore9PM, hoàn lại $refundPercentageBefore9PM%).</li>
+                 <li>$descriptionAfter9PM	| $cancellationTimeAfter9PM, hoàn lại $refundPercentageAfter9PM%</li>
+               </ul>
+
               <h4>Trước khi nhận phòng</h4>
 
               <p>Chúng tôi sẽ hoàn lại đầy đủ cho bất kỳ đặt phòng nào hủy trước thời gian 24 giờ so với ngày nhận phòng đã lên lịch. Đối với bất kỳ hủy nào trong vòng 24 giờ trước khi nhận phòng đã lên lịch, toàn bộ số tiền đặt phòng sẽ được trừ làm phí hủy.</p>
@@ -296,10 +301,15 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     SizedBox(height: 2.h),
-                                    Text(
-                                      _hotel?.hotelName.toString() ?? '',
-                                      style: theme.textTheme.titleMedium,
-                                    ),
+                                    _hotel?.hotelName != null
+                                        ? Text(
+                                            _hotel?.hotelName.toString() ?? '',
+                                            style: theme.textTheme.titleMedium,
+                                          )
+                                        : Skeleton(
+                                            width: 200.h,
+                                            height: 20.h,
+                                          ),
                                     SizedBox(height: 10.h),
                                     Container(
                                       width: double.maxFinite,
@@ -328,34 +338,39 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
                                                   width: 24.h,
                                                 ),
                                                 SizedBox(width: 8.h),
-                                                _hotel?.district?.city?.cityName != null
-                                                ? Align(
-                                                  alignment: Alignment.center,
-                                                  child: SizedBox(
-                                                    width: 260.h,
-                                                    child: Text(
-                                                      "${_hotel?.address}, ${_hotel?.district?.districtName}, ${_hotel?.district?.city?.cityName}",
-                                                      maxLines: 2,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      style: theme
-                                                          .textTheme.bodyMedium!
-                                                          .copyWith(
-                                                        height: 1.50,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                )
-                                                : Align(
-                                                  alignment: Alignment.center,
-                                                  child: SizedBox(
-                                                    width: 260.h,
-                                                    child: Skeleton(
-                                                      width: 260.h,
-                                                      height: 50.h,
-                                                    )
-                                                  ),
-                                                )
+                                                _hotel?.district?.city
+                                                            ?.cityName !=
+                                                        null
+                                                    ? Align(
+                                                        alignment:
+                                                            Alignment.center,
+                                                        child: SizedBox(
+                                                          width: 260.h,
+                                                          child: Text(
+                                                            "${_hotel?.address}, ${_hotel?.district?.districtName}, ${_hotel?.district?.city?.cityName}",
+                                                            maxLines: 2,
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            style: theme
+                                                                .textTheme
+                                                                .bodyMedium!
+                                                                .copyWith(
+                                                              height: 1.50,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      )
+                                                    : Align(
+                                                        alignment:
+                                                            Alignment.center,
+                                                        child: SizedBox(
+                                                            width: 260.h,
+                                                            child: Skeleton(
+                                                              width: 260.h,
+                                                              height: 50.h,
+                                                            )),
+                                                      )
                                               ],
                                             ),
                                           )
@@ -409,9 +424,10 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
                                                             context,
                                                             AppRoutes
                                                                 .hotelRatingAndReviews,
-                                                        arguments:{
-                                                          "listHotels": _feedbacks,
-                                                        });
+                                                            arguments: {
+                                                              "listHotels":
+                                                                  _feedbacks,
+                                                            });
                                                       },
                                                       color: Colors.blueAccent,
                                                       imagePath: ImageConstant
@@ -475,12 +491,17 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
                                                               ],
                                                             ),
                                                           ),
-                                                          Text(
-                                                            "từ ${_feedbacks.length} lượt đánh giá",
-                                                            style: theme
-                                                                .textTheme
-                                                                .bodySmall,
-                                                          )
+                                                          _feedbacks.isNotEmpty
+                                                              ? Text(
+                                                                  "từ ${_feedbacks.length} lượt đánh giá",
+                                                                  style: theme
+                                                                      .textTheme
+                                                                      .bodySmall,
+                                                                )
+                                                              : Skeleton(
+                                                                  width: 170.h,
+                                                                  height: 10.h,
+                                                                )
                                                         ],
                                                       ),
                                                     )
@@ -493,7 +514,107 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
                                       ),
                                     ),
                                     SizedBox(height: 14.h),
-                                    _buildColumndescripti(context)
+                                    _feedbacks.isNotEmpty
+                                        ? _buildColumndescripti(context)
+                                        : Container(
+                                            width: 488.h,
+                                            margin: EdgeInsets.only(left: 14.h),
+                                            child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Column(
+                                                    children: [
+                                                      Text(
+                                                        "Đánh giá hàng đầu",
+                                                        maxLines: 1,
+                                                        textAlign:
+                                                            TextAlign.start,
+                                                        style: theme.textTheme
+                                                            .titleSmall,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  SizedBox(height: 6.h),
+                                                  SizedBox(
+                                                    width: double.maxFinite,
+                                                    height: 100.h,
+                                                    // Set a fixed height for the horizontal scroll view if necessary
+                                                    child: ListView.builder(
+                                                      scrollDirection:
+                                                          Axis.horizontal,
+                                                      itemCount: 2,
+                                                      // Specify the number of items
+                                                      itemBuilder:
+                                                          (context, index) {
+                                                        return SizedBox(
+                                                          child: Padding(
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    right: 8.h),
+                                                            // Add spacing between items
+                                                            child: Container(
+                                                              width: 200.h,
+                                                              // Set a fixed width for each item
+                                                              padding: EdgeInsets
+                                                                  .symmetric(
+                                                                horizontal:
+                                                                    16.h,
+                                                                vertical: 6.h,
+                                                              ),
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                color: appTheme
+                                                                    .gray10001,
+                                                                borderRadius:
+                                                                    BorderRadiusStyle
+                                                                        .roundedBorder8,
+                                                              ),
+                                                              child: Column(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .min,
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .center,
+                                                                children: [
+                                                                  Skeleton(
+                                                                    width:
+                                                                        100.h,
+                                                                    height:
+                                                                        15.h,
+                                                                  ),
+                                                                  SizedBox(
+                                                                      height:
+                                                                          4.h),
+                                                                  Skeleton(
+                                                                    width:
+                                                                        100.h,
+                                                                    height:
+                                                                        15.h,
+                                                                  ),
+                                                                  SizedBox(
+                                                                      height:
+                                                                          4.h),
+                                                                  Skeleton(
+                                                                    width:
+                                                                        200.h,
+                                                                    height:
+                                                                        30.h,
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        );
+                                                      },
+                                                    ),
+                                                  )
+                                                ]),
+                                          )
                                   ],
                                 ),
                               ),
@@ -545,10 +666,29 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
                                       ),
                                     ),
                                     SizedBox(height: 14.h),
-                                    SizedBox(
-                                        width: double.maxFinite,
-                                        height: 120,
-                                        child: _buildGridView(context))
+                                    _amenities.isNotEmpty
+                                        ? SizedBox(
+                                            width: double.maxFinite,
+                                            height: 120,
+                                            child: _buildGridView(context))
+                                        : SizedBox(
+                                            width: double.maxFinite,
+                                            height: 120,
+                                            child: GridView.builder(
+                                              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                                crossAxisCount: 3, // Adjust the number of columns
+                                                childAspectRatio: 3, // Adjust the aspect ratio if necessary
+                                                crossAxisSpacing: 10.0,
+                                                mainAxisSpacing: 10.0,
+                                              ),
+                                              itemCount: 9, // Number of items in the grid
+                                              itemBuilder: (context, index) {
+                                                return Skeleton(
+                                                  width: 7.h,
+                                                  height: 10.h,
+                                                );
+                                              },
+                                            ))
                                   ],
                                 ),
                               ),
@@ -905,14 +1045,16 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
         SizedBox(height: 6.h),
         SizedBox(
           width: double.maxFinite,
-          height: 100.h, // Set a fixed height for the horizontal scroll view if necessary
+          height: 100.h,
+          // Set a fixed height for the horizontal scroll view if necessary
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: _feedbacks.length, // Specify the number of items
             itemBuilder: (context, index) {
               return SizedBox(
                 child: Padding(
-                  padding: EdgeInsets.only(right: 8.h), // Add spacing between items
+                  padding: EdgeInsets.only(right: 8.h),
+                  // Add spacing between items
                   child: Container(
                     width: 200.h, // Set a fixed width for each item
                     padding: EdgeInsets.symmetric(
@@ -929,16 +1071,19 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          (_feedbacks[index].reservation?.customer?.name).toString(),
+                          (_feedbacks[index].reservation?.customer?.name)
+                              .toString(),
                           maxLines: 1,
-                          overflow: TextOverflow.ellipsis, // Change based on index
+                          overflow: TextOverflow.ellipsis,
+                          // Change based on index
                           style: theme.textTheme.bodySmall,
                         ),
                         SizedBox(height: 4.h),
                         CustomRatingBar(
                           color: Colors.yellow,
                           ignoreGestures: true,
-                          initialRating: (_feedbacks[index].hotelRating)?.toDouble(),
+                          initialRating:
+                              (_feedbacks[index].hotelRating)?.toDouble(),
                         ),
                         SizedBox(height: 4.h),
                         Text(
@@ -957,7 +1102,6 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
             },
           ),
         )
-
       ]),
     );
   }

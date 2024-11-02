@@ -1,5 +1,7 @@
 import 'package:fhotel_1/core/app_export.dart';
+import 'package:fhotel_1/data/models/feedback.dart';
 import 'package:fhotel_1/presenters/create_feedback_presenter.dart';
+import 'package:fhotel_1/views/write_review/create_feedback_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
@@ -7,14 +9,14 @@ import '../choose_room_detail/create_reservation_view.dart';
 
 class WriteReviewScreen extends StatefulWidget {
   final String reservationId;
-
-  const WriteReviewScreen({Key? key, required this.reservationId}) : super(key: key);
+  final Feedbacks feedback;
+  const WriteReviewScreen({Key? key, required this.reservationId, required this.feedback}) : super(key: key);
 
   @override
   WriteReviewScreenState createState() => WriteReviewScreenState();
 }
 
-class WriteReviewScreenState extends State<WriteReviewScreen> implements CreateReservationView{
+class WriteReviewScreenState extends State<WriteReviewScreen> implements CreateFeedbackView{
   TextEditingController titleInputController = TextEditingController();
 
   TextEditingController reviewsInputController = TextEditingController();
@@ -29,6 +31,7 @@ class WriteReviewScreenState extends State<WriteReviewScreen> implements CreateR
   }
   @override
   Widget build(BuildContext context) {
+    print(widget.feedback);
     return SafeArea(
         child: Scaffold(
       appBar: _buildAppbar(context),
@@ -179,63 +182,64 @@ class WriteReviewScreenState extends State<WriteReviewScreen> implements CreateR
   Widget _buildChnphng(BuildContext context) {
     return CustomElevatedButton(
       onPressed: () {
-        print(widget.reservationId);
-        print(rating);
-        print(reviewsInputController.text);
-        if(reviewsInputController.text == ''){
+        if (reviewsInputController.text.isEmpty || rating == 0) {
+          String message;
+          if (reviewsInputController.text.isEmpty && rating == 0) {
+            message = 'Vui lòng nhập đánh giá và đánh giá số sao!!';
+          } else if (reviewsInputController.text.isEmpty) {
+            message = 'Vui lòng nhập đánh giá!!';
+          } else {
+            message = 'Vui lòng đánh giá số sao!!';
+          }
           AwesomeDialog(
             context: context,
             animType: AnimType.scale,
             dialogType: DialogType.error,
-            body: const Center(
+            body: Center(
               child: Text(
-                'Vui lòng nhập đánh giá!!',
-                style: TextStyle(fontStyle: FontStyle.italic),
+                message,
+                style: const TextStyle(fontStyle: FontStyle.italic),
               ),
             ),
-            // title: 'Warning',
-            // desc:   'This is also Ignored',
-            btnCancelOnPress: (){
-            }
-            ,
+            btnCancelOnPress: () {},
           ).show();
-        }
-        if(rating == 0){
-          AwesomeDialog(
-            context: context,
-            animType: AnimType.scale,
-            dialogType: DialogType.error,
-            body: const Center(
-              child: Text(
-                'Vui lòng đánh giá số sao!!',
-                style: TextStyle(fontStyle: FontStyle.italic),
+        } else {
+          // Check if feedback is empty to determine create or update
+          if (widget.feedback.feedbackId == null || widget.feedback.feedbackId!.isEmpty) {
+            // Create new feedback
+            _presenter.createFeedbacks(widget.reservationId, reviewsInputController.text, rating);
+            AwesomeDialog(
+              context: context,
+              animType: AnimType.scale,
+              dialogType: DialogType.success,
+              body: const Center(
+                child: Text(
+                  'Cảm ơn bạn đã để lại đánh giá!!',
+                  style: TextStyle(fontStyle: FontStyle.italic),
+                ),
               ),
-            ),
-            // title: 'Warning',
-            // desc:   'This is also Ignored',
-            btnCancelOnPress: (){
-            }
-            ,
-          ).show();
-        }
-        if(rating != 0 && reviewsInputController.text != '') {
-          _presenter.createFeedbacks(widget.reservationId, reviewsInputController.text, rating);
-          AwesomeDialog(
-            context: context,
-            animType: AnimType.scale,
-            dialogType: DialogType.success,
-            body: const Center(
-              child: Text(
-                'Cảm ơn bạn đã để lại đánh giá!!',
-                style: TextStyle(fontStyle: FontStyle.italic),
+              btnOkOnPress: () {
+                Navigator.pop(context);
+              },
+            ).show();
+          } else {
+            // Update existing feedback
+            _presenter.updateFeedback((widget.feedback.feedbackId).toString(),(widget.feedback.reservationId).toString(), reviewsInputController.text, rating, (widget.feedback.createdDate).toString());
+            AwesomeDialog(
+              context: context,
+              animType: AnimType.scale,
+              dialogType: DialogType.success,
+              body: const Center(
+                child: Text(
+                  'Đánh giá của bạn đã được cập nhật!!',
+                  style: TextStyle(fontStyle: FontStyle.italic),
+                ),
               ),
-            ),
-            // title: 'Warning',
-            // desc:   'This is also Ignored',
-            btnOkOnPress: (){
-              Navigator.pop(context);
-            },
-          ).show();
+              btnOkOnPress: () {
+                Navigator.pop(context);
+              },
+            ).show();
+          }
         }
       },
       text: "Đánh giá",
@@ -244,23 +248,13 @@ class WriteReviewScreenState extends State<WriteReviewScreen> implements CreateR
     );
   }
 
-  @override
-  void onCreateError(String error) {
-    // TODO: implement onCreateError
-  }
 
   @override
-  void onCreateSuccess() {
-    // TODO: implement onCreateSuccess
+  void onGetFeedbackSuccess(Feedbacks feedback) {
+    // TODO: implement onGetFeedbackSuccess
+    setState(() {
+
+    });
   }
 
-  @override
-  void onCreateTotalAmountSuccess(double totalAmount) {
-    // TODO: implement onCreateTotalAmountSuccess
-  }
-
-  @override
-  void showValidationError(String field, String message) {
-    // TODO: implement showValidationError
-  }
 }

@@ -30,8 +30,7 @@ class CheckoutScreenState extends State<CheckoutScreen>
   int? numberOfDays;
   String? checkInDate;
   String? checkOutDate;
-  String selectedPaymentMethod =
-      "Vui lòng chọn phương thức thanh toán"; // Default text
+  String selectedPaymentMethod = "Vui lòng chọn phương thức thanh toán"; // Default text
   String selectedPaymentMethodId = ""; // Default text
   late ListReservationPresenter _presenter;
   late VnPayPresenter _vnPresenter;
@@ -464,9 +463,14 @@ class CheckoutScreenState extends State<CheckoutScreen>
                         ),
                       ),
                       SizedBox(width: 20.h),
-                      Text(
-                        "x " + (widget.reservation.numberOfRooms).toString(),
+                      widget.reservation.numberOfRooms != null
+                      ? Text(
+                        "x ${widget.reservation.numberOfRooms}",
                         style: theme.textTheme.titleSmall,
+                      )
+                      : Skeleton(
+                        width: 30.h,
+                        height: 10.h,
                       )
                     ],
                   ),
@@ -763,9 +767,14 @@ class CheckoutScreenState extends State<CheckoutScreen>
                           style: theme.textTheme.bodyMedium,
                         ),
                         SizedBox(height: 6.h),
-                        Text(
+                        (_reservation?.customer?.name != null)
+                        ? Text(
                           (_reservation?.customer?.name).toString(),
                           style: theme.textTheme.titleSmall,
+                        )
+                        : Skeleton(
+                          width: 50.h,
+                          height: 10.h,
                         )
                       ],
                     ),
@@ -798,11 +807,42 @@ class CheckoutScreenState extends State<CheckoutScreen>
             style: theme.textTheme.titleMedium,
           ),
           SizedBox(height: 10.h),
-          SizedBox(
+          (_reservation?.customer?.name != null)
+          ? SizedBox(
             width: double.maxFinite,
             child: _buildWrapperFive(context,
                 labelguestTwo: "Họ tên",
                 datavalueone: (_reservation?.customer?.name).toString()),
+          )
+          : Container(
+            padding: EdgeInsets.only(
+              top: 8.h,
+              bottom: 6.h,
+            ),
+            decoration: BoxDecoration(
+              color: appTheme.whiteA700,
+              border: Border(
+                bottom: BorderSide(
+                  color: appTheme.blueGray50,
+                  width: 1.h,
+                ),
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Skeleton(
+                    width: 50.h,
+                    height: 10.h,
+                  )
+                ),
+                Skeleton(
+                  width: 50.h,
+                  height: 10.h,
+                )
+              ],
+            ),
           ),
           SizedBox(
             width: double.maxFinite,
@@ -848,12 +888,9 @@ class CheckoutScreenState extends State<CheckoutScreen>
           SizedBox(
             width: double.maxFinite,
             child: _buildWrapperFive(context,
-                labelguestTwo: (widget.reservation.numberOfRooms).toString() +
-                    " Phòng " +
-                    (_reservation?.roomType?.hotel?.hotelName).toString(),
-                datavalueone: NumberFormat('#,###', 'en_US')
-                        .format(widget.reservation.totalAmount) +
-                    " ₫"),
+                labelguestTwo: "${widget.reservation.numberOfRooms} Phòng ${_reservation?.roomType?.hotel?.hotelName}",
+                datavalueone: "${NumberFormat('#,###', 'en_US')
+                        .format(widget.reservation.totalAmount)} ₫"),
           ),
           // SizedBox(
           //   width: double.maxFinite,
@@ -864,9 +901,8 @@ class CheckoutScreenState extends State<CheckoutScreen>
             width: double.maxFinite,
             child: _buildWrapperFive(context,
                 labelguestTwo: "Tổng cộng",
-                datavalueone: NumberFormat('#,###', 'en_US')
-                        .format(widget.reservation.totalAmount) +
-                    " ₫"),
+                datavalueone: "${NumberFormat('#,###', 'en_US')
+                        .format(widget.reservation.totalAmount)} ₫"),
           )
         ],
       ),

@@ -36,6 +36,7 @@ class HomeRoomGuestFilledBottomsheetState
     _presenter.getRoomTypes(); // Fetch the list of hotels when the screen loads
     _presenter.getTypes();
   }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -53,32 +54,6 @@ class HomeRoomGuestFilledBottomsheetState
             children: [
               _buildSheetheader(context),
               SizedBox(height: 10.h),
-              Container(
-                width: double.maxFinite,
-                margin: EdgeInsets.only(
-                  left: 16.h,
-                  right: 92.h,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    // DropdownButton<String>(
-                    //   value: _selectedRoomType,
-                    //   items: _roomTypes.map((RoomType roomType) {
-                    //     return DropdownMenuItem<String>(
-                    //       value: roomType.typeName,
-                    //       child: Text(roomType.typeName.toString(), style: theme.textTheme.bodyMedium),
-                    //     );
-                    //   }).toList(),
-                    //   onChanged: (String? newValue) {
-                    //     setState(() {
-                    //       _selectedRoomType = newValue!;
-                    //     });
-                    //   },
-                    // )
-                  ],
-                ),
-              ),
               SizedBox(height: 6.h),
               Container(
                 width: double.maxFinite,
@@ -128,6 +103,9 @@ class HomeRoomGuestFilledBottomsheetState
             ),
           ),
           CustomImageView(
+            onTap: () {
+              Navigator.pop(context);
+            },
             imagePath: ImageConstant.imgCloseIcon,
             height: 24.h,
             width: 24.h,
@@ -137,6 +115,7 @@ class HomeRoomGuestFilledBottomsheetState
       ),
     );
   }
+
   ///List
   Widget _buildColumniconwrapp(BuildContext context) {
     return SizedBox(
@@ -170,21 +149,15 @@ class HomeRoomGuestFilledBottomsheetState
                               height: 24.h,
                               width: 24.h,
                             ),
-                             Expanded(
-                               child: Align(
+                            Expanded(
+                              child: Align(
                                 alignment: Alignment.bottomLeft,
                                 child: Padding(
                                   padding: EdgeInsets.only(top: 2.h, left: 5.h),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      // Text(
-                                      //   "Số phòng và loại phòng",
-                                      //   style: theme.textTheme.bodyMedium!.copyWith(
-                                      //     color: theme.colorScheme.onPrimary,
-                                      //   ),
-                                      // ),
-                                      // SizedBox(height: 6.h),
                                       ElevatedButton(
                                           onPressed: () {
                                             // _showRoomAndGuestModalBottomSheet(context);
@@ -192,21 +165,23 @@ class HomeRoomGuestFilledBottomsheetState
                                           style: ElevatedButton.styleFrom(
                                             backgroundColor: Colors.transparent,
                                             // Set background to transparent
-                                            elevation: 0, // Remove shadow/elevation
+                                            elevation:
+                                                0, // Remove shadow/elevation
                                           ),
                                           child: Text(
                                             "${_types[index].typeName}",
                                             // "${dropdownItemList[index]}",
-                                            style: CustomTextStyles.titleSmallGray600.copyWith(
+                                            style: CustomTextStyles
+                                                .titleSmallGray600
+                                                .copyWith(
                                               color: appTheme.gray600,
                                             ),
-                                          )
-                                      ),
+                                          )),
                                     ],
                                   ),
                                 ),
-                                                           ),
-                             ),
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -219,7 +194,7 @@ class HomeRoomGuestFilledBottomsheetState
                           GestureDetector(
                             onTap: () {
                               setState(() {
-                                if (quantities[index] > 1) {
+                                if (quantities[index] > 0) {
                                   quantities[index]--;
                                 }
                               });
@@ -437,7 +412,6 @@ class HomeRoomGuestFilledBottomsheetState
   //   );
   // }
 
-
   /// Section Widget
   Widget _buildHontt(BuildContext context) {
     return CustomElevatedButton(
@@ -461,7 +435,7 @@ class HomeRoomGuestFilledBottomsheetState
           Navigator.pop(context, roomData);
         } else {
           // If no room is selected, you might want to show a warning or simply dismiss
-          Navigator.pop(context, null);  // or show a warning if required
+          Navigator.pop(context, null); // or show a warning if required
         }
       },
       text: "Hoàn tất",
@@ -542,5 +516,4 @@ class HomeRoomGuestFilledBottomsheetState
   void onGetSingleRoomImageSuccess(RoomImage roomImage) {
     // TODO: implement onGetSingleRoomImageSuccess
   }
-
 }

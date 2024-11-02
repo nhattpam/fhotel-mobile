@@ -32,6 +32,7 @@ class HotelPresenter {
       // _view.showError('Failed to load amenities');
     }
   }
+
   void getHotelImages(String hotelId) async {
     _view.showLoading();
     try {

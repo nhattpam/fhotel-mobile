@@ -1,6 +1,4 @@
 import 'package:fhotel_1/data/models/feedback.dart';
-import 'package:fhotel_1/views/hotel_rating_and_reviews/widgets/list_label_item_value_widget.dart';
-import 'package:fhotel_1/views/write_review/write_review_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/app_export.dart';
@@ -17,8 +15,9 @@ class HotelDetailsRatingsReviewsScreenState extends State<HotelDetailsRatingsRev
     with TickerProviderStateMixin {
   late TabController tabviewController;
   GlobalKey<NavigatorState> navigatorKey = GlobalKey();
-  final List<String> ratings = ["5 sao", "4 sao", "3 sao", "2 sao", "1 sao"];
+  final List<int> ratings = [5, 4, 3, 2, 1];
   List<Feedbacks> _feedbacks = [];
+  List<Feedbacks> _sortfeedbacks = [];
 
   @override
   void initState() {
@@ -208,6 +207,8 @@ class HotelDetailsRatingsReviewsScreenState extends State<HotelDetailsRatingsRev
   }
 
   Widget _buildRating(BuildContext context) {
+    final List<Feedbacks> _originalFeedbacks = List.from(_feedbacks);
+
     return Container(
       padding: EdgeInsets.symmetric(
         horizontal: 16.h,
@@ -264,26 +265,33 @@ class HotelDetailsRatingsReviewsScreenState extends State<HotelDetailsRatingsRev
               ),
               itemCount: ratings.length,
               itemBuilder: (context, index) {
-                return ChipTheme(
-                  data: ChipTheme.of(context).copyWith(
-                    backgroundColor: Colors.white,
-                    selectedColor: Colors.blue,
-                    disabledColor: Colors.grey,
-                    shape: RoundedRectangleBorder(
-                      side: const BorderSide(
-                        color: Colors.grey,
-                        width: 1,
+                return GestureDetector(
+                  onTap: (){
+                    setState(() {
+                      _sortfeedbacks = _originalFeedbacks.where((feedback) => feedback.hotelRating == ratings[index]).toList();
+                    });
+                  },
+                  child: ChipTheme(
+                    data: ChipTheme.of(context).copyWith(
+                      backgroundColor: Colors.white,
+                      selectedColor: Colors.blue,
+                      disabledColor: Colors.grey,
+                      shape: RoundedRectangleBorder(
+                        side: const BorderSide(
+                          color: Colors.grey,
+                          width: 1,
+                        ),
+                        borderRadius: BorderRadius.circular(50),
                       ),
-                      borderRadius: BorderRadius.circular(50),
                     ),
-                  ),
-                  child: Chip(
-                    padding: const EdgeInsets.only(bottom :10),
-                    label: Text(
-                      ratings[index],
-                      // textAlign: TextAlign.center,
-                      style: TextStyle(
-                        height: 1, // Adjusts text's vertical position
+                    child: Chip(
+                      padding: const EdgeInsets.only(bottom :10),
+                      label: Text(
+                        '${ratings[index]} sao',
+                        // textAlign: TextAlign.center,
+                        style: TextStyle(
+                          height: 1, // Adjusts text's vertical position
+                        ),
                       ),
                     ),
                   ),
@@ -365,7 +373,7 @@ class HotelDetailsRatingsReviewsScreenState extends State<HotelDetailsRatingsRev
               height: 12.h,
             );
           },
-          itemCount: _feedbacks.length,
+          itemCount: _sortfeedbacks.isNotEmpty ? _sortfeedbacks.length : _feedbacks.length,
           itemBuilder: (context, index) {
             return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Container(
@@ -397,12 +405,23 @@ class HotelDetailsRatingsReviewsScreenState extends State<HotelDetailsRatingsRev
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
+                                    _sortfeedbacks.isNotEmpty
+                                    ? Text(
+                                      (_sortfeedbacks[index].reservation?.customer?.name).toString(),
+                                      style: theme.textTheme.bodyMedium,
+                                    )
+                                    : Text(
                                       (_feedbacks[index].reservation?.customer?.name).toString(),
                                       style: theme.textTheme.bodyMedium,
                                     ),
                                     SizedBox(height: 6.h),
-                                    CustomRatingBar(
+                                    _sortfeedbacks.isNotEmpty
+                                    ? CustomRatingBar(
+                                      color: Colors.yellow,
+                                      ignoreGestures: true,
+                                      initialRating: (_sortfeedbacks[index].hotelRating)?.toDouble(),
+                                    )
+                                    : CustomRatingBar(
                                       color: Colors.yellow,
                                       ignoreGestures: true,
                                       initialRating: (_feedbacks[index].hotelRating)?.toDouble(),
@@ -413,7 +432,15 @@ class HotelDetailsRatingsReviewsScreenState extends State<HotelDetailsRatingsRev
                             ),
                           ),
                           SizedBox(width: 8.h),
-                          Padding(
+                          _sortfeedbacks.isNotEmpty
+                          ? Padding(
+                            padding: EdgeInsets.only(top: 8.h),
+                            child: Text(
+                              (_sortfeedbacks[index].createdDate).toString(),
+                              style: CustomTextStyles.bodySmall10,
+                            ),
+                          )
+                          : Padding(
                             padding: EdgeInsets.only(top: 8.h),
                             child: Text(
                               (_feedbacks[index].createdDate).toString(),
@@ -444,7 +471,16 @@ class HotelDetailsRatingsReviewsScreenState extends State<HotelDetailsRatingsRev
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    _sortfeedbacks.isNotEmpty
+                    ? Text(
+                      (_sortfeedbacks[index].comment).toString(),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: theme.textTheme.bodyMedium!.copyWith(
+                        height: 1.50,
+                      ),
+                    )
+                    : Text(
                       (_feedbacks[index].comment).toString(),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,

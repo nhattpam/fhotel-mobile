@@ -1,4 +1,5 @@
 import 'package:fhotel_1/core/utils/skeleton.dart';
+import 'package:fhotel_1/data/models/feedback.dart';
 import 'package:fhotel_1/data/models/reservation.dart';
 import 'package:fhotel_1/views/guest_information_book/guest_information_book.dart';
 import 'package:fhotel_1/views/my_booking_check_in/my_booking_checkin.dart';
@@ -7,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart' as html;
 
 import '../../core/app_export.dart';
+import '../../presenters/create_feedback_presenter.dart';
+import '../write_review/create_feedback_view.dart';
 
 // ignore_for_file: must be_ immutable
 class MyBookingDetailsScreen extends StatefulWidget {
@@ -18,15 +21,18 @@ class MyBookingDetailsScreen extends StatefulWidget {
   MyBookingDetailsScreenState createState() => MyBookingDetailsScreenState();
 }
 
-class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> {
+class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> implements CreateFeedbackView {
   TextEditingController listmasteroneController = TextEditingController();
   int? numberOfDays;
   String? checkInDate;
   String? checkOutDate;
-
+  late CreateFeedbackPresenter presenter;
+  Feedbacks? _feedbacks;
   @override
   void initState() {
     super.initState();
+    presenter = CreateFeedbackPresenter(this);
+    presenter.getFeedbacks((widget.reservation.reservationId).toString());
     _calculateDates();
   }
 
@@ -81,7 +87,7 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> {
                         SizedBox(height: 8.h),
                         _buildColumntitlepric(context),
                         SizedBox(height: 8.h),
-                        (widget.reservation.reservationStatus != 'CheckIn')
+                        (widget.reservation.reservationStatus != 'CheckIn' && widget.reservation.reservationStatus != 'CheckOut')
                             ? SizedBox()
                             : _buildColumnsave(context),
                         (widget.reservation.paymentStatus == 'Pending' &&
@@ -797,11 +803,14 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => WriteReviewScreen(reservationId: (widget.reservation.reservationId).toString()), // Replace with your review screen
+                  builder: (context) => WriteReviewScreen(
+                    reservationId: widget.reservation.reservationId.toString(),
+                    feedback: _feedbacks ?? Feedbacks(), // Provide a default `Feedbacks` instance if `_feedbacks` is null
+                  ),
                 ),
               );
             },
-            text: "Viết đánh giá",
+            text: _feedbacks == null ? "Viết đánh giá" : "Thay đổi đánh giá",
             margin: EdgeInsets.only(bottom: 12.h),
             buttonStyle: CustomButtonStyles.fillBlue,
             buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,
@@ -923,5 +932,12 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> {
         ],
       ),
     );
+  }
+
+  @override
+  void onGetFeedbackSuccess(Feedbacks feedback) {
+    setState(() {
+      _feedbacks = feedback;
+    });
   }
 }

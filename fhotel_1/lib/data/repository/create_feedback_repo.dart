@@ -38,4 +38,57 @@ class CreateFeedbackRepo {
       throw Exception('Error creating feedback');
     }
   }
+
+  Future<Feedbacks> getFeedbackByReservationId(String reservationId) async {
+    final url = Uri.parse('$_baseUrl/reservations/$reservationId/feedbacks');
+    print('Requesting URL: $url');
+
+    final response = await http.get(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final responseData = json.decode(response.body);
+      if (responseData.isNotEmpty) {
+        final feedback = Feedbacks.fromJson(responseData[0]);
+        print((responseData[0]));
+        print(feedback.comment);
+        return feedback;
+      } else {
+        throw Exception('No feedback found for the provided reservation ID.');
+      }
+    } else {
+      throw Exception('Failed to fetch feedback. Status code: ${response.statusCode}');
+    }
+  }
+
+  Future<bool> updateFeedbacks(Feedbacks feedback) async {
+
+    final url = Uri.parse('$_baseUrl/feedbacks/${feedback.feedbackId}');
+    print(url);
+    try {
+      final response = await http.put(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          // Add any authentication headers here
+        },
+        body: jsonEncode(feedback.toJson()),
+      );
+      print(jsonEncode(feedback.toJson()));
+
+      if (response.statusCode == 200) {
+        return true; // Update successful
+      } else {
+        print('Failed to update feedback. Status code: ${response.statusCode}');
+        return false; // Update failed
+      }
+    } catch (e) {
+      throw Exception('Failed to update feedback');
+    }
+  }
+
 }
