@@ -1,7 +1,7 @@
 class Feedbacks {
   String? feedbackId;
   String? reservationId;
-  double? hotelRating;
+  int? hotelRating;
   String? comment;
   String? createdDate;
 

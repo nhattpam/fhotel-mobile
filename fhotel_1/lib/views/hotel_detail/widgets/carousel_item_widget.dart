@@ -1,3 +1,4 @@
+import 'package:fhotel_1/core/utils/skeleton.dart';
 import 'package:fhotel_1/data/models/hotel_image.dart';
 import 'package:fhotel_1/data/models/late_checkout_policy.dart';
 import 'package:fhotel_1/data/models/refund_policy.dart';
@@ -326,14 +327,13 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
                                                   width: 24.h,
                                                 ),
                                                 SizedBox(width: 8.h),
-                                                Align(
+                                                _hotel?.district?.city?.cityName != null
+                                                ? Align(
                                                   alignment: Alignment.center,
                                                   child: SizedBox(
                                                     width: 260.h,
                                                     child: Text(
-                                                      _hotel?.address
-                                                              .toString() ??
-                                                          '',
+                                                      "${_hotel?.address}, ${_hotel?.district?.districtName}, ${_hotel?.district?.city?.cityName}",
                                                       maxLines: 2,
                                                       overflow:
                                                           TextOverflow.ellipsis,
@@ -343,6 +343,16 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
                                                         height: 1.50,
                                                       ),
                                                     ),
+                                                  ),
+                                                )
+                                                : Align(
+                                                  alignment: Alignment.center,
+                                                  child: SizedBox(
+                                                    width: 260.h,
+                                                    child: Skeleton(
+                                                      width: 260.h,
+                                                      height: 50.h,
+                                                    )
                                                   ),
                                                 )
                                               ],

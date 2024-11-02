@@ -149,6 +149,8 @@ class CheckoutScreenState extends State<CheckoutScreen>
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (!mounted) return; // Check if the widget is still mounted
+
     switch (state) {
       case AppLifecycleState.resumed:
         _showPaymentSuccessDialog(context);
@@ -165,7 +167,7 @@ class CheckoutScreenState extends State<CheckoutScreen>
         break;
       case AppLifecycleState.hidden:
         print("app in hidden");
-      // TODO: Handle this case.
+        break;
     }
   }
 
@@ -961,8 +963,7 @@ class CheckoutScreenState extends State<CheckoutScreen>
         onPressed: () async {
           await _presenter.getReservationById(
               (widget.reservation.reservationId).toString());
-          if (_reservation?.paymentMethodId ==
-              '1dfab560-eef5-4297-9c26-03c3364f10e6') {
+          if (_reservation?.paymentMethodId == '1dfab560-eef5-4297-9c26-03c3364f10e6') {
             AwesomeDialog(
               context: context,
               animType: AnimType.scale,
@@ -978,12 +979,12 @@ class CheckoutScreenState extends State<CheckoutScreen>
               },
             ).show();
           }
-          if (_reservation?.paymentMethodId ==
-              '03c20593-9817-4cda-982f-7c8e7ee162e8') {
+          if (_reservation?.paymentMethodId == '03c20593-9817-4cda-982f-7c8e7ee162e8') {
             await _vnPresenter.PaymentMethodVNPAY(
                 widget.reservation.reservationId.toString());
             launch(vnpaylink.toString());
-          } else{
+          }
+          if(_reservation?.paymentMethodId == null){
             AwesomeDialog(
               context: context,
               animType: AnimType.scale,

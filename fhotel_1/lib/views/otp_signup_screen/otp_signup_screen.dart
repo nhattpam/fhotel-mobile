@@ -65,7 +65,7 @@ class _OTPScreenState extends State<OTPScreen> implements UserProfileView, Regis
             mainAxisSize: MainAxisSize.max,
             children: [
               Text(
-                "OTP Verification",
+                "Xác minh OTP",
                 style: theme.textTheme.headlineSmall,
               ),
               SizedBox(height: 14.h),
@@ -75,7 +75,7 @@ class _OTPScreenState extends State<OTPScreen> implements UserProfileView, Regis
                   text: TextSpan(
                     children: [
                       TextSpan(
-                        text: "Enter the code from the email we sent to ",
+                        text: "Nhập mã đã được gửi về email của bạn ",
                         style: theme.textTheme.bodyLarge,
                       ),
                       TextSpan(
@@ -109,14 +109,14 @@ class _OTPScreenState extends State<OTPScreen> implements UserProfileView, Regis
                 text: TextSpan(
                   children: [
                     TextSpan(
-                      text: "I didn't receive any code.",
+                      text: "Chưa nhận được mã?",
                       style: CustomTextStyles.bodyMediumGray600,
                     ),
                     const TextSpan(
                       text: " ",
                     ),
                     TextSpan(
-                      text: "RESEND",
+                      text: "Gửi lại".toUpperCase(),
                       style: theme.textTheme.titleSmall,
                     ),
                   ],
@@ -147,7 +147,7 @@ class _OTPScreenState extends State<OTPScreen> implements UserProfileView, Regis
           ),
         ),
         title: AppbarTitle(
-          text: "OTP Verify",
+          text: "Xác minh OTP",
           margin: EdgeInsets.only(left: 8.h),
         ),
         styleType: Style.bgFill);
@@ -156,7 +156,7 @@ class _OTPScreenState extends State<OTPScreen> implements UserProfileView, Regis
   Widget _buildSubmitSection(BuildContext context) {
     return CustomElevatedButton(
       height: 40.h,
-      text: "Submit",
+      text: "Xác nhận",
       margin: EdgeInsets.only(right: 8.h),
       buttonStyle: CustomButtonStyles.fillBlue,
       buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,

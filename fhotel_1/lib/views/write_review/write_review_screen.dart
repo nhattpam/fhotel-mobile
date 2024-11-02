@@ -3,22 +3,30 @@ import 'package:fhotel_1/presenters/create_feedback_presenter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
+import '../choose_room_detail/create_reservation_view.dart';
+
 class WriteReviewScreen extends StatefulWidget {
-  const WriteReviewScreen({Key? key}) : super(key: key);
+  final String reservationId;
+
+  const WriteReviewScreen({Key? key, required this.reservationId}) : super(key: key);
 
   @override
   WriteReviewScreenState createState() => WriteReviewScreenState();
 }
 
-class WriteReviewScreenState extends State<WriteReviewScreen> {
+class WriteReviewScreenState extends State<WriteReviewScreen> implements CreateReservationView{
   TextEditingController titleInputController = TextEditingController();
 
   TextEditingController reviewsInputController = TextEditingController();
 
-  double rating = 0;
+  int rating = 0;
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late CreateFeedbackPresenter _presenter;
-
+@override
+  void initState() {
+    super.initState();
+    _presenter = CreateFeedbackPresenter(this);
+  }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -62,7 +70,6 @@ class WriteReviewScreenState extends State<WriteReviewScreen> {
                                     initialRating: 0,
                                     minRating: 1,
                                     direction: Axis.horizontal,
-                                    allowHalfRating: true,
                                     itemCount: 5,
                                     itemPadding:
                                         EdgeInsets.symmetric(horizontal: 4),
@@ -71,7 +78,7 @@ class WriteReviewScreenState extends State<WriteReviewScreen> {
                                         color: Colors.amberAccent),
                                     onRatingUpdate: (rate) async {
                                       setState(() {
-                                        rating = rate;
+                                        rating = rate.toInt();
                                       });
                                     },
                                     itemSize: 30),
@@ -172,13 +179,88 @@ class WriteReviewScreenState extends State<WriteReviewScreen> {
   Widget _buildChnphng(BuildContext context) {
     return CustomElevatedButton(
       onPressed: () {
-        /// '' = reservationId
-        _presenter.createFeedbacks('', reviewsInputController.text, rating);
-        Navigator.pop(context);
+        print(widget.reservationId);
+        print(rating);
+        print(reviewsInputController.text);
+        if(reviewsInputController.text == ''){
+          AwesomeDialog(
+            context: context,
+            animType: AnimType.scale,
+            dialogType: DialogType.error,
+            body: const Center(
+              child: Text(
+                'Vui lòng nhập đánh giá!!',
+                style: TextStyle(fontStyle: FontStyle.italic),
+              ),
+            ),
+            // title: 'Warning',
+            // desc:   'This is also Ignored',
+            btnCancelOnPress: (){
+            }
+            ,
+          ).show();
+        }
+        if(rating == 0){
+          AwesomeDialog(
+            context: context,
+            animType: AnimType.scale,
+            dialogType: DialogType.error,
+            body: const Center(
+              child: Text(
+                'Vui lòng đánh giá số sao!!',
+                style: TextStyle(fontStyle: FontStyle.italic),
+              ),
+            ),
+            // title: 'Warning',
+            // desc:   'This is also Ignored',
+            btnCancelOnPress: (){
+            }
+            ,
+          ).show();
+        }
+        if(rating != 0 && reviewsInputController.text != '') {
+          _presenter.createFeedbacks(widget.reservationId, reviewsInputController.text, rating);
+          AwesomeDialog(
+            context: context,
+            animType: AnimType.scale,
+            dialogType: DialogType.success,
+            body: const Center(
+              child: Text(
+                'Cảm ơn bạn đã để lại đánh giá!!',
+                style: TextStyle(fontStyle: FontStyle.italic),
+              ),
+            ),
+            // title: 'Warning',
+            // desc:   'This is also Ignored',
+            btnOkOnPress: (){
+              Navigator.pop(context);
+            },
+          ).show();
+        }
       },
       text: "Đánh giá",
       buttonStyle: CustomButtonStyles.fillBlue,
       buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,
     );
+  }
+
+  @override
+  void onCreateError(String error) {
+    // TODO: implement onCreateError
+  }
+
+  @override
+  void onCreateSuccess() {
+    // TODO: implement onCreateSuccess
+  }
+
+  @override
+  void onCreateTotalAmountSuccess(double totalAmount) {
+    // TODO: implement onCreateTotalAmountSuccess
+  }
+
+  @override
+  void showValidationError(String field, String message) {
+    // TODO: implement showValidationError
   }
 }

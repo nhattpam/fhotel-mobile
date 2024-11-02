@@ -105,22 +105,23 @@ class HotelDetailsRatingsReviewsScreenState extends State<HotelDetailsRatingsRev
             ],
           ),
         ),
-        floatingActionButton: Padding(
-          padding: const EdgeInsets.only(bottom: 50.0, right: 10),
-          child: FloatingActionButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => WriteReviewScreen(), // Replace with your review screen
-                ),
-              );
-            },
-            backgroundColor: appTheme.blue600,
-            child: const Icon(Icons.edit), // You can customize the icon
-            tooltip: "Write a review",
-          ),
-        ),
+        ///In case write feedback in hotel
+        // floatingActionButton: Padding(
+        //   padding: const EdgeInsets.only(bottom: 50.0, right: 10),
+        //   child: FloatingActionButton(
+        //     onPressed: () {
+        //       Navigator.push(
+        //         context,
+        //         MaterialPageRoute(
+        //           builder: (context) => WriteReviewScreen(), // Replace with your review screen
+        //         ),
+        //       );
+        //     },
+        //     backgroundColor: appTheme.blue600,
+        //     child: const Icon(Icons.edit), // You can customize the icon
+        //     tooltip: "Write a review",
+        //   ),
+        // ),
       ),
     );
   }

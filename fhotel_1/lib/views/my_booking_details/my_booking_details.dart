@@ -2,6 +2,7 @@ import 'package:fhotel_1/core/utils/skeleton.dart';
 import 'package:fhotel_1/data/models/reservation.dart';
 import 'package:fhotel_1/views/guest_information_book/guest_information_book.dart';
 import 'package:fhotel_1/views/my_booking_check_in/my_booking_checkin.dart';
+import 'package:fhotel_1/views/write_review/write_review_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart' as html;
 
@@ -93,6 +94,7 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> {
                       ],
                     ),
                   ),
+
                 ],
               ),
             ),
@@ -511,7 +513,6 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> {
                   child: Divider(),
                 ),
                 SizedBox(height: 8.h),
-
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 16.h),
                   padding: EdgeInsets.symmetric(
@@ -793,6 +794,20 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> {
         children: [
           CustomElevatedButton(
             onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => WriteReviewScreen(reservationId: (widget.reservation.reservationId).toString()), // Replace with your review screen
+                ),
+              );
+            },
+            text: "Viết đánh giá",
+            margin: EdgeInsets.only(bottom: 12.h),
+            buttonStyle: CustomButtonStyles.fillBlue,
+            buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,
+          ),
+          CustomElevatedButton(
+            onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
                     builder: (context) =>
@@ -803,7 +818,7 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> {
             margin: EdgeInsets.only(bottom: 12.h),
             buttonStyle: CustomButtonStyles.fillBlue,
             buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,
-          )
+          ),
         ],
       ),
     );
