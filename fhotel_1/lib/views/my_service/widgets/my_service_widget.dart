@@ -19,13 +19,16 @@ class MyServiceWidget extends StatefulWidget {
   MyServiceWidgetState createState() => MyServiceWidgetState();
 }
 
-class MyServiceWidgetState extends State<MyServiceWidget> implements GetOrderDetailView, CreateReservationView {
+class MyServiceWidgetState extends State<MyServiceWidget> with AutomaticKeepAliveClientMixin implements GetOrderDetailView, CreateReservationView {
   late GetOrderDetailPresenter _presenter;
   late OrderPresenter _orderPresenter;
   OrderDetail? _orderDetail;
   String? _error;
   bool _isLoading = false;
   SessionManager sessionManager = SessionManager();
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -83,7 +86,7 @@ class MyServiceWidgetState extends State<MyServiceWidget> implements GetOrderDet
                 width: double.maxFinite,
                 child: Row(
                   children: [
-                    (_orderDetail?.services?.image) != null
+                    (_orderDetail?.services?.image) != null && (_orderDetail?.services?.image) != 'string'
                     ? Container(
                       height: 60.h,
                       width: 60.h,

@@ -79,7 +79,7 @@ class RegisterPresenter {
 
   // Validate Phone Number logic
   Future<String?> validatePhoneNumber(String? phoneNumber) async {
-    final exists = await _searchService.checkIdNumberExistence(query: phoneNumber);
+    final exists = await _searchService.checkPhoneNumberExistence(query: phoneNumber);
     if (exists) {
       return 'Số điện thoại này đã được đăng kí'; // Notify that the email is already taken
     }

@@ -42,6 +42,7 @@ class ServiceDetailScreenState extends State<ServiceDetailScreen>
     _orderPresenter = OrderPresenter(this); // Initialize the presenter
     _orderDetailPresenter = OrderDetailPresenter(this);
     _quantityController.text = quantity.toString();
+
   }
 
   void _incrementRooms() {
@@ -246,7 +247,7 @@ class ServiceDetailScreenState extends State<ServiceDetailScreen>
                       Align(
                         alignment: Alignment.topCenter,
                         child: Text(
-                          "Chọn Phòng muốn đặt dịch vụ",
+                          "Chọn nơi muốn đặt dịch vụ",
                           style: theme.textTheme.titleSmall,
                         ),
                       ),
@@ -255,7 +256,10 @@ class ServiceDetailScreenState extends State<ServiceDetailScreen>
                         width: 103, // Adjust width as needed
                         child: DropdownButton<Reservation>(
                           value: selectedReservation,
-                          // Define this variable to store the selected reservation
+                          hint:  Text(
+                            "Đặt chỗ", // Default text to display when no item is selected
+                            style: theme.textTheme.titleSmall,
+                          ),
                           onChanged: (Reservation? newValue) {
                             setState(() {
                               selectedReservation = newValue;
@@ -264,13 +268,17 @@ class ServiceDetailScreenState extends State<ServiceDetailScreen>
                           items: _reservation
                               .where((reservation) =>
                                   reservation.reservationStatus == 'CheckIn')
-                              .map<DropdownMenuItem<Reservation>>(
-                                  (Reservation reservation) {
+                              .toList()
+                              .asMap()
+                              .entries
+                              .map<DropdownMenuItem<Reservation>>((entry) {
+                            int index = entry.key + 1; // Adding 1 to make the index start from 1
+                            Reservation reservation = entry.value;
+
                             return DropdownMenuItem<Reservation>(
                               value: reservation,
                               child: Text(
-                                "Đặt chỗ ",
-                                // reservation.reservationId.toString(), // Replace with the appropriate display property
+                               "Đặt chỗ $index", // Display the index
                                 style: theme.textTheme.titleSmall,
                               ),
                             );
@@ -278,7 +286,7 @@ class ServiceDetailScreenState extends State<ServiceDetailScreen>
                           isDense: true,
                           underline: SizedBox(),
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),

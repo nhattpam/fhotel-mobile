@@ -16,7 +16,10 @@ class MyBookingFullScreen extends StatefulWidget {
 }
 
 class MyBookingFullScreenState extends State<MyBookingFullScreen>
+    with AutomaticKeepAliveClientMixin<MyBookingFullScreen>
     implements ListReservationView {
+  @override
+  bool get wantKeepAlive => true;
   int sliderIndex = 1;
   int _currentIndex = 3;
 
