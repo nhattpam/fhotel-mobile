@@ -50,7 +50,7 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
   RoomType? _roomType;
   bool error = false;
   TextEditingController _quantityController = TextEditingController();
-
+  int? availableRoomInCalculate;
   @override
   void initState() {
     super.initState();
@@ -179,10 +179,13 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
 
       // Define the desired output format (ISO 8601 format)
       DateFormat outputFormat = DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+      DateFormat outputFormatForCalculate = DateFormat("yyyy-MM-dd");
 
       // Format the parsed date to the desired format
       String isoFormattedInDate = outputFormat.format(parsedInDate);
       String isoFormattedOutDate = outputFormat.format(parsedOutDate);
+
+      String targetDay = outputFormatForCalculate.format(parsedInDate);
 
       double? amount = await _createReservation.createReservationToCalculate(
         isoFormattedInDate,
@@ -190,8 +193,10 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
         widget.roomTypeId,
         quantity,
       );
+      int? avalable = await _createReservation.calculateAvailable(widget.roomTypeId, isoFormattedInDate);
       setState(() {
         _totalAmount = amount; // Update the total amount in the state
+        availableRoomInCalculate = avalable;
       });
     } catch (e) {
       // Handle any errors during the calculation
@@ -233,8 +238,8 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
 
   void _incrementRooms() {
     setState(() {
-      if (_roomType != null && _roomType!.availableRooms != null) {
-        if (quantity < _roomType!.availableRooms!) {
+      if (_roomType != null && availableRoomInCalculate != null) {
+        if (quantity < availableRoomInCalculate!) {
           error = false;
           quantity++;
           _quantityController.text = quantity.toString();
@@ -587,7 +592,7 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
                                       children: [
                                         if (error)
                                           Text(
-                                            'Chỉ còn trống ${_roomType!.availableRooms} phòng',
+                                            'Chỉ còn trống $availableRoomInCalculate phòng',
                                             style: TextStyle(color: Colors.red),
                                           ),
                                         Align(
@@ -621,8 +626,8 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
                                         if (newQuantity < 1) newQuantity = 1;
 
                                         setState(() {
-                                          if (_roomType != null && _roomType!.availableRooms != null) {
-                                            if (newQuantity <= _roomType!.availableRooms!) {
+                                          if (_roomType != null && availableRoomInCalculate != null) {
+                                            if (newQuantity <= availableRoomInCalculate!) {
                                               error = false;
                                               quantity = newQuantity;
                                               _quantityController.text = quantity.toString();
@@ -633,7 +638,7 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
                                           }
                                         });
                                       },
-                                      decoration: InputDecoration(
+                                      decoration: const InputDecoration(
                                         isDense: true,
                                         contentPadding: EdgeInsets.zero,
                                         border: InputBorder.none,
@@ -641,7 +646,7 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
                                     ),
                                   ),
                                     IconButton(
-                                      icon: Icon(Icons.add),
+                                      icon: const Icon(Icons.add),
                                       onPressed: _incrementRooms,
                                     ),
                                   ],
@@ -786,7 +791,7 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
         bool isLoggedIn = await _checkUserSession(); // Check user session on init
         if (isLoggedIn) {
           if ((_totalAmount ?? 0) > 0 ) {
-            if ((_roomType?.availableRooms ?? 0) >= quantity) {
+            if ((availableRoomInCalculate ?? 0) >= quantity) {
               // Define the input date format
 
               DateFormat inputFormat = DateFormat('dd/MM/yyyy');
@@ -811,7 +816,6 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
                 widget.roomTypeId,
                 quantity
               );
-
               // Show success dialog
               AwesomeDialog(
                 context: context,
@@ -987,5 +991,13 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
   @override
   void onGetSingleRoomImageSuccess(RoomImage roomImage) {
     // TODO: implement onGetSingleRoomImageSuccess
+  }
+
+  @override
+  void onCreateAvailableRoomSuccess(int availableRoom) {
+    // TODO: implement onCreateAvailableRoomSuccess
+    setState(() {
+      availableRoomInCalculate = availableRoom;
+    });
   }
 }

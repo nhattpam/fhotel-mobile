@@ -38,6 +38,7 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
       DateFormat('dd/MM/yyyy').format(DateTime.now().add(Duration(days: 1)));
   List<Map<String, dynamic>> selectedRoomData = [];
   String _searchQuery = ''; // Add a variable to store the search query
+  String _currentLocation = ''; // Add a variable to store the search query
   late SearchPresenter _searchPresenter;
   late HotelPresenter _presenter;
   late LocationPresenter _locationPresenter;
@@ -278,6 +279,7 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
         quantity: room['quantity'],
       );
     }).toList();
+    print(searchRequests);
     return Container(
       width: double.maxFinite,
       margin: EdgeInsets.symmetric(horizontal: 16.h),
@@ -345,11 +347,11 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
                                             : "Nhập điểm đến, khách sạn",
                                         style: _searchQuery.isNotEmpty
                                             ? CustomTextStyles
-                                                .titleSmallGray600 // Style for search query
+                                            .titleSmallGray600 // Style for search query
                                             : CustomTextStyles.titleSmallGray600
-                                                .copyWith(
-                                                    color: Colors
-                                                        .grey), // Style for hint text
+                                            .copyWith(
+                                            color: Colors
+                                                .grey),
                                       ),
                                     ),
                                   ],
@@ -365,6 +367,9 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
                                 onTap: () async {
                                   await _locationPresenter.requestPermission();
                                   _locationPresenter.getCurrentLocation();
+                                  setState(() {
+                                    _searchQuery = _currentLocation;
+                                  });
                                 },
                                 height: 24.h,
                                 width: 24.h,
@@ -620,6 +625,7 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
                       SizedBox(height: 16.h),
                       CustomElevatedButton(
                         onPressed: () async {
+                          listHotels.clear();
                           await _searchPresenter.searchListRoomTypes(
                               searchRequests, _searchQuery);
                              await _locationPresenter.requestPermission();
@@ -1016,7 +1022,7 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
   @override
   void updateAddress(String address) {
     setState(() {
-      _searchQuery = address;
+      _currentLocation = address;
     });
   }
 

@@ -80,4 +80,19 @@ class CreateReservation {
       _view.onCreateError("Failed to create reservation");
     }
   }
+  Future<int?> calculateAvailable(
+      String checkInDate,
+      String roomTypeId,
+      ) async {
+    try {
+
+      int totalAmount = await _repository.availableRoom(checkInDate, roomTypeId);
+
+      _view.onCreateAvailableRoomSuccess(totalAmount);
+      return totalAmount;
+    } catch (error) {
+      // If there's an error, notify the view of the failure
+      _view.onCreateError("Failed to create reservation");
+    }
+  }
 }

@@ -273,4 +273,9 @@ class MyServiceWidgetState extends State<MyServiceWidget> with AutomaticKeepAliv
   void showValidationError(String field, String message) {
     // TODO: implement showValidationError
   }
+
+  @override
+  void onCreateAvailableRoomSuccess(int availableRoom) {
+    // TODO: implement onCreateAvailableRoomSuccess
+  }
 }

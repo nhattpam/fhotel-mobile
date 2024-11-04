@@ -116,38 +116,9 @@ class SearchService {
     return false; // Indicates failure
   }
 
-  Future<List<RoomType>> searchRoomTypes(String? roomType, int quantity, String? cityName) async {
-    // Construct the search request object
-    final searchRequests = [
-      {
-        'roomTypeName': roomType,
-        'quantity': quantity,
-      }
-    ];
-    // Construct the URL with query parameters
-    final url = Uri.parse('$_baseUrl/room-types/search?cityName=${Uri.encodeComponent(cityName ?? "")}');
-    // Make the POST request
-    final response = await http.post(
-      url,
-      headers: {
-        'Content-Type': 'application/json',
-        "accept": "application/json",
-        "Access-Control-Allow-Origin": "*"
-      },
-      body: json.encode(searchRequests), // Wrap in an object with the required field
-    );
-    // Handle the response
-    if (response.statusCode == 200) {
-      List<dynamic> body = jsonDecode(response.body);
-      return body.map((dynamic item) => RoomType.fromJson(item)).toList();
-    } else {
-      print("Response body: ${response.body}");  // Print the error message
-      throw Exception('Failed to load room types, status code: ${response.statusCode}');
-    }
-  }
   Future<List<Hotel>> searchListRoomTypes(
       List<RoomSearchRequest> searchRequests, String? cityName) async {
-    final url = Uri.parse('$_baseUrl/room-types/search?cityName=${cityName ?? ""}');
+    final url = Uri.parse('$_baseUrl/room-types/search?query=${cityName ?? ""}');
     print(url);
     final response = await http.post(
       url,

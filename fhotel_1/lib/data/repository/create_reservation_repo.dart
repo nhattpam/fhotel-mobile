@@ -39,8 +39,6 @@ class CreateReservationRepo {
     }
   }
 
-
-
   Future<double> calculate(Reservation reservation) async {
     final url = Uri.parse('$_baseUrl/reservations/calculate');
     print(url);
@@ -63,5 +61,27 @@ class CreateReservationRepo {
       throw Exception('Failed to calculate');
     }
   }
+
+  Future<int> availableRoom(String roomtypeId, String checkInDate) async {
+
+    final url = Uri.parse('$_baseUrl/reservations/api/roomtypes/available-on-date?roomTypeId=$roomtypeId&targetDate=$checkInDate');
+    final response = await http.get(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    );
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      // Parse the response body to extract the totalAmount
+      final responseBody = json.decode(response.body);
+      int availableRooms = responseBody['availableRooms'];
+
+      return availableRooms;
+    } else {
+      throw Exception('Failed to check available room');
+    }
+  }
+
 
 }

@@ -505,4 +505,9 @@ class ServiceDetailScreenState extends State<ServiceDetailScreen>
   void showValidationError(String field, String message) {
     // TODO: implement showValidationError
   }
+
+  @override
+  void onCreateAvailableRoomSuccess(int availableRoom) {
+    // TODO: implement onCreateAvailableRoomSuccess
+  }
 }
