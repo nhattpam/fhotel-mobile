@@ -1,4 +1,3 @@
-import 'package:badges/badges.dart' as badges; // Alias the badges package
 import 'package:fhotel_1/core/utils/skeleton.dart';
 import 'package:fhotel_1/data/models/service.dart';
 import 'package:fhotel_1/data/repository/list_service.dart';
@@ -6,16 +5,13 @@ import 'package:fhotel_1/data/repository/service_type_repo.dart';
 import 'package:fhotel_1/presenters/list_service_presenter.dart';
 import 'package:fhotel_1/presenters/service_type_presenter.dart';
 import 'package:fhotel_1/views/search_service_result/search_service_result.dart';
-import 'package:fhotel_1/views/service_cart/service_cart.dart';
 import 'package:fhotel_1/views/service_listing_screen/list_service_view.dart';
-import 'package:fhotel_1/widgets/custom_search_view.dart';
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 
 import '../../core/app_export.dart';
 import '../../data/models/service_type.dart';
 import '../service_detail_screen/service_detail_screen.dart';
-import 'widgets/listpizza_one_item_widget.dart';
 
 // ignore_for_file: must_be_immutable
 

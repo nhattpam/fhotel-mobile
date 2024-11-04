@@ -441,7 +441,8 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
                                                 ),
                                               ),
                                               SizedBox(height: 18.h),
-                                              SizedBox(
+                                              _feedbacks.length != 0
+                                              ? SizedBox(
                                                 width: double.maxFinite,
                                                 child: Row(
                                                   mainAxisAlignment:
@@ -508,114 +509,90 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
                                                   ],
                                                 ),
                                               )
+                                                  : SizedBox()
                                             ],
                                           ),
                                         ),
                                       ),
                                     ),
                                     SizedBox(height: 14.h),
-                                    _feedbacks.isNotEmpty
-                                        ? _buildColumndescripti(context)
-                                        : Container(
-                                            width: 488.h,
-                                            margin: EdgeInsets.only(left: 14.h),
-                                            child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Column(
+                                _feedbacks.isNotEmpty
+                                    ? _buildColumndescripti(context)
+                                    : (_feedbacks.isEmpty && _feedbacks.length == 0)
+                                    ? Center(
+                                  child: Text(
+                                    "Khách sạn này chưa có đánh giá",
+                                    style: theme.textTheme.titleMedium, // You can customize this style as needed
+                                  ),
+                                )
+                                    : Container(
+                                  width: 488.h,
+                                  margin: EdgeInsets.only(left: 14.h),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Column(
+                                        children: [
+                                          Text(
+                                            "Đánh giá hàng đầu",
+                                            maxLines: 1,
+                                            textAlign: TextAlign.start,
+                                            style: theme.textTheme.titleSmall,
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(height: 6.h),
+                                      SizedBox(
+                                        width: double.maxFinite,
+                                        height: 100.h,
+                                        child: ListView.builder(
+                                          scrollDirection: Axis.horizontal,
+                                          itemCount: 2,
+                                          itemBuilder: (context, index) {
+                                            return SizedBox(
+                                              child: Padding(
+                                                padding: EdgeInsets.only(right: 8.h),
+                                                child: Container(
+                                                  width: 200.h,
+                                                  padding: EdgeInsets.symmetric(
+                                                    horizontal: 16.h,
+                                                    vertical: 6.h,
+                                                  ),
+                                                  decoration: BoxDecoration(
+                                                    color: appTheme.gray10001,
+                                                    borderRadius: BorderRadiusStyle.roundedBorder8,
+                                                  ),
+                                                  child: Column(
+                                                    mainAxisSize: MainAxisSize.min,
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    mainAxisAlignment: MainAxisAlignment.center,
                                                     children: [
-                                                      Text(
-                                                        "Đánh giá hàng đầu",
-                                                        maxLines: 1,
-                                                        textAlign:
-                                                            TextAlign.start,
-                                                        style: theme.textTheme
-                                                            .titleSmall,
+                                                      Skeleton(
+                                                        width: 100.h,
+                                                        height: 15.h,
+                                                      ),
+                                                      SizedBox(height: 4.h),
+                                                      Skeleton(
+                                                        width: 100.h,
+                                                        height: 15.h,
+                                                      ),
+                                                      SizedBox(height: 4.h),
+                                                      Skeleton(
+                                                        width: 200.h,
+                                                        height: 30.h,
                                                       ),
                                                     ],
                                                   ),
-                                                  SizedBox(height: 6.h),
-                                                  SizedBox(
-                                                    width: double.maxFinite,
-                                                    height: 100.h,
-                                                    // Set a fixed height for the horizontal scroll view if necessary
-                                                    child: ListView.builder(
-                                                      scrollDirection:
-                                                          Axis.horizontal,
-                                                      itemCount: 2,
-                                                      // Specify the number of items
-                                                      itemBuilder:
-                                                          (context, index) {
-                                                        return SizedBox(
-                                                          child: Padding(
-                                                            padding:
-                                                                EdgeInsets.only(
-                                                                    right: 8.h),
-                                                            // Add spacing between items
-                                                            child: Container(
-                                                              width: 200.h,
-                                                              // Set a fixed width for each item
-                                                              padding: EdgeInsets
-                                                                  .symmetric(
-                                                                horizontal:
-                                                                    16.h,
-                                                                vertical: 6.h,
-                                                              ),
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                color: appTheme
-                                                                    .gray10001,
-                                                                borderRadius:
-                                                                    BorderRadiusStyle
-                                                                        .roundedBorder8,
-                                                              ),
-                                                              child: Column(
-                                                                mainAxisSize:
-                                                                    MainAxisSize
-                                                                        .min,
-                                                                crossAxisAlignment:
-                                                                    CrossAxisAlignment
-                                                                        .start,
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .center,
-                                                                children: [
-                                                                  Skeleton(
-                                                                    width:
-                                                                        100.h,
-                                                                    height:
-                                                                        15.h,
-                                                                  ),
-                                                                  SizedBox(
-                                                                      height:
-                                                                          4.h),
-                                                                  Skeleton(
-                                                                    width:
-                                                                        100.h,
-                                                                    height:
-                                                                        15.h,
-                                                                  ),
-                                                                  SizedBox(
-                                                                      height:
-                                                                          4.h),
-                                                                  Skeleton(
-                                                                    width:
-                                                                        200.h,
-                                                                    height:
-                                                                        30.h,
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        );
-                                                      },
-                                                    ),
-                                                  )
-                                                ]),
-                                          )
-                                  ],
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                ],
                                 ),
                               ),
                               SizedBox(height: 8.h),

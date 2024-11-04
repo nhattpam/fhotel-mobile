@@ -1,3 +1,4 @@
+import 'package:fhotel_1/core/utils/skeleton.dart';
 import 'package:fhotel_1/data/models/room_facility.dart';
 import 'package:fhotel_1/data/models/room_image.dart';
 import 'package:fhotel_1/data/models/room_types.dart';
@@ -54,7 +55,6 @@ class HomeRoomGuestFilledBottomsheetState
             children: [
               _buildSheetheader(context),
               SizedBox(height: 10.h),
-              SizedBox(height: 6.h),
               Container(
                 width: double.maxFinite,
                 padding: EdgeInsets.all(16.h),
@@ -64,7 +64,9 @@ class HomeRoomGuestFilledBottomsheetState
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _buildColumniconwrapp(context),
+                    _types.isNotEmpty
+                        ? _buildColumniconwrapp(context)
+                        : _buildSkeleton(context)
                   ],
                 ),
               ),
@@ -125,7 +127,7 @@ class HomeRoomGuestFilledBottomsheetState
         // Replace yourList with the actual list you're using
         shrinkWrap: true,
         // This will allow the ListView to fit within its parent
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         // Prevents the ListView from being scrollable if inside another scrollable widget
         itemBuilder: (context, index) {
           return Column(
@@ -158,25 +160,14 @@ class HomeRoomGuestFilledBottomsheetState
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      ElevatedButton(
-                                          onPressed: () {
-                                            // _showRoomAndGuestModalBottomSheet(context);
-                                          },
-                                          style: ElevatedButton.styleFrom(
-                                            backgroundColor: Colors.transparent,
-                                            // Set background to transparent
-                                            elevation:
-                                                0, // Remove shadow/elevation
-                                          ),
-                                          child: Text(
-                                            "${_types[index].typeName}",
-                                            // "${dropdownItemList[index]}",
-                                            style: CustomTextStyles
-                                                .titleSmallGray600
-                                                .copyWith(
-                                              color: appTheme.gray600,
-                                            ),
-                                          )),
+                                      Text(
+                                        "${_types[index].typeName}",
+                                        style: CustomTextStyles
+                                            .titleSmallGray600
+                                            .copyWith(
+                                          color: appTheme.gray600,
+                                        ),
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -279,7 +270,162 @@ class HomeRoomGuestFilledBottomsheetState
                 ),
               ),
               SizedBox(height: 6.h),
-              SizedBox(
+              const SizedBox(
+                width: double.maxFinite,
+                child: Divider(),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildSkeleton(BuildContext context) {
+    return SizedBox(
+      width: double.maxFinite,
+      child: ListView.builder(
+        itemCount: 3,
+        // Replace yourList with the actual list you're using
+        shrinkWrap: true,
+        // This will allow the ListView to fit within its parent
+        physics: const NeverScrollableScrollPhysics(),
+        // Prevents the ListView from being scrollable if inside another scrollable widget
+        itemBuilder: (context, index) {
+          return Column(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadiusStyle.roundedBorder4,
+                ),
+                width: double.maxFinite,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: appTheme.whiteA700,
+                        ),
+                        child: Row(
+                          children: [
+                            CustomImageView(
+                              imagePath: ImageConstant.imgIconWrapper5,
+                              height: 24.h,
+                              width: 24.h,
+                            ),
+                            Expanded(
+                              child: Align(
+                                alignment: Alignment.bottomLeft,
+                                child: Padding(
+                                  padding: EdgeInsets.only(top: 2.h, left: 5.h),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Skeleton(height: 20.h, width: 75.h)
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 148.h,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                if (quantities[index] > 0) {
+                                  quantities[index]--;
+                                }
+                              });
+                              // Handle minus button logic here
+                            },
+                            child: Container(
+                              height: 40.h,
+                              width: 40.h,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadiusStyle.roundedBorder4,
+                                border: Border.all(
+                                  color: Colors.blue,
+                                  width: 1.h,
+                                ),
+                              ),
+                              child: Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  CustomImageView(
+                                    color: Colors.blue,
+                                    imagePath: ImageConstant.imgContentMinus,
+                                    height: 24.h,
+                                    width: 24.h,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 4.h),
+                          Expanded(
+                            child: CustomTextFormField(
+                              borderDecoration: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color:
+                                          appTheme.black900.withOpacity(0.15),
+                                      width: 2)),
+                              readOnly: true,
+                              controller: inputOneController,
+                              hintText: quantities[index].toString(),
+                              hintStyle: const TextStyle(color: Colors.black),
+                              contentPadding: EdgeInsets.symmetric(
+                                horizontal: 20.h,
+                                vertical: 8.h,
+                              ),
+                            ),
+                          ), // Custom input widget
+                          SizedBox(width: 4.h),
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                quantities[index]++;
+                              });
+                              // Handle plus button logic here
+                            },
+                            child: Container(
+                              height: 40.h,
+                              width: 40.h,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadiusStyle.roundedBorder4,
+                                border: Border.all(
+                                  color: Colors.blue,
+                                  width: 1.h,
+                                ),
+                              ),
+                              child: Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  CustomImageView(
+                                    color: Colors.blue,
+                                    imagePath: ImageConstant.imgIconWrapper6,
+                                    height: 24.h,
+                                    width: 24.h,
+                                  )
+                                ],
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(height: 6.h),
+              const SizedBox(
                 width: double.maxFinite,
                 child: Divider(),
               ),

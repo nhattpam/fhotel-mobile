@@ -13,13 +13,15 @@ class CreateFeedbackPresenter {
   // This method will call the authenticate API and handle the result
   Future<Feedbacks> createFeedbacks(String reservationId,
       String comment,
-      int hotelRating) async {
+      int hotelRating,
+      String createdDate) async {
     try {
       // Create the final reservation with the calculated total amount
       Feedbacks feedbacks = Feedbacks(
         reservationId: reservationId,
         comment: comment,
         hotelRating: hotelRating,
+        createdDate: createdDate,
       );
       // Call the repository to persist the reservation
       Feedbacks createdFeedback = await _repository.create(feedbacks);

@@ -463,7 +463,7 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
                     ),
                     color: Colors.white,
                     child: Text(
-                      "Các tiện nghi của khách sạn:",
+                      "Các tiện ích của phòng:",
                       textAlign: TextAlign.start,
                       style: theme.textTheme.titleSmall!.copyWith(
                         color: theme.colorScheme.onPrimary,

@@ -3,23 +3,21 @@ import 'package:fhotel_1/data/repository/order_repo.dart';
 import 'package:fhotel_1/views/choose_room_detail/create_reservation_view.dart';
 
 class OrderPresenter {
-  final CreateReservationView _view;// This is the interface for the view (e.g., LoginScreen)
+  final CreateReservationView
+      _view; // This is the interface for the view (e.g., LoginScreen)
 
-  final OrderRepo _repository = OrderRepo(); // Create an instance of the network class
+  final OrderRepo _repository =
+      OrderRepo(); // Create an instance of the network class
 
   OrderPresenter(this._view); // Initialize with the view
 
-
   // This method will call the authenticate API and handle the result
   Future<Order> createOrder(
-      String reservationId,
-      ) async {
-
+    String reservationId,
+  ) async {
     try {
       // Create a reservation object to calculate the total amount
-      Order order = Order(
-        reservationId: reservationId
-      );
+      Order order = Order(reservationId: reservationId, orderStatus: 'Pending');
 
       // Call the repository to persist the reservation
       Order createdOrder = await _repository.create(order);
@@ -37,5 +35,4 @@ class OrderPresenter {
       throw Exception("Failed to create order");
     }
   }
-
 }

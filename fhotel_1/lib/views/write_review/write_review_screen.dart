@@ -5,8 +5,6 @@ import 'package:fhotel_1/views/write_review/create_feedback_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
-import '../choose_room_detail/create_reservation_view.dart';
-
 class WriteReviewScreen extends StatefulWidget {
   final String reservationId;
   final Feedbacks feedback;
@@ -207,7 +205,12 @@ class WriteReviewScreenState extends State<WriteReviewScreen> implements CreateF
           // Check if feedback is empty to determine create or update
           if (widget.feedback.feedbackId == null || widget.feedback.feedbackId!.isEmpty) {
             // Create new feedback
-            _presenter.createFeedbacks(widget.reservationId, reviewsInputController.text, rating);
+            _presenter.createFeedbacks(
+              widget.reservationId,
+              reviewsInputController.text,
+              rating,
+              DateFormat('yyyy-MM-dd').format(DateTime.now()), // Ensure the method call includes parentheses to get the current date-time
+            );
             AwesomeDialog(
               context: context,
               animType: AnimType.scale,

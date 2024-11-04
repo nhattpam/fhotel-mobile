@@ -11,7 +11,8 @@ class HotelDetailsRatingsReviewsScreen extends StatefulWidget {
       HotelDetailsRatingsReviewsScreenState();
 }
 
-class HotelDetailsRatingsReviewsScreenState extends State<HotelDetailsRatingsReviewsScreen>
+class HotelDetailsRatingsReviewsScreenState
+    extends State<HotelDetailsRatingsReviewsScreen>
     with TickerProviderStateMixin {
   late TabController tabviewController;
   GlobalKey<NavigatorState> navigatorKey = GlobalKey();
@@ -24,6 +25,7 @@ class HotelDetailsRatingsReviewsScreenState extends State<HotelDetailsRatingsRev
     super.initState();
     tabviewController = TabController(length: 3, vsync: this);
   }
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -126,6 +128,7 @@ class HotelDetailsRatingsReviewsScreenState extends State<HotelDetailsRatingsRev
             ],
           ),
         ),
+
         ///In case write feedback in hotel
         // floatingActionButton: Padding(
         //   padding: const EdgeInsets.only(bottom: 50.0, right: 10),
@@ -151,7 +154,7 @@ class HotelDetailsRatingsReviewsScreenState extends State<HotelDetailsRatingsRev
     return CustomAppBar(
       leadingWidth: 40.h,
       leading: AppbarLeadingImage(
-        onTap: (){
+        onTap: () {
           Navigator.pop(context);
         },
         imagePath: ImageConstant.imgChevronLeft,
@@ -266,32 +269,29 @@ class HotelDetailsRatingsReviewsScreenState extends State<HotelDetailsRatingsRev
               itemCount: ratings.length,
               itemBuilder: (context, index) {
                 return GestureDetector(
-                  onTap: (){
+                  onTap: () {
                     setState(() {
-                      _sortfeedbacks = _originalFeedbacks.where((feedback) => feedback.hotelRating == ratings[index]).toList();
+                      _sortfeedbacks = _originalFeedbacks
+                          .where((feedback) =>
+                              feedback.hotelRating == ratings[index])
+                          .toList();
                     });
                   },
-                  child: ChipTheme(
-                    data: ChipTheme.of(context).copyWith(
-                      backgroundColor: Colors.white,
-                      selectedColor: Colors.blue,
-                      disabledColor: Colors.grey,
-                      shape: RoundedRectangleBorder(
-                        side: const BorderSide(
-                          color: Colors.grey,
-                          width: 1,
-                        ),
-                        borderRadius: BorderRadius.circular(50),
+                  child: Chip(
+                    backgroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      side: const BorderSide(
+                        color: Colors.grey,
+                        width: 1,
                       ),
+                      borderRadius: BorderRadius.circular(50),
                     ),
-                    child: Chip(
-                      padding: const EdgeInsets.only(bottom :10),
-                      label: Text(
-                        '${ratings[index]} sao',
-                        // textAlign: TextAlign.center,
-                        style: TextStyle(
-                          height: 1, // Adjusts text's vertical position
-                        ),
+                    padding: const EdgeInsets.only(bottom: 10),
+                    label: Text(
+                      '${ratings[index]} sao',
+                      style: TextStyle(
+                        height: 1, // Adjusts text's vertical position
+                        color: Colors.black, // Optional text color change
                       ),
                     ),
                   ),
@@ -299,7 +299,6 @@ class HotelDetailsRatingsReviewsScreenState extends State<HotelDetailsRatingsRev
               },
             ),
           )
-
         ],
       ),
     );
@@ -373,126 +372,149 @@ class HotelDetailsRatingsReviewsScreenState extends State<HotelDetailsRatingsRev
               height: 12.h,
             );
           },
-          itemCount: _sortfeedbacks.isNotEmpty ? _sortfeedbacks.length : _feedbacks.length,
+          itemCount: _sortfeedbacks.isNotEmpty
+              ? _sortfeedbacks.length
+              : _feedbacks.length,
           itemBuilder: (context, index) {
-            return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Container(
-                width: double.maxFinite,
-                margin: EdgeInsets.only(right: 32.h),
-                child: Column(
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        color: appTheme.whiteA700,
-                      ),
-                      width: double.maxFinite,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          CustomImageView(
-                            imagePath: ImageConstant.imgCircle24x24,
-                            height: 24.h,
-                            width: 24.h,
-                            margin: EdgeInsets.only(top: 8.h),
+            return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: double.maxFinite,
+                    margin: EdgeInsets.only(right: 32.h),
+                    child: Column(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            color: appTheme.whiteA700,
                           ),
-                          SizedBox(width: 8.h),
-                          Expanded(
-                            child: Align(
-                              alignment: Alignment.bottomLeft,
-                              child: Padding(
-                                padding: EdgeInsets.only(top: 8.h),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    _sortfeedbacks.isNotEmpty
-                                    ? Text(
-                                      (_sortfeedbacks[index].reservation?.customer?.name).toString(),
-                                      style: theme.textTheme.bodyMedium,
-                                    )
-                                    : Text(
-                                      (_feedbacks[index].reservation?.customer?.name).toString(),
-                                      style: theme.textTheme.bodyMedium,
+                          width: double.maxFinite,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              CustomImageView(
+                                imagePath: ImageConstant.imgCircle24x24,
+                                height: 24.h,
+                                width: 24.h,
+                                margin: EdgeInsets.only(top: 8.h),
+                              ),
+                              SizedBox(width: 8.h),
+                              Expanded(
+                                child: Align(
+                                  alignment: Alignment.bottomLeft,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(top: 8.h),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        _sortfeedbacks.isNotEmpty
+                                            ? Text(
+                                                (_sortfeedbacks[index]
+                                                        .reservation
+                                                        ?.customer
+                                                        ?.name)
+                                                    .toString(),
+                                                style:
+                                                    theme.textTheme.bodyMedium,
+                                              )
+                                            : Text(
+                                                (_feedbacks[index]
+                                                        .reservation
+                                                        ?.customer
+                                                        ?.name)
+                                                    .toString(),
+                                                style:
+                                                    theme.textTheme.bodyMedium,
+                                              ),
+                                        SizedBox(height: 6.h),
+                                        _sortfeedbacks.isNotEmpty
+                                            ? CustomRatingBar(
+                                                color: Colors.yellow,
+                                                ignoreGestures: true,
+                                                initialRating:
+                                                    (_sortfeedbacks[index]
+                                                            .hotelRating)
+                                                        ?.toDouble(),
+                                              )
+                                            : CustomRatingBar(
+                                                color: Colors.yellow,
+                                                ignoreGestures: true,
+                                                initialRating:
+                                                    (_feedbacks[index]
+                                                            .hotelRating)
+                                                        ?.toDouble(),
+                                              ),
+                                      ],
                                     ),
-                                    SizedBox(height: 6.h),
-                                    _sortfeedbacks.isNotEmpty
-                                    ? CustomRatingBar(
-                                      color: Colors.yellow,
-                                      ignoreGestures: true,
-                                      initialRating: (_sortfeedbacks[index].hotelRating)?.toDouble(),
-                                    )
-                                    : CustomRatingBar(
-                                      color: Colors.yellow,
-                                      ignoreGestures: true,
-                                      initialRating: (_feedbacks[index].hotelRating)?.toDouble(),
-                                    ),
-                                  ],
+                                  ),
                                 ),
                               ),
-                            ),
+                              SizedBox(width: 8.h),
+                              _sortfeedbacks.isNotEmpty
+                                  ? Padding(
+                                      padding: EdgeInsets.only(top: 8.h),
+                                      child: Text(
+                                        // DateFormat('dd-MM-yyyy').format(DateTime.parse((_sortfeedbacks[index].createdDate).toString())),
+                                        '2-11-2024',
+                                        style: CustomTextStyles.bodySmall10,
+                                      ),
+                                    )
+                                  : Padding(
+                                      padding: EdgeInsets.only(top: 8.h),
+                                      child: Text(
+                                        // DateFormat('dd-MM-yyyy').format(DateTime.parse((_feedbacks[index].createdDate).toString())),
+                                        '2-11-2024',
+                                        style: CustomTextStyles.bodySmall10,
+                                      ),
+                                    )
+                            ],
                           ),
-                          SizedBox(width: 8.h),
-                          _sortfeedbacks.isNotEmpty
-                          ? Padding(
-                            padding: EdgeInsets.only(top: 8.h),
-                            child: Text(
-                              (_sortfeedbacks[index].createdDate).toString(),
-                              style: CustomTextStyles.bodySmall10,
-                            ),
-                          )
-                          : Padding(
-                            padding: EdgeInsets.only(top: 8.h),
-                            child: Text(
-                              (_feedbacks[index].createdDate).toString(),
-                              style: CustomTextStyles.bodySmall10,
-                            ),
-                          )
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              Container(
-                width: double.maxFinite,
-                padding: EdgeInsets.symmetric(
-                  horizontal: 16.h,
-                  vertical: 4.h,
-                ),
-                decoration: BoxDecoration(
-                  color: appTheme.whiteA700,
-                  border: Border(
-                    bottom: BorderSide(
-                      color: appTheme.blueGray50,
-                      width: 1.h,
+                        )
+                      ],
                     ),
                   ),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _sortfeedbacks.isNotEmpty
-                    ? Text(
-                      (_sortfeedbacks[index].comment).toString(),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: theme.textTheme.bodyMedium!.copyWith(
-                        height: 1.50,
-                      ),
-                    )
-                    : Text(
-                      (_feedbacks[index].comment).toString(),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: theme.textTheme.bodyMedium!.copyWith(
-                        height: 1.50,
+                  Container(
+                    width: double.maxFinite,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 16.h,
+                      vertical: 4.h,
+                    ),
+                    decoration: BoxDecoration(
+                      color: appTheme.whiteA700,
+                      border: Border(
+                        bottom: BorderSide(
+                          color: appTheme.blueGray50,
+                          width: 1.h,
+                        ),
                       ),
                     ),
-                    SizedBox(height: 10.h)
-                  ],
-                ),
-              )
-            ]);
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _sortfeedbacks.isNotEmpty
+                            ? Text(
+                                (_sortfeedbacks[index].comment).toString(),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: theme.textTheme.bodyMedium!.copyWith(
+                                  height: 1.50,
+                                ),
+                              )
+                            : Text(
+                                (_feedbacks[index].comment).toString(),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: theme.textTheme.bodyMedium!.copyWith(
+                                  height: 1.50,
+                                ),
+                              ),
+                        SizedBox(height: 10.h)
+                      ],
+                    ),
+                  )
+                ]);
           },
         ),
       ),
