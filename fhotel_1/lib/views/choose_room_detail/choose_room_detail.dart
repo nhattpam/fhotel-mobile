@@ -476,20 +476,44 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
                   ),
                   _facilities.isNotEmpty
                       ? Container(
-                          height: 200,
+                          color: Colors.white,
+                          height: _facilities.length > 6 ? 205 : 105,
                           width: double.infinity,
-                          child: ListView.builder(
-                            itemCount: _facilities.length,
+                          child: GridView.builder(
+                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3, // Adjust the number of columns
+                              childAspectRatio: 3, // Adjust the aspect ratio if necessary
+                              crossAxisSpacing: 10.0,
+                              mainAxisSpacing: 10.0,
+                            ),
+                            itemCount: _facilities.length, // Number of items in the grid
                             itemBuilder: (context, index) {
                               return SizedBox(
-                                width: double.maxFinite,
-                                child: _buildSectionOne(
-                                  context,
-                                  descriptionOne: (_facilities[index].facility?.facilityName).toString(),
+                                width: 100, // Set the desired width
+                                height: 50, // Set the desired height
+                                child: Chip(
+                                  backgroundColor: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                    side: const BorderSide(
+                                      color: Colors.grey,
+                                      width: 1,
+                                    ),
+                                    borderRadius: BorderRadius.circular(50),
+                                  ),
+                                  padding: const EdgeInsets.symmetric(horizontal: 10), // Adjust as needed
+                                  label: Center( // Center the text within the chip
+                                    child: Text(
+                                      (_facilities[index].facility?.facilityName).toString(),
+                                      style: TextStyle(
+                                        height: 1, // Adjusts text's vertical position
+                                        color: Colors.black, // Optional text color change
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               );
                             },
-                          ),
+                          )
                         )
                       : Container(
                     height: 29,
