@@ -36,7 +36,6 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
 
   late String email;
   late String password;
-  EmailOTP myauth = EmailOTP();
 
   String? firstNameError;
   String? lastNameError;
@@ -98,7 +97,6 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
       await _imagePresenter.pickImageAndUpload(file);
     }
   }
-
 
   void _unfocusAllExcept(int index) {
     for (int i = 0; i < focusNodes.length; i++) {
@@ -408,74 +406,37 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
             idNumberError == null &&
             phoneNumberError == null &&
             addressError == null) {
-          {
-            EmailOTP.setSMTP(
-              host: "smtp.gmail.com",
-              emailPort: EmailPort.port587,
-              secureType: SecureType.tls,
-              username: "companyfhotel@gmail.com",
-              password: "ubqk btun nour lonv",
-            );
-
-            EmailOTP.setTemplate(
-              template: '''
-    <div style="background-color: #f4f4f4; padding: 20px; font-family: Arial, sans-serif;">
-      <div style="background-color: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
-        <h1 style="color: #333;">{{appName}}</h1>
-        <p style="color: #333;">Your OTP is <strong>{{otp}}</strong></p>
-        <p style="color: #333;">This OTP is valid for 5 minutes.</p>
-        <p style="color: #333;">Thank you for using our service.</p>
-      </div>
-    </div>
-    ''',
-            );
-            EmailOTP.config(
-                expiry: 5,
-                emailTheme: EmailTheme.v1,
-                appEmail: "companyfhotel@gmail.com",
-                appName: "FHotel OTP",
-                otpLength: 5,
-                otpType: OTPType.numeric);
-            if (await EmailOTP.sendOTP(email: email)) {
-              String generatedOtp = (EmailOTP.getOTP()).toString();
-              AwesomeDialog(
-                context: context,
-                animType: AnimType.scale,
-                dialogType: DialogType.success,
-                body: const Center(
-                  child: Text(
-                    'Vui lòng kiểm tra email để kích hoạt tài khoản!!!',
-                    style: TextStyle(fontStyle: FontStyle.italic),
-                  ),
-                ),
-                btnOkOnPress: () async {
-                  User user = User(
-                      email: email,
-                      password: password,
-                      name: name,
-                      address: address,
-                      identificationNumber: idNumber,
-                      phoneNumber: phoneNumber,
-                      image: _imageUrl.toString(),
-                      isActive: false);
-                  await _registerpresenter.registerUser(email, password, name,
-                      address, idNumber, phoneNumber, _imageUrl.toString());
-                  Navigator.pushReplacementNamed(
-                    context,
-                    AppRoutes.otpScreen,
-                    arguments: {
-                      'user': user,
-                      'otp': generatedOtp,
-                    },
-                  );
-                },
-              ).show();
-            } else {
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                content: Text("Oops, OTP send failed"),
-              ));
-            }
-          }
+          AwesomeDialog(
+            context: context,
+            animType: AnimType.scale,
+            dialogType: DialogType.success,
+            body: const Center(
+              child: Text(
+                'Vui lòng kiểm tra OTP đã được gửi về số điện thoại của bạn!!!',
+                style: TextStyle(fontStyle: FontStyle.italic),
+              ),
+            ),
+            btnOkOnPress: () async {
+              User user = User(
+                  email: email,
+                  password: password,
+                  name: name,
+                  address: address,
+                  identificationNumber: idNumber,
+                  phoneNumber: phoneNumber,
+                  image: _imageUrl.toString(),
+                  isActive: false);
+              await _registerpresenter.registerUser(email, password, name,
+                  address, idNumber, phoneNumber, _imageUrl.toString());
+              Navigator.pushReplacementNamed(
+                context,
+                AppRoutes.otpScreen,
+                arguments: {
+                  'user': user,
+                 },
+              );
+            },
+          ).show();
         }
       },
       buttonStyle: CustomButtonStyles.fillBlue,

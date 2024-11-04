@@ -11,9 +11,8 @@ import '../user_profile/user_profile_view.dart';
 class OtpSignupDialog extends StatefulWidget {
   final Function() onBackToLogin;
   final User user;
-  final String myauth;
 
-  OtpSignupDialog({required this.user, required this.myauth, required this.onBackToLogin});
+  OtpSignupDialog({required this.user, required this.onBackToLogin});
   @override
   OtpSignupDialogState createState() => OtpSignupDialogState();
 }
@@ -50,11 +49,11 @@ class OtpSignupDialogState extends State<OtpSignupDialog> implements UserProfile
                 text: TextSpan(
                   children: [
                     TextSpan(
-                      text: "Nhập mã đã được gửi về email của bạn ",
+                      text: "Nhập mã đã được gửi về số điện thoại của bạn ",
                       style: theme.textTheme.bodyLarge,
                     ),
                     TextSpan(
-                      text: widget.user.email.toString(),
+                      text: widget.user.phoneNumber.toString(),
                       style: CustomTextStyles.titleSmallMedium,
                     )
                   ],
@@ -109,47 +108,59 @@ class OtpSignupDialogState extends State<OtpSignupDialog> implements UserProfile
   Widget _buildSubmitSection(BuildContext context) {
     return CustomElevatedButton(
       height: 40.h,
-      text: "Submit",
+      text: "Xác nhận",
       margin: EdgeInsets.only(right: 8.h),
       buttonStyle: CustomButtonStyles.fillBlue,
       buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,
       onPressed: () async {
-        if (enteredOtp == widget.myauth) {
-          await _registerpresenter.activateAccount(widget.user.email.toString());
-          AwesomeDialog(
-            context: context,
-            animType: AnimType.scale,
-            dialogType: DialogType.success,
-            body: const Center(
-              child: Text(
-                'Hoàn tất đăng kí!!',
-                style: TextStyle(fontStyle: FontStyle.italic),
+        if (enteredOtp.isNotEmpty) {
+          bool isActivated = await _registerpresenter.activateAccount(widget.user.phoneNumber.toString(), enteredOtp);
+
+          if (isActivated) {
+            AwesomeDialog(
+              context: context,
+              animType: AnimType.scale,
+              dialogType: DialogType.success,
+              body: const Center(
+                child: Text(
+                  'Bạn đã đăng kí thành công!!',
+                  style: TextStyle(fontStyle: FontStyle.italic),
+                ),
               ),
-            ),
-            // title: 'Warning',
-            // desc:   'This is also Ignored',
-            btnOkOnPress: () {
-              SessionManager().clearSession();
-              widget.onBackToLogin();
-              // Navigator.pushReplacementNamed(context, AppRoutes.initialRoute);
-            },
-          ).show();
-        } else {
-          AwesomeDialog(
+              btnOkOnPress: () {
+                SessionManager().clearSession();
+                widget.onBackToLogin();
+              },
+            ).show();
+          } else {
+            AwesomeDialog(
               context: context,
               animType: AnimType.scale,
               dialogType: DialogType.error,
               body: const Center(
                 child: Text(
-                  'OTP không trùng khớp',
+                  'OTP không chính xác. Vui lòng thử lại.',
                   style: TextStyle(fontStyle: FontStyle.italic),
                 ),
               ),
-              // title: 'Warning',
-              // desc:   'This is also Ignored',
               btnOkOnPress: () {},
-              btnOkColor: Colors.red)
-            ..show();
+              btnOkColor: Colors.red,
+            ).show();
+          }
+        } else {
+          AwesomeDialog(
+            context: context,
+            animType: AnimType.scale,
+            dialogType: DialogType.error,
+            body: const Center(
+              child: Text(
+                'Vui lòng nhập OTP',
+                style: TextStyle(fontStyle: FontStyle.italic),
+              ),
+            ),
+            btnOkOnPress: () {},
+            btnOkColor: Colors.red,
+          ).show();
         }
       },
     );

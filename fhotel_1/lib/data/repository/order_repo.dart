@@ -59,4 +59,29 @@ class OrderRepo {
     }
   }
 
+  Future<bool> updateOrder(Order order) async {
+
+    final url = Uri.parse('$_baseUrl/orders/${order.orderId}');
+    print(url);
+    try {
+      final response = await http.put(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          // Add any authentication headers here
+        },
+        body: jsonEncode(order.toJson()),
+      );
+      print(jsonEncode(order.toJson()));
+
+      if (response.statusCode == 200) {
+        return true; // Update successful
+      } else {
+        print('Failed to order. Status code: ${response.statusCode}');
+        return false; // Update failed
+      }
+    } catch (e) {
+      throw Exception('Failed to update order');
+    }
+  }
 }

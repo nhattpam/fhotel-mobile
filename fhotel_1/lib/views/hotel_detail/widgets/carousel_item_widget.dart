@@ -724,7 +724,7 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
                                                 ),
                                                 const Spacer(),
                                                 Text(
-                                                  "15:00 - 03:00",
+                                                  "14:00 chiều",
                                                   style: theme
                                                       .textTheme.titleSmall,
                                                 )
@@ -761,7 +761,7 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
                                                 ),
                                                 const Spacer(),
                                                 Text(
-                                                  "trước 11:00",
+                                                  "trước 12:00 trưa",
                                                   style: theme
                                                       .textTheme.titleSmall,
                                                 ),

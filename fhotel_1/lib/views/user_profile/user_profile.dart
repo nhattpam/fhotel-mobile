@@ -97,9 +97,9 @@ class UserProfileScreenState extends State<UserProfileScreen>
         return RegisterFillInformationDialog(
           email: email,
           password: password,
-          onRegisterFillInformation: (User user, String otp) {
+          onRegisterFillInformation: (User user) {
             Navigator.pop(context);
-            _showOTPDialog(user, otp);
+            _showOTPDialog(user);
           }, onCloseDialog: () {
           Navigator.pushReplacementNamed(context, AppRoutes.homePage);
         },
@@ -107,14 +107,13 @@ class UserProfileScreenState extends State<UserProfileScreen>
       },
     );
   }
-  void _showOTPDialog(User user, String otp) {
+  void _showOTPDialog(User user) {
     showDialog(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
         return OtpSignupDialog(
           user: user,
-          myauth: otp,
           onBackToLogin: (){
             Navigator.pop(context);
             _showLoginDialog();

@@ -22,7 +22,6 @@ class _OTPScreenState extends State<OTPScreen> implements UserProfileView, Regis
   late UserProfilePresenter _presenter;
   String enteredOtp = "";
   User? _user;
-  String? myauth;
   bool _isLoading = false;
   late RegisterPresenter _registerpresenter;
 
@@ -44,7 +43,6 @@ class _OTPScreenState extends State<OTPScreen> implements UserProfileView, Regis
 
     if (arguments != null) {
       _user = arguments['user'] as User?; // Extract the User object
-      myauth = arguments['otp'] as String?; // Extract the OTP string
     }
   }
 
@@ -75,11 +73,11 @@ class _OTPScreenState extends State<OTPScreen> implements UserProfileView, Regis
                   text: TextSpan(
                     children: [
                       TextSpan(
-                        text: "Nhập mã đã được gửi về email của bạn ",
+                        text: "Nhập mã đã được gửi về số điện thoại của bạn ",
                         style: theme.textTheme.bodyLarge,
                       ),
                       TextSpan(
-                        text: _user?.email.toString(),
+                        text: _user?.phoneNumber.toString(),
                         style: CustomTextStyles.titleSmallMedium,
                       )
                     ],
@@ -161,41 +159,53 @@ class _OTPScreenState extends State<OTPScreen> implements UserProfileView, Regis
       buttonStyle: CustomButtonStyles.fillBlue,
       buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,
       onPressed: () async {
-        final customerId = SessionManager().getUserId();
-        if (enteredOtp == myauth) {
-          await _registerpresenter.activateAccount(_user!.email.toString());
-          AwesomeDialog(
-            context: context,
-            animType: AnimType.scale,
-            dialogType: DialogType.success,
-            body: const Center(
-              child: Text(
-                'Hoàn tất đăng kí!!',
-                style: TextStyle(fontStyle: FontStyle.italic),
+        if (enteredOtp.isNotEmpty) {
+          bool isActivated = await _registerpresenter.activateAccount(_user!.phoneNumber.toString(), enteredOtp);
+
+          if (isActivated) {
+            AwesomeDialog(
+              context: context,
+              animType: AnimType.scale,
+              dialogType: DialogType.success,
+              body: const Center(
+                child: Text(
+                  'Bạn đã đăng kí thành công !!!',
+                  style: TextStyle(fontStyle: FontStyle.italic),
+                ),
               ),
-            ),
-            // title: 'Warning',
-            // desc:   'This is also Ignored',
-            btnOkOnPress: () {
-              Navigator.pushReplacementNamed(context, AppRoutes.initialRoute);
-            },
-          ).show();
-        } else {
-          AwesomeDialog(
+              btnOkOnPress: () {
+                Navigator.pushReplacementNamed(context, AppRoutes.initialRoute);
+              },
+            ).show();
+          } else {
+            AwesomeDialog(
               context: context,
               animType: AnimType.scale,
               dialogType: DialogType.error,
               body: const Center(
                 child: Text(
-                  'OTP không trùng khớp',
+                  'OTP không chính xác. Vui lòng thử lại.',
                   style: TextStyle(fontStyle: FontStyle.italic),
                 ),
               ),
-              // title: 'Warning',
-              // desc:   'This is also Ignored',
               btnOkOnPress: () {},
-              btnOkColor: Colors.red)
-            ..show();
+              btnOkColor: Colors.red,
+            ).show();
+          }
+        } else {
+          AwesomeDialog(
+            context: context,
+            animType: AnimType.scale,
+            dialogType: DialogType.error,
+            body: const Center(
+              child: Text(
+                'Vui lòng nhập OTP',
+                style: TextStyle(fontStyle: FontStyle.italic),
+              ),
+            ),
+            btnOkOnPress: () {},
+            btnOkColor: Colors.red,
+          ).show();
         }
       },
     );

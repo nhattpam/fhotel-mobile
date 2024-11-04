@@ -176,11 +176,19 @@ class RegisterPresenter {
     // If validation passes, navigate to the next screen
   }
 
-  Future<void> activateAccount(String email) async {
+  Future<bool> activateAccount(String phone, String otp) async {
     try {
-      final user = await _repository.activeAccountByEmail(email);
+      final user = await _repository.activeAccountByOTP(phone, otp);
+      // Assuming that a successful activation returns a non-null user
+      if (user != null) {
+        return true;
+      } else {
+        return false;
+      }
     } catch (error) {
       print(error);
+      return false;
     }
   }
+
 }

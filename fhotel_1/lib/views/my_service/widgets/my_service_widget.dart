@@ -7,6 +7,8 @@ import 'package:fhotel_1/views/my_service_detail/my_service_detail.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/app_export.dart';
+import '../../../presenters/order_presenter.dart';
+import '../../choose_room_detail/create_reservation_view.dart';
 
 class MyServiceWidget extends StatefulWidget {
   final Order order;
@@ -17,8 +19,9 @@ class MyServiceWidget extends StatefulWidget {
   MyServiceWidgetState createState() => MyServiceWidgetState();
 }
 
-class MyServiceWidgetState extends State<MyServiceWidget> implements GetOrderDetailView {
+class MyServiceWidgetState extends State<MyServiceWidget> implements GetOrderDetailView, CreateReservationView {
   late GetOrderDetailPresenter _presenter;
+  late OrderPresenter _orderPresenter;
   OrderDetail? _orderDetail;
   String? _error;
   bool _isLoading = false;
@@ -29,6 +32,7 @@ class MyServiceWidgetState extends State<MyServiceWidget> implements GetOrderDet
     super.initState();
     _presenter = GetOrderDetailPresenter(this); // Initialize the presenter
     _presenter.getOrderDetailByOrderId(widget.order.orderId.toString()); // Fetch customer data
+    _orderPresenter = OrderPresenter(this);
   }
 
   @override
@@ -49,23 +53,23 @@ class MyServiceWidgetState extends State<MyServiceWidget> implements GetOrderDet
                         color: appTheme.black900,
                       ),
                     ),
-                    (widget.order.orderStatus != null)
+                    (_orderDetail?.order?.orderStatus != null)
                         ?  CustomElevatedButton(
                       height: 28.h,
-                      width: widget.order.orderStatus == 'Pending' ? 126.h : 126.h,
-                      text: widget.order.orderStatus == 'Cancelled'
+                      width: _orderDetail?.order?.orderStatus == 'Pending' ? 126.h : 126.h,
+                      text: _orderDetail?.order?.orderStatus == 'Cancelled'
                           ? "Đã bị hủy"
-                          : widget.order.orderStatus == 'Pending'
+                          : _orderDetail?.order?.orderStatus == 'Pending'
                           ? "Đang xử lý"
                           : "Đặt thành công",
-                      buttonStyle: widget.order.orderStatus == 'Cancelled'
+                      buttonStyle: _orderDetail?.order?.orderStatus == 'Cancelled'
                           ? CustomButtonStyles.fillRed // Add a red style for "Cancelled"
-                          : widget.order.orderStatus == 'Pending'
+                          : _orderDetail?.order?.orderStatus == 'Pending'
                           ? CustomButtonStyles.fillYellow
                           : CustomButtonStyles.fillGreen,
-                      buttonTextStyle: widget.order.orderStatus == 'Cancelled'
+                      buttonTextStyle: _orderDetail?.order?.orderStatus == 'Cancelled'
                           ? CustomTextStyles.bodyMediumwhiteA700 // Add an error style for "Cancelled"
-                          : widget.order.orderStatus == 'Pending'
+                          : _orderDetail?.order?.orderStatus == 'Pending'
                           ? CustomTextStyles.bodyMediumSecondaryContainer
                           : CustomTextStyles.bodyMediumTeal800,
                     )
@@ -189,13 +193,19 @@ class MyServiceWidgetState extends State<MyServiceWidget> implements GetOrderDet
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    CustomOutlinedButton(
+                    _orderDetail?.order?.orderStatus != 'Cancelled'
+                    ? CustomOutlinedButton(
+                      onPressed: () async {
+                        await _orderPresenter.updateOrder(widget.order);
+                        _presenter.getOrderDetailByOrderId((widget.order.orderId).toString());
+                      },
                       height: 38.h,
                       width: 138.h,
                       text: "Hủy đặt",
                       buttonStyle: CustomButtonStyles.outlineBlue,
                       buttonTextStyle: CustomTextStyles.bodyLargeBlue,
-                    ),
+                    )
+                    : Container(),
                     CustomElevatedButton(
                       onPressed: (){
                         Navigator.of(context).push(
@@ -239,5 +249,25 @@ class MyServiceWidgetState extends State<MyServiceWidget> implements GetOrderDet
     setState(() {
       _orderDetail = orderDetails;
     });
+  }
+
+  @override
+  void onCreateError(String error) {
+    // TODO: implement onCreateError
+  }
+
+  @override
+  void onCreateSuccess() {
+    // TODO: implement onCreateSuccess
+  }
+
+  @override
+  void onCreateTotalAmountSuccess(double totalAmount) {
+    // TODO: implement onCreateTotalAmountSuccess
+  }
+
+  @override
+  void showValidationError(String field, String message) {
+    // TODO: implement showValidationError
   }
 }

@@ -3,11 +3,11 @@ import 'package:fhotel_1/data/repository/order_repo.dart';
 import 'package:fhotel_1/views/choose_room_detail/create_reservation_view.dart';
 
 class OrderPresenter {
+
   final CreateReservationView
       _view; // This is the interface for the view (e.g., LoginScreen)
 
-  final OrderRepo _repository =
-      OrderRepo(); // Create an instance of the network class
+  final OrderRepo _repository = OrderRepo(); // Create an instance of the network class
 
   OrderPresenter(this._view); // Initialize with the view
 
@@ -34,5 +34,18 @@ class OrderPresenter {
       // Throw an error if reservation creation fails
       throw Exception("Failed to create order");
     }
+  }
+
+  Future<void> updateOrder(Order order) async {
+    // Call the authenticate method from the network layer
+    Order user = Order(
+        orderStatus: "Cancelled",
+        orderId: order.orderId,
+        orderedDate: order.orderedDate,
+        reservationId: order.reservationId,
+        totalAmount: order.totalAmount,
+        billId: order.billId);
+
+    bool success = await _repository.updateOrder(user);
   }
 }

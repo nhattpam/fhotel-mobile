@@ -321,7 +321,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
 
   Widget _buildChnphng(BuildContext context) {
     return CustomElevatedButton(
-      text: "Gọi món",
+      text: "Đặt",
       buttonStyle: CustomButtonStyles.fillBlue,
       buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,
     );

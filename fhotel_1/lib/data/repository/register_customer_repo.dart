@@ -17,16 +17,16 @@ class RegisterCustomerRepo {
       },
       body: json.encode(user.toJson()),
     );
-
     final jsonResponse = jsonDecode(response.body);
+    print(jsonResponse);
     if (response.statusCode != 201) {
       throw Exception('Failed to register user');
     }
 
   }
 
-  Future<User> activeAccountByEmail(String email) async {
-    final url = Uri.parse('https://fhotelapi.azurewebsites.net/api/authentications/activate?email=$email');
+  Future<User> activeAccountByOTP(String phone, String otp) async {
+    final url = Uri.parse('$_baseUrl/authentications/verify?phoneNumber=$phone&otpCode=$otp');
     print(url);
     try {
       // Encode the email to handle special characters

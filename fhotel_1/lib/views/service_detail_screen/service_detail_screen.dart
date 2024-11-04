@@ -418,7 +418,7 @@ class ServiceDetailScreenState extends State<ServiceDetailScreen>
           },
         ).show();
       },
-      text: "Gọi món",
+      text: "Đặt",
       buttonStyle: CustomButtonStyles.fillBlue,
       buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,
     );

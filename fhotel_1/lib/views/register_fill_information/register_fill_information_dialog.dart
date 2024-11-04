@@ -10,14 +10,22 @@ class RegisterFillInformationDialog extends StatefulWidget {
   final String email;
   final String password;
   final Function() onCloseDialog;
-  final Function(User, String) onRegisterFillInformation;
+  final Function(User) onRegisterFillInformation;
 
-  RegisterFillInformationDialog({required this.email, required this.password, required this.onRegisterFillInformation, required this.onCloseDialog});
+  RegisterFillInformationDialog(
+      {required this.email,
+      required this.password,
+      required this.onRegisterFillInformation,
+      required this.onCloseDialog});
+
   @override
-  RegisterFillInformationDialogState createState() => RegisterFillInformationDialogState();
+  RegisterFillInformationDialogState createState() =>
+      RegisterFillInformationDialogState();
 }
 
-class RegisterFillInformationDialogState extends State<RegisterFillInformationDialog> implements RegisterFillInformationView{
+class RegisterFillInformationDialogState
+    extends State<RegisterFillInformationDialog>
+    implements RegisterFillInformationView {
   final List<FocusNode> focusNodes = List.generate(5, (index) => FocusNode());
 
   TextEditingController firstNameInputController = TextEditingController();
@@ -41,8 +49,10 @@ class RegisterFillInformationDialogState extends State<RegisterFillInformationDi
   @override
   void initState() {
     super.initState();
-    _registerpresenter = RegisterPresenter(this); // Initialize presenter with the current view
+    _registerpresenter =
+        RegisterPresenter(this); // Initialize presenter with the current view
   }
+
   @override
   void dispose() {
     for (var node in focusNodes) {
@@ -56,7 +66,6 @@ class RegisterFillInformationDialogState extends State<RegisterFillInformationDi
     addressInputController.dispose();
     super.dispose();
   }
-
 
   void _unfocusAllExcept(int index) {
     for (int i = 0; i < focusNodes.length; i++) {
@@ -102,6 +111,7 @@ class RegisterFillInformationDialogState extends State<RegisterFillInformationDi
       ),
     );
   }
+
   Widget _buildFirstNameInput(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -130,7 +140,7 @@ class RegisterFillInformationDialogState extends State<RegisterFillInformationDi
             ),
             textInputType: TextInputType.emailAddress,
             contentPadding:
-            const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
             onChanged: (value) {
               final error = _registerpresenter
                   .validateName(value); // Validate password on change
@@ -175,7 +185,7 @@ class RegisterFillInformationDialogState extends State<RegisterFillInformationDi
             ),
             textInputType: TextInputType.number,
             contentPadding:
-            const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
             onChanged: (value) async {
               final error = await _registerpresenter
                   .validateIdNumber(value); // Validate password on change
@@ -220,7 +230,7 @@ class RegisterFillInformationDialogState extends State<RegisterFillInformationDi
             ),
             textInputType: TextInputType.phone,
             contentPadding:
-            const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
             onChanged: (value) async {
               final error = await _registerpresenter
                   .validatePhoneNumber(value); // Validate password on change
@@ -266,7 +276,7 @@ class RegisterFillInformationDialogState extends State<RegisterFillInformationDi
             ),
             textInputType: TextInputType.emailAddress,
             contentPadding:
-            const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
             onChanged: (value) {
               final error = _registerpresenter
                   .validateAddress(value); // Validate password on change
@@ -315,64 +325,30 @@ class RegisterFillInformationDialogState extends State<RegisterFillInformationDi
             idNumberError == null &&
             phoneNumberError == null &&
             addressError == null) {
-          {
-            EmailOTP.setSMTP(
-              host: "smtp.gmail.com",
-              emailPort: EmailPort.port587,
-              secureType: SecureType.tls,
-              username: "companyfhotel@gmail.com",
-              password: "ubqk btun nour lonv",
-            );
-
-            EmailOTP.setTemplate(
-              template: '''
-    <div style="background-color: #f4f4f4; padding: 20px; font-family: Arial, sans-serif;">
-      <div style="background-color: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
-        <h1 style="color: #333;">{{appName}}</h1>
-        <p style="color: #333;">Your OTP is <strong>{{otp}}</strong></p>
-        <p style="color: #333;">This OTP is valid for 5 minutes.</p>
-        <p style="color: #333;">Thank you for using our service.</p>
-      </div>
-    </div>
-    ''',
-            );
-            EmailOTP.config(
-                emailTheme: EmailTheme.v1,
-                appEmail: "companyfhotel@gmail.com",
-                appName: "FHotel OTP",
-                otpLength: 5,
-                otpType: OTPType.numeric);
-            if (await EmailOTP.sendOTP(email: widget.email)) {
-              String generatedOtp = (EmailOTP.getOTP()).toString();
-              AwesomeDialog(
-                context: context,
-                animType: AnimType.scale,
-                dialogType: DialogType.success,
-                body: const Center(
-                  child: Text(
-                    'Vui lòng kiểm tra email để kích hoạt tài khoản!!!',
-                    style: TextStyle(fontStyle: FontStyle.italic),
-                  ),
-                ),
-                btnOkOnPress: () async {
-                  User user = User(
-                      email: widget.email,
-                      password: widget.password,
-                      name: name,
-                      address: address,
-                      identificationNumber: idNumber,
-                      phoneNumber: phoneNumber,
-                      isActive: false);
-                  await _registerpresenter.registerUser(widget.email, widget.password, name, address, idNumber, phoneNumber, '');
-                  widget.onRegisterFillInformation(user, generatedOtp);
-                },
-              ).show();
-            } else {
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                content: Text("Oops, OTP send failed"),
-              ));
-            }
-          }
+          AwesomeDialog(
+            context: context,
+            animType: AnimType.scale,
+            dialogType: DialogType.success,
+            body: const Center(
+              child: Text(
+                'Vui lòng kiểm tra OTP đã được gửi về số điện thoại của bạn!!!',
+                style: TextStyle(fontStyle: FontStyle.italic),
+              ),
+            ),
+            btnOkOnPress: () async {
+              User user = User(
+                  email: widget.email,
+                  password: widget.password,
+                  name: name,
+                  address: address,
+                  identificationNumber: idNumber,
+                  phoneNumber: phoneNumber,
+                  isActive: false);
+              await _registerpresenter.registerUser(widget.email,
+                  widget.password, name, address, idNumber, phoneNumber, '');
+              widget.onRegisterFillInformation(user);
+            },
+          ).show();
         }
       },
       buttonStyle: CustomButtonStyles.fillBlue,
@@ -381,7 +357,6 @@ class RegisterFillInformationDialogState extends State<RegisterFillInformationDi
       margin: EdgeInsets.only(right: 8.h),
     );
   }
-
 
   @override
   void showValidationError(String field, String message) {
