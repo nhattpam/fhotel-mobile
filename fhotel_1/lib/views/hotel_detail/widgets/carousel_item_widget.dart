@@ -121,28 +121,28 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
   }
 
   void _showGuestPolicyModalBottomSheet(BuildContext context) {
-    String cancellationTimeBefore9PM =
-        _refundPolicies[0].cancellationTime.toString();
-    String cancellationTimeAfter9PM =
-        _refundPolicies[1].cancellationTime.toString();
-
-    String refundPercentageBefore9PM =
-        _refundPolicies[0].refundPercentage.toString();
-    String refundPercentageAfter9PM =
-        _refundPolicies[1].refundPercentage.toString();
-
-    String descriptionBefore9PM = _refundPolicies[0].description.toString();
-    String descriptionAfter9PM = _refundPolicies[1].description.toString();
-
-    String policyAfter6PM = _policies[0].description.toString();
-    String policyBetween6PM = _policies[1].description.toString();
-    String policyBetween2PM = _policies[2].description.toString();
-
-    String chargePercentageAfter6PM = _policies[0].chargePercentage.toString();
-    String chargePercentageBetween6PM =
-        _policies[1].chargePercentage.toString();
-    String chargePercentageBetween2PM =
-        _policies[2].chargePercentage.toString();
+    // String cancellationTimeBefore9PM =
+    //     _refundPolicies[0].cancellationTime.toString();
+    // String cancellationTimeAfter9PM =
+    //     _refundPolicies[1].cancellationTime.toString();
+    //
+    // String refundPercentageBefore9PM =
+    //     _refundPolicies[0].refundPercentage.toString();
+    // String refundPercentageAfter9PM =
+    //     _refundPolicies[1].refundPercentage.toString();
+    //
+    // String descriptionBefore9PM = _refundPolicies[0].description.toString();
+    // String descriptionAfter9PM = _refundPolicies[1].description.toString();
+    //
+    // String policyAfter6PM = _policies[0].description.toString();
+    // String policyBetween6PM = _policies[1].description.toString();
+    // String policyBetween2PM = _policies[2].description.toString();
+    //
+    // String chargePercentageAfter6PM = _policies[0].chargePercentage.toString();
+    // String chargePercentageBetween6PM =
+    //     _policies[1].chargePercentage.toString();
+    // String chargePercentageBetween2PM =
+    //     _policies[2].chargePercentage.toString();
 
     showModalBottomSheet(
       context: context,
@@ -181,10 +181,6 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
               
               <p>Chúng tôi mong muốn phục vụ bạn, nhưng trong trường hợp kế hoạch thay đổi, quy trình hủy đơn giản của chúng tôi đảm bảo bạn nhận được xác nhận nhanh chóng và hoàn tiền nhanh chóng. Thời gian nhận phòng tiêu chuẩn là 2 giờ chiều và bạn có thể nhận phòng bất kỳ lúc nào sau đó cho đến khi đặt phòng hợp lệ.</p>
 
-               <ul>
-                 <li>$descriptionBefore9PM	| Hủy miễn phí ($cancellationTimeBefore9PM, hoàn lại $refundPercentageBefore9PM%).</li>
-                 <li>$descriptionAfter9PM	| $cancellationTimeAfter9PM, hoàn lại $refundPercentageAfter9PM%</li>
-               </ul>
 
               <h4>Trước khi nhận phòng</h4>
 
@@ -215,11 +211,6 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
 
               <p>Có thể phát sinh phí bổ sung:</p>
 
-              <ul>
-                <li>$policyBetween2PM: Miễn phí ($chargePercentageBetween2PM%).</li>
-                <li>$policyBetween6PM: Tính phí $chargePercentageBetween6PM% theo giá phòng ngày tiếp theo.</li>
-                <li>$policyAfter6PM: Tính phí $chargePercentageAfter6PM% theo giá phòng ngày tiếp theo.</li>
-              </ul>
 
               <h3>Chính Sách Đặc Thù của Khách Sạn</h3>
 
@@ -235,6 +226,15 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
       },
     );
   }
+  // <ul>
+  // <li>$descriptionBefore9PM	| Hủy miễn phí ($cancellationTimeBefore9PM, hoàn lại $refundPercentageBefore9PM%).</li>
+  // <li>$descriptionAfter9PM	| $cancellationTimeAfter9PM, hoàn lại $refundPercentageAfter9PM%</li>
+  // </ul>
+  // <ul>
+  // <li>$policyBetween2PM: Miễn phí ($chargePercentageBetween2PM%).</li>
+  // <li>$policyBetween6PM: Tính phí $chargePercentageBetween6PM% theo giá phòng ngày tiếp theo.</li>
+  // <li>$policyAfter6PM: Tính phí $chargePercentageAfter6PM% theo giá phòng ngày tiếp theo.</li>
+  // </ul>
 
   @override
   void dispose() {

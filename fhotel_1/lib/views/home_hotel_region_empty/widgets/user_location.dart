@@ -37,12 +37,12 @@ class _LocationToAddressExampleState extends State<LocationToAddressExample> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Location to Address')),
+      appBar: AppBar(title: const Text('Location to Address')),
       body: Center(
         child: _currentPosition == null
             ? ElevatedButton(
           onPressed: _getCurrentLocation,
-          child: Text('Get Current Location'),
+          child: const Text('Get Current Location'),
         )
             : Text(
           _currentAddress ?? 'Getting address...',

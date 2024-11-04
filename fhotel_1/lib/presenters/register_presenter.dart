@@ -38,6 +38,9 @@ class RegisterPresenter {
     if (password == null || password.isEmpty) {
       return 'Không được để trống mật khẩu';
     }
+    if (password.length < 7) {
+      return 'Mật khẩu phải nhiều hơn 6 kí tự';
+    }
     return null; // Password is valid
   }
 
@@ -95,7 +98,7 @@ class RegisterPresenter {
   // Validate Address logic
   String? validateAddress(String? address) {
     if (address == null || address.isEmpty) {
-      return 'Address cannot be empty';
+      return 'Không được để trống địa chỉ';
     }
     return null; // Address is valid
   }

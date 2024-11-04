@@ -231,6 +231,11 @@ class _RegisterScreenState extends State<RegisterScreen>
             passwordError = 'Không được để trống mật khẩu';
           });
         }
+        if (password.length < 7) {
+          setState(() {
+            passwordError = 'Mật khẩu phải lớn hơn 6 kí tự';
+          });
+        }
         if (repassword.isEmpty) {
           setState(() {
             repasswordError = 'Không được để trống mật khẩu xác nhận';

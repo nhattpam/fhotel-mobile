@@ -1,3 +1,4 @@
+import 'package:fhotel_1/views/otp_signup_screen/otp_forgot_screen.dart';
 import 'package:flutter/material.dart';
 import '../../core/app_export.dart';
 
@@ -114,6 +115,11 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     return CustomElevatedButton(
       onPressed: () {
         final email = emailInputController.text;
+        Navigator.of(context).push(
+          MaterialPageRoute(
+              builder: (context) =>
+                  OtpForgotScreen()),
+        );
       },
       buttonStyle: CustomButtonStyles.fillBlue,
       buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,

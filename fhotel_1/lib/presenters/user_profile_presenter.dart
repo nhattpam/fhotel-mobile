@@ -46,6 +46,9 @@ class UserProfilePresenter {
     if (password == null || password.isEmpty) {
       return 'Không được để trống mật khẩu';
     }
+    if (password.length < 7) {
+      return 'Mật khẩu phải nhiều hơn 6 kí tự';
+    }
     return null; // Password is valid
   }
 
