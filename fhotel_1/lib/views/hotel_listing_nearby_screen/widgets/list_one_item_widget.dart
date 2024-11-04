@@ -144,7 +144,7 @@ class _ListHotelWidgetState extends State<ListHotelWidget> implements ListHotelV
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               CustomImageView(
-                                color: appTheme.black900,
+                                color: Colors.pinkAccent,
                                 imagePath: ImageConstant.imgIconWrapper13,
                                 height: 24.h,
                                 width: 24.h,
@@ -157,7 +157,7 @@ class _ListHotelWidgetState extends State<ListHotelWidget> implements ListHotelV
                                   style: CustomTextStyles.bodyLargeBlue.copyWith(
                                     fontSize: 16.0, // Adjust the font size as needed
                                     fontWeight: FontWeight.bold, // Make the text bold
-                                    color: Colors.black, // You can specify a different color if needed
+                                    color: Colors.pinkAccent, // You can specify a different color if needed
                                   ),
                                 ),
                               )

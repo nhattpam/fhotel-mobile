@@ -1,14 +1,16 @@
 import 'package:fhotel_1/core/utils/skeleton.dart';
 import 'package:fhotel_1/data/models/feedback.dart';
 import 'package:fhotel_1/data/models/reservation.dart';
-import 'package:fhotel_1/views/guest_information_book/guest_information_book.dart';
+import 'package:fhotel_1/presenters/list_reservation_presenter.dart';
 import 'package:fhotel_1/views/my_booking_check_in/my_booking_checkin.dart';
 import 'package:fhotel_1/views/write_review/write_review_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_html/flutter_html.dart' as html;
 
 import '../../core/app_export.dart';
 import '../../presenters/create_feedback_presenter.dart';
+import '../tabbar_booking_and_service/list_reservation_view.dart';
 import '../write_review/create_feedback_view.dart';
 
 // ignore_for_file: must be_ immutable
@@ -21,13 +23,15 @@ class MyBookingDetailsScreen extends StatefulWidget {
   MyBookingDetailsScreenState createState() => MyBookingDetailsScreenState();
 }
 
-class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> implements CreateFeedbackView {
+class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> implements CreateFeedbackView, ListReservationView {
   TextEditingController listmasteroneController = TextEditingController();
   int? numberOfDays;
   String? checkInDate;
   String? checkOutDate;
   late CreateFeedbackPresenter presenter;
   Feedbacks? _feedbacks;
+  late ListReservationPresenter _presenter;
+
   @override
   void initState() {
     super.initState();
@@ -91,10 +95,8 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> implemen
                             ? SizedBox()
                             : _buildColumnsave(context),
                         (widget.reservation.paymentStatus == 'Pending' &&
-                                widget.reservation.reservationStatus !=
-                                    'CheckIn' &&
-                                widget.reservation.reservationStatus !=
-                                    'Cancel')
+                                widget.reservation.reservationStatus ==
+                                    'Pending' )
                             ? _buildCancel(context)
                             : SizedBox()
                       ],
@@ -549,6 +551,12 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> implemen
                         ),
                       ),
                       CustomImageView(
+                        onTap: (){
+                          Clipboard.setData(ClipboardData(text: (widget.reservation?.code).toString()));
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Đã lưu mã đặt phòng vào bộ nhớ tạm của bạn')),
+                          );
+                        },
                         color: Colors.blueAccent,
                         imagePath: ImageConstant.imgIconWrapper20,
                         height: 24.h,
@@ -612,13 +620,24 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> implemen
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
-                      CustomImageView(
+                      (widget.reservation?.paymentMethodId == '03c20593-9817-4cda-982f-7c8e7ee162e8')
+                      ? CustomImageView(
                         imagePath: ImageConstant.imgImg,
                         height: 40.h,
                         width: double.maxFinite,
                         radius: BorderRadius.circular(
                           14.h,
                         ),
+                      )
+                      : Container(
+                        height: 40.h,
+                        width: double.maxFinite,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(
+                            14.h,
+                          )
+                        ),
+                        child: Icon(Icons.payment, size: 20.h),
                       )
                     ],
                   ),
@@ -798,7 +817,8 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> implemen
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          CustomElevatedButton(
+          widget.reservation.reservationStatus == 'CheckOut'
+          ? CustomElevatedButton(
             onPressed: () {
               Navigator.push(
                 context,
@@ -814,7 +834,8 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> implemen
             margin: EdgeInsets.only(bottom: 12.h),
             buttonStyle: CustomButtonStyles.fillBlue,
             buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,
-          ),
+          )
+          : Container(),
           CustomElevatedButton(
             onPressed: () {
               Navigator.of(context).push(
@@ -841,12 +862,36 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> implemen
         mainAxisSize: MainAxisSize.min,
         children: [
           CustomElevatedButton(
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                    builder: (context) =>
-                        GuestInformationBookForOthersScreen()),
-              );
+            onPressed: () async {
+              await _presenter.updateReservation(
+                  (widget.reservation.reservationId).toString(),
+                  (widget.reservation.numberOfRooms ?? 0),
+                  (widget.reservation.code).toString(),
+                  (widget.reservation.roomTypeId).toString(),
+                  (widget.reservation.checkInDate).toString(),
+                  (widget.reservation.checkOutDate).toString(),
+                  (widget.reservation.totalAmount ?? 0),
+                  (widget.reservation.customerId).toString(),
+                  (widget.reservation.paymentStatus).toString(),
+                  'Cancelled',
+                  (widget.reservation.paymentMethodId).toString(),
+                  (widget.reservation.createdDate).toString());
+              AwesomeDialog(
+                context: context,
+                animType: AnimType.scale,
+                dialogType: DialogType.success,
+                body: const Center(
+                  child: Text(
+                    'Hủy đặt phòng thành công!!!',
+                    style: TextStyle(fontStyle: FontStyle.italic),
+                  ),
+                ),
+                // title: 'Warning',
+                // desc:   'This is also Ignored',
+                btnOkOnPress: () {
+                  Navigator.pop(context); // Close login dialog
+                },
+              ).show();
             },
             text: "Hủy đặt phòng",
             margin: EdgeInsets.only(bottom: 12.h),
@@ -939,5 +984,30 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> implemen
     setState(() {
       _feedbacks = feedback;
     });
+  }
+
+  @override
+  void hideLoading() {
+    // TODO: implement hideLoading
+  }
+
+  @override
+  void onGetReservationSuccess(Reservation reservation) {
+    // TODO: implement onGetReservationSuccess
+  }
+
+  @override
+  void onGetReservationsError(String error) {
+    // TODO: implement onGetReservationsError
+  }
+
+  @override
+  void onGetReservationsSuccess(List<Reservation> reservations) {
+    // TODO: implement onGetReservationsSuccess
+  }
+
+  @override
+  void showLoading() {
+    // TODO: implement showLoading
   }
 }

@@ -150,7 +150,7 @@ class _ChooseRoomWidgetState extends State<ChooseRoomWidget> implements ChooseRo
             ),
           ),
           SizedBox(height: 8.h),
-          SizedBox(
+          const SizedBox(
             width: double.maxFinite,
             child: Divider(),
           ),

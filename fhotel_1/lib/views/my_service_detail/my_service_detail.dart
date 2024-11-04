@@ -127,7 +127,7 @@ class MyServiceDetailState extends State<MyServiceDetail>
               SizedBox(height: 22.h),
               (_orderDetail?.services?.serviceName) != null
               ? Text(
-                "Dịch vụ: "+ (_orderDetail?.services?.serviceName).toString(),
+                "Dịch vụ: ${_orderDetail?.services?.serviceName}",
                 style: CustomTextStyles.titleSmallGray600,
               )
               : Skeleton(
@@ -136,7 +136,7 @@ class MyServiceDetailState extends State<MyServiceDetail>
               SizedBox(height: 20.h),
               (_orderDetail?.services?.description) != null
               ? Text(
-                "Miêu tả: " + (_orderDetail?.services?.description).toString(),
+                "Miêu tả: ${_orderDetail?.services?.description}",
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,
                 style: theme.textTheme.bodyMedium!.copyWith(
@@ -196,7 +196,7 @@ class MyServiceDetailState extends State<MyServiceDetail>
                   decoration: BoxDecoration(
                     borderRadius: BorderRadiusStyle.roundedBorder8,
                   ),
-                  child: Skeleton(
+                  child: const Skeleton(
                     width: double.maxFinite,
                     height: double.maxFinite,
                   )
@@ -246,7 +246,7 @@ class MyServiceDetailState extends State<MyServiceDetail>
                                 style: theme.textTheme.titleSmall,
                               ),
                             ),
-                            Spacer(),
+                            const Spacer(),
                             SizedBox(
                               width:
                                   40, // Adjust width to keep layout consistent
@@ -270,8 +270,8 @@ class MyServiceDetailState extends State<MyServiceDetail>
                                 style: theme.textTheme.titleSmall,
                               ),
                             ),
-                            Spacer(),
-                            SizedBox(
+                            const Spacer(),
+                            const SizedBox(
                                 width:
                                     40, // Adjust width to keep layout consistent
                                 child: Skeleton(width: 40)),
@@ -291,19 +291,18 @@ class MyServiceDetailState extends State<MyServiceDetail>
                           style: theme.textTheme.titleSmall,
                         ),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       (_orderDetail?.services?.price) != null
                           ? Align(
                               alignment: Alignment.bottomCenter,
                               child: Text(
                                 // (_orderDetail?.services?.image).toString(),
-                                NumberFormat('#,###', 'en_US')
-                                        .format(_orderDetail?.services?.price) +
-                                    " ₫",
+                                "${NumberFormat('#,###', 'en_US')
+                                        .format(_orderDetail?.services?.price)} ₫",
                                 style: CustomTextStyles.titleSmallBlue,
                               ),
                             )
-                          : Align(
+                          : const Align(
                               alignment: Alignment.bottomCenter,
                               child: Skeleton(
                                 width: 100,

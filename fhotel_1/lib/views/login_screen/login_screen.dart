@@ -1,3 +1,4 @@
+import 'package:fhotel_1/views/forgot_password_screen/forgot_password_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/app_export.dart';
@@ -74,13 +75,22 @@ class _LoginScreenState extends State<LoginScreen> implements LoginView {
                   SizedBox(height: 28.h),
                   _buildPasswordInput(context),
                   SizedBox(height: 30.h),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Padding(
-                      padding: EdgeInsets.only(right: 8.h),
-                      child: Text(
-                        "Quên mật khẩu?",
-                        style: CustomTextStyles.bodyLargeBlue,
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                ForgotPasswordScreen()),
+                      );
+                    },
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 8.h),
+                        child: Text(
+                          "Quên mật khẩu?",
+                          style: CustomTextStyles.bodyLargeBlue,
+                        ),
                       ),
                     ),
                   ),

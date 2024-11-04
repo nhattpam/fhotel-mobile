@@ -132,14 +132,14 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        const Text(
           'Mật khẩu mới',
           style: TextStyle(color: Colors.blue),
         ),
         if (newPasswordError != null)
           Text(
             newPasswordError!,
-            style: TextStyle(color: Colors.red),
+            style: const TextStyle(color: Colors.red),
           ),
         Padding(
           padding: EdgeInsets.only(right: 8.h),
@@ -175,14 +175,14 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        const Text(
           'Mật khẩu hiện tại',
           style: TextStyle(color: Colors.blue),
         ),
         if (currentPasswordError != null)
           Text(
             currentPasswordError!,
-            style: TextStyle(color: Colors.red),
+            style: const TextStyle(color: Colors.red),
           ),
         Padding(
           padding: EdgeInsets.only(right: 8.h),
@@ -218,14 +218,14 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        const Text(
           'Xác nhận mật khẩu',
           style: TextStyle(color: Colors.blue),
         ),
         if (confirmPasswordError != null)
           Text(
             confirmPasswordError!,
-            style: TextStyle(color: Colors.red),
+            style: const TextStyle(color: Colors.red),
           ),
         Padding(
           padding: EdgeInsets.only(right: 8.h),

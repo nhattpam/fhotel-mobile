@@ -91,7 +91,7 @@ class CheckoutScreenState extends State<CheckoutScreen>
                   width: 40.h,
                   radius: BorderRadius.circular(14.h),
                 ),
-                title: Text("VNPay"),
+                title: const Text("VNPay"),
                 onTap: () {
                   setState(() {
                     selectedPaymentMethod = "VNPay"; // Update the state
@@ -115,8 +115,8 @@ class CheckoutScreenState extends State<CheckoutScreen>
                 },
               ),
               ListTile(
-                leading: Icon(Icons.payment),
-                title: Text("Thanh toán tại khách sạn"),
+                leading: const Icon(Icons.payment),
+                title: const Text("Thanh toán tại khách sạn"),
                 onTap: () {
                   setState(() {
                     selectedPaymentMethod = "Thanh toán tại khách sạn"; // Update the state
@@ -358,7 +358,7 @@ class CheckoutScreenState extends State<CheckoutScreen>
                   color: appTheme.black900.withOpacity(0.03),
                   spreadRadius: 2.h,
                   blurRadius: 2.h,
-                  offset: Offset(
+                  offset: const Offset(
                     0,
                     0,
                   ),
@@ -555,7 +555,7 @@ class CheckoutScreenState extends State<CheckoutScreen>
                   ),
                 ),
                 SizedBox(height: 6.h),
-                SizedBox(
+                const SizedBox(
                   width: double.maxFinite,
                   child: Divider(),
                 ),
