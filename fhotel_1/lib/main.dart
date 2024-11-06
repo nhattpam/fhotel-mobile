@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
           theme: theme,
           title: 'hotel',
           debugShowCheckedModeBanner: false,
-          initialRoute: isCustomer ? AppRoutes.homePage : AppRoutes.initialRoute,
+          initialRoute: isCustomer ? AppRoutes.homePage : AppRoutes.homePage,
           routes: AppRoutes.routes,
         );
       },

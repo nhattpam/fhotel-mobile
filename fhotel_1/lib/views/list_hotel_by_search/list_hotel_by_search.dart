@@ -118,6 +118,17 @@ class _ListHotelBySearchState extends State<ListHotelBySearch>
     }
   }
 
+  void sortList() {
+    setState(() {
+      if (_sortByClosest) {
+        distance.sort((a, b) => a.compareTo(b));
+      } else {
+        distance.sort((a, b) => b.compareTo(a));
+      }
+      _sortByClosest = !_sortByClosest; // Toggle sorting order for the next click
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     if (checkInDate != null && checkOutDate != null) {

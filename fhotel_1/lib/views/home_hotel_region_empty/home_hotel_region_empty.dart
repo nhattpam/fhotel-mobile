@@ -161,7 +161,7 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
                 width: double.maxFinite,
                 child: Container(
                   // height: 700.h,
-                  height: hotelSessions.isNotEmpty ? 780.h : 700.h,
+                  height: hotelSessions.isNotEmpty ? 760.h : 700.h,
                   decoration: BoxDecoration(
                     color: appTheme.gray10001,
                   ),
@@ -612,16 +612,16 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
                         ),
                       ),
                       SizedBox(height: 8.h),
-                      SizedBox(width: double.maxFinite, child: Divider()),
-                      SizedBox(
-                        width: double.maxFinite,
-                        child: _buildListmasterTwo(
-                          context,
-                          iconwrapper: ImageConstant.imgIconWrapper1,
-                          labelfilterone: "Bộ lọc",
-                          placeholderOne: "Chọn bộ lọc",
-                        ),
-                      ),
+                      // SizedBox(width: double.maxFinite, child: Divider()),
+                      // SizedBox(
+                      //   width: double.maxFinite,
+                      //   child: _buildListmasterTwo(
+                      //     context,
+                      //     iconwrapper: ImageConstant.imgIconWrapper1,
+                      //     labelfilterone: "Bộ lọc",
+                      //     placeholderOne: "Chọn bộ lọc",
+                      //   ),
+                      // ),
                       SizedBox(height: 16.h),
                       CustomElevatedButton(
                         onPressed: () async {

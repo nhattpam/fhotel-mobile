@@ -196,8 +196,9 @@ class MyServiceWidgetState extends State<MyServiceWidget> with AutomaticKeepAliv
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    _orderDetail?.order?.orderStatus != 'Cancelled'
-                    ? CustomOutlinedButton(
+                    _orderDetail?.order?.orderStatus != 'Pending'
+                    ? Container()
+                    : CustomOutlinedButton(
                       onPressed: () async {
                         await _orderPresenter.updateOrder(widget.order);
                         _presenter.getOrderDetailByOrderId((widget.order.orderId).toString());
@@ -207,8 +208,7 @@ class MyServiceWidgetState extends State<MyServiceWidget> with AutomaticKeepAliv
                       text: "Hủy đặt",
                       buttonStyle: CustomButtonStyles.outlineBlue,
                       buttonTextStyle: CustomTextStyles.bodyLargeBlue,
-                    )
-                    : Container(),
+                    ),
                     CustomElevatedButton(
                       onPressed: (){
                         Navigator.of(context).push(

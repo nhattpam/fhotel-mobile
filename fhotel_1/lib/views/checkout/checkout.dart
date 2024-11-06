@@ -587,7 +587,7 @@ class CheckoutScreenState extends State<CheckoutScreen>
                               ),
                               SizedBox(height: 6.h),
                               Text(
-                                checkInDate.toString(),
+                                "14:00 chiều, ${checkInDate}",
                                 style: theme.textTheme.titleSmall,
                               )
                             ],
@@ -625,7 +625,7 @@ class CheckoutScreenState extends State<CheckoutScreen>
                               ),
                               SizedBox(height: 6.h),
                               Text(
-                                checkOutDate.toString(),
+                                "Trước 12:00 trưa, ${checkOutDate}",
                                 style: theme.textTheme.titleSmall,
                               )
                             ],

@@ -89,7 +89,7 @@ class LocationPresenter {
 
       if (placemarks.isNotEmpty) {
         Placemark place = placemarks[0];
-        view.updateAddress('${place.subAdministrativeArea}, ${place.administrativeArea}');
+        view.updateAddress('${place.subAdministrativeArea} ${place.administrativeArea}');
       } else {
         print('No address found for this location.');
       }

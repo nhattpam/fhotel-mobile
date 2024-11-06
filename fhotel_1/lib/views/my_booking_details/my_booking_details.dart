@@ -418,7 +418,7 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> implemen
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Loại giường",
+                                "Loại phòng",
                                 style: theme.textTheme.bodyMedium,
                               ),
                               SizedBox(height: 6.h),
@@ -467,7 +467,7 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> implemen
                               ),
                               SizedBox(height: 6.h),
                               Text(
-                                checkInDate.toString(),
+                                "14:00 chiều, ${checkInDate}",
                                 style: theme.textTheme.titleSmall,
                               )
                             ],
@@ -505,7 +505,7 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> implemen
                               ),
                               SizedBox(height: 6.h),
                               Text(
-                                checkOutDate.toString(),
+                                "Trước 12:00 trưa, ${checkOutDate}",
                                 style: theme.textTheme.titleSmall,
                               )
                             ],

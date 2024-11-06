@@ -23,7 +23,7 @@ class HomeRoomGuestFilledBottomsheetState
   TextEditingController inputOneController = TextEditingController();
   TextEditingController inputThreeController = TextEditingController();
   TextEditingController inputFiveController = TextEditingController();
-  List<int> quantities = [0, 0, 0]; // Initialize all quantities to 1
+  List<int> quantities = [0, 0, 0, 0, 0]; // Initialize all quantities to 1
   late ListRoomTypePresenter _presenter;
   bool _isLoading = false;
   List<RoomType> _roomTypes = [];
@@ -285,7 +285,7 @@ class HomeRoomGuestFilledBottomsheetState
     return SizedBox(
       width: double.maxFinite,
       child: ListView.builder(
-        itemCount: 3,
+        itemCount: 5,
         // Replace yourList with the actual list you're using
         shrinkWrap: true,
         // This will allow the ListView to fit within its parent

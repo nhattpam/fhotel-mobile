@@ -253,11 +253,11 @@ class ServiceDetailScreenState extends State<ServiceDetailScreen>
                       ),
                       Spacer(),
                       SizedBox(
-                        width: 103, // Adjust width as needed
+                        width: 132.h, // Adjust width as needed
                         child: DropdownButton<Reservation>(
                           value: selectedReservation,
                           hint:  Text(
-                            "Đặt chỗ", // Default text to display when no item is selected
+                            "Mã đặt chỗ", // Default text to display when no item is selected
                             style: theme.textTheme.titleSmall,
                           ),
                           onChanged: (Reservation? newValue) {
@@ -278,7 +278,7 @@ class ServiceDetailScreenState extends State<ServiceDetailScreen>
                             return DropdownMenuItem<Reservation>(
                               value: reservation,
                               child: Text(
-                               "Đặt chỗ $index", // Display the index
+                               reservation.code.toString(), // Display the index
                                 style: theme.textTheme.titleSmall,
                               ),
                             );
