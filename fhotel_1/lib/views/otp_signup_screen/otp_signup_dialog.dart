@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:fhotel_1/data/models/user.dart';
 import 'package:fhotel_1/presenters/register_presenter.dart';
 import 'package:flutter/material.dart';
@@ -23,15 +25,39 @@ class OtpSignupDialogState extends State<OtpSignupDialog> implements UserProfile
 
   late RegisterPresenter _registerpresenter;
   bool _isLoading = false;
-
+  late Timer _timer;
+  int _remainingSeconds = 300; // 5:00 in seconds
   @override
   void initState() {
     super.initState();
     _presenter = UserProfilePresenter(this); // Initialize presenter with the current view
     _registerpresenter = RegisterPresenter(this);
-
+    startTimer();
   }
 
+  void startTimer() {
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      if (_remainingSeconds > 0) {
+        setState(() {
+          _remainingSeconds--;
+        });
+      } else {
+        _timer.cancel();
+      }
+    });
+  }
+
+  String formatTime(int totalSeconds) {
+    final minutes = (totalSeconds ~/ 60).toString().padLeft(2, '0');
+    final seconds = (totalSeconds % 60).toString().padLeft(2, '0');
+    return '$minutes:$seconds';
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,11 +89,13 @@ class OtpSignupDialogState extends State<OtpSignupDialog> implements UserProfile
                 overflow: TextOverflow.ellipsis,
               ),
             ),
-            // SizedBox(height: 44.h),
-            // Text(
-            //   "02:32",
-            //   style: CustomTextStyles.titleSmallMedium,
-            // ),
+            SizedBox(height: 44.h),
+            Center(
+              child: Text(
+                formatTime(_remainingSeconds),
+                style: CustomTextStyles.titleSmallMedium,
+              ),
+            ),
             SizedBox(height: 22.h),
             SizedBox(
               width: double.maxFinite,

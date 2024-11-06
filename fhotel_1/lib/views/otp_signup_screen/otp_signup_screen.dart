@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:fhotel_1/views/register_fill_information/register_fill_information_view.dart';
 import 'package:flutter/material.dart';
 
@@ -24,6 +26,8 @@ class _OTPScreenState extends State<OTPScreen> implements UserProfileView, Regis
   User? _user;
   bool _isLoading = false;
   late RegisterPresenter _registerpresenter;
+  late Timer _timer;
+  int _remainingSeconds = 300; // 5:00 in seconds
 
   @override
   void initState() {
@@ -31,7 +35,33 @@ class _OTPScreenState extends State<OTPScreen> implements UserProfileView, Regis
     _presenter = UserProfilePresenter(
         this); // Initialize presenter with the current view
     _registerpresenter = RegisterPresenter(this);
+    startTimer();
   }
+
+  void startTimer() {
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      if (_remainingSeconds > 0) {
+        setState(() {
+          _remainingSeconds--;
+        });
+      } else {
+        _timer.cancel();
+      }
+    });
+  }
+
+  String formatTime(int totalSeconds) {
+    final minutes = (totalSeconds ~/ 60).toString().padLeft(2, '0');
+    final seconds = (totalSeconds % 60).toString().padLeft(2, '0');
+    return '$minutes:$seconds';
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
 
   @override
   void didChangeDependencies() {
@@ -87,11 +117,11 @@ class _OTPScreenState extends State<OTPScreen> implements UserProfileView, Regis
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              // SizedBox(height: 44.h),
-              // Text(
-              //   "02:32",
-              //   style: CustomTextStyles.titleSmallMedium,
-              // ),
+              SizedBox(height: 44.h),
+              Text(
+                formatTime(_remainingSeconds),
+                style: CustomTextStyles.titleSmallMedium,
+              ),
               SizedBox(height: 22.h),
               SizedBox(
                 width: double.maxFinite,

@@ -34,8 +34,9 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
   int sliderIndex = 1;
   int _currentIndex = 0;
   String dateStarSelected = DateFormat('dd/MM/yyyy').format(DateTime.now());
-  String dateEndSelected =
-      DateFormat('dd/MM/yyyy').format(DateTime.now().add(Duration(days: 1)));
+  String dateEndSelected = DateFormat('dd/MM/yyyy').format(DateTime.now().add(Duration(days: 1)));
+  String dateStarSelectedForSearch = DateFormat('yyyy-MM-dd').format(DateTime.now());
+  String dateEndSelectedForSearch = DateFormat('yyyy-MM-dd').format(DateTime.now().add(Duration(days: 1)));
   List<Map<String, dynamic>> selectedRoomData = [];
   String _searchQuery = ''; // Add a variable to store the search query
   String _currentLocation = ''; // Add a variable to store the search query
@@ -100,8 +101,8 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
               // Update the state with the selected date
               setState(() {
                 // Format the date as desired, here I’m using the default DateTime format
-                dateStarSelected =
-                    DateFormat('dd/MM/yyyy').format(selectedDate);
+                dateStarSelected = DateFormat('dd/MM/yyyy').format(selectedDate);
+                dateStarSelectedForSearch = DateFormat('yyyy-MM-dd').format(selectedDate);
               });
             }
           },
@@ -111,6 +112,7 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
               setState(() {
                 // Format the date as desired, here I’m using the default DateTime format
                 dateEndSelected = DateFormat('dd/MM/yyyy').format(selectedDate);
+                dateEndSelectedForSearch = DateFormat('yyyy-MM-dd').format(selectedDate);
               });
             }
           },
@@ -277,6 +279,8 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
       return RoomSearchRequest(
         typeId: room['typeId'],
         quantity: room['quantity'],
+        checkInDate: dateStarSelectedForSearch,
+        checkOutDate: dateEndSelectedForSearch,
       );
     }).toList();
     print(searchRequests);

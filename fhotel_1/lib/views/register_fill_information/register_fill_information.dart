@@ -406,6 +406,17 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
             idNumberError == null &&
             phoneNumberError == null &&
             addressError == null) {
+          User user = User(
+              email: email,
+              password: password,
+              name: name,
+              address: address,
+              identificationNumber: idNumber,
+              phoneNumber: phoneNumber,
+              image: _imageUrl.toString(),
+              isActive: false);
+          await _registerpresenter.registerUser(email, password, name, address, idNumber, phoneNumber, _imageUrl.toString());
+
           AwesomeDialog(
             context: context,
             animType: AnimType.scale,
@@ -417,17 +428,6 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
               ),
             ),
             btnOkOnPress: () async {
-              User user = User(
-                  email: email,
-                  password: password,
-                  name: name,
-                  address: address,
-                  identificationNumber: idNumber,
-                  phoneNumber: phoneNumber,
-                  image: _imageUrl.toString(),
-                  isActive: false);
-              await _registerpresenter.registerUser(email, password, name,
-                  address, idNumber, phoneNumber, _imageUrl.toString());
               Navigator.pushReplacementNamed(
                 context,
                 AppRoutes.otpScreen,

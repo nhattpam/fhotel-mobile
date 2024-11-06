@@ -126,8 +126,9 @@ class SearchService {
       },
       body: json.encode(searchRequests.map((e) => e.toJson()).toList()),
     );
+    print(json.encode(searchRequests.map((e) => e.toJson()).toList()));
     // print("Response body: ${response.body}");  // Print the error message
-    print(response.statusCode);
+    print(response.body);
     if (response.statusCode == 200) {
       List<dynamic> body = jsonDecode(response.body);
       print("Search Total Result:" + body.toString());

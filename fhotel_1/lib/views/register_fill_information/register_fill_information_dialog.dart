@@ -325,6 +325,15 @@ class RegisterFillInformationDialogState
             idNumberError == null &&
             phoneNumberError == null &&
             addressError == null) {
+          User user = User(
+              email: widget.email,
+              password: widget.password,
+              name: name,
+              address: address,
+              identificationNumber: idNumber,
+              phoneNumber: phoneNumber,
+              isActive: false);
+          await _registerpresenter.registerUser(widget.email, widget.password, name, address, idNumber, phoneNumber, '');
           AwesomeDialog(
             context: context,
             animType: AnimType.scale,
@@ -336,16 +345,6 @@ class RegisterFillInformationDialogState
               ),
             ),
             btnOkOnPress: () async {
-              User user = User(
-                  email: widget.email,
-                  password: widget.password,
-                  name: name,
-                  address: address,
-                  identificationNumber: idNumber,
-                  phoneNumber: phoneNumber,
-                  isActive: false);
-              await _registerpresenter.registerUser(widget.email,
-                  widget.password, name, address, idNumber, phoneNumber, '');
               widget.onRegisterFillInformation(user);
             },
           ).show();
