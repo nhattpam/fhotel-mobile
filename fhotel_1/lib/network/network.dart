@@ -64,10 +64,10 @@ class NoInternetException implements Exception {
   late String _message;
 
   NoInternetException([String message = 'NoInternetException Occurred']) {
-    if (globalMessengerKey.currentState != null) {
-      globalMessengerKey.currentState!
-          .showSnackBar(SnackBar(content: Text(message)));
-    }
+    // if (globalMessengerKey.currentState != null) {
+    //   globalMessengerKey.currentState!
+    //       .showSnackBar(SnackBar(content: Text(message)));
+    // }
     this._message = message;
   }
 

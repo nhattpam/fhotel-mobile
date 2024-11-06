@@ -26,6 +26,32 @@ class ListReservationRepo {
       throw Exception('Failed to fetch list reservation.');
     }
   }
+  Future<Reservation?> getFirstCheckInReservationByCustomerId() async {
+    final url = Uri.parse('$_baseUrl/users/$customerId/reservations');
+
+    final response = await http.get(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final List<dynamic> responseData = json.decode(response.body);
+
+      // Map the data to List<Reservation> and find the first match
+      return responseData
+          .map((data) => Reservation.fromJson(data))
+          .cast<Reservation?>() // Ensure the type is nullable
+          .firstWhere(
+            (reservation) => reservation?.reservationStatus == 'CheckIn',
+        orElse: () => null, // Return null if no match is found
+      );
+    } else {
+      throw Exception('Failed to fetch list reservation.');
+    }
+  }
+
 
   Future<Reservation> getReservationByReservationId(String reservationId) async {
 

@@ -373,7 +373,7 @@ class _ListHotelBySearchState extends State<ListHotelBySearch>
           CustomOutlinedButton(
             onPressed: () async {
               await _locationPresenter.requestPermission();
-              await _locationPresenter.sortDistance(listHotel, _sortByClosest);
+              await _locationPresenter.sortDistance(listHotel, _sortByClosest, existingDistances: distance);
               setState(() {
                 _sortByClosest = !_sortByClosest;
               });

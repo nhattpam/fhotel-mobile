@@ -193,7 +193,7 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
         widget.roomTypeId,
         quantity,
       );
-      int? avalable = await _createReservation.calculateAvailable(widget.roomTypeId, isoFormattedInDate);
+      int? avalable = await _createReservation.calculateAvailable(isoFormattedInDate, isoFormattedOutDate, widget.roomTypeId);
       setState(() {
         _totalAmount = amount; // Update the total amount in the state
         availableRoomInCalculate = avalable;

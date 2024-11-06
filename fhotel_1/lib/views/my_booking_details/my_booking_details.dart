@@ -23,7 +23,8 @@ class MyBookingDetailsScreen extends StatefulWidget {
   MyBookingDetailsScreenState createState() => MyBookingDetailsScreenState();
 }
 
-class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> implements CreateFeedbackView, ListReservationView {
+class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen>
+    implements CreateFeedbackView, ListReservationView {
   TextEditingController listmasteroneController = TextEditingController();
   int? numberOfDays;
   String? checkInDate;
@@ -91,18 +92,19 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> implemen
                         SizedBox(height: 8.h),
                         _buildColumntitlepric(context),
                         SizedBox(height: 8.h),
-                        (widget.reservation.reservationStatus != 'CheckIn' && widget.reservation.reservationStatus != 'CheckOut')
+                        (widget.reservation.reservationStatus != 'CheckIn' &&
+                                widget.reservation.reservationStatus !=
+                                    'CheckOut')
                             ? SizedBox()
                             : _buildColumnsave(context),
-                        (widget.reservation.paymentStatus == 'Pending' &&
+                        (widget.reservation.paymentStatus != 'Paid' &&
                                 widget.reservation.reservationStatus ==
-                                    'Pending' )
+                                    'Pending')
                             ? _buildCancel(context)
                             : SizedBox()
                       ],
                     ),
                   ),
-
                 ],
               ),
             ),
@@ -223,9 +225,10 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> implemen
                   : CustomElevatedButton(
                       height: 28.h,
                       width: 126.h,
-                      text: "Chưa Thanh Toán",
-                      buttonStyle: CustomButtonStyles.fillYellow,
-                      buttonTextStyle: CustomTextStyles.bodyMediumSecondaryContainer,
+                      text: "Chưa thanh toán",
+                      buttonStyle: CustomButtonStyles.fillRed,
+                      buttonTextStyle:
+                          CustomTextStyles.bodyMediumRobotoWhiteA700,
                     ),
             ],
           ),
@@ -338,13 +341,13 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> implemen
                               // ),
                               SizedBox(height: 2.h),
                               (widget.reservation.roomType?.roomSize != null)
-                              ? Text(
-                                "Diện tích: ${NumberFormat('#,###', 'en_US').format(widget.reservation.roomType?.roomSize)}m²",
-                                style: theme.textTheme.bodySmall,
-                              )
+                                  ? Text(
+                                      "Diện tích: ${NumberFormat('#,###', 'en_US').format(widget.reservation.roomType?.roomSize)}m²",
+                                      style: theme.textTheme.bodySmall,
+                                    )
                                   : Skeleton(
-                                width: 50.h,
-                              )
+                                      width: 50.h,
+                                    )
                             ],
                           ),
                         ),
@@ -551,10 +554,13 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> implemen
                         ),
                       ),
                       CustomImageView(
-                        onTap: (){
-                          Clipboard.setData(ClipboardData(text: (widget.reservation?.code).toString()));
+                        onTap: () {
+                          Clipboard.setData(ClipboardData(
+                              text: (widget.reservation?.code).toString()));
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Đã lưu mã đặt phòng vào bộ nhớ tạm của bạn')),
+                            const SnackBar(
+                                content: Text(
+                                    'Đã lưu mã đặt phòng vào bộ nhớ tạm của bạn')),
                           );
                         },
                         color: Colors.blueAccent,
@@ -573,7 +579,6 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> implemen
       ),
     );
   }
-
 
   Widget _buildPaymentmethod(BuildContext context) {
     return Container(
@@ -620,32 +625,36 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> implemen
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
-                      (widget.reservation?.paymentMethodId == '03c20593-9817-4cda-982f-7c8e7ee162e8')
-                      ? CustomImageView(
-                        imagePath: ImageConstant.imgImg,
-                        height: 40.h,
-                        width: double.maxFinite,
-                        radius: BorderRadius.circular(
-                          14.h,
-                        ),
-                      )
-                      : Container(
-                        height: 40.h,
-                        width: double.maxFinite,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(
-                            14.h,
-                          )
-                        ),
-                        child: Icon(Icons.payment, size: 20.h),
-                      )
+                      (widget.reservation?.paymentMethodId ==
+                              '03c20593-9817-4cda-982f-7c8e7ee162e8')
+                          ? CustomImageView(
+                              imagePath: ImageConstant.imgImg,
+                              height: 40.h,
+                              width: double.maxFinite,
+                              radius: BorderRadius.circular(
+                                14.h,
+                              ),
+                            )
+                          : Container(
+                              height: 40.h,
+                              width: double.maxFinite,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(
+                                14.h,
+                              )),
+                              child: Icon(Icons.payment, size: 20.h),
+                            )
                     ],
                   ),
                 ),
                 Padding(
                   padding: EdgeInsets.only(left: 8.h),
                   child: Text(
-                    (widget.reservation.paymentMethod?.paymentMethodName != null) ? (widget.reservation.paymentMethod?.paymentMethodName).toString() : 'Chưa chọn phương thức thanh toán',
+                    (widget.reservation.paymentMethod?.paymentMethodName !=
+                            null)
+                        ? (widget.reservation.paymentMethod?.paymentMethodName)
+                            .toString()
+                        : 'Chưa chọn phương thức thanh toán',
                     style: theme.textTheme.titleSmall,
                   ),
                 )
@@ -818,24 +827,28 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> implemen
         mainAxisSize: MainAxisSize.min,
         children: [
           widget.reservation.reservationStatus == 'CheckOut'
-          ? CustomElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => WriteReviewScreen(
-                    reservationId: widget.reservation.reservationId.toString(),
-                    feedback: _feedbacks ?? Feedbacks(), // Provide a default `Feedbacks` instance if `_feedbacks` is null
-                  ),
-                ),
-              );
-            },
-            text: _feedbacks == null ? "Viết đánh giá" : "Thay đổi đánh giá",
-            margin: EdgeInsets.only(bottom: 12.h),
-            buttonStyle: CustomButtonStyles.fillBlue,
-            buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,
-          )
-          : Container(),
+              ? CustomElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => WriteReviewScreen(
+                          reservationId:
+                              widget.reservation.reservationId.toString(),
+                          feedback: _feedbacks ??
+                              Feedbacks(), // Provide a default `Feedbacks` instance if `_feedbacks` is null
+                        ),
+                      ),
+                    );
+                  },
+                  text: _feedbacks == null
+                      ? "Viết đánh giá"
+                      : "Thay đổi đánh giá",
+                  margin: EdgeInsets.only(bottom: 12.h),
+                  buttonStyle: CustomButtonStyles.fillBlue,
+                  buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,
+                )
+              : Container(),
           CustomElevatedButton(
             onPressed: () {
               Navigator.of(context).push(

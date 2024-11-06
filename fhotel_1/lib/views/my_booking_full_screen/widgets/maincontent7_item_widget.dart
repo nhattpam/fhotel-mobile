@@ -84,26 +84,22 @@ class Maincontent7ItemWidgetState extends State<Maincontent7ItemWidget> {
             ),
             SizedBox(
               width: double.maxFinite,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    "Mã đặt chỗ: ${widget.reservation.code}",
-                    style: theme.textTheme.labelLarge,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 10.h),
-                    child: Text(
-                     "Giá: ${NumberFormat('#,###', 'en_US').format(widget.reservation.totalAmount)} ₫",
-                      style: CustomTextStyles.titleSmallBlue,
-                    ),
-                  )
-                ],
+              child: Text(
+                "Mã đặt chỗ: ${widget.reservation.code}",
+                style: theme.textTheme.labelLarge,
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomRight,
+              child: Padding(
+                padding: EdgeInsets.only(top: 8.h),
+                child: Text(
+                  "Giá: ${NumberFormat('#,###', 'en_US').format(widget.reservation.totalAmount)} ₫",
+                  style: CustomTextStyles.titleSmallBlue,
+                ),
               ),
             ),
             SizedBox(height: 6.h),
-
           ],
         ),
       ),
@@ -145,8 +141,8 @@ class Maincontent7ItemWidgetState extends State<Maincontent7ItemWidget> {
             height: 28.h,
             width: 126.h,
             text: "Chưa thanh toán",
-            buttonStyle: CustomButtonStyles.fillYellow,
-            buttonTextStyle: CustomTextStyles.bodyMediumSecondaryContainer,
+            buttonStyle: CustomButtonStyles.fillRed,
+            buttonTextStyle: CustomTextStyles.bodyMediumRobotoWhiteA700,
           );
   }
 }

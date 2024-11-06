@@ -17,6 +17,8 @@ class RegisterCustomerRepo {
       },
       body: json.encode(user.toJson()),
     );
+    print(json.encode(user.toJson()));
+    print(response.statusCode);
     final jsonResponse = jsonDecode(response.body);
     print(jsonResponse);
     if (response.statusCode != 201) {

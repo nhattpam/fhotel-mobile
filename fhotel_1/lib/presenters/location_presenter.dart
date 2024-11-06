@@ -52,31 +52,87 @@ class LocationPresenter {
     await getAddressFromLatLng(position);
   }
 
-  Future<void> sortDistance(List<Hotel> listHotel, bool sortByClosest) async {
-    // Get the current position of the user
-    Position position = await Geolocator.getCurrentPosition();
-    LocationService locationService = LocationService(position); // Pass current position
+  // Future<void> sortDistance(List<Hotel> listHotel, bool sortByClosest) async {
+  //   // Get the current position of the user
+  //   Position position = await Geolocator.getCurrentPosition();
+  //   LocationService locationService = LocationService(position); // Pass current position
+  //
+  //   // Get hotel addresses as a list of strings
+  //   List<String> hotelAddresses = listHotel.map((hotel) => "${hotel.address}, ${hotel.district?.districtName}, ${hotel.district?.city?.cityName}").toList();
+  //   List<Map<String, dynamic>> sortedLocations = await locationService.sortLocationsByDistance(hotelAddresses);
+  //   List<Hotel> sortedHotels = await locationService.sortHotelsByDistance(listHotel);
+  //
+  //   // Reverse if sorting by farthest
+  //   if (!sortByClosest) {
+  //     sortedLocations = sortedLocations.reversed.toList();
+  //     sortedHotels = sortedHotels.reversed.toList();
+  //   }
+  //
+  //     // Extract distances from sortedLocations
+  //   List<String> distance = sortedLocations.map<String>((entry) {
+  //       return entry['distance'].toStringAsFixed(2); // Format to 2 decimal places
+  //     }).toList();
+  //
+  //   view.updateHotel(sortedHotels);
+  //   view.updateDistance(distance);
+  //   // Get the address from the current position
+  //   await getAddressFromLatLng(position);
+  // }
 
-    // Get hotel addresses as a list of strings
-    List<String> hotelAddresses = listHotel.map((hotel) => "${hotel.address}, ${hotel.district?.districtName}, ${hotel.district?.city?.cityName}").toList();
-    List<Map<String, dynamic>> sortedLocations = await locationService.sortLocationsByDistance(hotelAddresses);
-    List<Hotel> sortedHotels = await locationService.sortHotelsByDistance(listHotel);
+  Future<void> sortDistance(List<Hotel> listHotel, bool sortByClosest, {List<String>? existingDistances}) async {
+    List<Hotel> sortedHotels;
+    List<String> distance;
 
-    // Reverse if sorting by farthest
-    if (!sortByClosest) {
-      sortedLocations = sortedLocations.reversed.toList();
-      sortedHotels = sortedHotels.reversed.toList();
-    }
+    if (existingDistances != null && existingDistances.isNotEmpty) {
+      // Sort using the existing distances
+      List<Map<String, dynamic>> hotelsWithDistances = [];
+      for (int i = 0; i < listHotel.length; i++) {
+        hotelsWithDistances.add({
+          'hotel': listHotel[i],
+          'distance': double.parse(existingDistances[i]),
+        });
+      }
 
-      // Extract distances from sortedLocations
-    List<String> distance = sortedLocations.map<String>((entry) {
-        return entry['distance'].toStringAsFixed(2); // Format to 2 decimal places
+      // Sort by distance
+      hotelsWithDistances.sort((a, b) => a['distance'].compareTo(b['distance']));
+
+      // Reverse if sorting by farthest
+      if (!sortByClosest) {
+        hotelsWithDistances = hotelsWithDistances.reversed.toList();
+      }
+
+      // Extract sorted hotels and distances
+      sortedHotels = hotelsWithDistances.map<Hotel>((entry) {
+        return entry['hotel'] as Hotel; // Cast to Hotel if necessary
       }).toList();
 
+      distance = hotelsWithDistances.map<String>((entry) {
+        return entry['distance'].toStringAsFixed(2); // Convert to String and format
+      }).toList();
+    } else {
+      // Perform the original distance calculation logic
+      Position position = await Geolocator.getCurrentPosition();
+      LocationService locationService = LocationService(position);
+
+      List<Map<String, dynamic>> sortedLocations = await locationService.sortLocationsByDistance(
+          listHotel.map((hotel) => "${hotel.address}, ${hotel.district?.districtName}, ${hotel.district?.city?.cityName}").toList()
+      );
+
+      sortedHotels = await locationService.sortHotelsByDistance(listHotel);
+
+      // Reverse if sorting by farthest
+      if (!sortByClosest) {
+        sortedLocations = sortedLocations.reversed.toList();
+        sortedHotels = sortedHotels.reversed.toList();
+      }
+
+      // Extract distances from sorted locations
+      distance = sortedLocations.map<String>((entry) => entry['distance'].toStringAsFixed(2)).toList();
+    }
+
+    // Update the view with the sorted hotels and distances
     view.updateHotel(sortedHotels);
     view.updateDistance(distance);
-    // Get the address from the current position
-    await getAddressFromLatLng(position);
   }
 
 
@@ -89,7 +145,8 @@ class LocationPresenter {
 
       if (placemarks.isNotEmpty) {
         Placemark place = placemarks[0];
-        view.updateAddress('${place.subAdministrativeArea} ${place.administrativeArea}');
+        view.updateAddress(
+            '${place.subAdministrativeArea} ${place.administrativeArea}');
       } else {
         print('No address found for this location.');
       }

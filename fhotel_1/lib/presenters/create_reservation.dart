@@ -82,12 +82,12 @@ class CreateReservation {
   }
   Future<int?> calculateAvailable(
       String checkInDate,
+      String checkOutDate,
       String roomTypeId,
       ) async {
     try {
 
-      int totalAmount = await _repository.availableRoom(checkInDate, roomTypeId);
-
+      int totalAmount = await _repository.availableRoom(roomTypeId,checkInDate,checkOutDate);
       _view.onCreateAvailableRoomSuccess(totalAmount);
       return totalAmount;
     } catch (error) {

@@ -4,6 +4,7 @@ import 'package:fhotel_1/views/my_booking_full_screen/widgets/maincontent7_item_
 import 'package:fhotel_1/views/tabbar_booking_and_service/list_reservation_view.dart';
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import '../../core/app_export.dart';
 import '../../presenters/list_reservation_presenter.dart';
@@ -41,7 +42,6 @@ class MyBookingFullScreenState extends State<MyBookingFullScreen>
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        // appBar: _buildAppbar(context),
         body: SizedBox(
           width: double.maxFinite,
           child: SingleChildScrollView(
@@ -81,9 +81,7 @@ class MyBookingFullScreenState extends State<MyBookingFullScreen>
         DateTime parsedDate = DateTime.parse(reservation.createdDate.toString());
         return DateFormat('yyyy-MM-dd').format(parsedDate);
       },
-      // Group by createDate
       groupSeparatorBuilder: (String groupByValue) {
-        // Parse the date string and format it as dd/MM/yyyy
         DateTime parsedDate = DateTime.parse(groupByValue);
         String formattedDate = DateFormat('dd/MM/yyyy').format(parsedDate);
 
@@ -99,19 +97,22 @@ class MyBookingFullScreenState extends State<MyBookingFullScreen>
         return Maincontent7ItemWidget(reservation: reservation);
       },
       separator: SizedBox(height: 12.h),
-      // Add spacing between items
-      order: GroupedListOrder.DESC, // Adjust based on your desired order
+      order: GroupedListOrder.DESC,
     );
   }
 
   @override
   void hideLoading() {
-    // TODO: implement hideLoading
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override
   void onGetReservationsError(String error) {
-    // TODO: implement onGetReservationsError
+    setState(() {
+      _error = error;
+    });
   }
 
   @override
@@ -123,11 +124,15 @@ class MyBookingFullScreenState extends State<MyBookingFullScreen>
 
   @override
   void showLoading() {
-    // TODO: implement showLoading
+    setState(() {
+      _isLoading = true;
+    });
   }
 
   @override
   void onGetReservationSuccess(Reservation reservation) {
-    // TODO: implement onGetReservationSuccess
+    // Additional logic if needed when a specific reservation is fetched
   }
-}
+
+  // Show notification when payment status changes
+  }

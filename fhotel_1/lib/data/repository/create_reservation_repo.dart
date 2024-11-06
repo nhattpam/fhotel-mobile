@@ -62,16 +62,16 @@ class CreateReservationRepo {
     }
   }
 
-  Future<int> availableRoom(String roomtypeId, String checkInDate) async {
+  Future<int> availableRoom(String roomtypeId, String checkInDate, String checkOutDate) async {
 
-    final url = Uri.parse('$_baseUrl/reservations/api/roomtypes/available-on-date?roomTypeId=$roomtypeId&targetDate=$checkInDate');
+    final url = Uri.parse('$_baseUrl/reservations/api/roomtypes/$roomtypeId/available-on-date?checkinDate=$checkInDate&checkoutDate=$checkOutDate');
+    print(url);
     final response = await http.get(
       url,
       headers: {
         'Content-Type': 'application/json',
       },
     );
-    print(response.statusCode);
     if (response.statusCode == 200) {
       // Parse the response body to extract the totalAmount
       final responseBody = json.decode(response.body);
