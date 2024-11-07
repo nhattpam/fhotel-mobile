@@ -253,7 +253,7 @@ class ServiceDetailScreenState extends State<ServiceDetailScreen>
                       ),
                       Spacer(),
                       SizedBox(
-                        width: 132.h, // Adjust width as needed
+                        width: 104.h, // Adjust width as needed
                         child: DropdownButton<Reservation>(
                           value: selectedReservation,
                           hint:  Text(
@@ -278,7 +278,9 @@ class ServiceDetailScreenState extends State<ServiceDetailScreen>
                             return DropdownMenuItem<Reservation>(
                               value: reservation,
                               child: Text(
-                               reservation.code.toString(), // Display the index
+                                reservation.code.toString().length > 10
+                                    ? reservation.code.toString().substring((reservation.code)!.length - 10)
+                                    : reservation.code.toString(),
                                 style: theme.textTheme.titleSmall,
                               ),
                             );
