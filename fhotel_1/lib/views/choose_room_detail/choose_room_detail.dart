@@ -482,15 +482,16 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
                           child: GridView.builder(
                             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 3, // Adjust the number of columns
-                              childAspectRatio: 3, // Adjust the aspect ratio if necessary
-                              crossAxisSpacing: 10.0,
+                              childAspectRatio: 3.5, // Adjust the aspect ratio if necessary
+                              crossAxisSpacing: 0.0,
                               mainAxisSpacing: 10.0,
                             ),
                             itemCount: _facilities.length, // Number of items in the grid
                             itemBuilder: (context, index) {
-                              return SizedBox(
-                                width: 100, // Set the desired width
-                                height: 50, // Set the desired height
+                              return Container(
+                                margin: EdgeInsets.only(left: 5.h, right: 5.h),
+                                width: 30, // Set the desired width
+                                height: 30, // Set the desired height
                                 child: Chip(
                                   backgroundColor: Colors.white,
                                   shape: RoundedRectangleBorder(
@@ -498,7 +499,7 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
                                       color: Colors.grey,
                                       width: 1,
                                     ),
-                                    borderRadius: BorderRadius.circular(50),
+                                    borderRadius: BorderRadius.circular(10),
                                   ),
                                   padding: const EdgeInsets.symmetric(horizontal: 10), // Adjust as needed
                                   label: Center( // Center the text within the chip

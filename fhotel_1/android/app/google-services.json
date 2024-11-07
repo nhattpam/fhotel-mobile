@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "934575658702",
+    "project_id": "fhotel-89b7b",
+    "storage_bucket": "fhotel-89b7b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:934575658702:android:68d96fd76f0cd1ab26629f",
+        "android_client_info": {
+          "package_name": "com.example.fhotel_1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnyW-BJ3u-JpHekPsFrMa_3EYN8Jp3Ink"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

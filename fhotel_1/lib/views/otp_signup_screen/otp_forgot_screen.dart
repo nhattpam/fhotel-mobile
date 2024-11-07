@@ -1,3 +1,4 @@
+import 'package:fhotel_1/data/models/wallet.dart';
 import 'package:fhotel_1/views/register_fill_information/register_fill_information_view.dart';
 import 'package:flutter/material.dart';
 
@@ -264,5 +265,10 @@ class _OtpForgotScreenState extends State<OtpForgotScreen> implements UserProfil
       // _error = error;
       // _customer = null;
     });
+  }
+
+  @override
+  void onGetWalletSuccess(Wallet wallet) {
+    // TODO: implement onGetWalletSuccess
   }
 }

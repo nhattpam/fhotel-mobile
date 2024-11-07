@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:fhotel_1/core/utils/skeleton.dart';
+import 'package:fhotel_1/data/models/wallet.dart';
 import 'package:fhotel_1/presenters/user_profile_presenter.dart';
 import 'package:fhotel_1/views/register_fill_information/upload_image_view.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,7 @@ class EditProfileScreenState extends State<EditProfileScreen>
   String? selectedGender;
   TextEditingController emailInputController = TextEditingController();
   TextEditingController passwordInputController = TextEditingController();
+  TextEditingController bankInputController = TextEditingController();
   TextEditingController nameInputController = TextEditingController();
   TextEditingController iDNumberInputController = TextEditingController();
   TextEditingController phoneNumberInputController = TextEditingController();
@@ -36,6 +38,7 @@ class EditProfileScreenState extends State<EditProfileScreen>
 
   late UserProfilePresenter _presenter;
   User? _customer;
+  Wallet? _wallet;
   String? _error;
   late ImagePresenter _imagePresenter;
   String _imagePath = "";
@@ -179,6 +182,8 @@ class EditProfileScreenState extends State<EditProfileScreen>
                   _buildEmail(context),
                   SizedBox(height: 24.h),
                   _buildPassword(context),
+                  SizedBox(height: 24.h),
+                  _buildBank(context),
                   SizedBox(height: 24.h),
                   _buildIdNumber(context),
                   SizedBox(height: 24.h),
@@ -356,6 +361,44 @@ class EditProfileScreenState extends State<EditProfileScreen>
               child: CustomTextFormField(
                 readOnly: true,
                 controller: passwordInputController,
+                hintText: "*******",
+                hintStyle: CustomTextStyles.bodyLargeGray600,
+                obscureText: true,
+                contentPadding: EdgeInsets.all(20.h),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBank(BuildContext context) {
+    return SizedBox(
+      width: double.maxFinite,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Số tài khoản ngân hàng',
+            style: TextStyle(color: Colors.blue),
+          ),
+          SizedBox(
+            height: 8.h,
+          ),
+          GestureDetector(
+            onTap: () {
+              Navigator.pushReplacementNamed(
+                  context, AppRoutes.userChangeBank,
+                  arguments: {
+                    'customer': _customer,
+                    'wallet': _wallet
+                  });
+            },
+            child: AbsorbPointer(
+              child: CustomTextFormField(
+                readOnly: true,
+                controller: bankInputController,
                 hintText: "*******",
                 hintStyle: CustomTextStyles.bodyLargeGray600,
                 obscureText: true,
@@ -670,5 +713,12 @@ class EditProfileScreenState extends State<EditProfileScreen>
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('Error: $error')),
     );
+  }
+
+  @override
+  void onGetWalletSuccess(Wallet wallet) {
+    setState(() {
+      _wallet = wallet;
+    });
   }
 }

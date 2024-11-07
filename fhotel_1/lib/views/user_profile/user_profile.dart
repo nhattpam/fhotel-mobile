@@ -1,6 +1,7 @@
 import 'package:fhotel_1/core/app_export.dart';
 import 'package:fhotel_1/core/utils/skeleton.dart';
 import 'package:fhotel_1/data/models/user.dart';
+import 'package:fhotel_1/data/models/wallet.dart';
 import 'package:fhotel_1/presenters/user_profile_presenter.dart';
 import 'package:fhotel_1/views/user_profile/user_profile_view.dart';
 import 'package:flutter/material.dart';
@@ -467,5 +468,10 @@ class UserProfileScreenState extends State<UserProfileScreen>
   @override
   void showValidationError(String field, String message) {
     // TODO: implement showValidationError
+  }
+
+  @override
+  void onGetWalletSuccess(Wallet wallet) {
+    // TODO: implement onGetWalletSuccess
   }
 }

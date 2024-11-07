@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:fhotel_1/data/models/user.dart';
+import 'package:fhotel_1/data/models/wallet.dart';
 import 'package:fhotel_1/presenters/register_presenter.dart';
 import 'package:flutter/material.dart';
 
@@ -247,5 +248,10 @@ class OtpSignupDialogState extends State<OtpSignupDialog> implements UserProfile
       // _error = error;
       // _customer = null;
     });
+  }
+
+  @override
+  void onGetWalletSuccess(Wallet wallet) {
+    // TODO: implement onGetWalletSuccess
   }
 }

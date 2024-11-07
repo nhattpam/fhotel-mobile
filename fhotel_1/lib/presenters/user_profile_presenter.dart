@@ -1,3 +1,4 @@
+import 'package:fhotel_1/data/models/wallet.dart';
 import 'package:fhotel_1/data/repository/user_profile_repo.dart';
 
 import '../data/models/user.dart';
@@ -70,6 +71,18 @@ class UserProfilePresenter {
     }
     return null; // First Name is valid
   }
+  String? validateBankName(String? bankName) {
+    if (bankName == null || bankName.isEmpty) {
+      return 'Không được để trống tên tài khoản ngân hàng';
+    }
+    return null; // First Name is valid
+  }
+  String? validateBankNumber(String? bankNumber) {
+    if (bankNumber == null || bankNumber.isEmpty) {
+      return 'Không được để trống số tài khoản ngân hàng';
+    }
+    return null; // First Name is valid
+  }
 
   // Validate Identification Number logic
   String? validateIdNumber(String? idNumber) {
@@ -113,8 +126,10 @@ class UserProfilePresenter {
     try {
       // Call the network method to get the customer by ID
       final customer = await _repository.getUserByCustomerId();
+      final wallet = await _repository.getWalletByCustomerId();
       // Notify the view about success
       _view.onGetCustomerSuccess(customer);
+      _view.onGetWalletSuccess(wallet);
     } catch (error) {
       // Notify the view about failure
       _view.onGetCustomerError('Error fetching customer: $error');
@@ -164,6 +179,35 @@ class UserProfilePresenter {
     _view.showLoading();
 
     bool success = await _repository.updateCustomer(user);
+
+    if (success) {
+      _view.hideLoading();
+    } else {
+      _view.showLoading();
+    }
+  }
+  Future<void> updateWallet(String customerId,
+      String walletId,
+      int bankAccountNumber,
+      String bankName,
+      double balance) async {
+    final bankNameError = await validateBankName(bankName);
+    final bankNumberError = await validateBankNumber(bankAccountNumber.toString());
+
+    if (bankNameError != null) {
+      _view.showValidationError('bankName', bankNameError);
+      return;
+    }
+    if (bankNumberError != null) {
+      _view.showValidationError('bankNumber', bankNumberError);
+      return;
+    }
+    // Call the authenticate method from the network layer
+    Wallet wallet = Wallet(userId: customerId,balance: balance, bankAccountNumber: bankAccountNumber, bankName: bankName, walletId: walletId);
+
+    _view.showLoading();
+
+    bool success = await _repository.updateWallet(wallet);
 
     if (success) {
       _view.hideLoading();

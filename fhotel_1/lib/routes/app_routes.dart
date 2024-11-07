@@ -19,6 +19,7 @@ import '../views/hotel_detail/widgets/carousel_item_widget.dart';
 import '../views/list_hotel_by_search/list_hotel_by_search.dart';
 import '../views/list_room_by_search/list_room_by_search.dart';
 import '../views/tabbar_booking_and_service/tabbar_booking_and_service.dart';
+import '../views/user_edit_bank_account/user_edit_bank_account.dart';
 
 class AppRoutes {
   ///Navigation bar
@@ -51,6 +52,7 @@ class AppRoutes {
   static const String guestPayment = '/successful_payment_screen';
   static const String userProfile = '/edit_user_profile';
   static const String userChangePassword = '/change_password';
+  static const String userChangeBank = '/user_edit_bank_account';
   static Map<String, WidgetBuilder> routes = {
     ///Navigation bar
     initialRoute: (context) => LoginScreen(),
@@ -81,5 +83,6 @@ class AppRoutes {
     guestPayment: (context) => SuccessfulPaymentScreen(),
     userProfile: (context) => EditProfileScreen(),
     userChangePassword: (context) => ChangePasswordScreen(),
+    userChangeBank: (context) => UserEditBankAccount(),
   };
 }

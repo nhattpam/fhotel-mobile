@@ -6,42 +6,44 @@ import '../../core/app_export.dart';
 import '../../presenters/user_profile_presenter.dart';
 import '../user_profile/user_profile_view.dart';
 
-class ChangePasswordScreen extends StatefulWidget {
+class UserEditBankAccount extends StatefulWidget {
   @override
-  _ChangePasswordScreenState createState() => _ChangePasswordScreenState();
+  _UserEditBankAccountState createState() => _UserEditBankAccountState();
 }
 
-class _ChangePasswordScreenState extends State<ChangePasswordScreen>
+class _UserEditBankAccountState extends State<UserEditBankAccount>
     implements UserProfileView {
   final List<FocusNode> focusNodes = List.generate(3, (index) => FocusNode());
 
-  TextEditingController currentPasswordInputController =
-      TextEditingController();
-  TextEditingController newPasswordInputController = TextEditingController();
-  TextEditingController confirmPasswordInputController =
-      TextEditingController();
+  TextEditingController bankNumberInputController = TextEditingController();
+  TextEditingController bankNameInputController = TextEditingController();
+
 
   late UserProfilePresenter _presenter;
-  String? currentPasswordError;
-  String? newPasswordError;
-  String? confirmPasswordError;
+  String? bankNumberError;
+  String? bankNameError;
 
   User? _user;
+  Wallet? _wallet;
   bool _isLoading = false;
 
   @override
   void initState() {
     super.initState();
-    _presenter = UserProfilePresenter(
-        this); // Initialize presenter with the current view
+    _presenter = UserProfilePresenter(this); // Initialize presenter with the current view
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // Retrieve the arguments passed safely in didChangeDependencies
-    _user = ModalRoute.of(context)?.settings.arguments as User?;
+    final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+
+    if (args != null) {
+      _user = args['customer'] as User?;
+      _wallet = args['wallet'] as Wallet?;
+    }
   }
+
 
   void _unfocusAllExcept(int index) {
     for (int i = 0; i < focusNodes.length; i++) {
@@ -56,9 +58,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
     for (var node in focusNodes) {
       node.dispose();
     }
-    currentPasswordInputController.dispose();
-    newPasswordInputController.dispose();
-    confirmPasswordInputController.dispose();
+    bankNumberInputController.dispose();
+    bankNameInputController.dispose();
     // Dispose other controllers here
     super.dispose();
   }
@@ -80,12 +81,12 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
-                  "Đổi mật khẩu",
+                  "Thay đổi số tài khoản",
                   style: TextStyle(fontSize: 25, color: Colors.indigoAccent),
                 ),
                 SizedBox(height: 24.h),
                 Text(
-                  "Bảo vệ tài khoản của bạn bằng cách thay đổi mật khẩu",
+                  "Số tài khoản của bạn sẽ chỉ dùng với mục đích hoàn tiền",
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.center,
@@ -95,8 +96,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
                 _buildCurrentPasswordInput(context),
                 SizedBox(height: 28.h),
                 _buildNewPasswordInput(context),
-                SizedBox(height: 28.h),
-                _buildConfirmPasswordInput(context),
                 SizedBox(height: 30.h),
                 _buildSignInButton(context),
                 SizedBox(height: 8.h),
@@ -123,7 +122,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
           ),
         ),
         title: AppbarTitle(
-          text: "Thay đổi mật khẩu",
+          text: "Thay đổi số tài khoản",
           margin: EdgeInsets.only(left: 8.h),
         ),
         styleType: Style.bgFill);
@@ -133,34 +132,30 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Mật khẩu mới',
+        Text(
+          'Tên tài khoản ngân hàng',
           style: TextStyle(color: Colors.blue),
         ),
-        if (newPasswordError != null)
+        if (bankNameError != null)
           Text(
-            newPasswordError!,
-            style: const TextStyle(color: Colors.red),
+            bankNameError!,
+            style: TextStyle(color: Colors.red),
           ),
         Padding(
           padding: EdgeInsets.only(right: 8.h),
           child: CustomTextFormField(
             focusNode: focusNodes[0],
+            textStyle: const TextStyle(color: Colors.black),
             fillColor: appTheme.blue50,
-            controller: newPasswordInputController,
-            hintText: "Mật khẩu mới",
+            controller: bankNameInputController,
+            hintText: "Tên tài khoản ngân hàng",
             hintStyle: const TextStyle(color: Colors.grey),
-            textInputAction: TextInputAction.done,
-            textInputType: TextInputType.visiblePassword,
-            obscureText: true,
-            contentPadding:
-                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+            textInputType: TextInputType.emailAddress,
+            contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
             onChanged: (value) async {
-              final error = await _presenter
-                  .validatePassword(value); // Validate password on change
+              final error = await _presenter.validateBankName(value); // Validate email on change
               setState(() {
-                newPasswordError =
-                    error; // Clear the error if validation passes
+                bankNameError = error; // Clear the error if validation passes
               });
             },
             onTap: () {
@@ -172,38 +167,38 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
     );
   }
 
+
   Widget _buildCurrentPasswordInput(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          'Mật khẩu hiện tại',
+          'Số tài khoản ngân hàng',
           style: TextStyle(color: Colors.blue),
         ),
-        if (currentPasswordError != null)
+        if (bankNumberError != null)
           Text(
-            currentPasswordError!,
+            bankNumberError!,
             style: const TextStyle(color: Colors.red),
           ),
         Padding(
           padding: EdgeInsets.only(right: 8.h),
           child: CustomTextFormField(
+            textStyle: const TextStyle(color: Colors.black),
             focusNode: focusNodes[1],
             fillColor: appTheme.blue50,
-            controller: currentPasswordInputController,
-            hintText: "Mật khẩu hiện tại",
+            controller: bankNumberInputController,
+            hintText: "Số tài khoản ngân hàng",
             hintStyle: const TextStyle(color: Colors.grey),
             textInputAction: TextInputAction.done,
-            textInputType: TextInputType.visiblePassword,
-            obscureText: true,
+            textInputType: TextInputType.number,
             contentPadding:
-                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+            const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
             onChanged: (value) async {
-              final error = await _presenter.validateCurrentPassword(
+              final error = await _presenter.validateBankNumber(
                   value); // Validate password on change
               setState(() {
-                currentPasswordError =
-                    error; // Clear the error if validation passes
+                bankNumberError = error; // Clear the error if validation passes
               });
             },
             onTap: () {
@@ -215,100 +210,36 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
     );
   }
 
-  Widget _buildConfirmPasswordInput(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'Xác nhận mật khẩu',
-          style: TextStyle(color: Colors.blue),
-        ),
-        if (confirmPasswordError != null)
-          Text(
-            confirmPasswordError!,
-            style: const TextStyle(color: Colors.red),
-          ),
-        Padding(
-          padding: EdgeInsets.only(right: 8.h),
-          child: CustomTextFormField(
-            focusNode: focusNodes[2],
-            fillColor: appTheme.blue50,
-            controller: confirmPasswordInputController,
-            hintText: "Xác nhận mật khẩu",
-            hintStyle: const TextStyle(color: Colors.grey),
-            textInputAction: TextInputAction.done,
-            textInputType: TextInputType.visiblePassword,
-            obscureText: true,
-            contentPadding:
-                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-            onChanged: (value) {
-              // Add validation for confirm password if needed
-              final error = _presenter.validateRePassword(value,
-                  newPasswordInputController.text); // Validate repassword
-              setState(() {
-                confirmPasswordError =
-                    error; // Clear the error if validation passes
-              });
-            },
-            onTap: () {
-              _unfocusAllExcept(2); // Unfocus all except the email field
-            },
-          ),
-        ),
-      ],
-    );
-  }
 
   Widget _buildSignInButton(BuildContext context) {
     return CustomElevatedButton(
       onPressed: () async {
-        final currentPassword = currentPasswordInputController.text;
-        final newPassword = newPasswordInputController.text;
-        final confirmPassword = confirmPasswordInputController.text;
+        final bankNumber = bankNumberInputController.text;
+        final bankName = bankNameInputController.text;
+        int bankNumberInt = 0;
 
-        if (currentPassword.isEmpty) {
+        if (bankNumber.isNotEmpty) {
           setState(() {
-            currentPasswordError = 'Mật khẩu hiện tại không được để trống';
+            bankNumberInt = int.parse(bankNumber);
           });
         }
-        if (newPassword.isEmpty) {
+        if (bankName.isEmpty) {
           setState(() {
-            newPasswordError = 'Mật khẩu mới không được để trống';
-          });
-        }
-        if (confirmPassword.isEmpty) {
-          setState(() {
-            confirmPasswordError = 'Xác nhận mật khẩu không được để trống';
+            bankNameError = 'Tên tài khoản ngân hàng không được để trống';
           });
         }
         // Perform final validation
-        if (currentPasswordError == null &&
-            newPasswordError == null &&
-            confirmPasswordError == null) {
-          await _presenter.updateCustomer(
-              _user!.userId.toString(),
-              // Assuming User has userId
-              _user!.email.toString(),
-              // User email
-              newPassword,
-              // Update with the new password
-              _user!.name.toString(),
-              // User name
-              _user!.address.toString(),
-              // User address
-              _user!.identificationNumber.toString(),
-              // User ID number
-              _user!.phoneNumber.toString(),
-              // User phone number
-              _user!.image.toString(),
-              true); // User image
+        if (bankNumberError == null &&
+            bankNameError == null) {
+          ///Update wallet
+          _presenter.updateWallet((_user?.userId).toString(), (_wallet?.walletId).toString(), bankNumberInt, bankName, (_wallet?.balance ?? 0).toDouble());
           AwesomeDialog(
             context: context,
             animType: AnimType.scale,
             dialogType: DialogType.success,
             body: const Center(
               child: Text(
-                'Đổi mật khẩu thành công!!!',
+                'Đổi số tài khoản ngân hàng thành công!!!',
                 style: TextStyle(fontStyle: FontStyle.italic),
               ),
             ),
@@ -322,7 +253,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
       },
       buttonStyle: CustomButtonStyles.fillBlue,
       buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,
-      text: "Đổi mật khẩu",
+      text: "Xác nhận thay đổi",
       margin: EdgeInsets.only(right: 8.h),
     );
   }
@@ -330,10 +261,10 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
   @override
   void showValidationError(String field, String message) {
     setState(() {
-      if (field == 'password') {
-        newPasswordError = message;
-      } else if (field == 'repassword') {
-        confirmPasswordError = message;
+      if (field == 'bankNumber') {
+        bankNumberError = message;
+      }else if (field == 'bankName') {
+        bankNameError = message;
       }
     });
   }
