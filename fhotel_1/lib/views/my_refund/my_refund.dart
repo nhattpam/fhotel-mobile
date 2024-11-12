@@ -1,27 +1,27 @@
 import 'package:fhotel_1/data/models/order.dart';
 import 'package:fhotel_1/presenters/get_order_detail_presenter.dart';
 import 'package:fhotel_1/presenters/list_order_presenter.dart';
+import 'package:fhotel_1/views/my_refund/my_refund_widget.dart';
 import 'package:fhotel_1/views/my_service/list_order_view.dart';
-import 'package:fhotel_1/views/my_service/widgets/my_service_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 
 import '../../core/app_export.dart';
 import '../../data/models/order_detail.dart';
-import 'get_order_detail_view.dart';
+import '../my_service/get_order_detail_view.dart';
 
-class MyService extends StatefulWidget {
-  const MyService({Key? key})
+class MyRefund extends StatefulWidget {
+  const MyRefund({Key? key})
       : super(
-          key: key,
-        );
+    key: key,
+  );
 
   @override
-  MyServiceState createState() => MyServiceState();
+  MyRefundState createState() => MyRefundState();
 }
 
-class MyServiceState extends State<MyService>
-    with AutomaticKeepAliveClientMixin<MyService>
+class MyRefundState extends State<MyRefund>
+    with AutomaticKeepAliveClientMixin<MyRefund>
     implements ListOrderView, GetOrderDetailView {
   @override
   bool get wantKeepAlive => true;
@@ -74,7 +74,7 @@ class MyServiceState extends State<MyService>
                 elements: _ordersDetails..sort((a, b) => (a.order?.orderedDate.toString())!.compareTo((b.order?.orderedDate).toString())),
                 groupBy: (orders) {
                   DateTime parsedDate =
-                      DateTime.parse((orders.order?.orderedDate).toString());
+                  DateTime.parse((orders.order?.orderedDate).toString());
                   return DateFormat('yyyy-MM-dd').format(parsedDate);
                 },
                 // Group by createDate
@@ -82,8 +82,8 @@ class MyServiceState extends State<MyService>
                   // Parse the date string and format it as dd/MM/yyyy
                   DateTime parsedDate = DateTime.parse(groupByValue);
                   String formattedDate =
-                      DateFormat('dd/MM/yyyy').format(parsedDate);
-              
+                  DateFormat('dd/MM/yyyy').format(parsedDate);
+
                   return Padding(
                     padding: EdgeInsets.symmetric(vertical: 10.h),
                     child: Text(
@@ -93,7 +93,7 @@ class MyServiceState extends State<MyService>
                   );
                 },
                 itemBuilder: (context, OrderDetail orderDetails) {
-                  return MyServiceWidget(order: orderDetails.order ?? Order());
+                  return MyRefundWidget(order: orderDetails.order ?? Order());
                 },
                 separator: SizedBox(height: 12.h),
                 // Add spacing between items
@@ -133,7 +133,7 @@ class MyServiceState extends State<MyService>
     // TODO: implement onGetOrderDetailsSuccess
     setState(() {
       _ordersDetails = orders;
-      _ordersDetails.removeWhere((orderDetail) => orderDetail.services?.serviceName == 'Hoàn tiền');
+      _ordersDetails.removeWhere((orderDetail) => orderDetail.services?.serviceName != 'Hoàn tiền');
 
     });
   }

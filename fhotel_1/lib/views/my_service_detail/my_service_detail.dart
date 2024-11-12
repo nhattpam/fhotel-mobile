@@ -155,7 +155,7 @@ class MyServiceDetailState extends State<MyServiceDetail>
   }
 
   Widget _buildHeadingImage(BuildContext context) {
-    return (_orderDetail?.services?.image) != null
+    return (_orderDetail?.services?.image) != null && (_orderDetail?.services?.image) != 'string'
         ? Container(
             width: double.maxFinite,
             height: 200.h,
@@ -404,5 +404,10 @@ class MyServiceDetailState extends State<MyServiceDetail>
     setState(() {
       _orderDetail = orderDetails;
     });
+  }
+
+  @override
+  void onGetOrderDetailsSuccess(List<OrderDetail> orders) {
+    // TODO: implement onGetOrderDetailsSuccess
   }
 }

@@ -25,5 +25,16 @@ class GetOrderDetailPresenter {
     }
   }
 
+  void getListOrderDetailByCustomerId() async {
+    _view.showLoading();
+    try {
+      final orders = await _orderDetailRepo.getOrderDetailByCustomerId();
+      _view.hideLoading();
+      _view.onGetOrderDetailsSuccess(orders);
+    } catch (e) {
+      _view.hideLoading();
+      // _view.showError('Failed to load amenities');
+    }
+  }
 }
 

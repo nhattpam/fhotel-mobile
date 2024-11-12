@@ -152,6 +152,7 @@ class MyServiceWidgetState extends State<MyServiceWidget> with AutomaticKeepAliv
                           SizedBox(
                             width: double.maxFinite,
                             child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
                                   "Giá: ${NumberFormat('#,###', 'en_US').format(widget.order.totalAmount)} ₫",
@@ -170,7 +171,8 @@ class MyServiceWidgetState extends State<MyServiceWidget> with AutomaticKeepAliv
                                ? Padding(
                                   padding: EdgeInsets.only(left: 12.h),
                                   child: Text(
-                                    "${DateFormat('HH:mm').format(DateTime.parse((widget.order.orderedDate).toString()))}, Ngày ${DateFormat('dd-MM').format(DateTime.parse((widget.order.orderedDate).toString()))}",
+                                    DateFormat('HH:mm').format(DateTime.parse((widget.order.orderedDate).toString())),
+                                    // "${DateFormat('HH:mm').format(DateTime.parse((widget.order.orderedDate).toString()))}, Ngày ${DateFormat('dd-MM').format(DateTime.parse((widget.order.orderedDate).toString()))}",
                                     // "29 Jan, 12:30".toUpperCase(),
                                     style: CustomTextStyles.bodyLargeGray600,
                                   ),
@@ -202,6 +204,22 @@ class MyServiceWidgetState extends State<MyServiceWidget> with AutomaticKeepAliv
                       onPressed: () async {
                         await _orderPresenter.updateOrder(widget.order);
                         _presenter.getOrderDetailByOrderId((widget.order.orderId).toString());
+                        AwesomeDialog(
+                          context: context,
+                          animType: AnimType.scale,
+                          dialogType: DialogType.success,
+                          body: const Center(
+                            child: Text(
+                              'Hủy đặt dịch vụ thành công!!!',
+                              style: TextStyle(fontStyle: FontStyle.italic),
+                            ),
+                          ),
+                          // title: 'Warning',
+                          // desc:   'This is also Ignored',
+                          btnOkOnPress: () {
+                            Navigator.pop(context); // Close login dialog
+                          },
+                        ).show();
                       },
                       height: 38.h,
                       width: 138.h,
@@ -218,7 +236,7 @@ class MyServiceWidgetState extends State<MyServiceWidget> with AutomaticKeepAliv
                         );
                       },
                       height: 38.h,
-                      width: 138.h,
+                      width: (_orderDetail?.order?.orderStatus != 'Pending') ? 300.h : 138.h,
                       text: "Xem chi tiết",
                       buttonStyle: CustomButtonStyles.fillBlue,
                       buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,
@@ -277,5 +295,10 @@ class MyServiceWidgetState extends State<MyServiceWidget> with AutomaticKeepAliv
   @override
   void onCreateAvailableRoomSuccess(int availableRoom) {
     // TODO: implement onCreateAvailableRoomSuccess
+  }
+
+  @override
+  void onGetOrderDetailsSuccess(List<OrderDetail> orders) {
+    // TODO: implement onGetOrderDetailsSuccess
   }
 }

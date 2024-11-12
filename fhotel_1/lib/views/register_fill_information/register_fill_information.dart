@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:email_otp/email_otp.dart';
 import 'package:fhotel_1/views/register_fill_information/register_fill_information_view.dart';
 import 'package:fhotel_1/views/register_fill_information/upload_image_view.dart';
 import 'package:flutter/material.dart';

@@ -2,7 +2,6 @@ import 'package:fhotel_1/data/models/reservation.dart';
 import 'package:fhotel_1/data/repository/list_reservation_repo.dart';
 import 'package:fhotel_1/views/tabbar_booking_and_service/list_reservation_view.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 class ListReservationPresenter {
   final ListReservationView _view;

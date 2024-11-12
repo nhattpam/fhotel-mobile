@@ -7,4 +7,6 @@ abstract class GetOrderDetailView {
 
   void showOrderDetail(OrderDetail orderDetails);
 
+  void onGetOrderDetailsSuccess(List<OrderDetail> orders);
+
 }
