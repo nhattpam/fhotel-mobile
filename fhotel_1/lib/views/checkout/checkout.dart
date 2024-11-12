@@ -1037,7 +1037,7 @@ class CheckoutScreenState extends State<CheckoutScreen>
             ).show();
           }
         },
-        text: "Thanh toán",
+        text: (selectedPaymentMethod == 'VNPay') ? "Thanh toán" : "Xác nhận",
         buttonStyle: CustomButtonStyles.fillBlue,
         buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,
       ),

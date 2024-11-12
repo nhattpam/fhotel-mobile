@@ -95,4 +95,16 @@ class CreateReservation {
       _view.onCreateError("Failed to create reservation");
     }
   }
+
+  Future<void> createRefund(String reservationId) async {
+    try {
+      await _repository.refund(reservationId);
+
+      _view.onCreateSuccess();
+
+    } catch (error) {
+      // If there's an error, notify the view of the failure
+      print(error);
+    }
+  }
 }

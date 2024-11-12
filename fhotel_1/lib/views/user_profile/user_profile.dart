@@ -221,7 +221,7 @@ class UserProfileScreenState extends State<UserProfileScreen>
             child: Stack(
               alignment: Alignment.center,
               children: [
-                (_customer?.image != null && _customer?.image != '')
+                (_customer?.image != null && _customer?.image != '' && _customer?.image != 'null')
                 ? Image.network(
                   _customer?.image ?? 'https://htmlcolorcodes.com/assets/images/colors/steel-gray-color-solid-background-1920x1080.png',
                   fit: BoxFit.fill, // Adjust the fit as necessary

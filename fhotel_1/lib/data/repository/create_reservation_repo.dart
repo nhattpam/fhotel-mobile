@@ -83,5 +83,26 @@ class CreateReservationRepo {
     }
   }
 
+  Future<void> refund(String reservationId) async {
+
+    final url = Uri.parse('$_baseUrl/reservations/refund?id=$reservationId');
+    print(reservationId);
+    print(url);
+
+    final response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: json.encode(reservationId),
+    );
+    print(response.statusCode);
+    final jsonResponse = jsonDecode(response.body);
+    print(jsonResponse);
+    if (response.statusCode != 201) {
+      throw Exception('Failed to refund');
+    }
+
+  }
 
 }

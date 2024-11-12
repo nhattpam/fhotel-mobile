@@ -10,6 +10,8 @@ import 'package:flutter_html/flutter_html.dart' as html;
 
 import '../../core/app_export.dart';
 import '../../presenters/create_feedback_presenter.dart';
+import '../../presenters/create_reservation.dart';
+import '../choose_room_detail/create_reservation_view.dart';
 import '../tabbar_booking_and_service/list_reservation_view.dart';
 import '../write_review/create_feedback_view.dart';
 
@@ -24,12 +26,13 @@ class MyBookingDetailsScreen extends StatefulWidget {
 }
 
 class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen>
-    implements CreateFeedbackView, ListReservationView {
+    implements CreateFeedbackView, ListReservationView, CreateReservationView {
   TextEditingController listmasteroneController = TextEditingController();
   int? numberOfDays;
   String? checkInDate;
   String? checkOutDate;
   late CreateFeedbackPresenter presenter;
+  late CreateReservation _createReservation;
   Feedbacks? _feedbacks;
   late ListReservationPresenter _presenter;
 
@@ -38,6 +41,7 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen>
     super.initState();
     presenter = CreateFeedbackPresenter(this);
     presenter.getFeedbacks((widget.reservation.reservationId).toString());
+    _createReservation = CreateReservation(this);
     _calculateDates();
   }
 
@@ -101,7 +105,12 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen>
                                 widget.reservation.reservationStatus ==
                                     'Pending')
                             ? _buildCancel(context)
-                            : SizedBox()
+                            : SizedBox(),
+                        (widget.reservation.paymentStatus == 'Paid' &&
+                                widget.reservation.reservationStatus ==
+                                    'Pending')
+                            ? _buildRefund(context)
+                            : SizedBox(),
                       ],
                     ),
                   ),
@@ -915,6 +924,42 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen>
       ),
     );
   }
+  Widget _buildRefund(BuildContext context) {
+    return Container(
+      width: double.maxFinite,
+      padding: EdgeInsets.symmetric(horizontal: 24.h),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          CustomElevatedButton(
+            onPressed: () async {
+              await _createReservation.createRefund((widget.reservation.reservationId).toString());
+              AwesomeDialog(
+                context: context,
+                animType: AnimType.scale,
+                dialogType: DialogType.success,
+                body: const Center(
+                  child: Text(
+                    'Yêu cầu hoàn tiền của bạn đã được gửi!!!',
+                    style: TextStyle(fontStyle: FontStyle.italic),
+                  ),
+                ),
+                // title: 'Warning',
+                // desc:   'This is also Ignored',
+                btnOkOnPress: () {
+                  Navigator.pop(context); // Close login dialog
+                },
+              ).show();
+            },
+            text: "Yêu cầu hoàn tiền",
+            margin: EdgeInsets.only(bottom: 12.h),
+            buttonStyle: CustomButtonStyles.fillRed,
+            buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,
+          )
+        ],
+      ),
+    );
+  }
 
   Widget _buildWrapperFive(
     BuildContext context, {
@@ -1022,5 +1067,30 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen>
   @override
   void showLoading() {
     // TODO: implement showLoading
+  }
+
+  @override
+  void onCreateAvailableRoomSuccess(int availableRoom) {
+    // TODO: implement onCreateAvailableRoomSuccess
+  }
+
+  @override
+  void onCreateError(String error) {
+    // TODO: implement onCreateError
+  }
+
+  @override
+  void onCreateSuccess() {
+    // TODO: implement onCreateSuccess
+  }
+
+  @override
+  void onCreateTotalAmountSuccess(double totalAmount) {
+    // TODO: implement onCreateTotalAmountSuccess
+  }
+
+  @override
+  void showValidationError(String field, String message) {
+    // TODO: implement showValidationError
   }
 }
