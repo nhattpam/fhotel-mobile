@@ -482,14 +482,6 @@ class EditProfileScreenState extends State<EditProfileScreen>
                   hintStyle: CustomTextStyles.bodyLargeGray600,
                   textInputType: TextInputType.number,
                   contentPadding: EdgeInsets.all(20.h),
-                  onChanged: (value) {
-                    final error = _presenter
-                        .validateIdNumber(value); // Validate password on change
-                    setState(() {
-                      idNumberError =
-                          error; // Clear the error if validation passes
-                    });
-                  },
                   onTap: () {
                     _unfocusAllExcept(3); // Unfocus all except the email field
                   },
@@ -556,7 +548,6 @@ class EditProfileScreenState extends State<EditProfileScreen>
                 _isLoading = true; // Optional: show a loading indicator
               });
               final name = nameInputController.text;
-              final idNumber = iDNumberInputController.text;
               final phoneNumber = phoneNumberInputController.text;
               final address = addressInputController.text;
 
@@ -577,10 +568,7 @@ class EditProfileScreenState extends State<EditProfileScreen>
                 });
               }
 
-              if (nameError == null &&
-                  idNumberError == null &&
-                  phoneNumberError == null &&
-                  addressError == null) {
+              if (nameError == null && phoneNumberError == null && addressError == null) {
                 // await _presenter.updateCustomer(_customer!.userId.toString(),_customer!.email.toString(), _customer!.password.toString(), firstName, lastName, address, genderValue, idNumber, phoneNumber, _imageUrl.toString(), _customer!.createdDate.toString());
                 if (_imageUrl == '' || _imageUrl == null) {
                   await _presenter.updateCustomer(
@@ -588,8 +576,9 @@ class EditProfileScreenState extends State<EditProfileScreen>
                       _customer!.email.toString(),
                       _customer!.password.toString(),
                       name,
+                      _customer!.code.toString(),
                       address,
-                      idNumber,
+                      _customer!.identificationNumber.toString(),
                       phoneNumber,
                       _customer!.image.toString(),
                       true);
@@ -616,8 +605,9 @@ class EditProfileScreenState extends State<EditProfileScreen>
                       _customer!.email.toString(),
                       _customer!.password.toString(),
                       name,
+                      _customer!.code.toString(),
                       address,
-                      idNumber,
+                      _customer!.identificationNumber.toString(),
                       phoneNumber,
                       _imageUrl.toString(),
                       true);

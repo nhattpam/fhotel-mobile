@@ -17,7 +17,7 @@ class CreateReservationRepo {
         },
         body: json.encode(reservation.toJson()),
       );
-
+      print(reservation.toJson());
       print('Response Body: ${response.body}');
 
 

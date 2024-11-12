@@ -138,47 +138,26 @@ class UserProfilePresenter {
     }
   }
 
-  Future<void> updateCustomer(String customerId,String email,
+  Future<void> updateCustomer(
+      String customerId,String email,
       String password,
       String name,
+      String code,
       String address,
       String idNumber,
       String phoneNumber,
       String imageUrl, bool isActive) async {
-    final nameError = validateName(name);
-    final newPasswordError = await validatePassword(password);
-    final idNumberError = validateIdNumber(idNumber);
-    final phoneNumberError = await validatePhoneNumber(phoneNumber);
-    final addressError = validateAddress(address);
-    // final genderError = validateGender(gender);
-
-    if (nameError != null) {
-      _view.showValidationError('name', nameError);
-      return;
-    }
-    if (newPasswordError != null) {
-      _view.showValidationError('password', newPasswordError);
-      return;
-    }
-
-    if (idNumberError != null) {
-      _view.showValidationError('idNumber', idNumberError);
-      return;
-    }
-    if (phoneNumberError != null) {
-      _view.showValidationError('phoneNumber', phoneNumberError);
-      return;
-    }
-    if (addressError != null) {
-      _view.showValidationError('address', addressError);
-      return;
-    }
-    // Call the authenticate method from the network layer
-    User user = User(userId: customerId,email: email, password: password, name: name, address: address, identificationNumber: idNumber, image: imageUrl, phoneNumber: phoneNumber, isActive: isActive, roleId: 'db52666c-e02b-4ad5-9197-81fef586da44');
-
-    _view.showLoading();
-
+    // final nameError = validateName(name);
+    // final newPasswordError = await validatePassword(password);
+    // final idNumberError = validateIdNumber(idNumber);
+    // final phoneNumberError = await validatePhoneNumber(phoneNumber);
+    // final addressError = validateAddress(address);
+    // // final genderError = validateGender(gender);
+    User user = User(userId: customerId,email: email, password: password, name: name, address: address, identificationNumber: idNumber, image: imageUrl, phoneNumber: phoneNumber, isActive: isActive, roleId: 'ef0bf69d-f6c1-4d42-a631-0ed26ec4e879', code: code);
     bool success = await _repository.updateCustomer(user);
+    print(user);
+    // Call the authenticate method from the network layer
+    _view.showLoading();
 
     if (success) {
       _view.hideLoading();
@@ -186,6 +165,7 @@ class UserProfilePresenter {
       _view.showLoading();
     }
   }
+
   Future<void> updateWallet(String customerId,
       String walletId,
       int bankAccountNumber,

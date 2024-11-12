@@ -293,6 +293,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
               newPassword,
               // Update with the new password
               _user!.name.toString(),
+
+              _user!.code.toString(),
               // User name
               _user!.address.toString(),
               // User address

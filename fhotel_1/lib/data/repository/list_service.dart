@@ -16,7 +16,7 @@ class ListServiceRepo {
       List<dynamic> responseData = json.decode(response.body);
       return responseData
           .map((hotelJson) => Services.fromJson(hotelJson))
-          .where((hotel) => hotel.isActive == true) // Filter active hotels
+          .where((hotel) => hotel.isActive == true && hotel.serviceType?.isVisibleToCustomer == true) // Filter active hotels
           .toList();
     } else {
       throw Exception('Failed to fetch services.');

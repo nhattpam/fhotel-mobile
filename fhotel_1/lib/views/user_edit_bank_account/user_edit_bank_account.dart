@@ -132,14 +132,14 @@ class _UserEditBankAccountState extends State<UserEditBankAccount>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        const Text(
           'Tên tài khoản ngân hàng',
           style: TextStyle(color: Colors.blue),
         ),
         if (bankNameError != null)
           Text(
             bankNameError!,
-            style: TextStyle(color: Colors.red),
+            style: const TextStyle(color: Colors.red),
           ),
         Padding(
           padding: EdgeInsets.only(right: 8.h),
@@ -214,15 +214,22 @@ class _UserEditBankAccountState extends State<UserEditBankAccount>
   Widget _buildSignInButton(BuildContext context) {
     return CustomElevatedButton(
       onPressed: () async {
+        int bankNumberInt;
         final bankNumber = bankNumberInputController.text;
         final bankName = bankNameInputController.text;
-        int bankNumberInt = 0;
-
         if (bankNumber.isNotEmpty) {
+          bankNumberInt = int.parse(bankNumber);
+        } else {
           setState(() {
-            bankNumberInt = int.parse(bankNumber);
+            bankNumberError = 'Số tài khoản ngân hàng không được để trống';
           });
+          bankNumberInt = 0;
         }
+        // if (bankNumber.isNotEmpty) {
+        //   setState(() {
+        //     bankNumberInt = int.parse(bankNumber);
+        //   });
+        // }
         if (bankName.isEmpty) {
           setState(() {
             bankNameError = 'Tên tài khoản ngân hàng không được để trống';
