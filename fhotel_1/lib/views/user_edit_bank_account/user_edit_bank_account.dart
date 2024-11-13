@@ -195,8 +195,7 @@ class _UserEditBankAccountState extends State<UserEditBankAccount>
             contentPadding:
             const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
             onChanged: (value) async {
-              final error = await _presenter.validateBankNumber(
-                  value); // Validate password on change
+              final error = await _presenter.validateBankNumber(value); // Validate password on change
               setState(() {
                 bankNumberError = error; // Clear the error if validation passes
               });
@@ -214,22 +213,13 @@ class _UserEditBankAccountState extends State<UserEditBankAccount>
   Widget _buildSignInButton(BuildContext context) {
     return CustomElevatedButton(
       onPressed: () async {
-        int bankNumberInt;
         final bankNumber = bankNumberInputController.text;
         final bankName = bankNameInputController.text;
-        if (bankNumber.isNotEmpty) {
-          bankNumberInt = int.parse(bankNumber);
-        } else {
+        if (bankNumber.isEmpty) {
           setState(() {
             bankNumberError = 'Số tài khoản ngân hàng không được để trống';
           });
-          bankNumberInt = 0;
         }
-        // if (bankNumber.isNotEmpty) {
-        //   setState(() {
-        //     bankNumberInt = int.parse(bankNumber);
-        //   });
-        // }
         if (bankName.isEmpty) {
           setState(() {
             bankNameError = 'Tên tài khoản ngân hàng không được để trống';
@@ -239,7 +229,7 @@ class _UserEditBankAccountState extends State<UserEditBankAccount>
         if (bankNumberError == null &&
             bankNameError == null) {
           ///Update wallet
-          _presenter.updateWallet((_user?.userId).toString(), (_wallet?.walletId).toString(), bankNumberInt, bankName, (_wallet?.balance ?? 0).toDouble());
+          _presenter.updateWallet((_user?.userId).toString(), (_wallet?.walletId).toString(), bankNumber, bankName, (_wallet?.balance ?? 0).toDouble());
           AwesomeDialog(
             context: context,
             animType: AnimType.scale,

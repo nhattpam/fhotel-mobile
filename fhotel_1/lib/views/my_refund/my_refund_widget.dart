@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import '../../../core/app_export.dart';
 import '../../../presenters/order_presenter.dart';
 import '../choose_room_detail/create_reservation_view.dart';
+import '../my_refund_detail/my_refund_detail.dart';
 
 class MyRefundWidget extends StatefulWidget {
   final Order order;
@@ -64,7 +65,7 @@ class MyRefundWidgetState extends State<MyRefundWidget> with AutomaticKeepAliveC
                       ? "Đã bị hủy"
                       : _orderDetail?.order?.orderStatus == 'Pending'
                       ? "Đang xử lý"
-                      : "Đặt thành công",
+                      : "Đã hoàn tiền",
                   buttonStyle: _orderDetail?.order?.orderStatus == 'Cancelled'
                       ? CustomButtonStyles.fillRed // Add a red style for "Cancelled"
                       : _orderDetail?.order?.orderStatus == 'Pending'
@@ -223,7 +224,7 @@ class MyRefundWidgetState extends State<MyRefundWidget> with AutomaticKeepAliveC
                     Navigator.of(context).push(
                       MaterialPageRoute(
                           builder: (context) =>
-                              MyServiceDetail(order: widget.order)),
+                              MyRefundDetail(order: widget.order)),
                     );
                   },
                   height: 38.h,

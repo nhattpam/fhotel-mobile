@@ -20,6 +20,7 @@ class UserProfileScreenState extends State<UserProfileScreen>
 
   late UserProfilePresenter _presenter;
   User? _customer;
+  Wallet? _wallet;
   String? _error;
   bool _isLoading = false;
   SessionManager sessionManager = SessionManager();
@@ -257,6 +258,18 @@ class UserProfileScreenState extends State<UserProfileScreen>
                       )
                     : Text(
                         "${_customer?.email}",
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: theme.textTheme.bodyMedium,
+                      ),
+                SizedBox(height: 8.h),
+                _wallet?.balance == null
+                    ? const Skeleton(
+                        width: 150,
+                        height: 30,
+                      )
+                    : Text(
+                        "Số dư: ${NumberFormat('#,###', 'en_US').format(_wallet?.balance)} ₫",
                         style: theme.textTheme.bodyMedium,
                       )
               ],
@@ -473,5 +486,8 @@ class UserProfileScreenState extends State<UserProfileScreen>
   @override
   void onGetWalletSuccess(Wallet wallet) {
     // TODO: implement onGetWalletSuccess
+    setState(() {
+      _wallet = wallet;
+    });
   }
 }

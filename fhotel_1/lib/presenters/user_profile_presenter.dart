@@ -168,11 +168,11 @@ class UserProfilePresenter {
 
   Future<void> updateWallet(String customerId,
       String walletId,
-      int bankAccountNumber,
+      String bankAccountNumber,
       String bankName,
       double balance) async {
     final bankNameError = await validateBankName(bankName);
-    final bankNumberError = await validateBankNumber(bankAccountNumber.toString());
+    final bankNumberError = await validateBankNumber(bankAccountNumber);
 
     if (bankNameError != null) {
       _view.showValidationError('bankName', bankNameError);

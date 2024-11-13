@@ -1,7 +1,10 @@
 import 'package:fhotel_1/core/utils/skeleton.dart';
 import 'package:fhotel_1/data/models/feedback.dart';
 import 'package:fhotel_1/data/models/reservation.dart';
+import 'package:fhotel_1/data/models/user.dart';
+import 'package:fhotel_1/data/repository/list_reservation_repo.dart';
 import 'package:fhotel_1/presenters/list_reservation_presenter.dart';
+import 'package:fhotel_1/presenters/user_profile_presenter.dart';
 import 'package:fhotel_1/views/my_booking_check_in/my_booking_checkin.dart';
 import 'package:fhotel_1/views/write_review/write_review_screen.dart';
 import 'package:flutter/material.dart';
@@ -9,10 +12,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_html/flutter_html.dart' as html;
 
 import '../../core/app_export.dart';
+import '../../data/models/wallet.dart';
 import '../../presenters/create_feedback_presenter.dart';
 import '../../presenters/create_reservation.dart';
 import '../choose_room_detail/create_reservation_view.dart';
 import '../tabbar_booking_and_service/list_reservation_view.dart';
+import '../user_profile/user_profile_view.dart';
 import '../write_review/create_feedback_view.dart';
 
 // ignore_for_file: must be_ immutable
@@ -26,7 +31,7 @@ class MyBookingDetailsScreen extends StatefulWidget {
 }
 
 class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen>
-    implements CreateFeedbackView, ListReservationView, CreateReservationView {
+    implements CreateFeedbackView, ListReservationView, CreateReservationView, UserProfileView {
   TextEditingController listmasteroneController = TextEditingController();
   int? numberOfDays;
   String? checkInDate;
@@ -35,13 +40,19 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen>
   late CreateReservation _createReservation;
   Feedbacks? _feedbacks;
   late ListReservationPresenter _presenter;
+  User? _customer;
+  Wallet? _wallet;
+  late UserProfilePresenter _userProfilePresenter;
 
   @override
   void initState() {
     super.initState();
     presenter = CreateFeedbackPresenter(this);
     presenter.getFeedbacks((widget.reservation.reservationId).toString());
+    _presenter = ListReservationPresenter(this, ListReservationRepo());
     _createReservation = CreateReservation(this);
+    _userProfilePresenter = UserProfilePresenter(this); // Initialize the presenter
+    _userProfilePresenter.getCustomerById(); // Fetch customer data
     _calculateDates();
   }
 
@@ -933,23 +944,50 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen>
         children: [
           CustomElevatedButton(
             onPressed: () async {
-              await _createReservation.createRefund((widget.reservation.reservationId).toString());
-              AwesomeDialog(
-                context: context,
-                animType: AnimType.scale,
-                dialogType: DialogType.success,
-                body: const Center(
-                  child: Text(
-                    'Yêu cầu hoàn tiền của bạn đã được gửi!!!',
-                    style: TextStyle(fontStyle: FontStyle.italic),
+              print(_wallet?.bankAccountNumber);
+              if (_wallet?.bankAccountNumber != null) {
+                await _createReservation.createRefund(
+                    (widget.reservation.reservationId).toString());
+                AwesomeDialog(
+                  context: context,
+                  animType: AnimType.scale,
+                  dialogType: DialogType.success,
+                  body: const Center(
+                    child: Text(
+                      'Yêu cầu hoàn tiền của bạn đã được gửi!!!',
+                      style: TextStyle(fontStyle: FontStyle.italic),
+                    ),
                   ),
-                ),
-                // title: 'Warning',
-                // desc:   'This is also Ignored',
-                btnOkOnPress: () {
-                  Navigator.pop(context); // Close login dialog
-                },
-              ).show();
+                  // title: 'Warning',
+                  // desc:   'This is also Ignored',
+                  btnOkOnPress: () {
+                    Navigator.pop(context); // Close login dialog
+                  },
+                ).show();
+              } else{
+                AwesomeDialog(
+                  context: context,
+                  animType: AnimType.scale,
+                  dialogType: DialogType.error,
+                  body: const Center(
+                    child: Text(
+                      'Vui lòng cập nhật số tài khoản ngân hàng để yêu cầu hoàn tiền!!!',
+                      style: TextStyle(fontStyle: FontStyle.italic),
+                    ),
+                  ),
+                  // title: 'Warning',
+                  // desc:   'This is also Ignored',
+                  btnOkColor: Colors.red,
+                  btnOkOnPress: () {
+                    Navigator.pushReplacementNamed(
+                        context, AppRoutes.userChangeBank,
+                        arguments: {
+                          'customer': _customer,
+                          'wallet': _wallet
+                        });
+                  },
+                ).show();
+              }
             },
             text: "Yêu cầu hoàn tiền",
             margin: EdgeInsets.only(bottom: 12.h),
@@ -1092,5 +1130,26 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen>
   @override
   void showValidationError(String field, String message) {
     // TODO: implement showValidationError
+  }
+
+  @override
+  void onGetCustomerError(String error) {
+    // TODO: implement onGetCustomerError
+  }
+
+  @override
+  void onGetCustomerSuccess(User user) {
+    // TODO: implement onGetCustomerSuccess
+    setState(() {
+      _customer = user;
+    });
+  }
+
+  @override
+  void onGetWalletSuccess(Wallet wallet) {
+    // TODO: implement onGetWalletSuccess
+    setState(() {
+      _wallet = wallet;
+    });
   }
 }

@@ -1,7 +1,7 @@
 class Wallet {
   String? walletId;
   String? userId;
-  int? bankAccountNumber;
+  String? bankAccountNumber;
   String? bankName;
   double? balance;
 
