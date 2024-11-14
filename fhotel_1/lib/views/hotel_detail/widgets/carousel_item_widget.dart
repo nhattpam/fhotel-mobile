@@ -151,70 +151,70 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
           child: Container(
             child: html.Html(
               data: """
-              <h2>Chính Sách Khách</h2>
+            <section>
+                    <h4>Điều khoản và điều kiện chung</h4>
+                    <ul>
+                        <li>Khách chính phải trên 16 tuổi mới được nhận phòng tại khách sạn.</li>
+                        <li>
+                            Khách phải xuất trình giấy tờ tùy thân có ảnh hợp lệ khi nhận phòng. Các loại giấy tờ tùy thân được chấp nhận bao gồm:
+                            <ul>
+                                <li>Chứng minh nhân dân</li>
+                                <li>Giấy phép lái xe</li>
+                                <li>Hộ chiếu</li>
+                            </ul>
+                            Nếu không có ID hợp lệ, sẽ không được phép làm thủ tục nhận phòng.
+                        </li>
+                        <li>Khách sạn có quyền thực hiện hành động chống lại khách có hành vi không phù hợp sau khi điều tra.</li>
+                        <li>Khách phải chịu trách nhiệm về mọi thiệt hại, ngoại trừ hao mòn thông thường, đối với tài sản của khách sạn. Phòng phải được giữ sạch sẽ và vệ sinh.</li>
+                        <li>Khách có thể được liên hệ trước khi nhận phòng để xác nhận tình trạng hoặc thời gian đến. Nếu không liên lạc được, đặt phòng có thể bị giữ lại hoặc hủy bỏ.</li>
+                        <li>FHotel có thể liên hệ với khách hàng để xin phản hồi nhằm cải thiện dịch vụ.</li>
+                    </ul>
+                </section>
 
-              <h3>Điều Khoản Và Điều Kiện Chung</h3>
+                <section>
+                    <h4>Chính sách gia hạn đặt phòng</h4>
+                    <ul>
+                        <li>Việc gia hạn đặt phòng tùy thuộc vào tình trạng phòng trống và giá phòng hiện tại, có thể khác với giá ban đầu.</li>
+                    </ul>
+                </section>
 
-              <ul>
-                <li>Khách chính phải trên 16 tuổi để có thể nhận phòng tại khách sạn.</li>
-                <li>Bắt buộc khách phải xuất trình giấy tờ tùy thân hợp lệ tại thời điểm nhận phòng. Các giấy tờ chấp nhận bao gồm Chứng minh nhân dân, Giấy phép lái xe hoặc Hộ chiếu. Nếu không có bản gốc của giấy tờ hợp lệ, khách sẽ không được nhận phòng.</li>
-                <li>Miễn phí lưu trú cho 1 trẻ em dưới 5 tuổi nếu không sử dụng giường phụ. Có thể vẫn áp dụng phí ăn sáng cho trẻ em.</li>
-                <li>Không cho phép thú cưng vào khu vực khách sạn.</li>
-                <li>Khách sạn có quyền hành động đối với khách nếu hành vi của khách bị cho là không phù hợp sau khi đã điều tra cáo buộc.</li>
-                <li>Không thể sửa đổi đối với các đặt phòng đã được chiết khấu. Trường hợp trả phòng sớm, số tiền đặt phòng đã thanh toán sẽ không được hoàn lại.</li>
-                <li>Một số khách sạn ở các điểm đến khác nhau có thể áp dụng chính sách khác nhau vào các thời điểm nhất định trong năm.</li>
-                <li>Khách phải chịu trách nhiệm cho bất kỳ thiệt hại nào, ngoại trừ hao mòn thông thường đối với tài sản của khách sạn. Khách phải giữ phòng khách sạn trong tình trạng tốt và duy trì vệ sinh và sạch sẽ.</li>
-                <li>Một số chính sách áp dụng riêng cho từng đặt phòng và được thông báo cho khách khi thực hiện đặt phòng.</li>
-                <li>Khách có thể được liên hệ gần đến ngày nhận phòng để xác nhận trạng thái hoặc thời gian đến của họ qua cuộc gọi hoặc tin nhắn. Nếu không nhận được phản hồi từ khách sau nhiều lần liên hệ, đặt phòng có thể bị tạm dừng hoặc hủy bỏ. Trong trường hợp có phòng trống, khách sạn sẽ cố gắng khôi phục đặt phòng khi khách liên hệ lại hoặc thanh toán qua các phương thức thanh toán của chúng tôi.</li>
-                <li>Trong quá trình nỗ lực cải thiện dịch vụ, chúng tôi có thể liên hệ với khách để lấy ý kiến phản hồi về trải nghiệm của họ qua cuộc gọi hoặc tin nhắn.</li>
-              </ul>
+                <section>
+                    <h4>Chính sách hủy bỏ</h4>
+                    <p>Hủy đặt phòng FHotel nhanh chóng và dễ dàng. Dưới đây là thông tin chi tiết:</p>
+                    <ul>
+                        <li>Thời gian nhận phòng tiêu chuẩn là 2 giờ chiều và bạn có thể nhận phòng bất cứ lúc nào sau đó trong khi đặt phòng của bạn vẫn còn hiệu lực.</li>
+                        <li>
+                            <strong>Trước khi nhận phòng:</strong> Hủy miễn phí trước 24 giờ so với ngày nhận phòng. Sau đó, toàn bộ số tiền đặt phòng sẽ được hoàn 100%.
+                        </li>
+                        <li>
+                            <strong>Vào ngày nhận phòng:</strong> Nếu bạn hủy hoặc không đến, toàn bộ số tiền đặt phòng sẽ không được hoàn lại.
+                        </li>
+                    </ul>
+                </section>
 
-              <h3>Chính Sách Gia Hạn Đặt Phòng</h3>
+                <section>
+                    <h4>Chính sách thanh toán</h4>
+                    <ul>
+                        <li>Đối với kỳ nghỉ trên 7 đêm, bắt buộc thanh toán trước.</li>
+                    </ul>
+                </section>
 
-              <ul>
-                <li>Gia hạn đặt phòng sẽ được cung cấp theo mức giá phòng hiện tại và tùy thuộc vào tình trạng phòng trống.</li>
-                <li>Giá phòng hiện tại có thể khác với giá khi đặt phòng ban đầu.</li>
-              </ul>
+                <section>
+                    <h4>Trả phòng trễ</h4>
+                        <strong>Giờ trả phòng phí</strong>
+                        <ul>
+                        <li>12 PM - 2 PM Miễn phí</li>
+                        <li>2PM trở đi 100% của tỷ giá ngày hôm sau</li>
+                       </ul>
+                </section>
 
-              <h3>Chính Sách Hủy Đặt Phòng</h3>
-              <h4>Hủy đặt phòng tại FHotel dễ dàng và nhanh chóng như đặt phòng</h4>
-              
-              <p>Chúng tôi mong muốn phục vụ bạn, nhưng trong trường hợp kế hoạch thay đổi, quy trình hủy đơn giản của chúng tôi đảm bảo bạn nhận được xác nhận nhanh chóng và hoàn tiền nhanh chóng. Thời gian nhận phòng tiêu chuẩn là 2 giờ chiều và bạn có thể nhận phòng bất kỳ lúc nào sau đó cho đến khi đặt phòng hợp lệ.</p>
-
-
-              <h4>Trước khi nhận phòng</h4>
-
-              <p>Chúng tôi sẽ hoàn lại đầy đủ cho bất kỳ đặt phòng nào hủy trước thời gian 24 giờ so với ngày nhận phòng đã lên lịch. Đối với bất kỳ hủy nào trong vòng 24 giờ trước khi nhận phòng đã lên lịch, toàn bộ số tiền đặt phòng sẽ được trừ làm phí hủy.</p>
-              <h4>Ngày nhận phòng</h4>
-
-              <p>Trong trường hợp bạn quyết định hủy sau thời gian nhận phòng đã lên lịch hoặc không đến khách sạn, toàn bộ số tiền đặt phòng sẽ được trừ làm phí hủy/không đến.</p>
-
-              <h4>Hủy giữa kỳ lưu trú</h4>
-
-              <p>Trong thời gian lưu trú, nếu bạn quyết định rút ngắn đặt phòng trước 2 giờ chiều, bạn sẽ bị tính phí một đêm. Nếu bạn quyết định rút ngắn đặt phòng sau 2 giờ chiều, bạn sẽ bị tính phí hai đêm. Số tiền đã thanh toán cho các đêm còn lại sẽ được hoàn lại theo chính sách hoàn tiền.</p>
-
-              <h3>Chính Sách Thanh Toán</h3>
-
-              <p>Đối với các đặt phòng trên 7 đêm, khách phải thanh toán các khoản nợ hàng tuần. Khách sạn sẽ không cung cấp chỗ ở thêm nếu chưa thanh toán các khoản nợ.</p>
-
-              <h3>Nhận Phòng Sớm và Trả Phòng Muộn</h3>
-              <h4>Nhận phòng sớm (tùy thuộc vào tình trạng phòng trống)</h4>
-
-              <p>Sẽ phát sinh phí bổ sung tùy theo thời gian:</p>
-
-              <ul>
-                <li>Trước 8 giờ sáng: Tính phí 100% cho một ngày theo giá phòng ngày trước.</li>
-                <li>Từ 8 giờ sáng đến 12 giờ trưa: Tính phí 30% theo giá phòng ngày trước, tùy chính sách khách sạn.</li>
-                <li>Từ 12 giờ trưa đến 2 giờ chiều: Miễn phí (không thu phí thêm).</li>
-              </ul>
-              <h4>Trả phòng muộn (tùy thuộc vào tình trạng phòng trống)</h4>
-
-              <p>Có thể phát sinh phí bổ sung:</p>
-
-
-              <h3>Chính Sách Đặc Thù của Khách Sạn</h3>
-
-              <p>Các tiện nghi của khách sạn được liệt kê trên trang web và ứng dụng. Khách được khuyến khích tham khảo trước khi đặt phòng. Một số khách sạn có thể từ chối khách mời vào phòng, vì vậy nên xác nhận với khách sạn trước khi mời khách vào phòng.</p>
+                <section>
+                    <h4>Chính sách cụ thể của khách sạn</h4>
+                    <ul>
+                        <li>Tiện nghi và chính sách được liệt kê trên ứng dụng. Vui lòng xem lại trước khi đặt phòng.</li>
+                        <li>Một số khách sạn có thể hạn chế khách vào phòng. Xác nhận với khách sạn trước khi mời khách.</li>
+                    </ul>
+                </section>
             """,
               style: {
                 "body": html.Style(

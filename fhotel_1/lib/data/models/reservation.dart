@@ -11,6 +11,7 @@ class Reservation {
   double? totalAmount;
   String? reservationStatus;
   String? paymentStatus;
+  bool? isPrePaid;
   String? paymentMethodId;
   String? roomTypeId;
   int? numberOfRooms;
@@ -30,6 +31,7 @@ class Reservation {
         this.totalAmount,
         this.reservationStatus,
         this.paymentStatus,
+        this.isPrePaid,
         this.paymentMethodId,
         this.roomTypeId,
         this.numberOfRooms,
@@ -50,6 +52,7 @@ class Reservation {
     totalAmount = json['totalAmount'];
     reservationStatus = json['reservationStatus'];
     paymentStatus = json['paymentStatus'];
+    isPrePaid = json['isPrePaid'];
     paymentMethodId = json['paymentMethodId'];
     roomTypeId = json['roomTypeId'];
     numberOfRooms = json['numberOfRooms'];
@@ -71,6 +74,7 @@ class Reservation {
     data['totalAmount'] = totalAmount;
     data['reservationStatus'] = reservationStatus;
     data['paymentStatus'] = paymentStatus;
+    data['isPrePaid'] = isPrePaid;
     data['paymentMethodId'] = paymentMethodId;
     data['roomTypeId'] = roomTypeId;
     data['numberOfRooms'] = numberOfRooms;

@@ -86,6 +86,7 @@ class ListReservationPresenter {
       String reservationStatus,
       String paymentMethodId,
       String createDate,
+      bool isPrePaid,
       ) async {
 
     // Call the authenticate method from the network layer
@@ -101,7 +102,8 @@ class ListReservationPresenter {
         paymentStatus: paymentStatus,
         reservationStatus: reservationStatus,
         paymentMethodId: paymentMethodId,
-        createdDate: createDate
+        createdDate: createDate,
+        isPrePaid:  isPrePaid
         );
     _view.showLoading();
 

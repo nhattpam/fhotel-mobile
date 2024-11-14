@@ -109,7 +109,8 @@ class CheckoutScreenState extends State<CheckoutScreen>
                         (widget.reservation.paymentStatus).toString(),
                         'Pending',
                         '03c20593-9817-4cda-982f-7c8e7ee162e8',
-                        (widget.reservation.createdDate).toString());
+                        (widget.reservation.createdDate).toString(),
+                        (widget.reservation.isPrePaid) ?? false);
                   });
                   Navigator.pop(context);
                 },
@@ -134,7 +135,9 @@ class CheckoutScreenState extends State<CheckoutScreen>
                         (widget.reservation.paymentStatus).toString(),
                         'Pending',
                         '1dfab560-eef5-4297-9c26-03c3364f10e6',
-                        (widget.reservation.createdDate).toString());
+                        (widget.reservation.createdDate).toString(),
+                        (widget.reservation.isPrePaid) ?? false,
+                    );
                   });
                   Navigator.pop(context);
                 },
@@ -967,7 +970,8 @@ class CheckoutScreenState extends State<CheckoutScreen>
               'Not Paid',
               'Cancelled',
               selectedPaymentMethodId,
-              (widget.reservation.createdDate).toString());
+              (widget.reservation.createdDate).toString(),
+              (widget.reservation.isPrePaid) ?? false);
           AwesomeDialog(
             context: context,
             animType: AnimType.scale,

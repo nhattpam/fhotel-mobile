@@ -150,7 +150,7 @@ class EditProfileScreenState extends State<EditProfileScreen>
                                 _pickImage, // You can adjust this logic as necessary
                           )
                         ] else if (_customer?.image != null) ...[
-                          (_customer?.image != null && _customer?.image != '')
+                          (_customer?.image != null && _customer?.image != '' && _customer?.image != 'null')
                               ? Image.network(
                                   _customer?.image ?? '',
                                   fit: BoxFit.cover,

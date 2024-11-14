@@ -908,7 +908,9 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen>
                   (widget.reservation.paymentStatus).toString(),
                   'Cancelled',
                   (widget.reservation.paymentMethodId).toString(),
-                  (widget.reservation.createdDate).toString());
+                  (widget.reservation.createdDate).toString(),
+                  (widget.reservation.isPrePaid) ?? false,
+              );
               AwesomeDialog(
                 context: context,
                 animType: AnimType.scale,
