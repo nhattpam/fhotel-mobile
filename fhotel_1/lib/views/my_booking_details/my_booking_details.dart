@@ -12,10 +12,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_html/flutter_html.dart' as html;
 
 import '../../core/app_export.dart';
+import '../../data/models/order_detail.dart';
 import '../../data/models/wallet.dart';
 import '../../presenters/create_feedback_presenter.dart';
 import '../../presenters/create_reservation.dart';
+import '../../presenters/get_order_detail_presenter.dart';
 import '../choose_room_detail/create_reservation_view.dart';
+import '../my_service/get_order_detail_view.dart';
 import '../tabbar_booking_and_service/list_reservation_view.dart';
 import '../user_profile/user_profile_view.dart';
 import '../write_review/create_feedback_view.dart';
@@ -31,18 +34,21 @@ class MyBookingDetailsScreen extends StatefulWidget {
 }
 
 class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen>
-    implements CreateFeedbackView, ListReservationView, CreateReservationView, UserProfileView {
+    implements CreateFeedbackView, ListReservationView, CreateReservationView, UserProfileView, GetOrderDetailView {
   TextEditingController listmasteroneController = TextEditingController();
   int? numberOfDays;
   String? checkInDate;
   String? checkOutDate;
   late CreateFeedbackPresenter presenter;
+  late ListReservationPresenter _presenter;
+  late UserProfilePresenter _userProfilePresenter;
+  late GetOrderDetailPresenter orderDetailPresenter;
+
   late CreateReservation _createReservation;
   Feedbacks? _feedbacks;
-  late ListReservationPresenter _presenter;
   User? _customer;
   Wallet? _wallet;
-  late UserProfilePresenter _userProfilePresenter;
+  OrderDetail? _orderDetail;
 
   @override
   void initState() {
@@ -53,6 +59,8 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen>
     _createReservation = CreateReservation(this);
     _userProfilePresenter = UserProfilePresenter(this); // Initialize the presenter
     _userProfilePresenter.getCustomerById(); // Fetch customer data
+    orderDetailPresenter = GetOrderDetailPresenter(this); // Initialize the presenter
+    orderDetailPresenter.getOrderDetailByReservationId((widget.reservation.reservationId).toString());
     _calculateDates();
   }
 
@@ -117,9 +125,7 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen>
                                     'Pending')
                             ? _buildCancel(context)
                             : SizedBox(),
-                        (widget.reservation.paymentStatus == 'Paid' &&
-                                widget.reservation.reservationStatus ==
-                                    'Pending')
+                        (widget.reservation.paymentStatus == 'Paid' && widget.reservation.reservationStatus == 'Pending' && _orderDetail?.order?.orderStatus != 'Confirmed')
                             ? _buildRefund(context)
                             : SizedBox(),
                       ],
@@ -946,7 +952,6 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen>
         children: [
           CustomElevatedButton(
             onPressed: () async {
-              print(_wallet?.bankAccountNumber);
               if (_wallet?.bankAccountNumber != null) {
                 await _createReservation.createRefund(
                     (widget.reservation.reservationId).toString());
@@ -1152,6 +1157,19 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen>
     // TODO: implement onGetWalletSuccess
     setState(() {
       _wallet = wallet;
+    });
+  }
+
+  @override
+  void onGetOrderDetailsSuccess(List<OrderDetail> orders) {
+    // TODO: implement onGetOrderDetailsSuccess
+  }
+
+  @override
+  void showOrderDetail(OrderDetail orderDetails) {
+    // TODO: implement showOrderDetail
+    setState(() {
+      _orderDetail = orderDetails;
     });
   }
 }

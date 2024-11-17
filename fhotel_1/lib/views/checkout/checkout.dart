@@ -1001,23 +1001,38 @@ class CheckoutScreenState extends State<CheckoutScreen>
     return Expanded(
       child: CustomElevatedButton(
         onPressed: () async {
-          await _presenter.getReservationById(
-              (widget.reservation.reservationId).toString());
+          await _presenter.getReservationById((widget.reservation.reservationId).toString());
           if (_reservation?.paymentMethodId == '1dfab560-eef5-4297-9c26-03c3364f10e6') {
-            AwesomeDialog(
-              context: context,
-              animType: AnimType.scale,
-              dialogType: DialogType.success,
-              body: const Center(
-                child: Text(
-                  'Bạn đã hoàn tất đặt phòng !!',
-                  style: TextStyle(fontStyle: FontStyle.italic),
+            if (DateTime.parse(widget.reservation.checkInDate.toString()).isAfter(DateTime.now().add(Duration(days: 7)))) {
+              AwesomeDialog(
+                context: context,
+                animType: AnimType.scale,
+                dialogType: DialogType.error,
+                body: const Center(
+                  child: Text(
+                    'Không thể sử dụng "Thanh toán tại khách sạn" nếu thời gian đặt quá 7 ngày.\n Vui lòng chọn phương thức thanh toán khác!!',
+                    style: TextStyle(fontStyle: FontStyle.italic),
+                  ),
                 ),
-              ),
-              btnOkOnPress: () {
-                Navigator.pushReplacementNamed(context, AppRoutes.homePage);
-              },
-            ).show();
+                btnCancelOnPress: () {
+                },
+              ).show();
+            } else{
+              AwesomeDialog(
+                context: context,
+                animType: AnimType.scale,
+                dialogType: DialogType.success,
+                body: const Center(
+                  child: Text(
+                    'Bạn đã hoàn tất đặt phòng !!',
+                    style: TextStyle(fontStyle: FontStyle.italic),
+                  ),
+                ),
+                btnOkOnPress: () {
+                  Navigator.pushReplacementNamed(context, AppRoutes.homePage);
+                },
+              ).show();
+            }
           }
           if (_reservation?.paymentMethodId == '03c20593-9817-4cda-982f-7c8e7ee162e8') {
             await _vnPresenter.PaymentMethodVNPAY(

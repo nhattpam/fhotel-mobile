@@ -25,6 +25,23 @@ class GetOrderDetailPresenter {
     }
   }
 
+  void getOrderDetailByReservationId(String reservationId) async {
+    _view.showLoading(); // Show loading indicator
+    try {
+      final reservations = await _orderDetailRepo.getOrderDetailByReservationId(reservationId);
+      print(reservations);
+      // Ensure that showFacility is called even if the facilities list is empty
+      _view.showOrderDetail(reservations);
+
+      // Optionally, you can handle UI updates or messages for empty lists
+
+    } catch (e) {
+      print('Error occurred while fetching order detail: $e'); // Log the error
+    } finally {
+      _view.hideLoading(); // Hide loading indicator in finally block
+    }
+  }
+
   void getListOrderDetailByCustomerId() async {
     _view.showLoading();
     try {

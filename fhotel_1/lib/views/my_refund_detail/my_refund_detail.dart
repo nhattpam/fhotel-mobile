@@ -216,22 +216,14 @@ class MyRefundDetailState extends State<MyRefundDetail>
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // SizedBox(
-              //   width: double.maxFinite,
-              //   child: _buildWrapperFive(
-              //     context,
-              //     labelguestTwo: "Khách sạn",
-              //     datavalueone: (widget.order.reservation?.roomType?.hotel?.hotelName).toString(),
-              //   ),
-              // ),
-              // SizedBox(
-              //   width: double.maxFinite,
-              //   child: _buildWrapperFive(
-              //     context,
-              //     labelguestTwo: "Loại phòng",
-              //     datavalueone: (widget.order.reservation?.roomType?.type?.typeName).toString(),
-              //   ),
-              // ),
+              SizedBox(
+                width: double.maxFinite,
+                child: _buildWrapperFive(
+                  context,
+                  labelguestTwo: "Mã đặt phòng",
+                  datavalueone: (widget.order.reservation?.code).toString(),
+                ),
+              ),
               SizedBox(
                 width: double.maxFinite,
                 child: _buildWrapperFive(
