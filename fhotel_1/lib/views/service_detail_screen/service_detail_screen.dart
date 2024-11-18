@@ -247,18 +247,22 @@ class ServiceDetailScreenState extends State<ServiceDetailScreen>
                       Align(
                         alignment: Alignment.topCenter,
                         child: Text(
-                          "Chọn nơi muốn đặt dịch vụ",
+                          "Mã đặt chỗ",
                           style: theme.textTheme.titleSmall,
                         ),
                       ),
                       Spacer(),
                       SizedBox(
-                        width: 104.h, // Adjust width as needed
+                        width: selectedReservation == null ? 225.h : 225.h, // Adjust width dynamically
                         child: DropdownButton<Reservation>(
+                          isExpanded: true,
                           value: selectedReservation,
-                          hint:  Text(
-                            "Mã đặt chỗ", // Default text to display when no item is selected
-                            style: theme.textTheme.titleSmall,
+                          hint: Align(
+                            alignment: Alignment.bottomRight,
+                            child: Text(
+                              "Chọn mã", // Default text to display when no item is selected
+                              style: theme.textTheme.titleSmall,
+                            ),
                           ),
                           onChanged: (Reservation? newValue) {
                             setState(() {
@@ -267,7 +271,7 @@ class ServiceDetailScreenState extends State<ServiceDetailScreen>
                           },
                           items: _reservation
                               .where((reservation) =>
-                                  reservation.reservationStatus == 'CheckIn')
+                          reservation.reservationStatus == 'CheckIn')
                               .toList()
                               .asMap()
                               .entries
@@ -278,17 +282,17 @@ class ServiceDetailScreenState extends State<ServiceDetailScreen>
                             return DropdownMenuItem<Reservation>(
                               value: reservation,
                               child: Text(
-                                reservation.code.toString().length > 10
-                                    ? reservation.code.toString().substring((reservation.code)!.length - 10)
-                                    : reservation.code.toString(),
-                                style: theme.textTheme.titleSmall,
-                              ),
+                                  reservation.code.toString().length > 10
+                                      ? reservation.code.toString()
+                                      : reservation.code.toString(),
+                                  style: theme.textTheme.titleSmall,
+                                ),
                             );
                           }).toList(),
                           isDense: true,
                           underline: SizedBox(),
                         ),
-                      ),
+                      )
                     ],
                   ),
                 ),

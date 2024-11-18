@@ -30,7 +30,8 @@ class CheckoutScreenState extends State<CheckoutScreen>
   int? numberOfDays;
   String? checkInDate;
   String? checkOutDate;
-  String selectedPaymentMethod = "Vui lòng chọn phương thức thanh toán"; // Default text
+  String selectedPaymentMethod =
+      "Vui lòng chọn phương thức thanh toán"; // Default text
   String selectedPaymentMethodId = ""; // Default text
   late ListReservationPresenter _presenter;
   late VnPayPresenter _vnPresenter;
@@ -120,23 +121,24 @@ class CheckoutScreenState extends State<CheckoutScreen>
                 title: const Text("Thanh toán tại khách sạn"),
                 onTap: () {
                   setState(() {
-                    selectedPaymentMethod = "Thanh toán tại khách sạn"; // Update the state
+                    selectedPaymentMethod =
+                        "Thanh toán tại khách sạn"; // Update the state
                     selectedPaymentMethodId =
                         '1dfab560-eef5-4297-9c26-03c3364f10e6';
                     _presenter.updateReservation(
-                        (widget.reservation.reservationId).toString(),
-                        (widget.reservation.numberOfRooms ?? 0),
-                        (widget.reservation.code).toString(),
-                        (widget.reservation.roomTypeId).toString(),
-                        (widget.reservation.checkInDate).toString(),
-                        (widget.reservation.checkOutDate).toString(),
-                        (widget.reservation.totalAmount ?? 0),
-                        (widget.reservation.customerId).toString(),
-                        (widget.reservation.paymentStatus).toString(),
-                        'Pending',
-                        '1dfab560-eef5-4297-9c26-03c3364f10e6',
-                        (widget.reservation.createdDate).toString(),
-                        (widget.reservation.isPrePaid) ?? false,
+                      (widget.reservation.reservationId).toString(),
+                      (widget.reservation.numberOfRooms ?? 0),
+                      (widget.reservation.code).toString(),
+                      (widget.reservation.roomTypeId).toString(),
+                      (widget.reservation.checkInDate).toString(),
+                      (widget.reservation.checkOutDate).toString(),
+                      (widget.reservation.totalAmount ?? 0),
+                      (widget.reservation.customerId).toString(),
+                      (widget.reservation.paymentStatus).toString(),
+                      'Pending',
+                      '1dfab560-eef5-4297-9c26-03c3364f10e6',
+                      (widget.reservation.createdDate).toString(),
+                      (widget.reservation.isPrePaid) ?? false,
                     );
                   });
                   Navigator.pop(context);
@@ -174,7 +176,8 @@ class CheckoutScreenState extends State<CheckoutScreen>
   }
 
   void _showPaymentSuccessDialog(BuildContext context) async {
-    await _presenter.getReservationById(widget.reservation.reservationId.toString());
+    await _presenter
+        .getReservationById(widget.reservation.reservationId.toString());
     if (_reservation?.paymentStatus == 'Paid') {
       AwesomeDialog(
         context: context,
@@ -467,14 +470,14 @@ class CheckoutScreenState extends State<CheckoutScreen>
                       ),
                       SizedBox(width: 20.h),
                       widget.reservation.numberOfRooms != null
-                      ? Text(
-                        "x ${widget.reservation.numberOfRooms}",
-                        style: theme.textTheme.titleSmall,
-                      )
-                      : Skeleton(
-                        width: 30.h,
-                        height: 10.h,
-                      )
+                          ? Text(
+                              "x ${widget.reservation.numberOfRooms}",
+                              style: theme.textTheme.titleSmall,
+                            )
+                          : Skeleton(
+                              width: 30.h,
+                              height: 10.h,
+                            )
                     ],
                   ),
                 ),
@@ -771,14 +774,14 @@ class CheckoutScreenState extends State<CheckoutScreen>
                         ),
                         SizedBox(height: 6.h),
                         (_reservation?.customer?.name != null)
-                        ? Text(
-                          (_reservation?.customer?.name).toString(),
-                          style: theme.textTheme.titleSmall,
-                        )
-                        : Skeleton(
-                          width: 50.h,
-                          height: 10.h,
-                        )
+                            ? Text(
+                                (_reservation?.customer?.name).toString(),
+                                style: theme.textTheme.titleSmall,
+                              )
+                            : Skeleton(
+                                width: 50.h,
+                                height: 10.h,
+                              )
                       ],
                     ),
                   ),
@@ -811,42 +814,41 @@ class CheckoutScreenState extends State<CheckoutScreen>
           ),
           SizedBox(height: 10.h),
           (_reservation?.customer?.name != null)
-          ? SizedBox(
-            width: double.maxFinite,
-            child: _buildWrapperFive(context,
-                labelguestTwo: "Họ tên",
-                datavalueone: (_reservation?.customer?.name).toString()),
-          )
-          : Container(
-            padding: EdgeInsets.only(
-              top: 8.h,
-              bottom: 6.h,
-            ),
-            decoration: BoxDecoration(
-              color: appTheme.whiteA700,
-              border: Border(
-                bottom: BorderSide(
-                  color: appTheme.blueGray50,
-                  width: 1.h,
-                ),
-              ),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Skeleton(
-                    width: 50.h,
-                    height: 10.h,
-                  )
-                ),
-                Skeleton(
-                  width: 50.h,
-                  height: 10.h,
+              ? SizedBox(
+                  width: double.maxFinite,
+                  child: _buildWrapperFive(context,
+                      labelguestTwo: "Họ tên",
+                      datavalueone: (_reservation?.customer?.name).toString()),
                 )
-              ],
-            ),
-          ),
+              : Container(
+                  padding: EdgeInsets.only(
+                    top: 8.h,
+                    bottom: 6.h,
+                  ),
+                  decoration: BoxDecoration(
+                    color: appTheme.whiteA700,
+                    border: Border(
+                      bottom: BorderSide(
+                        color: appTheme.blueGray50,
+                        width: 1.h,
+                      ),
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                          child: Skeleton(
+                        width: 50.h,
+                        height: 10.h,
+                      )),
+                      Skeleton(
+                        width: 50.h,
+                        height: 10.h,
+                      )
+                    ],
+                  ),
+                ),
           SizedBox(
             width: double.maxFinite,
             child: _buildWrapperFive(
@@ -891,9 +893,10 @@ class CheckoutScreenState extends State<CheckoutScreen>
           SizedBox(
             width: double.maxFinite,
             child: _buildWrapperFive(context,
-                labelguestTwo: "${widget.reservation.numberOfRooms} Phòng ${_reservation?.roomType?.hotel?.hotelName}",
-                datavalueone: "${NumberFormat('#,###', 'en_US')
-                        .format(widget.reservation.totalAmount)} ₫"),
+                labelguestTwo:
+                    "${widget.reservation.numberOfRooms} Phòng ${_reservation?.roomType?.hotel?.hotelName}",
+                datavalueone:
+                    "${NumberFormat('#,###', 'en_US').format(widget.reservation.totalAmount)} ₫"),
           ),
           // SizedBox(
           //   width: double.maxFinite,
@@ -904,8 +907,8 @@ class CheckoutScreenState extends State<CheckoutScreen>
             width: double.maxFinite,
             child: _buildWrapperFive(context,
                 labelguestTwo: "Tổng cộng",
-                datavalueone: "${NumberFormat('#,###', 'en_US')
-                        .format(widget.reservation.totalAmount)} ₫"),
+                datavalueone:
+                    "${NumberFormat('#,###', 'en_US').format(widget.reservation.totalAmount)} ₫"),
           )
         ],
       ),
@@ -958,36 +961,58 @@ class CheckoutScreenState extends State<CheckoutScreen>
     return Expanded(
       child: CustomOutlinedButton(
         onPressed: () async {
-          await _presenter.updateReservation(
-              (widget.reservation.reservationId).toString(),
-              (widget.reservation.numberOfRooms ?? 0),
-              (widget.reservation.code).toString(),
-              (widget.reservation.roomTypeId).toString(),
-              (widget.reservation.checkInDate).toString(),
-              (widget.reservation.checkOutDate).toString(),
-              (widget.reservation.totalAmount ?? 0),
-              (widget.reservation.customerId).toString(),
-              'Not Paid',
-              'Cancelled',
-              selectedPaymentMethodId,
-              (widget.reservation.createdDate).toString(),
-              (widget.reservation.isPrePaid) ?? false);
-          AwesomeDialog(
-            context: context,
-            animType: AnimType.scale,
-            dialogType: DialogType.success,
-            body: const Center(
-              child: Text(
-                'Hủy đặt phòng thành công!!!',
-                style: TextStyle(fontStyle: FontStyle.italic),
+          DateTime checkInDate =
+              DateTime.parse(widget.reservation.checkInDate.toString());
+          DateTime checkInTime = DateTime(checkInDate.year, checkInDate.month, checkInDate.day, 9); // 9 AM on checkInDate
+          if (DateTime.now().isAfter(checkInTime)) {
+            // Your code here
+            AwesomeDialog(
+              context: context,
+              animType: AnimType.scale,
+              dialogType: DialogType.error,
+              body: const Center(
+                child: Text(
+                  'Không thể hủy đặt phòng vì đã vượt quá thời hạn (Trước 9h sáng của ngày nhận phòng)!!!',
+                  style: TextStyle(fontStyle: FontStyle.italic),
+                ),
               ),
-            ),
-            // title: 'Warning',
-            // desc:   'This is also Ignored',
-            btnOkOnPress: () {
-              Navigator.pop(context); // Close login dialog
-            },
-          ).show();
+              // title: 'Warning',
+              // desc:   'This is also Ignored',
+              btnCancelOnPress: () { // Close login dialog
+              },
+            ).show();
+          } else {
+            await _presenter.updateReservation(
+                (widget.reservation.reservationId).toString(),
+                (widget.reservation.numberOfRooms ?? 0),
+                (widget.reservation.code).toString(),
+                (widget.reservation.roomTypeId).toString(),
+                (widget.reservation.checkInDate).toString(),
+                (widget.reservation.checkOutDate).toString(),
+                (widget.reservation.totalAmount ?? 0),
+                (widget.reservation.customerId).toString(),
+                'Not Paid',
+                'Cancelled',
+                selectedPaymentMethodId,
+                (widget.reservation.createdDate).toString(),
+                (widget.reservation.isPrePaid) ?? false);
+            AwesomeDialog(
+              context: context,
+              animType: AnimType.scale,
+              dialogType: DialogType.success,
+              body: const Center(
+                child: Text(
+                  'Hủy đặt phòng thành công!!!',
+                  style: TextStyle(fontStyle: FontStyle.italic),
+                ),
+              ),
+              // title: 'Warning',
+              // desc:   'This is also Ignored',
+              btnOkOnPress: () {
+                Navigator.pop(context); // Close login dialog
+              },
+            ).show();
+          }
         },
         height: 40.h,
         text: "Hủy đặt phòng",
@@ -1001,9 +1026,12 @@ class CheckoutScreenState extends State<CheckoutScreen>
     return Expanded(
       child: CustomElevatedButton(
         onPressed: () async {
-          await _presenter.getReservationById((widget.reservation.reservationId).toString());
-          if (_reservation?.paymentMethodId == '1dfab560-eef5-4297-9c26-03c3364f10e6') {
-            if (DateTime.parse(widget.reservation.checkInDate.toString()).isAfter(DateTime.now().add(Duration(days: 7)))) {
+          await _presenter.getReservationById(
+              (widget.reservation.reservationId).toString());
+          if (_reservation?.paymentMethodId ==
+              '1dfab560-eef5-4297-9c26-03c3364f10e6') {
+            if (DateTime.parse(widget.reservation.checkInDate.toString())
+                .isAfter(DateTime.now().add(Duration(days: 7)))) {
               AwesomeDialog(
                 context: context,
                 animType: AnimType.scale,
@@ -1014,10 +1042,9 @@ class CheckoutScreenState extends State<CheckoutScreen>
                     style: TextStyle(fontStyle: FontStyle.italic),
                   ),
                 ),
-                btnCancelOnPress: () {
-                },
+                btnCancelOnPress: () {},
               ).show();
-            } else{
+            } else {
               AwesomeDialog(
                 context: context,
                 animType: AnimType.scale,
@@ -1034,12 +1061,13 @@ class CheckoutScreenState extends State<CheckoutScreen>
               ).show();
             }
           }
-          if (_reservation?.paymentMethodId == '03c20593-9817-4cda-982f-7c8e7ee162e8') {
+          if (_reservation?.paymentMethodId ==
+              '03c20593-9817-4cda-982f-7c8e7ee162e8') {
             await _vnPresenter.PaymentMethodVNPAY(
                 widget.reservation.reservationId.toString());
             launch(vnpaylink.toString());
           }
-          if(_reservation?.paymentMethodId == null){
+          if (_reservation?.paymentMethodId == null) {
             AwesomeDialog(
               context: context,
               animType: AnimType.scale,
@@ -1051,8 +1079,7 @@ class CheckoutScreenState extends State<CheckoutScreen>
                 ),
               ),
               btnOkColor: Colors.red,
-              btnOkOnPress: () {
-              },
+              btnOkOnPress: () {},
             ).show();
           }
         },
