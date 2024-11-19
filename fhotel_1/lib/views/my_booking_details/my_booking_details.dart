@@ -1118,37 +1118,71 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> with Wid
                 },
               ).show();
             } else {
-              await _presenter.updateReservation(
-                (widget.reservation.reservationId).toString(),
-                (widget.reservation.numberOfRooms ?? 0),
-                (widget.reservation.code).toString(),
-                (widget.reservation.roomTypeId).toString(),
-                (widget.reservation.checkInDate).toString(),
-                (widget.reservation.checkOutDate).toString(),
-                (widget.reservation.totalAmount ?? 0),
-                (widget.reservation.customerId).toString(),
-                (widget.reservation.paymentStatus).toString(),
-                'Cancelled',
-                (widget.reservation.paymentMethodId).toString(),
-                (widget.reservation.createdDate).toString(),
-                (widget.reservation.isPrePaid) ?? false,
-              );
-              AwesomeDialog(
-                context: context,
-                animType: AnimType.scale,
-                dialogType: DialogType.success,
-                body: const Center(
-                  child: Text(
-                    'Hủy đặt phòng thành công!!!',
-                    style: TextStyle(fontStyle: FontStyle.italic),
+              if(widget.reservation.paymentMethod != null){
+                await _presenter.updateReservation(
+                  (widget.reservation.reservationId).toString(),
+                  (widget.reservation.numberOfRooms ?? 0),
+                  (widget.reservation.code).toString(),
+                  (widget.reservation.roomTypeId).toString(),
+                  (widget.reservation.checkInDate).toString(),
+                  (widget.reservation.checkOutDate).toString(),
+                  (widget.reservation.totalAmount ?? 0),
+                  (widget.reservation.customerId).toString(),
+                  (widget.reservation.paymentStatus).toString(),
+                  'Cancelled',
+                  (widget.reservation.paymentMethodId).toString(),
+                  (widget.reservation.createdDate).toString(),
+                  (widget.reservation.isPrePaid) ?? false,
+                );
+                AwesomeDialog(
+                  context: context,
+                  animType: AnimType.scale,
+                  dialogType: DialogType.success,
+                  body: const Center(
+                    child: Text(
+                      'Hủy đặt phòng thành công!!!',
+                      style: TextStyle(fontStyle: FontStyle.italic),
+                    ),
                   ),
-                ),
-                // title: 'Warning',
-                // desc:   'This is also Ignored',
-                btnOkOnPress: () {
-                  Navigator.pop(context); // Close login dialog
-                },
-              ).show();
+                  // title: 'Warning',
+                  // desc:   'This is also Ignored',
+                  btnOkOnPress: () {
+                    Navigator.pop(context); // Close login dialog
+                  },
+                ).show();
+              } else {
+                await _presenter.updateReservation(
+                  (widget.reservation.reservationId).toString(),
+                  (widget.reservation.numberOfRooms ?? 0),
+                  (widget.reservation.code).toString(),
+                  (widget.reservation.roomTypeId).toString(),
+                  (widget.reservation.checkInDate).toString(),
+                  (widget.reservation.checkOutDate).toString(),
+                  (widget.reservation.totalAmount ?? 0),
+                  (widget.reservation.customerId).toString(),
+                  (widget.reservation.paymentStatus).toString(),
+                  'Cancelled',
+                  '1dfab560-eef5-4297-9c26-03c3364f10e6',
+                  (widget.reservation.createdDate).toString(),
+                  (widget.reservation.isPrePaid) ?? false,
+                );
+                AwesomeDialog(
+                  context: context,
+                  animType: AnimType.scale,
+                  dialogType: DialogType.success,
+                  body: const Center(
+                    child: Text(
+                      'Hủy đặt phòng thành công!!!',
+                      style: TextStyle(fontStyle: FontStyle.italic),
+                    ),
+                  ),
+                  // title: 'Warning',
+                  // desc:   'This is also Ignored',
+                  btnOkOnPress: () {
+                    Navigator.pop(context); // Close login dialog
+                  },
+                ).show();
+              }
             }
         },
         height: 40.h,
