@@ -199,7 +199,7 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> with Wid
                                     'Pending')
                             ? _buildRowxablc(context)
                             : SizedBox(),
-                        (widget.reservation.paymentStatus == 'Paid' &&
+                        (widget.reservation.isPrePaid == true &&
                                 widget.reservation.reservationStatus ==
                                     'Pending' &&
                                 _orderDetail?.order?.orderStatus != 'Confirmed')
