@@ -733,6 +733,27 @@ class CheckoutScreenState extends State<CheckoutScreen>
                   )
                 ],
               ),
+            ),
+            Align(
+                alignment: Alignment.bottomLeft,
+                child: RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: selectedPaymentMethod == "Thanh toán tại khách sạn"
+                            ? "Vui lòng hoàn tất thanh toán trước 2 ngày (Tính từ ngày bạn đặt phòng) nếu không bạn sẽ bị hủy đặt phòng."
+                            : "",
+                        style: TextStyle(
+                          color: (selectedPaymentMethod != null &&
+                              selectedPaymentMethod == "Thanh toán tại khách sạn")
+                              ? Colors.red
+                              : theme.textTheme.titleSmall?.color,
+                          fontSize: theme.textTheme.titleSmall?.fontSize,
+                        ),
+                      ),
+                    ],
+                  ),
+                )
             )
           ],
         ),

@@ -5,11 +5,14 @@ import 'package:fhotel_1/data/models/user.dart';
 import 'package:fhotel_1/data/repository/list_reservation_repo.dart';
 import 'package:fhotel_1/presenters/list_reservation_presenter.dart';
 import 'package:fhotel_1/presenters/user_profile_presenter.dart';
+import 'package:fhotel_1/presenters/vn_pay_presenter.dart';
+import 'package:fhotel_1/views/checkout/vn_pay_view.dart';
 import 'package:fhotel_1/views/my_booking_check_in/my_booking_checkin.dart';
 import 'package:fhotel_1/views/write_review/write_review_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_html/flutter_html.dart' as html;
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/app_export.dart';
 import '../../data/models/order_detail.dart';
@@ -33,27 +36,32 @@ class MyBookingDetailsScreen extends StatefulWidget {
   MyBookingDetailsScreenState createState() => MyBookingDetailsScreenState();
 }
 
-class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen>
+class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> with WidgetsBindingObserver
     implements
         CreateFeedbackView,
         ListReservationView,
         CreateReservationView,
         UserProfileView,
-        GetOrderDetailView {
+        GetOrderDetailView,
+        VnPayView {
   TextEditingController listmasteroneController = TextEditingController();
   int? numberOfDays;
   String? checkInDate;
   String? checkOutDate;
+  String? vnpaylink;
+
   late CreateFeedbackPresenter presenter;
   late ListReservationPresenter _presenter;
   late UserProfilePresenter _userProfilePresenter;
   late GetOrderDetailPresenter orderDetailPresenter;
+  late VnPayPresenter _vnPresenter;
 
   late CreateReservation _createReservation;
   Feedbacks? _feedbacks;
   User? _customer;
   Wallet? _wallet;
   OrderDetail? _orderDetail;
+  Reservation? _reservation;
 
   @override
   void initState() {
@@ -69,6 +77,8 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen>
         GetOrderDetailPresenter(this); // Initialize the presenter
     orderDetailPresenter.getOrderDetailByReservationId(
         (widget.reservation.reservationId).toString());
+    _vnPresenter = VnPayPresenter(this);
+    WidgetsBinding.instance.addObserver(this);
     _calculateDates();
   }
 
@@ -89,6 +99,62 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen>
       } catch (e) {
         print('Error parsing dates: $e');
       }
+    }
+  }
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (!mounted) return; // Check if the widget is still mounted
+    switch (state) {
+      case AppLifecycleState.resumed:
+        _showPaymentSuccessDialog(context);
+        print("app in resumed");
+        break;
+      case AppLifecycleState.inactive:
+        print("app in inactive");
+        break;
+      case AppLifecycleState.paused:
+        print("app in paused");
+        break;
+      case AppLifecycleState.detached:
+        print("app in detached");
+        break;
+      case AppLifecycleState.hidden:
+        print("app in hidden");
+        break;
+    }
+  }
+
+  void _showPaymentSuccessDialog(BuildContext context) async {
+    await _presenter.getReservationById(widget.reservation.reservationId.toString());
+    if (_reservation?.isPrePaid == true) {
+      AwesomeDialog(
+        context: context,
+        animType: AnimType.scale,
+        dialogType: DialogType.success,
+        body: const Center(
+          child: Text(
+            'Thanh toán thành công !!',
+            style: TextStyle(fontStyle: FontStyle.italic),
+          ),
+        ),
+        btnOkOnPress: () {
+          Navigator.pushReplacementNamed(context, AppRoutes.myOrderPageAndServicePage);
+        },
+      ).show();
+    } else {
+      AwesomeDialog(
+        context: context,
+        animType: AnimType.scale,
+        dialogType: DialogType.error,
+        body: const Center(
+          child: Text(
+            'Thanh toán thất bại,\nVui lòng thử lại !!',
+            style: TextStyle(fontStyle: FontStyle.italic),
+          ),
+        ),
+        btnOkColor: Colors.red,
+        btnOkOnPress: () {},
+      ).show();
     }
   }
 
@@ -128,10 +194,10 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen>
                                     'CheckOut')
                             ? SizedBox()
                             : _buildColumnsave(context),
-                        (widget.reservation.paymentStatus != 'Paid' &&
+                        (widget.reservation.paymentStatus != 'Paid' && widget.reservation.isPrePaid != true &&
                                 widget.reservation.reservationStatus ==
                                     'Pending')
-                            ? _buildCancel(context)
+                            ? _buildRowxablc(context)
                             : SizedBox(),
                         (widget.reservation.paymentStatus == 'Paid' &&
                                 widget.reservation.reservationStatus ==
@@ -690,14 +756,36 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen>
                   child: Text(
                     (widget.reservation.paymentMethod?.paymentMethodName !=
                             null)
-                        ? (widget.reservation.paymentMethod?.paymentMethodName)
-                            .toString()
+                        ? (widget.reservation.paymentMethod?.paymentMethodName).toString() == "Pay at hotel"
+                            ? "Thanh toán tại khách sạn"
+                            : "VnPay"
                         : 'Chưa chọn phương thức thanh toán',
                     style: theme.textTheme.titleSmall,
                   ),
                 )
               ],
             ),
+          ),
+          Align(
+            alignment: Alignment.bottomLeft,
+            child: RichText(
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: (widget.reservation.paymentMethod?.paymentMethodName).toString() == "Pay at hotel"
+                        ? "Vui lòng hoàn tất thanh toán trước 2 ngày (Tính từ ngày bạn đặt phòng) nếu không bạn sẽ bị hủy đặt phòng."
+                        : "",
+                    style: TextStyle(
+                      color: (widget.reservation.paymentMethod?.paymentMethodName != null &&
+                          widget.reservation.paymentMethod?.paymentMethodName == "Pay at hotel")
+                          ? Colors.red
+                          : theme.textTheme.titleSmall?.color,
+                      fontSize: theme.textTheme.titleSmall?.fontSize,
+                    ),
+                  ),
+                ],
+              ),
+            )
           )
         ],
       ),
@@ -980,6 +1068,126 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen>
     );
   }
 
+  Widget _buildRowxablc(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.fromLTRB(16.h, 6.h, 16.h, 8.h),
+      decoration: BoxDecoration(
+        color: appTheme.whiteA700,
+        border: Border(
+          top: BorderSide(
+            color: appTheme.blueGray50,
+            width: 1.h,
+          ),
+        ),
+      ),
+      width: double.maxFinite,
+      child: Row(
+        children: [
+          _buildXabIc(context),
+          SizedBox(width: 8.h),
+          _buildPdng(context)
+        ],
+      ),
+    );
+  }
+
+  Widget _buildXabIc(BuildContext context) {
+    return Expanded(
+      child: CustomOutlinedButton(
+          onPressed: () async {
+            DateTime checkInDate =
+            DateTime.parse(widget.reservation.checkInDate.toString());
+            DateTime checkInTime = DateTime(checkInDate.year,
+                checkInDate.month, checkInDate.day, 9); // 9 AM on checkInDate
+            if (DateTime.now().isAfter(checkInTime)) {
+              // Your code here
+              AwesomeDialog(
+                context: context,
+                animType: AnimType.scale,
+                dialogType: DialogType.error,
+                body: const Center(
+                  child: Text(
+                    'Không thể hủy đặt phòng vì đã vượt quá thời hạn (9h sáng của ngày nhận phòng)!!!',
+                    style: TextStyle(fontStyle: FontStyle.italic),
+                  ),
+                ),
+                // title: 'Warning',
+                // desc:   'This is also Ignored',
+                btnCancelOnPress: () {
+                  // Close login dialog
+                },
+              ).show();
+            } else {
+              await _presenter.updateReservation(
+                (widget.reservation.reservationId).toString(),
+                (widget.reservation.numberOfRooms ?? 0),
+                (widget.reservation.code).toString(),
+                (widget.reservation.roomTypeId).toString(),
+                (widget.reservation.checkInDate).toString(),
+                (widget.reservation.checkOutDate).toString(),
+                (widget.reservation.totalAmount ?? 0),
+                (widget.reservation.customerId).toString(),
+                (widget.reservation.paymentStatus).toString(),
+                'Cancelled',
+                (widget.reservation.paymentMethodId).toString(),
+                (widget.reservation.createdDate).toString(),
+                (widget.reservation.isPrePaid) ?? false,
+              );
+              AwesomeDialog(
+                context: context,
+                animType: AnimType.scale,
+                dialogType: DialogType.success,
+                body: const Center(
+                  child: Text(
+                    'Hủy đặt phòng thành công!!!',
+                    style: TextStyle(fontStyle: FontStyle.italic),
+                  ),
+                ),
+                // title: 'Warning',
+                // desc:   'This is also Ignored',
+                btnOkOnPress: () {
+                  Navigator.pop(context); // Close login dialog
+                },
+              ).show();
+            }
+        },
+        height: 40.h,
+        text: "Hủy đặt phòng",
+        buttonStyle: CustomButtonStyles.outlineBlue,
+        buttonTextStyle: CustomTextStyles.bodyLargeBlue,
+      ),
+    );
+  }
+
+  Widget _buildPdng(BuildContext context) {
+    return Expanded(
+      child: CustomElevatedButton(
+        onPressed: () async {
+          await _presenter.updateReservation(
+              (widget.reservation.reservationId).toString(),
+              (widget.reservation.numberOfRooms ?? 0),
+              (widget.reservation.code).toString(),
+              (widget.reservation.roomTypeId).toString(),
+              (widget.reservation.checkInDate).toString(),
+              (widget.reservation.checkOutDate).toString(),
+              (widget.reservation.totalAmount ?? 0),
+              (widget.reservation.customerId).toString(),
+              (widget.reservation.paymentStatus).toString(),
+              'Pending',
+              '03c20593-9817-4cda-982f-7c8e7ee162e8',
+              (widget.reservation.createdDate).toString(),
+              (widget.reservation.isPrePaid) ?? false);
+          await _vnPresenter.PaymentMethodVNPAY(
+              widget.reservation.reservationId.toString());
+          launch(vnpaylink.toString());
+        },
+        text: "Thanh toán",
+        buttonStyle: CustomButtonStyles.fillBlue,
+        buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,
+      ),
+    );
+  }
+
   Widget _buildRefund(BuildContext context) {
     return Container(
       width: double.maxFinite,
@@ -1185,6 +1393,9 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen>
   @override
   void onGetReservationSuccess(Reservation reservation) {
     // TODO: implement onGetReservationSuccess
+    setState(() {
+      _reservation = reservation;
+    });
   }
 
   @override
@@ -1259,5 +1470,18 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen>
     setState(() {
       _orderDetail = orderDetails;
     });
+  }
+
+  @override
+  void onPaymentError(String error) {
+    // TODO: implement onPaymentError
+  }
+
+  @override
+  void onPaymentSuccess(String link) {
+    setState(() {
+      vnpaylink = link;
+    });
+    // TODO: implement onPaymentSuccess
   }
 }
