@@ -664,8 +664,7 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen>
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
-                      (widget.reservation?.paymentMethodId ==
-                              '03c20593-9817-4cda-982f-7c8e7ee162e8')
+                      (widget.reservation?.paymentMethodId == '03c20593-9817-4cda-982f-7c8e7ee162e8')
                           ? CustomImageView(
                               imagePath: ImageConstant.imgImg,
                               height: 40.h,
@@ -1165,7 +1164,7 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen>
     )
         : CustomElevatedButton(
       height: 28.h,
-      width: 126.h,
+      width: 170.h,
       text: "Chưa thanh toán trước",
       buttonStyle: CustomButtonStyles.fillRed,
       buttonTextStyle: CustomTextStyles.bodyMediumRobotoWhiteA700,

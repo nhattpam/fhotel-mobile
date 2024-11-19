@@ -176,8 +176,7 @@ class CheckoutScreenState extends State<CheckoutScreen>
   }
 
   void _showPaymentSuccessDialog(BuildContext context) async {
-    await _presenter
-        .getReservationById(widget.reservation.reservationId.toString());
+    await _presenter.getReservationById(widget.reservation.reservationId.toString());
     if (_reservation?.isPrePaid == true) {
       AwesomeDialog(
         context: context,
@@ -704,11 +703,23 @@ class CheckoutScreenState extends State<CheckoutScreen>
                     child: Stack(
                       alignment: Alignment.center,
                       children: [
-                        CustomImageView(
+                        (selectedPaymentMethod == 'VNPay')
+                            ? CustomImageView(
                           imagePath: ImageConstant.imgImg,
                           height: 40.h,
                           width: double.maxFinite,
-                          radius: BorderRadius.circular(14.h),
+                          radius: BorderRadius.circular(
+                            14.h,
+                          ),
+                        )
+                            : Container(
+                          height: 40.h,
+                          width: double.maxFinite,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(
+                                14.h,
+                              )),
+                          child: Icon(Icons.payment, size: 20.h),
                         )
                       ],
                     ),
@@ -965,7 +976,6 @@ class CheckoutScreenState extends State<CheckoutScreen>
               DateTime.parse(widget.reservation.checkInDate.toString());
           DateTime checkInTime = DateTime(checkInDate.year, checkInDate.month, checkInDate.day, 9); // 9 AM on checkInDate
           if (DateTime.now().isAfter(checkInTime)) {
-            // Your code here
             AwesomeDialog(
               context: context,
               animType: AnimType.scale,
@@ -1045,20 +1055,35 @@ class CheckoutScreenState extends State<CheckoutScreen>
                 btnCancelOnPress: () {},
               ).show();
             } else {
-              AwesomeDialog(
-                context: context,
-                animType: AnimType.scale,
-                dialogType: DialogType.success,
-                body: const Center(
-                  child: Text(
-                    'Bạn đã hoàn tất đặt phòng !!',
-                    style: TextStyle(fontStyle: FontStyle.italic),
+              if ((widget.reservation.numberOfRooms)! > 2) {
+                AwesomeDialog(
+                  context: context,
+                  animType: AnimType.scale,
+                  dialogType: DialogType.error,
+                  body: const Center(
+                    child: Text(
+                      'Số lượng phòng đặt nhiều hơn 2, không thể sử dụng phương thức "Thanh toán tại khách sạn".\nVui lòng chọn phương thức thanh toán "VNPAY"!',
+                      style: TextStyle(fontStyle: FontStyle.italic),
+                    ),
                   ),
-                ),
-                btnOkOnPress: () {
-                  Navigator.pushReplacementNamed(context, AppRoutes.homePage);
-                },
-              ).show();
+                  btnCancelOnPress: () {},
+                ).show();
+              } else {
+                AwesomeDialog(
+                  context: context,
+                  animType: AnimType.scale,
+                  dialogType: DialogType.success,
+                  body: const Center(
+                    child: Text(
+                      'Bạn đã hoàn tất đặt phòng !!',
+                      style: TextStyle(fontStyle: FontStyle.italic),
+                    ),
+                  ),
+                  btnOkOnPress: () {
+                    Navigator.pushReplacementNamed(context, AppRoutes.homePage);
+                  },
+                ).show();
+              }
             }
           }
           if (_reservation?.paymentMethodId ==

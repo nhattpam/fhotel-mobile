@@ -202,11 +202,13 @@ class MyBookingCheckinState extends State<MyBookingCheckin> implements ListRoomS
                 height: 28.h,
                 width: 126.h,
                 text: "Chưa Thanh Toán",
-                buttonStyle: CustomButtonStyles.fillYellow,
-                buttonTextStyle: CustomTextStyles.bodyMediumSecondaryContainer,
+                buttonStyle: CustomButtonStyles.fillRed,
+                buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,
               ),
             ],
           ),
+          SizedBox(height: 12.h),
+          _buildPrePaid(context),
           SizedBox(height: 16.h),
           Text(
             "Lịch sử check-in, check-out",
@@ -350,6 +352,23 @@ class MyBookingCheckinState extends State<MyBookingCheckin> implements ListRoomS
       },
       separator: SizedBox(height: 12.h), // Add spacing between items
       order: GroupedListOrder.ASC, // Adjust based on your desired order
+    );
+  }
+  Widget _buildPrePaid(BuildContext context) {
+    return widget.reservation.isPrePaid == true
+        ? CustomElevatedButton(
+      height: 28.h,
+      width: 150.h,
+      text: "Đã thanh toán trước",
+      buttonStyle: CustomButtonStyles.fillGreen,
+      buttonTextStyle: CustomTextStyles.bodyMediumTeal800,
+    )
+        : CustomElevatedButton(
+      height: 28.h,
+      width: 126.h,
+      text: "Chưa thanh toán trước",
+      buttonStyle: CustomButtonStyles.fillRed,
+      buttonTextStyle: CustomTextStyles.bodyMediumRobotoWhiteA700,
     );
   }
 // Show loading indicator
