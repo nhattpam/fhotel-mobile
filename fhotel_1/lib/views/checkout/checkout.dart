@@ -178,7 +178,7 @@ class CheckoutScreenState extends State<CheckoutScreen>
   void _showPaymentSuccessDialog(BuildContext context) async {
     await _presenter
         .getReservationById(widget.reservation.reservationId.toString());
-    if (_reservation?.paymentStatus == 'Paid') {
+    if (_reservation?.isPrePaid == true) {
       AwesomeDialog(
         context: context,
         animType: AnimType.scale,

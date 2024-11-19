@@ -269,6 +269,8 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen>
                     ),
             ],
           ),
+          SizedBox(height: 12.h),
+          _buildPrePaid(context),
           SizedBox(height: 16.h),
           Text(
             "Chi tiết đặt phòng",
@@ -1152,6 +1154,23 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen>
     );
   }
 
+  Widget _buildPrePaid(BuildContext context) {
+    return widget.reservation.isPrePaid == true
+        ? CustomElevatedButton(
+      height: 28.h,
+      width: 150.h,
+      text: "Đã thanh toán trước",
+      buttonStyle: CustomButtonStyles.fillGreen,
+      buttonTextStyle: CustomTextStyles.bodyMediumTeal800,
+    )
+        : CustomElevatedButton(
+      height: 28.h,
+      width: 126.h,
+      text: "Chưa thanh toán trước",
+      buttonStyle: CustomButtonStyles.fillRed,
+      buttonTextStyle: CustomTextStyles.bodyMediumRobotoWhiteA700,
+    );
+  }
   @override
   void onGetFeedbackSuccess(Feedbacks feedback) {
     setState(() {
