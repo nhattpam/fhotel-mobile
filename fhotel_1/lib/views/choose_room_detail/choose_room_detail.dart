@@ -871,7 +871,7 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
                     style: TextStyle(fontStyle: FontStyle.italic),
                   ),
                 ),
-                btnCancelText: 'Quay lại',
+                btnCancelText: 'Đóng',
                 btnCancelOnPress: () {},
               ).show();
             }
@@ -886,7 +886,7 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
                   style: TextStyle(fontStyle: FontStyle.italic),
                 ),
               ),
-              btnCancelText: 'Quay lại',
+              btnCancelText: 'Đóng',
               btnCancelOnPress: () {},
             ).show();
           }

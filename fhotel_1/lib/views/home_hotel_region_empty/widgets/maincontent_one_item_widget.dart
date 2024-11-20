@@ -97,18 +97,18 @@ class _MaincontentOneltemWidgetState extends State<MaincontentOneltemWidget>
                   alignment: Alignment.bottomCenter,
                   child: Container(
                     width: double.maxFinite,
-                    padding: EdgeInsets.only(
-                      left: 8.h,
-                      top: 6.h,
-                      bottom: 6.h,
-                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 8.h, vertical: 6.h),
                     decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(8.h),
+                        bottomRight: Radius.circular(8.h),
+                      ),
                       gradient: LinearGradient(
-                        begin: Alignment(0.5, 0),
-                        end: Alignment(0.5, 1),
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
                         colors: [
-                          Colors.white.withOpacity(0),
-                          Colors.blueAccent
+                          Colors.transparent,
+                          appTheme.blue600,
                         ],
                       ),
                     ),
@@ -119,7 +119,16 @@ class _MaincontentOneltemWidgetState extends State<MaincontentOneltemWidget>
                         SizedBox(height: 26.h),
                         Text(
                           widget.name,
-                          style: CustomTextStyles.bodySmallBlack900,
+                          style: CustomTextStyles.bodySmallBlack900.copyWith(
+                            color: Colors.white,
+                            shadows: [
+                              Shadow(
+                                offset: Offset(0, 1), // Đổ bóng nhẹ
+                                blurRadius: 2,
+                                color: Colors.black.withOpacity(0.5),
+                              ),
+                            ],
+                          ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -127,7 +136,8 @@ class _MaincontentOneltemWidgetState extends State<MaincontentOneltemWidget>
                       ],
                     ),
                   ),
-                )
+                ),
+
               ],
             ),
           ),

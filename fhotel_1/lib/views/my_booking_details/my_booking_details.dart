@@ -1020,6 +1020,7 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> with Wid
                   ),
                   // title: 'Warning',
                   // desc:   'This is also Ignored',
+                  btnCancelText: "Đóng",
                   btnCancelOnPress: () {
                     // Close login dialog
                   },
@@ -1113,6 +1114,7 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> with Wid
                 ),
                 // title: 'Warning',
                 // desc:   'This is also Ignored',
+                btnCancelText: "Đóng",
                 btnCancelOnPress: () {
                   // Close login dialog
                 },

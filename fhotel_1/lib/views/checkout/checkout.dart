@@ -1009,6 +1009,7 @@ class CheckoutScreenState extends State<CheckoutScreen>
               ),
               // title: 'Warning',
               // desc:   'This is also Ignored',
+              btnCancelText: 'Đóng',
               btnCancelOnPress: () { // Close login dialog
               },
             ).show();
@@ -1073,6 +1074,7 @@ class CheckoutScreenState extends State<CheckoutScreen>
                     style: TextStyle(fontStyle: FontStyle.italic),
                   ),
                 ),
+                btnCancelText: "Đóng",
                 btnCancelOnPress: () {},
               ).show();
             } else {

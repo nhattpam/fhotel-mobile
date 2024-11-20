@@ -199,6 +199,7 @@ class WriteReviewScreenState extends State<WriteReviewScreen> implements CreateF
                 style: const TextStyle(fontStyle: FontStyle.italic),
               ),
             ),
+            btnCancelText: "Đóng",
             btnCancelOnPress: () {},
           ).show();
         } else {

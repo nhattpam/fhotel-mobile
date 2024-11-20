@@ -594,6 +594,7 @@ class EditProfileScreenState extends State<EditProfileScreen>
                     ),
                     // title: 'Warning',
                     // desc:   'This is also Ignored',
+                    btnCancelText: "Đóng",
                     btnOkOnPress: () {
                       Navigator.pushReplacementNamed(
                           context, AppRoutes.homePage);
