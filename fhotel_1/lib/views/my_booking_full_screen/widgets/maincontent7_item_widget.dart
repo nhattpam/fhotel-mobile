@@ -47,11 +47,13 @@ class Maincontent7ItemWidgetState extends State<Maincontent7ItemWidget> {
                 children:[
                  _buildTthnhcng(context),
                   SizedBox(width: 4.h),
-                  _buildPayment(context),
+                  _buildPrePaid(context),
                 ],
             ),
             SizedBox(height: 12.h),
-            _buildPrePaid(context),
+            widget.reservation.reservationStatus == 'CheckOut'
+            ? _buildPayment(context)
+            : Container(),
             SizedBox(height: 12.h),
             SizedBox(
               width: double.maxFinite,
@@ -115,21 +117,23 @@ class Maincontent7ItemWidgetState extends State<Maincontent7ItemWidget> {
       text: widget.reservation.reservationStatus == 'Cancelled'
           ? "Đã bị hủy"
           : widget.reservation.reservationStatus == 'Pending'
-          ? "Đang xử lý"
-          : "Đặt thành công",
+          ? "Đặt thành công"
+          : widget.reservation.reservationStatus == 'CheckOut'
+          ? "Đã trả phòng"
+          : "Đã nhận phòng",
       buttonStyle: widget.reservation.reservationStatus == 'Cancelled'
           ? CustomButtonStyles.fillRed // Add a red style for "Cancelled"
           : widget.reservation.reservationStatus == 'Pending'
-          ? CustomButtonStyles.fillYellow
+          ? CustomButtonStyles.fillGreen
           : CustomButtonStyles.fillGreen,
       buttonTextStyle: widget.reservation.reservationStatus == 'Cancelled'
           ? CustomTextStyles.bodyMediumwhiteA700 // Add an error style for "Cancelled"
           : widget.reservation.reservationStatus == 'Pending'
-          ? CustomTextStyles.bodyMediumSecondaryContainer
+          ? CustomTextStyles.bodyMediumTeal800
           : CustomTextStyles.bodyMediumTeal800,
     );
-
   }
+
   Widget _buildPayment(BuildContext context) {
     return widget.reservation.paymentStatus == 'Paid'
         ? CustomElevatedButton(
@@ -158,7 +162,7 @@ class Maincontent7ItemWidgetState extends State<Maincontent7ItemWidget> {
           )
         : CustomElevatedButton(
             height: 28.h,
-            width: 170.h,
+            width: 150.h,
             text: "Chưa thanh toán trước",
             buttonStyle: CustomButtonStyles.fillRed,
             buttonTextStyle: CustomTextStyles.bodyMediumRobotoWhiteA700,

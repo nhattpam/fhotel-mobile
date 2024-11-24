@@ -36,7 +36,8 @@ class MyBookingDetailsScreen extends StatefulWidget {
   MyBookingDetailsScreenState createState() => MyBookingDetailsScreenState();
 }
 
-class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> with WidgetsBindingObserver
+class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen>
+    with WidgetsBindingObserver
     implements
         CreateFeedbackView,
         ListReservationView,
@@ -101,6 +102,7 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> with Wid
       }
     }
   }
+
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (!mounted) return; // Check if the widget is still mounted
@@ -125,7 +127,8 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> with Wid
   }
 
   void _showPaymentSuccessDialog(BuildContext context) async {
-    await _presenter.getReservationById(widget.reservation.reservationId.toString());
+    await _presenter
+        .getReservationById(widget.reservation.reservationId.toString());
     if (_reservation?.isPrePaid == true) {
       AwesomeDialog(
         context: context,
@@ -138,7 +141,8 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> with Wid
           ),
         ),
         btnOkOnPress: () {
-          Navigator.pushReplacementNamed(context, AppRoutes.myOrderPageAndServicePage);
+          Navigator.pushReplacementNamed(
+              context, AppRoutes.myOrderPageAndServicePage);
         },
       ).show();
     } else {
@@ -194,7 +198,8 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> with Wid
                                     'CheckOut')
                             ? SizedBox()
                             : _buildColumnsave(context),
-                        (widget.reservation.paymentStatus != 'Paid' && widget.reservation.isPrePaid != true &&
+                        (widget.reservation.paymentStatus != 'Paid' &&
+                                widget.reservation.isPrePaid != true &&
                                 widget.reservation.reservationStatus ==
                                     'Pending')
                             ? _buildRowxablc(context)
@@ -300,43 +305,32 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> with Wid
                 text: widget.reservation.reservationStatus == 'Cancelled'
                     ? "Đã bị hủy"
                     : widget.reservation.reservationStatus == 'Pending'
-                        ? "Đang xử lý"
-                        : "Đặt thành công",
+                        ? "Đặt thành công"
+                        : widget.reservation.reservationStatus == 'CheckOut'
+                            ? "Đã trả phòng"
+                            : "Đã nhận phòng",
                 buttonStyle: widget.reservation.reservationStatus == 'Cancelled'
                     ? CustomButtonStyles
                         .fillRed // Add a red style for "Cancelled"
                     : widget.reservation.reservationStatus == 'Pending'
-                        ? CustomButtonStyles.fillYellow
+                        ? CustomButtonStyles.fillGreen
                         : CustomButtonStyles.fillGreen,
                 buttonTextStyle: widget.reservation.reservationStatus ==
                         'Cancelled'
                     ? CustomTextStyles
                         .bodyMediumwhiteA700 // Add an error style for "Cancelled"
                     : widget.reservation.reservationStatus == 'Pending'
-                        ? CustomTextStyles.bodyMediumSecondaryContainer
+                        ? CustomTextStyles.bodyMediumTeal800
                         : CustomTextStyles.bodyMediumTeal800,
               ),
               SizedBox(width: 4.h),
-              widget.reservation.paymentStatus == 'Paid'
-                  ? CustomElevatedButton(
-                      height: 28.h,
-                      width: 126.h,
-                      text: "Đã thanh toán",
-                      buttonStyle: CustomButtonStyles.fillGreen,
-                      buttonTextStyle: CustomTextStyles.bodyMediumTeal800,
-                    )
-                  : CustomElevatedButton(
-                      height: 28.h,
-                      width: 126.h,
-                      text: "Chưa thanh toán",
-                      buttonStyle: CustomButtonStyles.fillRed,
-                      buttonTextStyle:
-                          CustomTextStyles.bodyMediumRobotoWhiteA700,
-                    ),
+              _buildPrePaid(context),
             ],
           ),
           SizedBox(height: 12.h),
-          _buildPrePaid(context),
+          widget.reservation.reservationStatus == 'CheckOut'
+              ? _buildPayment(context)
+              : Container(),
           SizedBox(height: 16.h),
           Text(
             "Chi tiết đặt phòng",
@@ -730,7 +724,8 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> with Wid
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
-                      (widget.reservation?.paymentMethodId == '03c20593-9817-4cda-982f-7c8e7ee162e8')
+                      (widget.reservation?.paymentMethodId ==
+                              '03c20593-9817-4cda-982f-7c8e7ee162e8')
                           ? CustomImageView(
                               imagePath: ImageConstant.imgImg,
                               height: 40.h,
@@ -756,7 +751,9 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> with Wid
                   child: Text(
                     (widget.reservation.paymentMethod?.paymentMethodName !=
                             null)
-                        ? (widget.reservation.paymentMethod?.paymentMethodName).toString() == "Pay at hotel"
+                        ? (widget.reservation.paymentMethod?.paymentMethodName)
+                                    .toString() ==
+                                "Pay at hotel"
                             ? "Thanh toán tại khách sạn"
                             : "VnPay"
                         : 'Chưa chọn phương thức thanh toán',
@@ -767,26 +764,32 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> with Wid
             ),
           ),
           Align(
-            alignment: Alignment.bottomLeft,
-            child: RichText(
-              text: TextSpan(
-                children: [
-                  TextSpan(
-                    text: (widget.reservation.paymentMethod?.paymentMethodName).toString() == "Pay at hotel"
-                        ? "Vui lòng hoàn tất thanh toán trước 2 ngày (Tính từ ngày bạn đặt phòng) nếu không bạn sẽ bị hủy đặt phòng."
-                        : "",
-                    style: TextStyle(
-                      color: (widget.reservation.paymentMethod?.paymentMethodName != null &&
-                          widget.reservation.paymentMethod?.paymentMethodName == "Pay at hotel")
-                          ? Colors.red
-                          : theme.textTheme.titleSmall?.color,
-                      fontSize: theme.textTheme.titleSmall?.fontSize,
+              alignment: Alignment.bottomLeft,
+              child: RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: (widget.reservation.paymentMethod
+                                      ?.paymentMethodName)
+                                  .toString() ==
+                              "Pay at hotel"
+                          ? "Vui lòng hoàn tất thanh toán trước 2 ngày (Tính từ ngày bạn đặt phòng) nếu không bạn sẽ bị hủy đặt phòng."
+                          : "",
+                      style: TextStyle(
+                        color: (widget.reservation.paymentMethod
+                                        ?.paymentMethodName !=
+                                    null &&
+                                widget.reservation.paymentMethod
+                                        ?.paymentMethodName ==
+                                    "Pay at hotel")
+                            ? Colors.red
+                            : theme.textTheme.titleSmall?.color,
+                        fontSize: theme.textTheme.titleSmall?.fontSize,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            )
-          )
+                  ],
+                ),
+              ))
         ],
       ),
     );
@@ -1095,97 +1098,97 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> with Wid
   Widget _buildXabIc(BuildContext context) {
     return Expanded(
       child: CustomOutlinedButton(
-          onPressed: () async {
-            DateTime checkInDate =
-            DateTime.parse(widget.reservation.checkInDate.toString());
-            DateTime checkInTime = DateTime(checkInDate.year,
-                checkInDate.month, checkInDate.day, 9); // 9 AM on checkInDate
-            if (DateTime.now().isAfter(checkInTime)) {
-              // Your code here
+        onPressed: () async {
+          DateTime checkInDate =
+              DateTime.parse(widget.reservation.checkInDate.toString());
+          DateTime checkInTime = DateTime(checkInDate.year, checkInDate.month,
+              checkInDate.day, 9); // 9 AM on checkInDate
+          if (DateTime.now().isAfter(checkInTime)) {
+            // Your code here
+            AwesomeDialog(
+              context: context,
+              animType: AnimType.scale,
+              dialogType: DialogType.error,
+              body: const Center(
+                child: Text(
+                  'Không thể hủy đặt phòng vì đã vượt quá thời hạn (9h sáng của ngày nhận phòng)!!!',
+                  style: TextStyle(fontStyle: FontStyle.italic),
+                ),
+              ),
+              // title: 'Warning',
+              // desc:   'This is also Ignored',
+              btnCancelText: "Đóng",
+              btnCancelOnPress: () {
+                // Close login dialog
+              },
+            ).show();
+          } else {
+            if (widget.reservation.paymentMethod != null) {
+              await _presenter.updateReservation(
+                (widget.reservation.reservationId).toString(),
+                (widget.reservation.numberOfRooms ?? 0),
+                (widget.reservation.code).toString(),
+                (widget.reservation.roomTypeId).toString(),
+                (widget.reservation.checkInDate).toString(),
+                (widget.reservation.checkOutDate).toString(),
+                (widget.reservation.totalAmount ?? 0),
+                (widget.reservation.customerId).toString(),
+                (widget.reservation.paymentStatus).toString(),
+                'Cancelled',
+                (widget.reservation.paymentMethodId).toString(),
+                (widget.reservation.createdDate).toString(),
+                (widget.reservation.isPrePaid) ?? false,
+              );
               AwesomeDialog(
                 context: context,
                 animType: AnimType.scale,
-                dialogType: DialogType.error,
+                dialogType: DialogType.success,
                 body: const Center(
                   child: Text(
-                    'Không thể hủy đặt phòng vì đã vượt quá thời hạn (9h sáng của ngày nhận phòng)!!!',
+                    'Hủy đặt phòng thành công!!!',
                     style: TextStyle(fontStyle: FontStyle.italic),
                   ),
                 ),
                 // title: 'Warning',
                 // desc:   'This is also Ignored',
-                btnCancelText: "Đóng",
-                btnCancelOnPress: () {
-                  // Close login dialog
+                btnOkOnPress: () {
+                  Navigator.pop(context); // Close login dialog
                 },
               ).show();
             } else {
-              if(widget.reservation.paymentMethod != null){
-                await _presenter.updateReservation(
-                  (widget.reservation.reservationId).toString(),
-                  (widget.reservation.numberOfRooms ?? 0),
-                  (widget.reservation.code).toString(),
-                  (widget.reservation.roomTypeId).toString(),
-                  (widget.reservation.checkInDate).toString(),
-                  (widget.reservation.checkOutDate).toString(),
-                  (widget.reservation.totalAmount ?? 0),
-                  (widget.reservation.customerId).toString(),
-                  (widget.reservation.paymentStatus).toString(),
-                  'Cancelled',
-                  (widget.reservation.paymentMethodId).toString(),
-                  (widget.reservation.createdDate).toString(),
-                  (widget.reservation.isPrePaid) ?? false,
-                );
-                AwesomeDialog(
-                  context: context,
-                  animType: AnimType.scale,
-                  dialogType: DialogType.success,
-                  body: const Center(
-                    child: Text(
-                      'Hủy đặt phòng thành công!!!',
-                      style: TextStyle(fontStyle: FontStyle.italic),
-                    ),
+              await _presenter.updateReservation(
+                (widget.reservation.reservationId).toString(),
+                (widget.reservation.numberOfRooms ?? 0),
+                (widget.reservation.code).toString(),
+                (widget.reservation.roomTypeId).toString(),
+                (widget.reservation.checkInDate).toString(),
+                (widget.reservation.checkOutDate).toString(),
+                (widget.reservation.totalAmount ?? 0),
+                (widget.reservation.customerId).toString(),
+                (widget.reservation.paymentStatus).toString(),
+                'Cancelled',
+                '1dfab560-eef5-4297-9c26-03c3364f10e6',
+                (widget.reservation.createdDate).toString(),
+                (widget.reservation.isPrePaid) ?? false,
+              );
+              AwesomeDialog(
+                context: context,
+                animType: AnimType.scale,
+                dialogType: DialogType.success,
+                body: const Center(
+                  child: Text(
+                    'Hủy đặt phòng thành công!!!',
+                    style: TextStyle(fontStyle: FontStyle.italic),
                   ),
-                  // title: 'Warning',
-                  // desc:   'This is also Ignored',
-                  btnOkOnPress: () {
-                    Navigator.pop(context); // Close login dialog
-                  },
-                ).show();
-              } else {
-                await _presenter.updateReservation(
-                  (widget.reservation.reservationId).toString(),
-                  (widget.reservation.numberOfRooms ?? 0),
-                  (widget.reservation.code).toString(),
-                  (widget.reservation.roomTypeId).toString(),
-                  (widget.reservation.checkInDate).toString(),
-                  (widget.reservation.checkOutDate).toString(),
-                  (widget.reservation.totalAmount ?? 0),
-                  (widget.reservation.customerId).toString(),
-                  (widget.reservation.paymentStatus).toString(),
-                  'Cancelled',
-                  '1dfab560-eef5-4297-9c26-03c3364f10e6',
-                  (widget.reservation.createdDate).toString(),
-                  (widget.reservation.isPrePaid) ?? false,
-                );
-                AwesomeDialog(
-                  context: context,
-                  animType: AnimType.scale,
-                  dialogType: DialogType.success,
-                  body: const Center(
-                    child: Text(
-                      'Hủy đặt phòng thành công!!!',
-                      style: TextStyle(fontStyle: FontStyle.italic),
-                    ),
-                  ),
-                  // title: 'Warning',
-                  // desc:   'This is also Ignored',
-                  btnOkOnPress: () {
-                    Navigator.pop(context); // Close login dialog
-                  },
-                ).show();
-              }
+                ),
+                // title: 'Warning',
+                // desc:   'This is also Ignored',
+                btnOkOnPress: () {
+                  Navigator.pop(context); // Close login dialog
+                },
+              ).show();
             }
+          }
         },
         height: 40.h,
         text: "Hủy đặt phòng",
@@ -1237,7 +1240,7 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> with Wid
                 DateTime checkInDate =
                     DateTime.parse(widget.reservation.checkInDate.toString());
 
-              // Calculate one day before check-in at 9:00 AM
+                // Calculate one day before check-in at 9:00 AM
                 DateTime oneDayBeforeCheckIn = DateTime(
                   checkInDate.year,
                   checkInDate.month,
@@ -1245,11 +1248,13 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> with Wid
                   9, // Set time to 9 AM
                 );
 
-                DateTime now = DateTime.now(); // Get current time once for consistency
+                DateTime now =
+                    DateTime.now(); // Get current time once for consistency
 
                 // Debugging: Print values
                 print("Check-in Date: $checkInDate");
-                print("One Day Before Check-in (9:00 AM): $oneDayBeforeCheckIn");
+                print(
+                    "One Day Before Check-in (9:00 AM): $oneDayBeforeCheckIn");
                 print("Current Time: $now");
 
                 // Block refund requests after 9:00 AM, one day before check-in
@@ -1266,8 +1271,7 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> with Wid
                       ),
                     ),
                     btnOkColor: Colors.red,
-                    btnOkOnPress: () {
-                    },
+                    btnOkOnPress: () {},
                   ).show();
                 } else {
                   // Allow refund creation
@@ -1320,6 +1324,24 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> with Wid
       ),
     );
   }
+  Widget _buildPayment(BuildContext context) {
+    return widget.reservation.paymentStatus == 'Paid'
+        ? CustomElevatedButton(
+      height: 28.h,
+      width: 126.h,
+      text: "Đã thanh toán",
+      buttonStyle: CustomButtonStyles.fillGreen,
+      buttonTextStyle: CustomTextStyles.bodyMediumTeal800,
+    )
+        : CustomElevatedButton(
+      height: 28.h,
+      width: 126.h,
+      text: "Chưa thanh toán",
+      buttonStyle: CustomButtonStyles.fillRed,
+      buttonTextStyle: CustomTextStyles.bodyMediumRobotoWhiteA700,
+    );
+  }
+
 
   Widget _buildWrapperFive(
     BuildContext context, {
@@ -1400,20 +1422,21 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen> with Wid
   Widget _buildPrePaid(BuildContext context) {
     return widget.reservation.isPrePaid == true
         ? CustomElevatedButton(
-      height: 28.h,
-      width: 150.h,
-      text: "Đã thanh toán trước",
-      buttonStyle: CustomButtonStyles.fillGreen,
-      buttonTextStyle: CustomTextStyles.bodyMediumTeal800,
-    )
+            height: 28.h,
+            width: 150.h,
+            text: "Đã thanh toán trước",
+            buttonStyle: CustomButtonStyles.fillGreen,
+            buttonTextStyle: CustomTextStyles.bodyMediumTeal800,
+          )
         : CustomElevatedButton(
-      height: 28.h,
-      width: 170.h,
-      text: "Chưa thanh toán trước",
-      buttonStyle: CustomButtonStyles.fillRed,
-      buttonTextStyle: CustomTextStyles.bodyMediumRobotoWhiteA700,
-    );
+            height: 28.h,
+            width: 150.h,
+            text: "Chưa thanh toán trước",
+            buttonStyle: CustomButtonStyles.fillRed,
+            buttonTextStyle: CustomTextStyles.bodyMediumRobotoWhiteA700,
+          );
   }
+
   @override
   void onGetFeedbackSuccess(Feedbacks feedback) {
     setState(() {

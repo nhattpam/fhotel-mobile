@@ -173,42 +173,32 @@ class MyBookingCheckinState extends State<MyBookingCheckin> implements ListRoomS
                 text: widget.reservation.reservationStatus == 'Cancelled'
                     ? "Đã bị hủy"
                     : widget.reservation.reservationStatus == 'Pending'
-                    ? "Đang xử lý"
-                    : "Đặt thành công",
+                    ? "Đặt thành công"
+                    : widget.reservation.reservationStatus == 'CheckOut'
+                    ? "Đã trả phòng"
+                    : "Đã nhận phòng",
                 buttonStyle: widget.reservation.reservationStatus == 'Cancelled'
                     ? CustomButtonStyles
                     .fillRed // Add a red style for "Cancelled"
                     : widget.reservation.reservationStatus == 'Pending'
-                    ? CustomButtonStyles.fillYellow
+                    ? CustomButtonStyles.fillGreen
                     : CustomButtonStyles.fillGreen,
                 buttonTextStyle: widget.reservation.reservationStatus ==
                     'Cancelled'
                     ? CustomTextStyles
                     .bodyMediumwhiteA700 // Add an error style for "Cancelled"
                     : widget.reservation.reservationStatus == 'Pending'
-                    ? CustomTextStyles.bodyMediumSecondaryContainer
+                    ? CustomTextStyles.bodyMediumTeal800
                     : CustomTextStyles.bodyMediumTeal800,
               ),
               SizedBox(width: 4.h),
-              widget.reservation.paymentStatus == 'Paid'
-                  ? CustomElevatedButton(
-                height: 28.h,
-                width: 126.h,
-                text: "Đã thanh toán",
-                buttonStyle: CustomButtonStyles.fillGreen,
-                buttonTextStyle: CustomTextStyles.bodyMediumTeal800,
-              )
-                  : CustomElevatedButton(
-                height: 28.h,
-                width: 126.h,
-                text: "Chưa Thanh Toán",
-                buttonStyle: CustomButtonStyles.fillRed,
-                buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,
-              ),
+              _buildPrePaid(context),
             ],
           ),
           SizedBox(height: 12.h),
-          _buildPrePaid(context),
+          widget.reservation.reservationStatus == 'CheckOut'
+              ? _buildPayment(context)
+              : Container(),
           SizedBox(height: 16.h),
           Text(
             "Lịch sử check-in, check-out",
@@ -354,6 +344,24 @@ class MyBookingCheckinState extends State<MyBookingCheckin> implements ListRoomS
       order: GroupedListOrder.ASC, // Adjust based on your desired order
     );
   }
+  Widget _buildPayment(BuildContext context) {
+    return widget.reservation.paymentStatus == 'Paid'
+        ? CustomElevatedButton(
+      height: 28.h,
+      width: 126.h,
+      text: "Đã thanh toán",
+      buttonStyle: CustomButtonStyles.fillGreen,
+      buttonTextStyle: CustomTextStyles.bodyMediumTeal800,
+    )
+        : CustomElevatedButton(
+      height: 28.h,
+      width: 126.h,
+      text: "Chưa thanh toán",
+      buttonStyle: CustomButtonStyles.fillRed,
+      buttonTextStyle: CustomTextStyles.bodyMediumRobotoWhiteA700,
+    );
+  }
+  
   Widget _buildPrePaid(BuildContext context) {
     return widget.reservation.isPrePaid == true
         ? CustomElevatedButton(
