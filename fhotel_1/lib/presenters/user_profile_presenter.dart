@@ -89,8 +89,8 @@ class UserProfilePresenter {
     if (idNumber == null || idNumber.isEmpty) {
       return 'Không được để trống căn cước công dân';
     }
-    if(idNumber.length != 9 && idNumber.length != 12){
-      return 'Căn cước công dân phải có 9 hoặc 12 số';
+    if(idNumber.length != 12){
+      return 'Căn cước công dân phải có 12 số';
     }
     return null; // Identification Number is valid
   }

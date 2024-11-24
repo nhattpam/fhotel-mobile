@@ -133,7 +133,7 @@ class _HomeCheckInDateDefaultBottomsheetState
         config: CalendarDatePicker2Config(
           calendarType: CalendarDatePicker2Type.range,
           firstDate: DateTime.now(),
-          lastDate: DateTime(DateTime.now().year + 5),
+          lastDate: DateTime.now().add(const Duration(days: 90)),
           selectedDayHighlightColor: const Color(0XFF1A94FF),
           firstDayOfWeek: 0,
           todayTextStyle: TextStyle(
@@ -168,5 +168,4 @@ class _HomeCheckInDateDefaultBottomsheetState
       ),
     );
   }
-
 }

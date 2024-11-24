@@ -74,8 +74,8 @@ class RegisterPresenter {
     if (idNumber == null || idNumber.isEmpty) {
       return 'Không được để trống Căn cước công dân';
     }
-    if(idNumber.length != 9 && idNumber.length != 12){
-      return 'Căn cước công dân gồm 9 hoặc 12 kí tự';
+    if(idNumber.length != 12){
+      return 'Căn cước công dân có 12 kí tự';
     }
     return null; // Identification Number is valid
   }

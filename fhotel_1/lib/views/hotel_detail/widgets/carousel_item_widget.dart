@@ -193,6 +193,14 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
                 </section>
 
                 <section>
+                    <h4>Chính sách đặt phòng</h4>
+                    <ul>
+                        <li>Chỉ được đặt trong 3 vòng tháng</li>
+                        <li>Nếu đặt nhiều hơn 2 phòng thì phải thanh toán trước</li>
+                    </ul>
+                </section>
+                
+                <section>
                     <h4>Chính sách thanh toán</h4>
                     <ul>
                         <li>Đối với kỳ nghỉ trên 7 đêm, bắt buộc thanh toán trước.</li>

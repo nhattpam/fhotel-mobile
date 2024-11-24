@@ -365,7 +365,7 @@ class MyBookingCheckinState extends State<MyBookingCheckin> implements ListRoomS
     )
         : CustomElevatedButton(
       height: 28.h,
-      width: 126.h,
+      width: 170.h,
       text: "Chưa thanh toán trước",
       buttonStyle: CustomButtonStyles.fillRed,
       buttonTextStyle: CustomTextStyles.bodyMediumRobotoWhiteA700,
