@@ -771,7 +771,7 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen>
                                       ?.paymentMethodName)
                                   .toString() ==
                               "Pay at hotel"
-                          ? "Vui lòng hoàn tất thanh toán trước 2 ngày (Tính từ ngày bạn đặt phòng) nếu không bạn sẽ bị hủy đặt phòng."
+                          ? "Vui lòng hoàn tất thanh toán trong vòng 7 ngày (Tính từ ngày bạn đặt phòng) nếu không bạn sẽ bị hủy đặt phòng."
                           : "",
                       style: TextStyle(
                         color: (widget.reservation.paymentMethod

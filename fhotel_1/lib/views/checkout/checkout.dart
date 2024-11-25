@@ -741,7 +741,7 @@ class CheckoutScreenState extends State<CheckoutScreen>
                     children: [
                       TextSpan(
                         text: selectedPaymentMethod == "Thanh toán tại khách sạn"
-                            ? "Vui lòng hoàn tất thanh toán trước 2 ngày (Tính từ ngày bạn đặt phòng) nếu không bạn sẽ bị hủy đặt phòng."
+                            ? "Vui lòng hoàn tất thanh toán trong vòng 7 ngày (Tính từ ngày bạn đặt phòng) nếu không bạn sẽ bị hủy đặt phòng."
                             : "",
                         style: TextStyle(
                           color: (selectedPaymentMethod != null &&
@@ -1062,8 +1062,8 @@ class CheckoutScreenState extends State<CheckoutScreen>
               (widget.reservation.reservationId).toString());
           if (_reservation?.paymentMethodId ==
               '1dfab560-eef5-4297-9c26-03c3364f10e6') {
-            if (DateTime.parse(widget.reservation.checkInDate.toString())
-                .isAfter(DateTime.now().add(Duration(days: 7)))) {
+            if (DateTime.parse(widget.reservation.checkOutDate.toString())
+                .isAfter(DateTime.parse(widget.reservation.checkInDate.toString()).add(Duration(days: 7))))  {
               AwesomeDialog(
                 context: context,
                 animType: AnimType.scale,
