@@ -324,13 +324,11 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen>
                         : CustomTextStyles.bodyMediumTeal800,
               ),
               SizedBox(width: 4.h),
-              _buildPrePaid(context),
+              widget.reservation.reservationStatus == 'CheckOut'
+                  ? _buildPayment(context)
+                  : _buildPrePaid(context),
             ],
           ),
-          SizedBox(height: 12.h),
-          widget.reservation.reservationStatus == 'CheckOut'
-              ? _buildPayment(context)
-              : Container(),
           SizedBox(height: 16.h),
           Text(
             "Chi tiết đặt phòng",

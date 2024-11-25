@@ -192,13 +192,11 @@ class MyBookingCheckinState extends State<MyBookingCheckin> implements ListRoomS
                     : CustomTextStyles.bodyMediumTeal800,
               ),
               SizedBox(width: 4.h),
-              _buildPrePaid(context),
+              widget.reservation.reservationStatus == 'CheckOut'
+                  ? _buildPayment(context)
+                  : _buildPrePaid(context),
             ],
           ),
-          SizedBox(height: 12.h),
-          widget.reservation.reservationStatus == 'CheckOut'
-              ? _buildPayment(context)
-              : Container(),
           SizedBox(height: 16.h),
           Text(
             "Lịch sử check-in, check-out",
@@ -361,7 +359,7 @@ class MyBookingCheckinState extends State<MyBookingCheckin> implements ListRoomS
       buttonTextStyle: CustomTextStyles.bodyMediumRobotoWhiteA700,
     );
   }
-  
+
   Widget _buildPrePaid(BuildContext context) {
     return widget.reservation.isPrePaid == true
         ? CustomElevatedButton(

@@ -47,13 +47,11 @@ class Maincontent7ItemWidgetState extends State<Maincontent7ItemWidget> {
                 children:[
                  _buildTthnhcng(context),
                   SizedBox(width: 4.h),
-                  _buildPrePaid(context),
+                  widget.reservation.reservationStatus == 'CheckOut'
+                      ? _buildPayment(context)
+                      : _buildPrePaid(context),
                 ],
             ),
-            SizedBox(height: 12.h),
-            widget.reservation.reservationStatus == 'CheckOut'
-            ? _buildPayment(context)
-            : Container(),
             SizedBox(height: 12.h),
             SizedBox(
               width: double.maxFinite,
