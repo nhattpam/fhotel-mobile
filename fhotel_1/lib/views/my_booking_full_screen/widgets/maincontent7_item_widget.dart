@@ -114,6 +114,8 @@ class Maincontent7ItemWidgetState extends State<Maincontent7ItemWidget> {
       width: widget.reservation.reservationStatus == 'Pending' ? 126.h : 126.h,
       text: widget.reservation.reservationStatus == 'Cancelled'
           ? "Đã bị hủy"
+          : widget.reservation.reservationStatus == 'Refunded'
+          ? "Đã hoàn tiền"
           : widget.reservation.reservationStatus == 'Pending'
           ? "Đặt thành công"
           : widget.reservation.reservationStatus == 'CheckOut'
@@ -121,11 +123,15 @@ class Maincontent7ItemWidgetState extends State<Maincontent7ItemWidget> {
           : "Đã nhận phòng",
       buttonStyle: widget.reservation.reservationStatus == 'Cancelled'
           ? CustomButtonStyles.fillRed // Add a red style for "Cancelled"
+          : widget.reservation.reservationStatus == 'Refunded'
+          ? CustomButtonStyles.fillGreen
           : widget.reservation.reservationStatus == 'Pending'
           ? CustomButtonStyles.fillGreen
           : CustomButtonStyles.fillGreen,
       buttonTextStyle: widget.reservation.reservationStatus == 'Cancelled'
           ? CustomTextStyles.bodyMediumwhiteA700 // Add an error style for "Cancelled"
+          : widget.reservation.reservationStatus == 'Refunded'
+          ? CustomTextStyles.bodyMediumTeal800 // Add an error style for "Cancelled"
           : widget.reservation.reservationStatus == 'Pending'
           ? CustomTextStyles.bodyMediumTeal800
           : CustomTextStyles.bodyMediumTeal800,

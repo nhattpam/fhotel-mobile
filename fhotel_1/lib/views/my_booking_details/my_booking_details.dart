@@ -304,24 +304,31 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen>
                     : 126.h,
                 text: widget.reservation.reservationStatus == 'Cancelled'
                     ? "Đã bị hủy"
-                    : widget.reservation.reservationStatus == 'Pending'
-                        ? "Đặt thành công"
-                        : widget.reservation.reservationStatus == 'CheckOut'
-                            ? "Đã trả phòng"
-                            : "Đã nhận phòng",
+                    : widget.reservation.reservationStatus == 'Refunded'
+                        ? "Đã hoàn tiền"
+                        : widget.reservation.reservationStatus == 'Pending'
+                            ? "Đặt thành công"
+                            : widget.reservation.reservationStatus == 'CheckOut'
+                                ? "Đã trả phòng"
+                                : "Đã nhận phòng",
                 buttonStyle: widget.reservation.reservationStatus == 'Cancelled'
                     ? CustomButtonStyles
                         .fillRed // Add a red style for "Cancelled"
-                    : widget.reservation.reservationStatus == 'Pending'
+                    : widget.reservation.reservationStatus == 'Refunded'
                         ? CustomButtonStyles.fillGreen
-                        : CustomButtonStyles.fillGreen,
+                        : widget.reservation.reservationStatus == 'Pending'
+                            ? CustomButtonStyles.fillGreen
+                            : CustomButtonStyles.fillGreen,
                 buttonTextStyle: widget.reservation.reservationStatus ==
                         'Cancelled'
                     ? CustomTextStyles
                         .bodyMediumwhiteA700 // Add an error style for "Cancelled"
-                    : widget.reservation.reservationStatus == 'Pending'
-                        ? CustomTextStyles.bodyMediumTeal800
-                        : CustomTextStyles.bodyMediumTeal800,
+                    : widget.reservation.reservationStatus == 'Refunded'
+                        ? CustomTextStyles
+                            .bodyMediumTeal800 // Add an error style for "Cancelled"
+                        : widget.reservation.reservationStatus == 'Pending'
+                            ? CustomTextStyles.bodyMediumTeal800
+                            : CustomTextStyles.bodyMediumTeal800,
               ),
               SizedBox(width: 4.h),
               widget.reservation.reservationStatus == 'CheckOut'
@@ -1322,24 +1329,24 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen>
       ),
     );
   }
+
   Widget _buildPayment(BuildContext context) {
     return widget.reservation.paymentStatus == 'Paid'
         ? CustomElevatedButton(
-      height: 28.h,
-      width: 126.h,
-      text: "Đã thanh toán",
-      buttonStyle: CustomButtonStyles.fillGreen,
-      buttonTextStyle: CustomTextStyles.bodyMediumTeal800,
-    )
+            height: 28.h,
+            width: 126.h,
+            text: "Đã thanh toán",
+            buttonStyle: CustomButtonStyles.fillGreen,
+            buttonTextStyle: CustomTextStyles.bodyMediumTeal800,
+          )
         : CustomElevatedButton(
-      height: 28.h,
-      width: 126.h,
-      text: "Chưa thanh toán",
-      buttonStyle: CustomButtonStyles.fillRed,
-      buttonTextStyle: CustomTextStyles.bodyMediumRobotoWhiteA700,
-    );
+            height: 28.h,
+            width: 126.h,
+            text: "Chưa thanh toán",
+            buttonStyle: CustomButtonStyles.fillRed,
+            buttonTextStyle: CustomTextStyles.bodyMediumRobotoWhiteA700,
+          );
   }
-
 
   Widget _buildWrapperFive(
     BuildContext context, {
