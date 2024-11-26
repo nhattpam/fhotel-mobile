@@ -87,7 +87,7 @@ class Maincontent7ItemWidgetState extends State<Maincontent7ItemWidget> {
             SizedBox(
               width: double.maxFinite,
               child: Text(
-                "Mã đặt chỗ: ${widget.reservation.code}",
+                "Mã đặt phòng: ${widget.reservation.code}",
                 style: theme.textTheme.labelLarge,
               ),
             ),

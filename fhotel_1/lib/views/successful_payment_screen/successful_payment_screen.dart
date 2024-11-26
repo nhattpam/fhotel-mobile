@@ -38,7 +38,7 @@ class SuccessfulPaymentScreen extends StatelessWidget {
                       width: double.maxFinite,
                       child: _buildListmasterOne(
                         context,
-                        labelpayment: "Mã đặt chỗ",
+                        labelpayment: "Mã đặt phòng",
                         datavalueone: "ABC123",
                       ),
                     ),

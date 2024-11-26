@@ -247,7 +247,7 @@ class ServiceDetailScreenState extends State<ServiceDetailScreen>
                       Align(
                         alignment: Alignment.topCenter,
                         child: Text(
-                          "Mã đặt chỗ",
+                          "Mã đặt phòng",
                           style: theme.textTheme.titleSmall,
                         ),
                       ),

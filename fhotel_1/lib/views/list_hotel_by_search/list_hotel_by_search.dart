@@ -349,27 +349,28 @@ class _ListHotelBySearchState extends State<ListHotelBySearch>
       ),
       width: double.maxFinite,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          CustomOutlinedButton(
-            onPressed: () {
-              _showHotelFilterModalBottomSheet(context);
-            },
-            buttonStyle: CustomButtonStyles.outlineWhiteTL16,
-            buttonTextStyle: CustomTextStyles.titleSmallWhite,
-            width: 68.h,
-            text: "Lọc",
-            leftIcon: Container(
-              margin: EdgeInsets.only(right: 4.h),
-              child: CustomImageView(
-                color: appTheme.black900.withOpacity(0.15),
-                imagePath: ImageConstant.imgIconWrapper1,
-                height: 20.h,
-                width: 20.h,
-                fit: BoxFit.contain,
-              ),
-            ),
-          ),
+          // CustomOutlinedButton(
+          //   onPressed: () {
+          //     _showHotelFilterModalBottomSheet(context);
+          //   },
+          //   buttonStyle: CustomButtonStyles.outlineWhiteTL16,
+          //   buttonTextStyle: CustomTextStyles.titleSmallWhite,
+          //   width: 68.h,
+          //   text: "Lọc",
+          //   leftIcon: Container(
+          //     margin: EdgeInsets.only(right: 4.h),
+          //     child: CustomImageView(
+          //       color: appTheme.black900.withOpacity(0.15),
+          //       imagePath: ImageConstant.imgIconWrapper1,
+          //       height: 20.h,
+          //       width: 20.h,
+          //       fit: BoxFit.contain,
+          //     ),
+          //   ),
+          // ),
           CustomOutlinedButton(
             onPressed: () async {
               await _locationPresenter.requestPermission();

@@ -639,7 +639,7 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen>
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Mã đặt chỗ",
+                              "Mã đặt phòng",
                               style: theme.textTheme.bodyMedium,
                             ),
                             SizedBox(height: 4.h),
