@@ -1,3 +1,4 @@
+import 'package:fhotel_1/data/models/caculate.dart';
 import 'package:fhotel_1/data/models/reservation.dart';
 import 'package:http/http.dart' as http;
 
@@ -39,7 +40,7 @@ class CreateReservationRepo {
     }
   }
 
-  Future<double> calculate(Reservation reservation) async {
+  Future<Calculate> calculate(Reservation reservation) async {
     final url = Uri.parse('$_baseUrl/reservations/calculate');
     print(url);
     final response = await http.post(
@@ -54,9 +55,8 @@ class CreateReservationRepo {
     if (response.statusCode == 200) {
       // Parse the response body to extract the totalAmount
       final responseBody = json.decode(response.body);
-      double totalAmount = responseBody['totalAmount'];
-      print(totalAmount);
-      return totalAmount;
+      print(responseBody);
+      return Calculate.fromJson(responseBody);
     } else {
       throw Exception('Failed to calculate');
     }

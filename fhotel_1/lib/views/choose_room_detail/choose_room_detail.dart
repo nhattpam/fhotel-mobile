@@ -42,6 +42,7 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
   late ListRoomTypePresenter _presenter;
   late CreateReservation _createReservation;
   double? _totalAmount = 0;
+  String? _priceBreakDown;
   List<RoomFacility> _facilities = [];
   SessionManager sessionManager = SessionManager();
   String? dateStarSelected;
@@ -51,6 +52,7 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
   bool error = false;
   TextEditingController _quantityController = TextEditingController();
   int? availableRoomInCalculate;
+
   @override
   void initState() {
     super.initState();
@@ -78,7 +80,6 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
     // If userId exists, user is logged in, return true
     return true;
   }
-
 
   void _showLoginDialog() {
     showDialog(
@@ -193,8 +194,16 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
         widget.roomTypeId,
         quantity,
       );
-      int? avalable = await _createReservation.calculateAvailable(isoFormattedInDate, isoFormattedOutDate, widget.roomTypeId);
+      String? priceBreakdown = await _createReservation.createReservationToCalculate2(
+        isoFormattedInDate,
+        isoFormattedOutDate,
+        widget.roomTypeId,
+        quantity,
+      );
+      int? avalable = await _createReservation.calculateAvailable(
+          isoFormattedInDate, isoFormattedOutDate, widget.roomTypeId);
       setState(() {
+        _priceBreakDown = priceBreakdown;
         _totalAmount = amount; // Update the total amount in the state
         availableRoomInCalculate = avalable;
       });
@@ -202,9 +211,9 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
       // Handle any errors during the calculation
       print("Error calculating total amount: $e");
       // Optionally notify the user of the error
-
     }
   }
+
   void _showCalendarModalBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -215,7 +224,8 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
               // Update the state with the selected date
               setState(() {
                 // Format the date as desired
-                dateStarSelected = DateFormat('dd/MM/yyyy').format(selectedDate);
+                dateStarSelected =
+                    DateFormat('dd/MM/yyyy').format(selectedDate);
               });
             }
           },
@@ -252,7 +262,8 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
   }
 
   void _decrementRooms() {
-    if (quantity > 1) { // Ensure quantity doesn't go below 0
+    if (quantity > 1) {
+      // Ensure quantity doesn't go below 0
       setState(() {
         error = false;
         quantity--;
@@ -304,20 +315,20 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
                       children: [
                         SizedBox(height: 2.h),
                         _roomType?.description != null
-                       ? html.Html(
-                          data: """
+                            ? html.Html(
+                                data: """
                                $description
                               """,
-                          style: {
-                            "body": html.Style(
-                                fontWeight: FontWeight.normal,
-                                color: Colors.black),
-                          },
-                        )
-                        : Skeleton(
-                          width: 400.h,
-                          height: 50.h,
-                        ),
+                                style: {
+                                  "body": html.Style(
+                                      fontWeight: FontWeight.normal,
+                                      color: Colors.black),
+                                },
+                              )
+                            : Skeleton(
+                                width: 400.h,
+                                height: 50.h,
+                              ),
                         // Text(
                         //   _roomType?.description.toString() ?? '',
                         //   style: theme.textTheme.titleMedium,
@@ -340,33 +351,34 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     (_roomType?.roomSize != null)
-                                    ? Align(
-                                      alignment: Alignment.center,
-                                      child: SizedBox(
-                                        width: 286.h,
-                                        child: Text(
-                                          "Diện tích: ${NumberFormat('#,###', 'en_US').format(_roomType?.roomSize)}m²",
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: theme.textTheme.bodyMedium!
-                                              .copyWith(
-                                            color: appTheme.black900
-                                                .withOpacity(0.5),
-                                            fontSize: 12,
-                                            height: 1.50,
+                                        ? Align(
+                                            alignment: Alignment.center,
+                                            child: SizedBox(
+                                              width: 286.h,
+                                              child: Text(
+                                                "Diện tích: ${NumberFormat('#,###', 'en_US').format(_roomType?.roomSize)}m²",
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: theme
+                                                    .textTheme.bodyMedium!
+                                                    .copyWith(
+                                                  color: appTheme.black900
+                                                      .withOpacity(0.5),
+                                                  fontSize: 12,
+                                                  height: 1.50,
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        : Align(
+                                            alignment: Alignment.center,
+                                            child: SizedBox(
+                                              width: 100.h,
+                                              child: Skeleton(
+                                                width: 100.h,
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                                    )
-                                    : Align(
-                                      alignment: Alignment.center,
-                                      child: SizedBox(
-                                        width: 100.h,
-                                        child: Skeleton(
-                                          width: 100.h,
-                                        ),
-                                      ),
-                                    ),
                                   ],
                                 ),
                               ),
@@ -386,25 +398,27 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
                                       width: 18.h,
                                     ),
                                     (_roomType?.type?.maxOccupancy != null)
-                                    ? Align(
-                                      alignment: Alignment.bottomCenter,
-                                      child: Padding(
-                                        padding: EdgeInsets.only(left: 8.h),
-                                        child: Text(
-                                          "Tối đa ${_roomType?.type?.maxOccupancy.toString() ?? ''} người",
-                                          style: theme.textTheme.bodyMedium,
-                                        ),
-                                      ),
-                                    )
-                                    : Align(
-                                      alignment: Alignment.bottomCenter,
-                                      child: Padding(
-                                        padding: EdgeInsets.only(left: 8.h),
-                                        child: Skeleton(
-                                          width: 100.h,
-                                        )
-                                      ),
-                                    )
+                                        ? Align(
+                                            alignment: Alignment.bottomCenter,
+                                            child: Padding(
+                                              padding:
+                                                  EdgeInsets.only(left: 8.h),
+                                              child: Text(
+                                                "Tối đa ${_roomType?.type?.maxOccupancy.toString() ?? ''} người",
+                                                style:
+                                                    theme.textTheme.bodyMedium,
+                                              ),
+                                            ),
+                                          )
+                                        : Align(
+                                            alignment: Alignment.bottomCenter,
+                                            child: Padding(
+                                                padding:
+                                                    EdgeInsets.only(left: 8.h),
+                                                child: Skeleton(
+                                                  width: 100.h,
+                                                )),
+                                          )
                                   ],
                                 ),
                               ),
@@ -424,27 +438,29 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
                                       width: 18.h,
                                     ),
                                     (_roomType?.type?.typeName != null)
-                                    ? Align(
-                                      alignment: Alignment.bottomCenter,
-                                      child: Padding(
-                                        padding: EdgeInsets.only(left: 8.h),
-                                        child: Text(
-                                          _roomType?.type?.typeName
-                                                  .toString() ??
-                                              '',
-                                          style: theme.textTheme.bodyMedium,
-                                        ),
-                                      ),
-                                    )
-                                    : Align(
-                                      alignment: Alignment.bottomCenter,
-                                      child: Padding(
-                                        padding: EdgeInsets.only(left: 8.h),
-                                        child: Skeleton(
-                                          width: 100.h,
-                                        )
-                                      ),
-                                    )
+                                        ? Align(
+                                            alignment: Alignment.bottomCenter,
+                                            child: Padding(
+                                              padding:
+                                                  EdgeInsets.only(left: 8.h),
+                                              child: Text(
+                                                _roomType?.type?.typeName
+                                                        .toString() ??
+                                                    '',
+                                                style:
+                                                    theme.textTheme.bodyMedium,
+                                              ),
+                                            ),
+                                          )
+                                        : Align(
+                                            alignment: Alignment.bottomCenter,
+                                            child: Padding(
+                                                padding:
+                                                    EdgeInsets.only(left: 8.h),
+                                                child: Skeleton(
+                                                  width: 100.h,
+                                                )),
+                                          )
                                   ],
                                 ),
                               ),
@@ -480,13 +496,17 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
                           height: _facilities.length > 6 ? 205 : 105,
                           width: double.infinity,
                           child: GridView.builder(
-                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 3, // Adjust the number of columns
-                              childAspectRatio: 3.5, // Adjust the aspect ratio if necessary
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3,
+                              // Adjust the number of columns
+                              childAspectRatio: 3.5,
+                              // Adjust the aspect ratio if necessary
                               crossAxisSpacing: 0.0,
                               mainAxisSpacing: 10.0,
                             ),
-                            itemCount: _facilities.length, // Number of items in the grid
+                            itemCount: _facilities.length,
+                            // Number of items in the grid
                             itemBuilder: (context, index) {
                               return Container(
                                 margin: EdgeInsets.only(left: 5.h, right: 5.h),
@@ -501,62 +521,70 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
                                     ),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
-                                  padding: const EdgeInsets.symmetric(horizontal: 10), // Adjust as needed
-                                  label: Center( // Center the text within the chip
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10), // Adjust as needed
+                                  label: Center(
+                                    // Center the text within the chip
                                     child: Text(
-                                      (_facilities[index].facility?.facilityName).toString(),
+                                      (_facilities[index]
+                                              .facility
+                                              ?.facilityName)
+                                          .toString(),
                                       style: TextStyle(
-                                        height: 1, // Adjusts text's vertical position
-                                        color: Colors.black, // Optional text color change
+                                        height: 1,
+                                        // Adjusts text's vertical position
+                                        color: Colors
+                                            .black, // Optional text color change
                                       ),
                                     ),
                                   ),
                                 ),
                               );
                             },
-                          )
-                        )
+                          ))
                       : Container(
-                    height: 29,
-                    width: double.infinity,
-                    child: SizedBox(
-                      width: double.maxFinite,
-                      child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 16.h),
-                        decoration: BoxDecoration(
-                          color: appTheme.whiteA700,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              width: double.maxFinite,
-                              padding: EdgeInsets.only(left: 6.h),
+                          height: 29,
+                          width: double.infinity,
+                          child: SizedBox(
+                            width: double.maxFinite,
+                            child: Container(
+                              padding: EdgeInsets.symmetric(horizontal: 16.h),
                               decoration: BoxDecoration(
                                 color: appTheme.whiteA700,
                               ),
                               child: Column(
-                                mainAxisSize: MainAxisSize.min,
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text(
-                                    'Khách sạn này chưa có tiện nghi',
-                                    maxLines: 5,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: theme.textTheme.bodyMedium!.copyWith(
-                                      color: theme.colorScheme.onPrimary,
-                                      height: 1.50,
+                                  Container(
+                                    width: double.maxFinite,
+                                    padding: EdgeInsets.only(left: 6.h),
+                                    decoration: BoxDecoration(
+                                      color: appTheme.whiteA700,
                                     ),
-                                  ),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          'Khách sạn này chưa có tiện nghi',
+                                          maxLines: 5,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: theme.textTheme.bodyMedium!
+                                              .copyWith(
+                                            color: theme.colorScheme.onPrimary,
+                                            height: 1.50,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  )
                                 ],
                               ),
-                            )
-                          ],
-                        ),
-                      ),
-                    )
-                  ),
+                            ),
+                          )),
                   SizedBox(height: 8.h),
                   Container(
                     width: double.maxFinite,
@@ -581,7 +609,7 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
                               SizedBox(
                                 width: double.maxFinite,
                                 child: GestureDetector(
-                                  onTap: (){
+                                  onTap: () {
                                     _showCalendarModalBottomSheet(context);
                                   },
                                   child: Row(
@@ -610,10 +638,12 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
                               SizedBox(
                                 width: double.maxFinite,
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         if (error)
                                           Text(
@@ -637,39 +667,46 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
                                       icon: Icon(Icons.remove),
                                       onPressed: _decrementRooms,
                                     ),
-                                  SizedBox(
-                                    width: quantity > 9 ? 30 : 20,
-                                    child: TextFormField(
-                                      controller: _quantityController,
-                                      textAlign: TextAlign.center,
-                                      keyboardType: TextInputType.number,
-                                      style: Theme.of(context).textTheme.titleSmall,
-                                      onFieldSubmitted: (value) {
-                                        int newQuantity = int.tryParse(value) ?? quantity;
+                                    SizedBox(
+                                      width: quantity > 9 ? 30 : 20,
+                                      child: TextFormField(
+                                        controller: _quantityController,
+                                        textAlign: TextAlign.center,
+                                        keyboardType: TextInputType.number,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleSmall,
+                                        onFieldSubmitted: (value) {
+                                          int newQuantity =
+                                              int.tryParse(value) ?? quantity;
 
-                                        // Prevent 0 or values lower than 1
-                                        if (newQuantity < 1) newQuantity = 1;
+                                          // Prevent 0 or values lower than 1
+                                          if (newQuantity < 1) newQuantity = 1;
 
-                                        setState(() {
-                                          if (_roomType != null && availableRoomInCalculate != null) {
-                                            if (newQuantity <= availableRoomInCalculate!) {
-                                              error = false;
-                                              quantity = newQuantity;
-                                              _quantityController.text = quantity.toString();
-                                              _calculateTotalAmount();
-                                            } else {
-                                              error = true;
+                                          setState(() {
+                                            if (_roomType != null &&
+                                                availableRoomInCalculate !=
+                                                    null) {
+                                              if (newQuantity <=
+                                                  availableRoomInCalculate!) {
+                                                error = false;
+                                                quantity = newQuantity;
+                                                _quantityController.text =
+                                                    quantity.toString();
+                                                _calculateTotalAmount();
+                                              } else {
+                                                error = true;
+                                              }
                                             }
-                                          }
-                                        });
-                                      },
-                                      decoration: const InputDecoration(
-                                        isDense: true,
-                                        contentPadding: EdgeInsets.zero,
-                                        border: InputBorder.none,
+                                          });
+                                        },
+                                        decoration: const InputDecoration(
+                                          isDense: true,
+                                          contentPadding: EdgeInsets.zero,
+                                          border: InputBorder.none,
+                                        ),
                                       ),
                                     ),
-                                  ),
                                     IconButton(
                                       icon: const Icon(Icons.add),
                                       onPressed: _incrementRooms,
@@ -767,14 +804,45 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
                         "Tổng giá tiền",
                         style: theme.textTheme.titleSmall,
                       ),
-                      _totalAmount != null && _totalAmount! > 0
-                          ? Text(
-                        "${NumberFormat('#,###', 'en_US').format(_totalAmount)} ₫",
-                        style: CustomTextStyles.titleSmallBlue,
-                      )
-                          : Text(
-                        "0 ₫",
-                        style: CustomTextStyles.titleSmallBlue,
+                      Row(
+                        children: [
+                          Text(
+                            _totalAmount != null && _totalAmount! > 0
+                                ? "${NumberFormat('#,###', 'en_US').format(_totalAmount)} ₫"
+                                : "0 ₫",
+                            style: CustomTextStyles.titleSmallBlue,
+                          ),
+                          SizedBox(width: 8.h), // Space between text and icon
+                          GestureDetector(
+                            onTap: () {
+                              // Handle the "?" icon click event here
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: Text("Chi tiết giá từng ngày"),
+                                  content: SizedBox(
+                                    height: 200.h,
+                                    width: double.maxFinite,
+                                    child: _buildColumntitlepric(context),
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(context),
+                                      child: Text("Đóng",
+                                        style: CustomTextStyles.titleSmallBlue,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                            child: Icon(
+                              Icons.help_outline,
+                              color: appTheme.blueGray400,
+                              size: 20.h,
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -813,34 +881,33 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
   Widget _buildChnphng(BuildContext context) {
     return CustomElevatedButton(
       onPressed: () async {
-        bool isLoggedIn = await _checkUserSession(); // Check user session on init
+        bool isLoggedIn =
+            await _checkUserSession(); // Check user session on init
         if (isLoggedIn) {
-          if ((_totalAmount ?? 0) > 0 ) {
+          if ((_totalAmount ?? 0) > 0) {
             if ((availableRoomInCalculate ?? 0) >= quantity) {
               // Define the input date format
 
               DateFormat inputFormat = DateFormat('dd/MM/yyyy');
 
               // Parse the date string
-              DateTime parsedInDate = inputFormat.parse(dateStarSelected.toString());
-              DateTime parsedOutDate = inputFormat.parse(dateEndSelected.toString());
+              DateTime parsedInDate =
+                  inputFormat.parse(dateStarSelected.toString());
+              DateTime parsedOutDate =
+                  inputFormat.parse(dateEndSelected.toString());
 
               // Define the desired output format (ISO 8601 format)
-              DateFormat outputFormat = DateFormat(
-                  "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+              DateFormat outputFormat =
+                  DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
               // Format the parsed date to the desired format
               String isoFormattedInDate = outputFormat.format(parsedInDate);
               String isoFormattedOutDate = outputFormat.format(parsedOutDate);
 
               // Call the createReservation method
-              Reservation newReservation = await _createReservation
-                  .createReservation(
-                isoFormattedInDate,
-                isoFormattedOutDate,
-                widget.roomTypeId,
-                quantity
-              );
+              Reservation newReservation =
+                  await _createReservation.createReservation(isoFormattedInDate,
+                      isoFormattedOutDate, widget.roomTypeId, quantity);
               // Show success dialog
               AwesomeDialog(
                 context: context,
@@ -875,7 +942,7 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
                 btnCancelOnPress: () {},
               ).show();
             }
-          } else{
+          } else {
             AwesomeDialog(
               context: context,
               animType: AnimType.scale,
@@ -897,7 +964,90 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
       buttonTextStyle: CustomTextStyles.bodyMediumwhiteA700,
     );
   }
+  Widget _buildColumntitlepric(BuildContext context) {
+    return SingleChildScrollView(
+      child: Container(
+        width: double.maxFinite,
+        padding: EdgeInsets.symmetric(
+          horizontal: 16.h,
+          vertical: 10.h,
+        ),
+        decoration: BoxDecoration(
+          color: appTheme.whiteA700,
+        ),
+        // child: Column(
+        //   crossAxisAlignment: CrossAxisAlignment.start,
+        //   mainAxisAlignment: MainAxisAlignment.center,
+        //   children: [
+        //     // ListView.builder(
+        //     //   shrinkWrap: true, // To prevent infinite height issues
+        //     //   physics: NeverScrollableScrollPhysics(), // Disable scrolling inside Column
+        //     //   itemCount: 15, // Example: Replace with the actual number of items
+        //     //   itemBuilder: (context, index) {
+        //     //     return SizedBox(
+        //     //       width: double.maxFinite,
+        //     //       child: _buildWrapperFive(
+        //     //         context,
+        //     //         labelguestTwo: "Giá của ngày $index", // Example dynamic text
+        //     //         datavalueone:
+        //     //         "${NumberFormat('#,###', 'en_US').format(100000 * (index + 1))} ₫", // Example dynamic value
+        //     //       ),
+        //     //     );
+        //     //   },
+        //     // ),
+        //   ],
+        // ),
+        child: SizedBox(
+          width: double.maxFinite,
+          child: Text(
+            _priceBreakDown.toString(),
+          ),
+        ),
+      ),
+    );
+  }
 
+  Widget _buildWrapperFive(
+      BuildContext context, {
+        required String labelguestTwo,
+        required String datavalueone,
+      }) {
+    return Container(
+      padding: EdgeInsets.only(
+        top: 8.h,
+        bottom: 6.h,
+      ),
+      decoration: BoxDecoration(
+        color: appTheme.whiteA700,
+        border: Border(
+          bottom: BorderSide(
+            color: appTheme.blueGray50,
+            width: 1.h,
+          ),
+        ),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: Text(
+              labelguestTwo,
+              maxLines: 5,
+              style: theme.textTheme.bodyMedium!.copyWith(
+                color: theme.colorScheme.onPrimary,
+              ),
+            ),
+          ),
+          Text(
+            datavalueone,
+            style: theme.textTheme.titleSmall!.copyWith(
+              color: theme.colorScheme.onPrimary,
+            ),
+          )
+        ],
+      ),
+    );
+  }
   Widget _buildSectionOne(
     BuildContext context, {
     required String descriptionOne,

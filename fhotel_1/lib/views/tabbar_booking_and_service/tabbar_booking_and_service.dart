@@ -1,5 +1,6 @@
 import 'package:fhotel_1/views/my_booking_full_screen/my_booking_full_screen.dart';
 import 'package:fhotel_1/views/my_service/my_service.dart';
+import 'package:fhotel_1/views/my_transaction_history/my_transaction_history.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/app_export.dart';
@@ -19,23 +20,12 @@ class TabbarBookingAndServiceState extends State<TabbarBookingAndService>
   late TabController tabviewController;
   int _currentIndex = 2;
   SessionManager sessionManager = SessionManager();
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  final List<FocusNode> focusNodes = List.generate(3, (index) => FocusNode());
-
-
-  TextEditingController emailInputController = TextEditingController();
-  TextEditingController passwordInputController = TextEditingController();
-  TextEditingController repasswordInputController = TextEditingController();
-
-  late LoginPresenter _presenter;
-
-  String? repasswordError;
 
   @override
   void initState() {
     super.initState();
-    tabviewController = TabController(length: 3, vsync: this);
+    tabviewController = TabController(length: 4, vsync: this);
     _checkUserSession(); // Check user session on init
   }
 
@@ -146,7 +136,7 @@ class TabbarBookingAndServiceState extends State<TabbarBookingAndService>
                 child: Container(
                   child: TabBarView(
                     controller: tabviewController,
-                    children: [MyBookingFullScreen(), MyService(), MyRefund()],
+                    children: [MyBookingFullScreen(), MyService(), MyRefund(), MyTransactionHistory()],
                   ),
                 ),
               )
@@ -165,6 +155,7 @@ class TabbarBookingAndServiceState extends State<TabbarBookingAndService>
         controller: tabviewController,
         labelPadding: EdgeInsets.zero,
         labelColor: appTheme.blue600,
+        // isScrollable: true,
         labelStyle: TextStyle(
           fontSize: 14.fSize,
           fontFamily: 'Sen',
@@ -192,6 +183,12 @@ class TabbarBookingAndServiceState extends State<TabbarBookingAndService>
           Tab(
             child: Text(
               "Hoàn tiền",
+            ),
+          ),
+          Tab(
+            child: Text(
+              "Lịch sử GD",
+              maxLines: 1,
             ),
           )
         ],

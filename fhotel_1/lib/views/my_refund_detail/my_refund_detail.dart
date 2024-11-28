@@ -40,7 +40,6 @@ class MyRefundDetailState extends State<MyRefundDetail>
         widget.order.orderId.toString()); // Fetch customer data
     _userProfilePresenter = UserProfilePresenter(this); // Initialize the presenter
     _userProfilePresenter.getCustomerById(); // Fetch customer data
-    print("This is"+ (widget.order.reservation).toString());
   }
 
   @override
