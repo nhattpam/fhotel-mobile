@@ -4,6 +4,8 @@ abstract class CreateReservationView {
 
   void onCreateSuccess();
 
+  void onCreateRefundSuccess(String message);
+
   void onCreateTotalAmountSuccess(double totalAmount);
 
   void onCreateAvailableRoomSuccess(int availableRoom);

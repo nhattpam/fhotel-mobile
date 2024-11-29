@@ -301,4 +301,9 @@ class MyServiceWidgetState extends State<MyServiceWidget> with AutomaticKeepAliv
   void onGetOrderDetailsSuccess(List<OrderDetail> orders) {
     // TODO: implement onGetOrderDetailsSuccess
   }
+
+  @override
+  void onCreateRefundSuccess(String message) {
+    // TODO: implement onCreateRefundSuccess
+  }
 }

@@ -50,6 +50,7 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen>
   String? checkInDate;
   String? checkOutDate;
   String? vnpaylink;
+  String refundMessage = '';
 
   late CreateFeedbackPresenter presenter;
   late ListReservationPresenter _presenter;
@@ -1242,62 +1243,24 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen>
           CustomElevatedButton(
             onPressed: () async {
               if (_wallet?.bankAccountNumber != null) {
-                DateTime checkInDate =
-                    DateTime.parse(widget.reservation.checkInDate.toString());
-
-                // Calculate one day before check-in at 9:00 AM
-                DateTime oneDayBeforeCheckIn = DateTime(
-                  checkInDate.year,
-                  checkInDate.month,
-                  checkInDate.day - 1, // Subtract 1 day
-                  9, // Set time to 9 AM
+                await _createReservation.createRefund(
+                  (widget.reservation.reservationId).toString(),
                 );
-
-                DateTime now =
-                    DateTime.now(); // Get current time once for consistency
-
-                // Debugging: Print values
-                print("Check-in Date: $checkInDate");
-                print(
-                    "One Day Before Check-in (9:00 AM): $oneDayBeforeCheckIn");
-                print("Current Time: $now");
-
-                // Block refund requests after 9:00 AM, one day before check-in
-                if (now.isAfter(oneDayBeforeCheckIn)) {
-                  // Show error dialog if the current time is after the deadline
-                  AwesomeDialog(
-                    context: context,
-                    animType: AnimType.scale,
-                    dialogType: DialogType.error,
-                    body: const Center(
-                      child: Text(
-                        'Đã vượt quá thời hạn không thể yêu cầu hoàn tiền (Trước 9h sáng ngày nhận phòng 1 ngày)!!!!',
-                        style: TextStyle(fontStyle: FontStyle.italic),
-                      ),
+                AwesomeDialog(
+                  context: context,
+                  animType: AnimType.scale,
+                  dialogType: DialogType.noHeader,
+                  body: Center(
+                    child: Text(
+                      refundMessage,
+                      style: TextStyle(fontStyle: FontStyle.italic),
                     ),
-                    btnOkColor: Colors.red,
-                    btnOkOnPress: () {},
-                  ).show();
-                } else {
-                  // Allow refund creation
-                  await _createReservation.createRefund(
-                    (widget.reservation.reservationId).toString(),
-                  );
-                  AwesomeDialog(
-                    context: context,
-                    animType: AnimType.scale,
-                    dialogType: DialogType.success,
-                    body: const Center(
-                      child: Text(
-                        'Yêu cầu hoàn tiền của bạn đã được gửi!!!',
-                        style: TextStyle(fontStyle: FontStyle.italic),
-                      ),
-                    ),
-                    btnOkOnPress: () {
-                      Navigator.pop(context); // Close dialog
-                    },
-                  ).show();
-                }
+                  ),
+                  btnOkColor: Colors.blueAccent,
+                  btnOkOnPress: () {
+                    Navigator.pop(context); // Close dialog
+                  },
+                ).show();
               } else {
                 AwesomeDialog(
                   context: context,
@@ -1547,5 +1510,13 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen>
       vnpaylink = link;
     });
     // TODO: implement onPaymentSuccess
+  }
+
+  @override
+  void onCreateRefundSuccess(String message) {
+    // TODO: implement onCreateRefundSuccess
+    setState(() {
+      refundMessage = message;
+    });
   }
 }

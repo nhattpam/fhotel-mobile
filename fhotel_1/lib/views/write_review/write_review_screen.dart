@@ -165,13 +165,14 @@ class WriteReviewScreenState extends State<WriteReviewScreen> implements CreateF
     return SizedBox(
       width: double.infinity, // Adjust height as needed
       child: CustomTextFormField(
+        textStyle: const TextStyle(
+            color: Colors.black
+        ),
         maxLines: 22,
         textInputType: TextInputType.multiline,
         controller: reviewsInputController,
         hintText: 'Viết đánh giá của bạn ở đây',
-        hintStyle: TextStyle(
-          color: Colors.black,
-        ),
+        hintStyle: CustomTextStyles.bodyLargeGray600,
         contentPadding: EdgeInsets.fromLTRB(12.h, 16.h, 12.h, 12.h),
       ),
     );

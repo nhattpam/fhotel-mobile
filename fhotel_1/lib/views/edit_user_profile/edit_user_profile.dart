@@ -150,7 +150,9 @@ class EditProfileScreenState extends State<EditProfileScreen>
                                 _pickImage, // You can adjust this logic as necessary
                           )
                         ] else if (_customer?.image != null) ...[
-                          (_customer?.image != null && _customer?.image != '' && _customer?.image != 'null')
+                          (_customer?.image != null &&
+                                  _customer?.image != '' &&
+                                  _customer?.image != 'null')
                               ? Image.network(
                                   _customer?.image ?? '',
                                   fit: BoxFit.cover,
@@ -289,6 +291,7 @@ class EditProfileScreenState extends State<EditProfileScreen>
           ),
           (_customer?.name != null)
               ? CustomTextFormField(
+                  textStyle: const TextStyle(color: Colors.black),
                   focusNode: focusNodes[0],
                   controller: nameInputController,
                   hintText: "${_customer?.name}",
@@ -388,12 +391,8 @@ class EditProfileScreenState extends State<EditProfileScreen>
           ),
           GestureDetector(
             onTap: () {
-              Navigator.pushReplacementNamed(
-                  context, AppRoutes.userChangeBank,
-                  arguments: {
-                    'customer': _customer,
-                    'wallet': _wallet
-                  });
+              Navigator.pushReplacementNamed(context, AppRoutes.userChangeBank,
+                  arguments: {'customer': _customer, 'wallet': _wallet});
             },
             child: AbsorbPointer(
               child: CustomTextFormField(
@@ -431,6 +430,7 @@ class EditProfileScreenState extends State<EditProfileScreen>
           ),
           (_customer?.phoneNumber != null)
               ? CustomTextFormField(
+                  textStyle: const TextStyle(color: Colors.black),
                   focusNode: focusNodes[2],
                   controller: phoneNumberInputController,
                   hintText: "${_customer?.phoneNumber}",
@@ -512,6 +512,7 @@ class EditProfileScreenState extends State<EditProfileScreen>
           ),
           (_customer?.address != null)
               ? CustomTextFormField(
+                  textStyle: const TextStyle(color: Colors.black),
                   focusNode: focusNodes[4],
                   controller: addressInputController,
                   hintText: "${_customer?.address}",
@@ -568,7 +569,9 @@ class EditProfileScreenState extends State<EditProfileScreen>
                 });
               }
 
-              if (nameError == null && phoneNumberError == null && addressError == null) {
+              if (nameError == null &&
+                  phoneNumberError == null &&
+                  addressError == null) {
                 // await _presenter.updateCustomer(_customer!.userId.toString(),_customer!.email.toString(), _customer!.password.toString(), firstName, lastName, address, genderValue, idNumber, phoneNumber, _imageUrl.toString(), _customer!.createdDate.toString());
                 if (_imageUrl == '' || _imageUrl == null) {
                   await _presenter.updateCustomer(

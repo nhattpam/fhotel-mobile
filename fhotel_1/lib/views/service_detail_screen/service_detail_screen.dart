@@ -516,4 +516,9 @@ class ServiceDetailScreenState extends State<ServiceDetailScreen>
   void onCreateAvailableRoomSuccess(int availableRoom) {
     // TODO: implement onCreateAvailableRoomSuccess
   }
+
+  @override
+  void onCreateRefundSuccess(String message) {
+    // TODO: implement onCreateRefundSuccess
+  }
 }

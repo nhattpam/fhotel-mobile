@@ -1175,4 +1175,9 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
       availableRoomInCalculate = availableRoom;
     });
   }
+
+  @override
+  void onCreateRefundSuccess(String message) {
+    // TODO: implement onCreateRefundSuccess
+  }
 }

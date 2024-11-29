@@ -83,10 +83,8 @@ class CreateReservationRepo {
     }
   }
 
-  Future<void> refund(String reservationId) async {
-
+  Future<String> refund(String reservationId) async {
     final url = Uri.parse('$_baseUrl/reservations/refund?id=$reservationId');
-    print(reservationId);
     print(url);
 
     final response = await http.post(
@@ -94,15 +92,20 @@ class CreateReservationRepo {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: json.encode(reservationId),
+      body: json.encode({'reservationId': reservationId}), // Wrap reservationId in an object
     );
-    print(response.statusCode);
-    final jsonResponse = jsonDecode(response.body);
-    print(jsonResponse);
-    if (response.statusCode != 201) {
-      throw Exception('Failed to refund');
-    }
 
+    // Log the response body for debugging
+    print('Response body: ${response.body}');
+
+    // Check for the success status
+    if (response.statusCode == 201) {
+      return response.body; // Assuming the response body is a valid JSON string
+    } else {
+      // If the server returns an error, throw an exception with details
+      throw Exception('Failed to pay. Status code: ${response.statusCode}, body: ${response.body}');
+    }
   }
+
 
 }

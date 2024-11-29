@@ -120,9 +120,9 @@ class CreateReservation {
 
   Future<void> createRefund(String reservationId) async {
     try {
-      await _repository.refund(reservationId);
-
-      _view.onCreateSuccess();
+      String message = await _repository.refund(reservationId);
+      print(message);
+      _view.onCreateRefundSuccess(message);
 
     } catch (error) {
       // If there's an error, notify the view of the failure

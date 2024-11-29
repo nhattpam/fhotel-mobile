@@ -1,13 +1,16 @@
 import 'package:fhotel_1/core/utils/skeleton.dart';
+import 'package:fhotel_1/data/models/cancellation_policy.dart';
 import 'package:fhotel_1/data/models/feedback.dart';
 import 'package:fhotel_1/data/models/hotel_image.dart';
 import 'package:fhotel_1/data/models/late_checkout_policy.dart';
 import 'package:fhotel_1/data/models/refund_policy.dart';
 import 'package:fhotel_1/data/repository/late_checkout_policy_repo.dart';
 import 'package:fhotel_1/data/repository/refund_policy_repo.dart';
+import 'package:fhotel_1/presenters/cancellation_policy_presenter.dart';
 import 'package:fhotel_1/presenters/hotel_detail_presenter.dart';
 import 'package:fhotel_1/presenters/late_checkout_policy_presenter.dart';
 import 'package:fhotel_1/presenters/refund_policy_presenter.dart';
+import 'package:fhotel_1/views/hotel_detail/cancellation_policy_view.dart';
 import 'package:fhotel_1/views/hotel_detail/hotel_detail_view.dart';
 import 'package:fhotel_1/views/hotel_detail/late_checkout_policy_view.dart';
 import 'package:fhotel_1/views/hotel_detail/refund_policy_view.dart';
@@ -29,8 +32,7 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
     with TickerProviderStateMixin
     implements
         HotelDetailView,
-        LateCheckoutPolicyView,
-        RefundPolicyView,
+        CancellationPolicyView,
         ListHotelView {
   int sliderIndex = 1;
   late TabController tabviewController;
@@ -42,10 +44,10 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
   final GlobalKey descriptionKey = GlobalKey();
 
   late HotelDetailPresenter _presenter;
-  late LateCheckoutPolicyPresenter _policyPresenter;
-  late RefundPolicyPresenter _policyRefundPresenter;
+  late CancellationPolicyPresenter _policyPresenter;
   bool _isLoading = false;
   Hotel? _hotel;
+  CancellationPolicy? _cancellationPolicy;
   String? _error;
   late String hotelId;
   String? checkInDate;
@@ -55,8 +57,6 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
 
   List<HotelAmenity> _amenities = [];
   List<Feedbacks> _feedbacks = [];
-  List<LateCheckOutPolicy> _policies = [];
-  List<RefundPolicy> _refundPolicies = [];
 
   @override
   void initState() {
@@ -79,11 +79,7 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
       }
     });
     _presenter = HotelDetailPresenter(this);
-    _policyPresenter =
-        LateCheckoutPolicyPresenter(this, LateCheckoutPolicyRepo());
-    _policyPresenter.getLateCheckOutPolicies();
-    _policyRefundPresenter = RefundPolicyPresenter(this, RefundPolicyRepo());
-    _policyRefundPresenter.getRefundPolicies();
+    _policyPresenter = CancellationPolicyPresenter(this);
   }
 
   @override
@@ -101,6 +97,7 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
     await _presenter.getHotelById(hotelId);
     _presenter.getHotelAmenities(hotelId);
     _presenter.getHotelFeedbacks(hotelId);
+    _policyPresenter.getCancellationPolicyByHotelId(hotelId);
   }
 
   void _scrollToSection(GlobalKey key) {
@@ -1285,32 +1282,6 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
   }
 
   @override
-  void onGetLateCheckOutPoliciesError(String error) {
-    setState(() {
-      _error = error;
-    });
-  }
-
-  @override
-  void onGetLateCheckOutPoliciesSuccess(List<LateCheckOutPolicy> policies) {
-    setState(() {
-      _policies = policies;
-      _error = null;
-    });
-  }
-
-  @override
-  void onGetRefundPoliciesError(String error) {
-    // TODO: implement onGetRefundPoliciesError
-  }
-
-  @override
-  void onGetRefundPoliciesSuccess(List<RefundPolicy> policies) {
-    // TODO: implement onGetRefundPoliciesSuccess
-    _refundPolicies = policies;
-  }
-
-  @override
   void onGetHotelImagesSuccess(List<HotelImage> hotels) {
     // TODO: implement onGetHotelImagesSuccess
   }
@@ -1334,6 +1305,19 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
   void showFeedbacks(List<Feedbacks> feedbacks) {
     setState(() {
       _feedbacks = feedbacks;
+    });
+  }
+
+  @override
+  void onGetCancellationPolicyError(String error) {
+    // TODO: implement onGetCancellationPolicyError
+  }
+
+  @override
+  void onGetCancellationPolicySuccess(CancellationPolicy cancellation) {
+    // TODO: implement onGetCancellationPolicySuccess
+    setState(() {
+      _cancellationPolicy = cancellation;
     });
   }
 }

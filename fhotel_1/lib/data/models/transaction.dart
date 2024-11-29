@@ -5,6 +5,7 @@ class Transaction {
   String? transactionId;
   String? billId;
   String? walletId;
+  String? escrowWalletId;
   String? description;
   double? amount;
   String? transactionDate;
@@ -15,6 +16,7 @@ class Transaction {
       {this.transactionId,
       this.billId,
       this.walletId,
+      this.escrowWalletId,
       this.description,
       this.amount,
       this.transactionDate,
@@ -26,6 +28,7 @@ class Transaction {
     transactionId = json['transactionId'];
     billId = json['billId'];
     walletId = json['walletId'];
+    escrowWalletId = json['escrowWalletId'];
     description = json['description'];
     amount = json['amount'];
     transactionDate = json['transactionDate'];
@@ -38,6 +41,7 @@ class Transaction {
     data['transactionId'] = transactionId;
     data['billId'] = billId;
     data['walletId'] = walletId;
+    data['escrowWalletId'] = escrowWalletId;
     data['description'] = description;
     data['amount'] = amount;
     data['transactionDate'] = transactionDate;
