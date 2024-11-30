@@ -48,6 +48,7 @@ class ImageConstant {
   static String imgRedDot = '$imagePath/img_red_dot.svg';
 
   static String imgCircle24x24 = '$imagePath/user-regular.svg';
+  static String imgCircle24x25 = '$imagePath/wallet-solid.svg';
 
 // Hotel details - Ratings & reviews One images
   static String imgImage4 = '$imagePath/img_image_4.png';

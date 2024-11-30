@@ -52,6 +52,7 @@ class MyTransactionHistoryState extends State<MyTransactionHistory>
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: _buildAppbar(context),
         body: SizedBox(
           width: double.maxFinite,
           child: SingleChildScrollView(
@@ -109,6 +110,70 @@ class MyTransactionHistoryState extends State<MyTransactionHistory>
       separator: SizedBox(height: 12.h),
       order: GroupedListOrder.DESC,
     );
+  }
+  PreferredSizeWidget _buildAppbar(BuildContext context) {
+    return CustomAppBar(
+        leadingWidth: 40.h,
+        leading: AppbarLeadingImage(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          imagePath: ImageConstant.imgChevronLeft,
+          margin: EdgeInsets.only(
+            left: 16.h,
+            top: 16.h,
+            bottom: 16.h,
+          ),
+        ),
+        title: AppbarTitle(
+          text: "Lịch sử giao dịch",
+          margin: EdgeInsets.only(left: 8.h),
+        ),
+        actions: [
+          Container(
+            margin: EdgeInsets.only(
+              top: 16.h,
+              right: 16.h,
+              bottom: 16.h,
+            ),
+            decoration: BoxDecoration(
+              color: appTheme.black900.withOpacity(0.2),
+              borderRadius: BorderRadius.circular(
+                12.h,
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                AppbarImage(
+                  imagePath: ImageConstant.imgIconLeft,
+                  margin: EdgeInsets.only(
+                    left: 8.h,
+                    top: 4.h,
+                    bottom: 4.h,
+                  ),
+                ),
+                // SizedBox(width: 8.h),
+                Padding(
+                  padding: EdgeInsets.only(left: 17.h),
+                  child: const Text(
+                    "|",
+                    style: TextStyle(color: Colors.black),
+                  ),
+                ),
+                AppbarIconbutton(
+                  imagePath: ImageConstant.imgDivider,
+                  margin: EdgeInsets.symmetric(
+                    horizontal: 8.h,
+                    vertical: 4.h,
+                  ),
+                ),
+              ],
+            ),
+          )
+        ],
+        styleType: Style.bgFill);
   }
 
   @override

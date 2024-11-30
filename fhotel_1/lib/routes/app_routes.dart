@@ -7,6 +7,7 @@ import 'package:fhotel_1/views/hotel_listing_nearby_screen/hotel_listing_nearby_
 import 'package:fhotel_1/views/hotel_rating_and_reviews/hotel_rating_and_reviews.dart';
 import 'package:fhotel_1/views/list_hotel_by_search/list_hotel_by_search_empty.dart';
 import 'package:fhotel_1/views/login_screen/login_screen.dart';
+import 'package:fhotel_1/views/my_transaction_history/my_transaction_history.dart';
 import 'package:fhotel_1/views/otp_signup_screen/otp_signup_screen.dart';
 import 'package:fhotel_1/views/register_fill_information/register_fill_information.dart';
 import 'package:fhotel_1/views/register_screen/register_screen.dart';
@@ -31,6 +32,7 @@ class AppRoutes {
   static const String servicePage = '/service_listing_screen';
   static const String myOrderPageAndServicePage = '/tabbar_booking_and_service';
   static const String userPage = '/user_profile';
+  static const String transactionPage = '/my_transaction_history';
 
   // static const String homeDestination = '/homeDestination';
 
@@ -63,6 +65,7 @@ class AppRoutes {
     servicePage: (context) => ServiceListingScreen(),
     myOrderPageAndServicePage: (context) => TabbarBookingAndService(),
     userPage: (context) => UserProfileScreen(),
+    transactionPage: (context) => MyTransactionHistory(),
 
     ///Hotel widgets
     // homeDestination: (context) => HomeDestinationDefaultBottomsheet(),

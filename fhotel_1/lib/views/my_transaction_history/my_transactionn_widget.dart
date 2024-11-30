@@ -23,6 +23,7 @@ class MyTransactionnWidgetState extends State<MyTransactionnWidget> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        print(widget.transaction.bill);
         Navigator.of(context).push(
           MaterialPageRoute(
               builder: (context) =>

@@ -301,15 +301,17 @@ class UserProfileScreenState extends State<UserProfileScreen>
               addressesOne: "Trang cá nhân",
             ),
           ),
-          // SizedBox(height: 16.h),
-          // SizedBox(
-          //   width: double.maxFinite,
-          //   child: _buildAddress(
-          //     context,
-          //     userOne: ImageConstant.imgImage170x128,
-          //     addressesOne: "Addresses",
-          //   ),
-          // )
+          SizedBox(height: 16.h),
+          SizedBox(
+            width: double.maxFinite,
+            child: _buildAddress(
+              route: AppRoutes.transactionPage,
+              color: Colors.brown,
+              context,
+              userOne: ImageConstant.imgCircle24x25,
+              addressesOne: "Lịch sử nhận tiền",
+            ),
+          ),
         ],
       ),
     );

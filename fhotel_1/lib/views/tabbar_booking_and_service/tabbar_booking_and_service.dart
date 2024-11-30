@@ -25,7 +25,7 @@ class TabbarBookingAndServiceState extends State<TabbarBookingAndService>
   @override
   void initState() {
     super.initState();
-    tabviewController = TabController(length: 4, vsync: this);
+    tabviewController = TabController(length: 3, vsync: this);
     _checkUserSession(); // Check user session on init
   }
 
@@ -136,7 +136,7 @@ class TabbarBookingAndServiceState extends State<TabbarBookingAndService>
                 child: Container(
                   child: TabBarView(
                     controller: tabviewController,
-                    children: [MyBookingFullScreen(), MyService(), MyRefund(), MyTransactionHistory()],
+                    children: [MyBookingFullScreen(), MyService(), MyRefund()],
                   ),
                 ),
               )
@@ -183,12 +183,6 @@ class TabbarBookingAndServiceState extends State<TabbarBookingAndService>
           Tab(
             child: Text(
               "Hoàn tiền",
-            ),
-          ),
-          Tab(
-            child: Text(
-              "Lịch sử GD",
-              maxLines: 1,
             ),
           )
         ],
