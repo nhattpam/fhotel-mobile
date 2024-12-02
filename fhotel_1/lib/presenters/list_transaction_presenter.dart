@@ -1,10 +1,6 @@
-import 'package:fhotel_1/data/models/reservation.dart';
 import 'package:fhotel_1/data/models/transaction.dart';
-import 'package:fhotel_1/data/repository/list_reservation_repo.dart';
 import 'package:fhotel_1/data/repository/list_transaction_repo.dart';
 import 'package:fhotel_1/views/my_transaction_history/my_transaction_view.dart';
-import 'package:fhotel_1/views/tabbar_booking_and_service/list_reservation_view.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 class ListTransactionPresenter {
   final MyTransactionView _view;
   final ListTransactionRepo _reservationRepo;

@@ -1251,9 +1251,14 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen>
                   animType: AnimType.scale,
                   dialogType: DialogType.noHeader,
                   body: Center(
-                    child: Text(
-                      refundMessage,
-                      style: TextStyle(fontStyle: FontStyle.italic),
+                    child: html.Html(
+                      data: """ $refundMessage""",
+                      style: {
+                        "body": html.Style(
+                            maxLines: 5,
+                            fontWeight: FontWeight.normal,
+                            color: Colors.black),
+                      },
                     ),
                   ),
                   btnOkColor: Colors.blueAccent,

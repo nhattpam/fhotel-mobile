@@ -1,21 +1,16 @@
-import 'package:fhotel_1/data/models/reservation.dart';
 import 'package:fhotel_1/data/models/transaction.dart';
 import 'package:fhotel_1/data/models/user.dart';
 import 'package:fhotel_1/data/models/wallet.dart';
-import 'package:fhotel_1/data/repository/list_reservation_repo.dart';
 import 'package:fhotel_1/data/repository/list_transaction_repo.dart';
 import 'package:fhotel_1/presenters/list_transaction_presenter.dart';
 import 'package:fhotel_1/presenters/user_profile_presenter.dart';
-import 'package:fhotel_1/views/my_booking_full_screen/widgets/maincontent7_item_widget.dart';
 import 'package:fhotel_1/views/my_transaction_history/my_transaction_view.dart';
 import 'package:fhotel_1/views/my_transaction_history/my_transactionn_widget.dart';
-import 'package:fhotel_1/views/tabbar_booking_and_service/list_reservation_view.dart';
 import 'package:fhotel_1/views/user_profile/user_profile_view.dart';
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 
 import '../../core/app_export.dart';
-import '../../presenters/list_reservation_presenter.dart';
 
 class MyTransactionHistory extends StatefulWidget {
   MyTransactionHistory({Key? key}) : super(key: key);
@@ -126,7 +121,7 @@ class MyTransactionHistoryState extends State<MyTransactionHistory>
           ),
         ),
         title: AppbarTitle(
-          text: "Lịch sử giao dịch",
+          text: "Lịch sử nhận tiền",
           margin: EdgeInsets.only(left: 8.h),
         ),
         actions: [

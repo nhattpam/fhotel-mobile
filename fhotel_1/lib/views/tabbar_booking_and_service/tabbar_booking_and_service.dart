@@ -1,11 +1,9 @@
 import 'package:fhotel_1/views/my_booking_full_screen/my_booking_full_screen.dart';
 import 'package:fhotel_1/views/my_service/my_service.dart';
-import 'package:fhotel_1/views/my_transaction_history/my_transaction_history.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/app_export.dart';
 import '../../data/models/user.dart';
-import '../../presenters/login_presenter.dart';
 import '../my_refund/my_refund.dart';
 
 class TabbarBookingAndService extends StatefulWidget {

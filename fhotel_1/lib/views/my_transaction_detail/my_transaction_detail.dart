@@ -1,16 +1,7 @@
-import 'package:fhotel_1/core/utils/skeleton.dart';
-import 'package:fhotel_1/data/models/order.dart';
-import 'package:fhotel_1/data/models/order_detail.dart';
 import 'package:fhotel_1/data/models/transaction.dart';
-import 'package:fhotel_1/presenters/get_order_detail_presenter.dart';
-import 'package:fhotel_1/presenters/user_profile_presenter.dart';
-import 'package:fhotel_1/views/user_profile/user_profile_view.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/app_export.dart';
-import '../../data/models/user.dart';
-import '../../data/models/wallet.dart';
-import '../my_service/get_order_detail_view.dart';
 
 class MyTransactionDetail extends StatefulWidget {
   final Transaction transaction;

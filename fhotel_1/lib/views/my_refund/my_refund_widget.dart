@@ -3,7 +3,6 @@ import 'package:fhotel_1/data/models/order.dart';
 import 'package:fhotel_1/data/models/order_detail.dart';
 import 'package:fhotel_1/presenters/get_order_detail_presenter.dart';
 import 'package:fhotel_1/views/my_service/get_order_detail_view.dart';
-import 'package:fhotel_1/views/my_service_detail/my_service_detail.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/app_export.dart';

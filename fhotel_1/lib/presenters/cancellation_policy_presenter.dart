@@ -1,10 +1,6 @@
 import 'package:fhotel_1/data/models/cancellation_policy.dart';
 import 'package:fhotel_1/data/repository/cancellation_policy_repo.dart';
-import 'package:fhotel_1/data/repository/hotel_detail_repo.dart';
 import 'package:fhotel_1/views/hotel_detail/cancellation_policy_view.dart';
-import 'package:fhotel_1/views/hotel_detail/hotel_detail_view.dart';
-
-import '../data/models/hotel.dart';
 
 class CancellationPolicyPresenter {
   final CancellationPolicyView _view;
@@ -16,7 +12,8 @@ class CancellationPolicyPresenter {
   Future<void> getCancellationPolicyByHotelId(String hotelId) async {
     _view.showLoading();
     try {
-      CancellationPolicy cancellationPolicy = await _repository.getCancellationPolicyByHotelId(hotelId);
+      final cancellationPolicy = await _repository.getCancellationPolicyByHotelId(hotelId);
+      print(cancellationPolicy.toString() + "This is presenter");
       _view.onGetCancellationPolicySuccess(cancellationPolicy);
     } catch (error) {
       _view.onGetCancellationPolicyError(error.toString());

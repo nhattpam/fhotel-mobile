@@ -1,6 +1,4 @@
-import 'package:fhotel_1/data/models/reservation.dart';
 import 'package:fhotel_1/data/models/transaction.dart';
-import 'package:fhotel_1/views/my_booking_details/my_booking_details.dart';
 import 'package:fhotel_1/views/my_transaction_detail/my_transaction_detail.dart';
 import 'package:flutter/material.dart';
 
