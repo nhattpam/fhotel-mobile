@@ -316,6 +316,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen>
             ),
             // title: 'Warning',
             // desc:   'This is also Ignored',
+            btnOkText: 'Đóng',
             btnOkOnPress: () {
               Navigator.pushReplacementNamed(context, AppRoutes.initialRoute);
             },

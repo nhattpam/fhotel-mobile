@@ -6,6 +6,7 @@ class OrderDetail {
   String? orderId;
   String? serviceId;
   String? roomFacilityId;
+  double? price;
   int? quantity;
   Order? order;
   Services? services;
@@ -14,6 +15,7 @@ class OrderDetail {
       {this.orderDetailId,
         this.orderId,
         this.serviceId,
+        this.price,
         this.roomFacilityId,
         this.quantity,
       this.order,
@@ -24,6 +26,7 @@ class OrderDetail {
     orderId = json['orderId'];
     serviceId = json['serviceId'];
     roomFacilityId = json['roomFacilityId'];
+    price = json['price'];
     quantity = json['quantity'];
     order = json['order'] != null ? Order.fromJson(json['order']) : null;
     services = json['service'] != null ? Services.fromJson(json['service']) : null; // Updated key
@@ -36,6 +39,7 @@ class OrderDetail {
     data['orderId'] = orderId;
     data['serviceId'] = serviceId;
     data['roomFacilityId'] = roomFacilityId;
+    data['price'] = price;
     data['quantity'] = quantity;
     if (order != null) {
       data['order'] = order!.toJson();

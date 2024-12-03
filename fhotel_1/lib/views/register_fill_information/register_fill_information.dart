@@ -197,7 +197,7 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Tên",
+          "Họ và tên",
           style: TextStyle(color: Colors.blue),
         ),
         if (firstNameError != null)
@@ -214,7 +214,7 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
             focusNode: focusNodes[0],
             fillColor: appTheme.blue50,
             controller: firstNameInputController,
-            hintText: "Tên",
+            hintText: "Nhập tên",
             hintStyle: const TextStyle(
               color: Colors.grey,
             ),
@@ -259,7 +259,7 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
             focusNode: focusNodes[2],
             fillColor: appTheme.blue50,
             controller: iDNumberInputController,
-            hintText: "Căn cước công dân",
+            hintText: "Nhập căn cước công dân",
             hintStyle: const TextStyle(
               color: Colors.grey,
             ),
@@ -304,7 +304,7 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
             focusNode: focusNodes[3],
             fillColor: appTheme.blue50,
             controller: phoneNumberInputController,
-            hintText: "Số điện thoại",
+            hintText: "Nhập số điện thoại",
             hintStyle: const TextStyle(
               color: Colors.grey,
             ),
@@ -426,6 +426,7 @@ class RegisterFillInformationState extends State<RegisterFillInformation>
                 style: TextStyle(fontStyle: FontStyle.italic),
               ),
             ),
+            btnOkText: 'Đóng',
             btnOkOnPress: () async {
               Navigator.pushReplacementNamed(
                 context,

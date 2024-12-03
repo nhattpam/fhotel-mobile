@@ -64,6 +64,7 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen>
   Wallet? _wallet;
   OrderDetail? _orderDetail;
   Reservation? _reservation;
+  List<OrderDetail> _orderDetails = [];
 
   @override
   void initState() {
@@ -78,6 +79,8 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen>
     orderDetailPresenter =
         GetOrderDetailPresenter(this); // Initialize the presenter
     orderDetailPresenter.getOrderDetailByReservationId(
+        (widget.reservation.reservationId).toString());
+    orderDetailPresenter.getListOrderDetailByReservationId(
         (widget.reservation.reservationId).toString());
     _vnPresenter = VnPayPresenter(this);
     WidgetsBinding.instance.addObserver(this);
@@ -141,6 +144,7 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen>
             style: TextStyle(fontStyle: FontStyle.italic),
           ),
         ),
+        btnOkText: 'Đóng',
         btnOkOnPress: () {
           Navigator.pushReplacementNamed(
               context, AppRoutes.myOrderPageAndServicePage);
@@ -157,10 +161,20 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen>
             style: TextStyle(fontStyle: FontStyle.italic),
           ),
         ),
+        btnOkText: 'Đóng',
         btnOkColor: Colors.red,
         btnOkOnPress: () {},
       ).show();
     }
+  }
+  double calculateTotalAmount() {
+    // Sum up all the prices from _orderDetails
+    double orderDetailsTotal = _orderDetails.fold(0.0, (sum, orderDetail) {
+      return sum + (orderDetail.price ?? 0); // Ensure null safety
+    });
+
+    // Add the reservation's total amount
+    return (widget.reservation.totalAmount ?? 0) + orderDetailsTotal;
   }
 
   @override
@@ -909,6 +923,7 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen>
   }
 
   Widget _buildColumntitlepric(BuildContext context) {
+    double totalAmount = calculateTotalAmount();
     return Container(
       width: double.maxFinite,
       padding: EdgeInsets.symmetric(
@@ -932,9 +947,26 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen>
             width: double.maxFinite,
             child: _buildWrapperFive(context,
                 labelguestTwo:
-                    "${widget.reservation.numberOfRooms} Phòng ${widget.reservation.roomType?.hotel?.hotelName}",
+                "${widget.reservation.numberOfRooms} Phòng ${widget.reservation.roomType?.hotel?.hotelName}",
                 datavalueone:
-                    "${NumberFormat('#,###', 'en_US').format(widget.reservation.totalAmount)} ₫"),
+                "${NumberFormat('#,###', 'en_US').format(widget.reservation.totalAmount)} ₫"),
+          ),
+          ListView.builder(
+            shrinkWrap: true,
+            // Ensures the ListView only takes the required space
+            padding: const EdgeInsets.all(0),
+            // Optional: Remove default padding
+            itemCount: _orderDetails.length,
+            // Set the number of items in the list
+            itemBuilder: (context, index) {
+              return _buildWrapperFive(
+                context,
+                labelguestTwo:
+                    "Dịch vụ: ${_orderDetails[index].services?.description},\n Số lượng ${_orderDetails[index].quantity}",
+                datavalueone:
+                    "${NumberFormat('#,###', 'en_US').format(_orderDetails[index].price)} ₫",
+              );
+            },
           ),
           SizedBox(height: 6.h),
           // SizedBox(
@@ -947,7 +979,7 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen>
             child: _buildWrapperFive(context,
                 labelguestTwo: "Tổng cộng",
                 datavalueone:
-                    "${NumberFormat('#,###', 'en_US').format(widget.reservation.totalAmount)} ₫"),
+                    "${NumberFormat('#,###', 'en_US').format(totalAmount)} ₫"),
           )
         ],
       ),
@@ -1062,6 +1094,7 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen>
                   ),
                   // title: 'Warning',
                   // desc:   'This is also Ignored',
+                  btnOkText: 'Đóng',
                   btnOkOnPress: () {
                     Navigator.pop(context); // Close login dialog
                   },
@@ -1157,6 +1190,7 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen>
                 ),
                 // title: 'Warning',
                 // desc:   'This is also Ignored',
+                btnOkText: 'Đóng',
                 btnOkOnPress: () {
                   Navigator.pop(context); // Close login dialog
                 },
@@ -1189,6 +1223,7 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen>
                 ),
                 // title: 'Warning',
                 // desc:   'This is also Ignored',
+                btnOkText: 'Đóng',
                 btnOkOnPress: () {
                   Navigator.pop(context); // Close login dialog
                 },
@@ -1261,6 +1296,7 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen>
                       },
                     ),
                   ),
+                  btnOkText: 'Đóng',
                   btnOkColor: Colors.blueAccent,
                   btnOkOnPress: () {
                     Navigator.pop(context); // Close dialog
@@ -1279,6 +1315,7 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen>
                   ),
                   // title: 'Warning',
                   // desc:   'This is also Ignored',
+                  btnOkText: 'Đóng',
                   btnOkColor: Colors.red,
                   btnOkOnPress: () {
                     Navigator.pushReplacementNamed(
@@ -1494,6 +1531,9 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen>
   @override
   void onGetOrderDetailsSuccess(List<OrderDetail> orders) {
     // TODO: implement onGetOrderDetailsSuccess
+    setState(() {
+      _orderDetails = orders;
+    });
   }
 
   @override

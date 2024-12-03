@@ -141,7 +141,7 @@ class _ListHotelBySearchEmptyState extends State<ListHotelBySearchEmpty>{
                               children: [
                                 SizedBox(height: 240.h),
                                 Text(
-                                  'Không tìm thấy khách sạn bạn muốn tìm',
+                                  'Không tìm thấy kết quả phù hợp!',
                                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold), // Customize as needed
                                   textAlign: TextAlign.center,
                                 ),
@@ -331,27 +331,8 @@ class _ListHotelBySearchEmptyState extends State<ListHotelBySearchEmpty>{
       ),
       width: double.maxFinite,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          CustomOutlinedButton(
-            onPressed: () {
-              _showHotelFilterModalBottomSheet(context);
-            },
-            buttonStyle: CustomButtonStyles.outlineWhiteTL16,
-            buttonTextStyle: CustomTextStyles.titleSmallWhite,
-            width: 68.h,
-            text: "Lọc",
-            leftIcon: Container(
-              margin: EdgeInsets.only(right: 4.h),
-              child: CustomImageView(
-                color: appTheme.black900.withOpacity(0.15),
-                imagePath: ImageConstant.imgIconWrapper1,
-                height: 20.h,
-                width: 20.h,
-                fit: BoxFit.contain,
-              ),
-            ),
-          ),
           CustomOutlinedButton(
             width: 102.h,
             text: "Gần nhất",

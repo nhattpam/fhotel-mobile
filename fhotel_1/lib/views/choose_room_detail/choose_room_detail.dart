@@ -496,52 +496,37 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
                           height: _facilities.length > 6 ? 205 : 105,
                           width: double.infinity,
                           child: GridView.builder(
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 3,
-                              // Adjust the number of columns
-                              childAspectRatio: 3.5,
-                              // Adjust the aspect ratio if necessary
-                              crossAxisSpacing: 0.0,
-                              mainAxisSpacing: 10.0,
+                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3, // Number of columns in the grid
+                              childAspectRatio: 3, // Aspect ratio for the grid items
+                              crossAxisSpacing: 8.0, // Spacing between columns
+                              mainAxisSpacing: 12.0, // Spacing between rows
                             ),
-                            itemCount: _facilities.length,
-                            // Number of items in the grid
+                            itemCount: _facilities.length, // Total number of facilities
                             itemBuilder: (context, index) {
+                              final facilityName = _facilities[index].facility?.facilityName ?? 'Unknown'; // Handle null facility name
+
                               return Container(
-                                margin: EdgeInsets.only(left: 5.h, right: 5.h),
-                                width: 30, // Set the desired width
-                                height: 30, // Set the desired height
-                                child: Chip(
-                                  backgroundColor: Colors.white,
-                                  shape: RoundedRectangleBorder(
-                                    side: const BorderSide(
-                                      color: Colors.grey,
-                                      width: 1,
-                                    ),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10), // Adjust as needed
-                                  label: Center(
-                                    // Center the text within the chip
-                                    child: Text(
-                                      (_facilities[index]
-                                              .facility
-                                              ?.facilityName)
-                                          .toString(),
-                                      style: TextStyle(
-                                        height: 1,
-                                        // Adjusts text's vertical position
-                                        color: Colors
-                                            .black, // Optional text color change
-                                      ),
-                                    ),
+                                margin: EdgeInsets.symmetric(horizontal: 5.h), // Consistent horizontal margin
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[200], // Light background color for the chip
+                                  borderRadius: BorderRadius.circular(8), // Rounded corners for the chip
+                                ),
+                                alignment: Alignment.center, // Center content within the container
+                                child: Text(
+                                  facilityName,
+                                  // maxLines: 1,
+                                  textAlign: TextAlign.center, // Center align the text
+                                  style: const TextStyle(
+                                    fontSize: 14, // Adjust font size for better readability
+                                    fontWeight: FontWeight.w400, // Semi-bold text for emphasis
+                                    color: Colors.black, // Text color
                                   ),
                                 ),
                               );
                             },
-                          ))
+                          ),
+                  )
                       : Container(
                           height: 29,
                           width: double.infinity,
@@ -819,7 +804,15 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
                               showDialog(
                                 context: context,
                                 builder: (context) => AlertDialog(
-                                  title: Text("Chi tiết giá từng ngày"),
+                                  title: Center(
+                                    child: Text(
+                                      "Chi tiết giá từng ngày",
+                                      style: TextStyle(
+                                        color: Colors.blue,
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ),
                                   content: SizedBox(
                                     height: 200.h,
                                     width: double.maxFinite,
@@ -919,6 +912,7 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
                     style: TextStyle(fontStyle: FontStyle.italic),
                   ),
                 ),
+                btnOkText: 'Đóng',
                 btnOkOnPress: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
@@ -999,8 +993,14 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
         // ),
         child: SizedBox(
           width: double.maxFinite,
-          child: Text(
-            _priceBreakDown.toString(),
+          child: Center(
+            child: Text(
+              _priceBreakDown.toString(),
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 20,
+              ),
+            ),
           ),
         ),
       ),

@@ -223,6 +223,7 @@ class WriteReviewScreenState extends State<WriteReviewScreen> implements CreateF
                   style: TextStyle(fontStyle: FontStyle.italic),
                 ),
               ),
+              btnOkText: 'Đóng',
               btnOkOnPress: () {
                 Navigator.pop(context);
               },
@@ -240,6 +241,7 @@ class WriteReviewScreenState extends State<WriteReviewScreen> implements CreateF
                   style: TextStyle(fontStyle: FontStyle.italic),
                 ),
               ),
+              btnOkText: 'Đóng',
               btnOkOnPress: () {
                 Navigator.pop(context);
               },

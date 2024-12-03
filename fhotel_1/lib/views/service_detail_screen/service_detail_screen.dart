@@ -427,6 +427,7 @@ class ServiceDetailScreenState extends State<ServiceDetailScreen>
               style: TextStyle(fontStyle: FontStyle.italic),
             ),
           ),
+          btnOkText: 'Đóng',
           btnOkOnPress: () {
             Navigator.pop(context);
           },

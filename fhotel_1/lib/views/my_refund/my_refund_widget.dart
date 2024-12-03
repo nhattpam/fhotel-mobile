@@ -208,6 +208,7 @@ class MyRefundWidgetState extends State<MyRefundWidget> with AutomaticKeepAliveC
                       ),
                       // title: 'Warning',
                       // desc:   'This is also Ignored',
+                      btnOkText: 'Đóng',
                       btnOkOnPress: () {
                       },
                     ).show();

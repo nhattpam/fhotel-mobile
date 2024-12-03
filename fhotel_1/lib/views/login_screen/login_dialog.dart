@@ -102,7 +102,7 @@ class LoginDialogState extends State<LoginDialog> implements LoginView{
             focusNode: focusNodes[0],
             fillColor: appTheme.blue50,
             controller: emailInputController,
-            hintText: "Email",
+            hintText: "Nhập email",
             hintStyle: const TextStyle(
               color: Colors.grey,
             ),
@@ -142,7 +142,7 @@ class LoginDialogState extends State<LoginDialog> implements LoginView{
             focusNode: focusNodes[1],
             fillColor: appTheme.blue50,
             controller: passwordInputController,
-            hintText: "Mật khẩu",
+            hintText: "Nhập mật khẩu",
             hintStyle: const TextStyle(
               color: Colors.grey,
             ),

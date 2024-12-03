@@ -242,6 +242,7 @@ class _UserEditBankAccountState extends State<UserEditBankAccount>
             ),
             // title: 'Warning',
             // desc:   'This is also Ignored',
+            btnOkText: 'Đóng',
             btnOkOnPress: () {
               Navigator.pushReplacementNamed(context, AppRoutes.initialRoute);
             },

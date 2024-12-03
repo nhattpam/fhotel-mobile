@@ -121,7 +121,7 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
     String cancellationTime = (_cancellationPolicy?.cancellationTime).toString();
     String cancellationDay = (_cancellationPolicy?.cancellationDays).toString();
 
-    String refundPercentage = (_cancellationPolicy?.refundPercentage).toString();
+    String refundPercentage = NumberFormat('#,###', 'en_US').format(_cancellationPolicy?.refundPercentage).toString();
     // String refundPercentageAfter9PM =
     //     _refundPolicies[1].refundPercentage.toString();
     //
@@ -178,7 +178,7 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
                     <ul>
                         <li>Thời gian nhận phòng tiêu chuẩn là 2 giờ chiều và bạn có thể nhận phòng bất cứ lúc nào sau đó trong khi đặt phòng của bạn vẫn còn hiệu lực.</li>
                         <li>
-                            <strong>Trước khi nhận phòng:</strong> Nếu hủy phòng $cancellationDay ngày trước ngày nhận phòng, trước $cancellationTime giờ sáng. Số tiền đặt phòng sẽ được hoàn $refundPercentage%.
+                            <strong>Trước khi nhận phòng:</strong> Nếu hủy phòng $cancellationDay ngày trước ngày nhận phòng, trước $cancellationTime. Số tiền đặt phòng sẽ được hoàn $refundPercentage%.
                         </li>
                         <li>
                             <strong>Vào ngày nhận phòng:</strong> Nếu bạn hủy hoặc không đến, toàn bộ số tiền đặt phòng sẽ không được hoàn lại.

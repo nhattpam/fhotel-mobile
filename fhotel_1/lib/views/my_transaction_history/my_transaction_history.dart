@@ -121,7 +121,7 @@ class MyTransactionHistoryState extends State<MyTransactionHistory>
           ),
         ),
         title: AppbarTitle(
-          text: "Lịch sử nhận tiền",
+          text: "Lịch sử giao dịch",
           margin: EdgeInsets.only(left: 8.h),
         ),
         actions: [

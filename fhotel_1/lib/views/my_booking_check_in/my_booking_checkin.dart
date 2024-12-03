@@ -197,11 +197,11 @@ class MyBookingCheckinState extends State<MyBookingCheckin> implements ListRoomS
                   : _buildPrePaid(context),
             ],
           ),
-          SizedBox(height: 16.h),
-          Text(
-            "Lịch sử check-in, check-out",
-            style: theme.textTheme.titleMedium,
-          ),
+          // SizedBox(height: 16.h),
+          // Text(
+          //   "Lịch sử check-in, check-out",
+          //   style: theme.textTheme.titleMedium,
+          // ),
           SizedBox(height: 10.h),
           _buildMaincontent(context),
         ],

@@ -5,8 +5,8 @@ abstract class GetOrderDetailView {
 
   void hideLoading();
 
-  void showOrderDetail(OrderDetail orderDetails);
+  void showOrderDetail(OrderDetail orderDetail);
 
-  void onGetOrderDetailsSuccess(List<OrderDetail> orders);
+  void onGetOrderDetailsSuccess(List<OrderDetail> orderDetails);
 
 }

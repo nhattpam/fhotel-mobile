@@ -131,7 +131,7 @@ class _LoginScreenState extends State<LoginScreen> implements LoginView {
             focusNode: emailFocusNode,
             fillColor: appTheme.blue50,
             controller: emailInputController,
-            hintText: "Email",
+            hintText: "Nhập email",
             hintStyle: const TextStyle(
               color: Colors.grey,
             ),
@@ -171,7 +171,7 @@ class _LoginScreenState extends State<LoginScreen> implements LoginView {
             focusNode: passwordFocusNode,
             fillColor: appTheme.blue50,
             controller: passwordInputController,
-            hintText: "Mật khẩu",
+            hintText: "Nhập mật khẩu",
             hintStyle: const TextStyle(
               color: Colors.grey,
             ),

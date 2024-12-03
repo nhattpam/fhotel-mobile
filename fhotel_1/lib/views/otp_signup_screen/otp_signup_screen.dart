@@ -234,6 +234,7 @@ class _OTPScreenState extends State<OTPScreen> implements UserProfileView, Regis
                 style: TextStyle(fontStyle: FontStyle.italic),
               ),
             ),
+            btnOkText: 'Đóng',
             btnOkOnPress: () {},
             btnOkColor: Colors.red,
           ).show();

@@ -188,6 +188,7 @@ class CheckoutScreenState extends State<CheckoutScreen>
             style: TextStyle(fontStyle: FontStyle.italic),
           ),
         ),
+        btnOkText: 'Đóng',
         btnOkOnPress: () {
           Navigator.pushReplacementNamed(context, AppRoutes.homePage);
         },
@@ -203,6 +204,7 @@ class CheckoutScreenState extends State<CheckoutScreen>
             style: TextStyle(fontStyle: FontStyle.italic),
           ),
         ),
+        btnOkText: 'Đóng',
         btnOkColor: Colors.red,
         btnOkOnPress: () {},
       ).show();
@@ -1040,6 +1042,7 @@ class CheckoutScreenState extends State<CheckoutScreen>
               ),
               // title: 'Warning',
               // desc:   'This is also Ignored',
+              btnOkText: 'Đóng',
               btnOkOnPress: () {
                 Navigator.pop(context); // Close login dialog
               },
@@ -1102,6 +1105,7 @@ class CheckoutScreenState extends State<CheckoutScreen>
                       style: TextStyle(fontStyle: FontStyle.italic),
                     ),
                   ),
+                  btnOkText: 'Đóng',
                   btnOkOnPress: () {
                     Navigator.pushReplacementNamed(context, AppRoutes.homePage);
                   },
@@ -1126,6 +1130,7 @@ class CheckoutScreenState extends State<CheckoutScreen>
                   style: TextStyle(fontStyle: FontStyle.italic),
                 ),
               ),
+              btnOkText: 'Đóng',
               btnOkColor: Colors.red,
               btnOkOnPress: () {},
             ).show();

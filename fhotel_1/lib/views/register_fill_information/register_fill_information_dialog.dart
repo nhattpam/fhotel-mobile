@@ -117,7 +117,7 @@ class RegisterFillInformationDialogState
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Tên",
+          "Họ và tên",
           style: TextStyle(color: Colors.blue),
         ),
         if (firstNameError != null)
@@ -134,7 +134,7 @@ class RegisterFillInformationDialogState
             focusNode: focusNodes[0],
             fillColor: appTheme.blue50,
             controller: firstNameInputController,
-            hintText: "Tên",
+            hintText: "Nhập họ và tên",
             hintStyle: const TextStyle(
               color: Colors.grey,
             ),
@@ -179,7 +179,7 @@ class RegisterFillInformationDialogState
             focusNode: focusNodes[2],
             fillColor: appTheme.blue50,
             controller: iDNumberInputController,
-            hintText: "Căn cước công dân",
+            hintText: "Nhập căn cước công dân",
             hintStyle: const TextStyle(
               color: Colors.grey,
             ),
@@ -224,7 +224,7 @@ class RegisterFillInformationDialogState
             focusNode: focusNodes[3],
             fillColor: appTheme.blue50,
             controller: phoneNumberInputController,
-            hintText: "Số điện thoại",
+            hintText: "Nhập số điện thoại",
             hintStyle: const TextStyle(
               color: Colors.grey,
             ),
@@ -270,7 +270,7 @@ class RegisterFillInformationDialogState
             focusNode: focusNodes[4],
             fillColor: appTheme.blue50,
             controller: addressInputController,
-            hintText: "Địa chỉ",
+            hintText: "Nhập địa chỉ",
             hintStyle: const TextStyle(
               color: Colors.grey,
             ),
@@ -344,6 +344,7 @@ class RegisterFillInformationDialogState
                 style: TextStyle(fontStyle: FontStyle.italic),
               ),
             ),
+            btnOkText: 'Đóng',
             btnOkOnPress: () async {
               widget.onRegisterFillInformation(user);
             },

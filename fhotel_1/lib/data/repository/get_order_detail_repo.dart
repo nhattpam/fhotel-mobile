@@ -58,6 +58,25 @@ class GetOrderDetailRepo {
       throw Exception('Failed to fetch order detail. Status code: ${response.statusCode}');
     }
   }
+  Future<List<OrderDetail>> getOrderDetailsByReservationId(String reservationId) async {
+    final url = Uri.parse('$_baseUrl/reservations/$reservationId/order-details');
+    print('Requesting URL: $url');
+
+    final response = await http.get(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final List<dynamic> responseData = json.decode(response.body);
+      return responseData.map((data) => OrderDetail.fromJson(data)).toList();
+    } else {
+      throw Exception('No order details found for the provided order ID.');
+    }
+  }
+
   Future<List<OrderDetail>> getOrderDetailByCustomerId() async {
 
     final url = Uri.parse('$_baseUrl/users/$customerId/customer-order-details');
