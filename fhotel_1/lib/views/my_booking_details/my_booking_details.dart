@@ -252,7 +252,7 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen>
         ),
       ),
       title: AppbarTitle(
-        text: "Thông tin thanh toán",
+        text: "Thông tin đặt phòng",
         margin: EdgeInsets.only(left: 8.h),
       ),
       actions: [
@@ -436,9 +436,10 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen>
                     children: [
                       Expanded(
                         child: Align(
-                          alignment: Alignment.centerLeft,
+                          alignment: Alignment.center,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               html.Html(
                                 data: """
@@ -947,7 +948,7 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen>
             width: double.maxFinite,
             child: _buildWrapperFive(context,
                 labelguestTwo:
-                "${widget.reservation.numberOfRooms} Phòng ${widget.reservation.roomType?.hotel?.hotelName}",
+                "Tiền phòng",
                 datavalueone:
                 "${NumberFormat('#,###', 'en_US').format(widget.reservation.totalAmount)} ₫"),
           ),

@@ -1,3 +1,4 @@
+import 'package:diacritic/diacritic.dart';
 import 'package:fhotel_1/data/models/reservation.dart';
 import 'package:fhotel_1/data/repository/list_reservation_repo.dart';
 import 'package:fhotel_1/views/my_booking_full_screen/widgets/maincontent7_item_widget.dart';
@@ -25,16 +26,42 @@ class MyBookingFullScreenState extends State<MyBookingFullScreen>
 
   late ListReservationPresenter _presenter;
   List<Reservation> _reservation = [];
+  List<Reservation> _filteredReservations = [];
 
   String? _error;
   bool _isLoading = false;
+  String _searchQuery = '';
 
   @override
   void initState() {
     super.initState();
-    _presenter = ListReservationPresenter(
-        this, ListReservationRepo()); // Initialize the presenter
-    _presenter.getListReservationByCustomerId(); // Fetch customer data
+    _presenter = ListReservationPresenter(this, ListReservationRepo());
+    _presenter.getListReservationByCustomerId();
+  }
+
+  void _onSearchChanged(String value) {
+    setState(() {
+      _searchQuery = value.toLowerCase();
+
+      _filteredReservations = _reservation.where((reservation) {
+        // Format the createdDate to match the user input style
+        DateTime parsedDate = DateTime.parse(reservation.createdDate.toString());
+        String formattedDate =
+            '${parsedDate.day}${parsedDate.month}${parsedDate.year}'; // e.g., 3122024
+
+        // Create a searchable string representation of the reservation
+        String searchableString = [
+          reservation.code,
+          reservation.totalAmount.toString(),
+          formattedDate,
+          reservation.roomType?.hotel?.hotelName ?? '',
+          removeDiacritics(reservation.roomType?.hotel?.hotelName ?? '').toLowerCase()
+        ].join('').toLowerCase();
+
+        // Check if the search query matches the searchable string
+        return searchableString.contains(_searchQuery);
+      }).toList();
+    });
   }
 
   @override
@@ -58,7 +85,10 @@ class MyBookingFullScreenState extends State<MyBookingFullScreen>
                     width: double.maxFinite,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [_buildMaincontent(context)],
+                      children: [
+                        _buildSearchField(),
+                        _buildMaincontent(context),
+                      ],
                     ),
                   ),
                   SizedBox(height: 16.h),
@@ -71,11 +101,45 @@ class MyBookingFullScreenState extends State<MyBookingFullScreen>
     );
   }
 
+  Widget _buildSearchField() {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 8.h),
+      child: TextField(
+        decoration: InputDecoration(
+          labelText: 'Tìm kiếm đặt phòng', // Vietnamese translation
+          labelStyle: TextStyle(color: Colors.grey), // Default label color
+          floatingLabelStyle: TextStyle(color: Colors.blue), // Blue color when focused
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8.0),
+            borderSide: BorderSide(color: Colors.grey),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8.0),
+            borderSide: BorderSide(color: Colors.blue, width: 2.0), // Blue border when focused
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8.0),
+            borderSide: BorderSide(color: Colors.blue, width: 2.0), // Blue border when focused
+          ),
+          prefixIcon: Icon(Icons.search),
+          prefixIconColor: Colors.blue
+        ),
+        onChanged: _onSearchChanged,
+      ),
+    );
+  }
+
+
   Widget _buildMaincontent(BuildContext context) {
-    _reservation.sort((a, b) => DateTime.parse(a.createdDate.toString()).compareTo(DateTime.parse(b.createdDate.toString())));
+    List<Reservation> displayList =
+    _searchQuery.isEmpty ? _reservation : _filteredReservations;
+
+    displayList.sort((a, b) =>
+        DateTime.parse(a.createdDate.toString()).compareTo(DateTime.parse(b.createdDate.toString())));
+
     return GroupedListView<Reservation, String>(
       shrinkWrap: true,
-      elements: _reservation,
+      elements: displayList,
       groupBy: (reservation) {
         DateTime parsedDate = DateTime.parse(reservation.createdDate.toString());
         return DateFormat('yyyy-MM-dd').format(parsedDate);
@@ -118,6 +182,7 @@ class MyBookingFullScreenState extends State<MyBookingFullScreen>
   void onGetReservationsSuccess(List<Reservation> reservations) {
     setState(() {
       _reservation = reservations;
+      _filteredReservations = reservations; // Initialize filtered list
     });
   }
 
@@ -132,6 +197,5 @@ class MyBookingFullScreenState extends State<MyBookingFullScreen>
   void onGetReservationSuccess(Reservation reservation) {
     // Additional logic if needed when a specific reservation is fetched
   }
+}
 
-  // Show notification when payment status changes
-  }

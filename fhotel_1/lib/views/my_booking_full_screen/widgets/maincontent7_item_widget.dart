@@ -1,5 +1,8 @@
+import 'package:fhotel_1/data/models/order_detail.dart';
 import 'package:fhotel_1/data/models/reservation.dart';
+import 'package:fhotel_1/presenters/get_order_detail_presenter.dart';
 import 'package:fhotel_1/views/my_booking_details/my_booking_details.dart';
+import 'package:fhotel_1/views/my_service/get_order_detail_view.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/app_export.dart';
@@ -16,9 +19,30 @@ class Maincontent7ItemWidget extends StatefulWidget {
   Maincontent7ItemWidgetState createState() => Maincontent7ItemWidgetState();
 }
 
-class Maincontent7ItemWidgetState extends State<Maincontent7ItemWidget> {
+class Maincontent7ItemWidgetState extends State<Maincontent7ItemWidget> implements GetOrderDetailView  {
+  List<OrderDetail> _orderDetails = [];
+  late GetOrderDetailPresenter orderDetailPresenter;
+
+  @override
+  void initState() {
+    super.initState();
+    orderDetailPresenter = GetOrderDetailPresenter(this); // Initialize the presenter
+    orderDetailPresenter.getListOrderDetailByReservationId(
+        (widget.reservation.reservationId).toString());
+  }
+
+  double calculateTotalAmount() {
+    // Sum up all the prices from _orderDetails
+    double orderDetailsTotal = _orderDetails.fold(0.0, (sum, orderDetail) {
+      return sum + (orderDetail.price ?? 0); // Ensure null safety
+    });
+
+    // Add the reservation's total amount
+    return (widget.reservation.totalAmount ?? 0) + orderDetailsTotal;
+  }
   @override
   Widget build(BuildContext context) {
+    double totalAmount = calculateTotalAmount();
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(
@@ -96,7 +120,7 @@ class Maincontent7ItemWidgetState extends State<Maincontent7ItemWidget> {
               child: Padding(
                 padding: EdgeInsets.only(top: 8.h),
                 child: Text(
-                  "Giá: ${NumberFormat('#,###', 'en_US').format(widget.reservation.totalAmount)} ₫",
+                  "Giá: ${NumberFormat('#,###', 'en_US').format(totalAmount)} ₫",
                   style: CustomTextStyles.titleSmallBlue,
                 ),
               ),
@@ -171,5 +195,28 @@ class Maincontent7ItemWidgetState extends State<Maincontent7ItemWidget> {
             buttonStyle: CustomButtonStyles.fillRed,
             buttonTextStyle: CustomTextStyles.bodyMediumRobotoWhiteA700,
           );
+  }
+
+  @override
+  void hideLoading() {
+    // TODO: implement hideLoading
+  }
+
+  @override
+  void onGetOrderDetailsSuccess(List<OrderDetail> orderDetails) {
+    // TODO: implement onGetOrderDetailsSuccess
+    setState(() {
+      _orderDetails = orderDetails;
+    });
+  }
+
+  @override
+  void showLoading() {
+    // TODO: implement showLoading
+  }
+
+  @override
+  void showOrderDetail(OrderDetail orderDetail) {
+    // TODO: implement showOrderDetail
   }
 }
