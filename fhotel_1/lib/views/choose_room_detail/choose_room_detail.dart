@@ -92,7 +92,7 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
             _showRegisterDialog(); // Open register dialog
           },
           onLogin: () {
-            Navigator.pop(context); // Close login dialog
+            // Navigator.pop(context); // Close login dialog
           },
           onCloseDialog: () {
             Navigator.pop(context); // Close login dialog
