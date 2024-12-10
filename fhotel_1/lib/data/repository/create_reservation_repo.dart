@@ -64,7 +64,7 @@ class CreateReservationRepo {
 
   Future<int> availableRoom(String roomtypeId, String checkInDate, String checkOutDate) async {
 
-    final url = Uri.parse('$_baseUrl/reservations/api/roomtypes/$roomtypeId/available-on-date?checkinDate=$checkInDate&checkoutDate=$checkOutDate');
+    final url = Uri.parse('$_baseUrl/room-types/$roomtypeId/available-on-date?checkinDate=$checkInDate&checkoutDate=$checkOutDate');
     print(url);
     final response = await http.get(
       url,
