@@ -285,7 +285,7 @@ class HomeRoomGuestFilledBottomsheetState
     return SizedBox(
       width: double.maxFinite,
       child: ListView.builder(
-        itemCount: 5,
+        itemCount: 3,
         // Replace yourList with the actual list you're using
         shrinkWrap: true,
         // This will allow the ListView to fit within its parent
