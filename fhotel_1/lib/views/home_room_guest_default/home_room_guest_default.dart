@@ -161,7 +161,7 @@ class HomeRoomGuestFilledBottomsheetState
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "${_types[index].typeName}",
+                                        "${_types[index].typeName} \n Tối đa ${_types[index].maxOccupancy} người",
                                         style: CustomTextStyles
                                             .titleSmallGray600
                                             .copyWith(

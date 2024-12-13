@@ -554,7 +554,7 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
                                           MainAxisAlignment.center,
                                       children: [
                                         Text(
-                                          'Khách sạn này chưa có tiện nghi',
+                                          'Khách sạn này chưa có tiện ích',
                                           maxLines: 5,
                                           overflow: TextOverflow.ellipsis,
                                           style: theme.textTheme.bodyMedium!
@@ -738,7 +738,7 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
               padding: EdgeInsets.only(left: 110.h),
               child: Text(
                 textAlign: TextAlign.center,
-                "Chi tiết phòng",
+                "Chi tiết loại phòng",
                 style: theme.textTheme.titleMedium,
               ),
             ),

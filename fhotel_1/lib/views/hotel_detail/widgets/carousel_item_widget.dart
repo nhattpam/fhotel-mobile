@@ -524,8 +524,11 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
                                     : (_feedbacks.isEmpty && _feedbacks.length == 0)
                                     ? Center(
                                   child: Text(
-                                    "Khách sạn này chưa có đánh giá",
-                                    style: theme.textTheme.titleMedium, // You can customize this style as needed
+                                    "Khách sạn này chưa có đánh giá", // You can customize this style as needed
+                                    style: TextStyle(
+                                      color: appTheme.gray600,
+                                      fontSize: 18,
+                                    ), // You can customize this style as needed
                                   ),
                                 )
                                     : Container(
