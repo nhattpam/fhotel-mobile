@@ -192,7 +192,7 @@ class UserProfileScreenState extends State<UserProfileScreen>
         ),
         BottomNavigationBarItem(
           icon: FaIcon(FontAwesomeIcons.moneyBill1),
-          label: 'Lịch sử giao dịch',
+          label: 'Lịch sử',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.person),

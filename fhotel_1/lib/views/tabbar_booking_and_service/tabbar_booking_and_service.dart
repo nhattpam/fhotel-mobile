@@ -217,7 +217,7 @@ class TabbarBookingAndServiceState extends State<TabbarBookingAndService>
         ),
         BottomNavigationBarItem(
           icon: FaIcon(FontAwesomeIcons.moneyBill1),
-          label: 'Lịch sử giao dịch',
+          label: 'Lịch sử',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.person),
