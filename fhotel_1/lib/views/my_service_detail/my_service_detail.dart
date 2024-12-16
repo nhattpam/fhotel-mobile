@@ -136,7 +136,7 @@ class MyServiceDetailState extends State<MyServiceDetail>
               SizedBox(height: 20.h),
               (_orderDetail?.services?.description) != null
               ? Text(
-                "Miêu tả: ${_orderDetail?.services?.description}",
+                "Mô tả: ${_orderDetail?.services?.description}",
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,
                 style: theme.textTheme.bodyMedium!.copyWith(

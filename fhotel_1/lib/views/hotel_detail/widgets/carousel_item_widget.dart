@@ -202,8 +202,7 @@ class HotelDetailScreenState extends State<HotelDetailScreen>
                 </section>
 
                 <section>
-                    <h4>Trả phòng trễ</h4>
-                        <strong>Giờ trả phòng phí</strong>
+                    <h4>Trả phòng muộn</h4>
                         <ul>
                         <li>12 PM - 2 PM Miễn phí</li>
                         <li>2PM trở đi 100% của tỷ giá ngày hôm sau</li>

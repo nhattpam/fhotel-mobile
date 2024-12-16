@@ -158,7 +158,7 @@ class ServiceDetailScreenState extends State<ServiceDetailScreen>
               ),
               SizedBox(height: 20.h),
               Text(
-                "Miêu tả: ${widget.service.description}",
+                "Mô tả: ${widget.service.description}",
                 maxLines: 10,
                 overflow: TextOverflow.ellipsis,
                 style: theme.textTheme.bodyMedium!.copyWith(

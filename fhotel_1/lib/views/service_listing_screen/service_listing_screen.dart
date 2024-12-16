@@ -54,182 +54,182 @@ class ServiceListingScreenState extends State<ServiceListingScreen>
           body: SizedBox(
             width: double.maxFinite,
             child: SizedBox(
-                width: double.maxFinite,
-                child: Column(
-                  children: [
-                    SizedBox(height: 32.h),
-                    Container(
-                      margin: EdgeInsets.fromLTRB(20.h, 0, 20.h, 0),
-                      child: _buildRowopen(
-                        context,
-                        openone: "Loại dịch vụ",
-                        seeallone: "Xem tất cả",
-                      ),
+              width: double.maxFinite,
+              child: Column(
+                children: [
+                  SizedBox(height: 32.h),
+                  Container(
+                    margin: EdgeInsets.fromLTRB(20.h, 0, 20.h, 0),
+                    child: _buildRowopen(
+                      context,
+                      openone: "Loại dịch vụ",
+                      seeallone: "",
                     ),
-                    SizedBox(height: 16.h),
-                    SizedBox(
-                      height: 32.h,
-                      width: double.maxFinite,
-                      child: ListView.separated(
-                        padding: EdgeInsets.only(left: 14.h, right: 14.h),
-                        scrollDirection: Axis.horizontal,
-                        separatorBuilder: (context, index) {
-                          return SizedBox(
-                            width: 8.h,
-                          );
-                        },
-                        itemCount: _typeServices.length,
-                        itemBuilder: (context, index) {
-                          String name =
-                              _typeServices[index].serviceTypeName.toString();
+                  ),
+                  SizedBox(height: 16.h),
+                  SizedBox(
+                    height: 32.h,
+                    width: double.maxFinite,
+                    child: ListView.separated(
+                      padding: EdgeInsets.only(left: 14.h, right: 14.h),
+                      scrollDirection: Axis.horizontal,
+                      separatorBuilder: (context, index) {
+                        return SizedBox(
+                          width: 8.h,
+                        );
+                      },
+                      itemCount: _typeServices.length,
+                      itemBuilder: (context, index) {
+                        String name =
+                            _typeServices[index].serviceTypeName.toString();
+                        return GestureDetector(
+                          onTap: () {
+                            // Create a new list containing only the services with the desired serviceTypeName
+                            List<Services> filteredServices = _services
+                                .where((service) =>
+                                    service.serviceType?.serviceTypeName ==
+                                    name)
+                                .toList();
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => SearchServiceResult(
+                                    service: filteredServices),
+                              ),
+                            );
+                          },
+                          child: ChipTheme(
+                            data: ChipTheme.of(context).copyWith(
+                              backgroundColor: Colors.white,
+                              selectedColor: Colors.blue,
+                              disabledColor: Colors.grey,
+                              shape: RoundedRectangleBorder(
+                                side: const BorderSide(
+                                  color: Colors.grey, // Border color
+                                  width: 1, // Border width
+                                ),
+                                borderRadius: BorderRadius.circular(
+                                    50), // Rounded corners
+                              ),
+                            ),
+                            child: Chip(
+                              label: Text(
+                                name,
+                              ),
+                              // selected: false,
+                              // onSelected: (bool selected) {},
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  SizedBox(height: 38.h),
+                  Container(
+                    width: double.maxFinite,
+                    margin: EdgeInsets.symmetric(horizontal: 12.h),
+                    padding: EdgeInsets.symmetric(horizontal: 10.h),
+                    child: SizedBox(
+                      height: 470.h, // Adjust the height as needed
+                      child: GroupedListView<Services, String>(
+                        elements: _services,
+                        // Your list of services
+                        groupBy: (element) =>
+                            (element.serviceType?.serviceTypeName).toString(),
+                        // Grouping criteria
+                        groupHeaderBuilder: (Services service) => Padding(
+                          padding: EdgeInsets.symmetric(vertical: 8.0.h),
+                          child: Text(
+                            (service.serviceType?.serviceTypeName).toString(), // Display the group name
+                            style: TextStyle(
+                              fontSize: 18.h,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        itemBuilder: (context, Services service) {
                           return GestureDetector(
                             onTap: () {
-                              // Create a new list containing only the services with the desired serviceTypeName
-                              List<Services> filteredServices = _services.where((service) => service.serviceType?.serviceTypeName == name).toList();
                               Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (context) => SearchServiceResult(service: filteredServices),
+                                  builder: (context) =>
+                                      ServiceDetailScreen(service: service),
                                 ),
                               );
                             },
-                            child: ChipTheme(
-                              data: ChipTheme.of(context).copyWith(
-                                backgroundColor: Colors.white,
-                                selectedColor: Colors.blue,
-                                disabledColor: Colors.grey,
-                                shape: RoundedRectangleBorder(
-                                  side: const BorderSide(
-                                    color: Colors.grey, // Border color
-                                    width: 1, // Border width
-                                  ),
-                                  borderRadius: BorderRadius.circular(
-                                      50), // Rounded corners
-                                ),
+                            child: Container(
+                              margin: EdgeInsets.only(bottom: 10.h),
+                              padding: EdgeInsets.only(bottom: 10.h),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10.h),
                               ),
-                              child: Chip(
-                                label: Text(
-                                  name,
-                                ),
-                                // selected: false,
-                                // onSelected: (bool selected) {},
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  service.image != null && service.image != 'string'
+                                      ? ClipRRect(
+                                    borderRadius: BorderRadius.vertical(
+                                      top: Radius.circular(10.h), // Match parent radius
+                                    ),
+                                    child: CustomImageView(
+                                      fit: BoxFit.cover, // Ensure the image fills the container
+                                      imagePath: service.image.toString(),
+                                      height: 140.h,
+                                      width: double.maxFinite,
+                                    ),
+                                  )
+                                      : ClipRRect(
+                                    borderRadius: BorderRadius.vertical(
+                                      top: Radius.circular(10.h),
+                                    ),
+                                    child: Skeleton(
+                                      height: 140.h,
+                                      width: double.maxFinite,
+                                    ),
+                                  ),
+                                  SizedBox(height: 12.h),
+                                  SizedBox(
+                                    width: double.maxFinite,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                              service.serviceName.toString(),
+                                              style: CustomTextStyles.titleSmallGray600,
+                                              overflow: TextOverflow.ellipsis, // To handle long text gracefully
+                                            ),
+                                          ),
+                                          Row(
+                                            children: [
+                                              Text(
+                                                "Giá ",
+                                                style: CustomTextStyles.titleSmallGray600,
+                                              ),
+                                              Text(
+                                                NumberFormat('#,###', 'en_US').format(service.price) +
+                                                    " ₫",
+                                                style: CustomTextStyles.titleSmallGray600,
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           );
                         },
                       ),
                     ),
-                    SizedBox(height: 38.h),
-                    Container(
-                      width: double.maxFinite,
-                      margin: EdgeInsets.symmetric(horizontal: 12.h),
-                      padding: EdgeInsets.symmetric(horizontal: 10.h),
-                      child: SizedBox(
-                          height: 470.h, // Adjust the height as needed
-                          child: GroupedListView<Services, String>(
-                            elements: _services,
-                            // Your list of services
-                            groupBy: (element) =>
-                                (element.serviceType?.serviceTypeName)
-                                    .toString(),
-                            // Grouping criteria
-                            groupHeaderBuilder: (Services service) => Padding(
-                              padding: EdgeInsets.symmetric(vertical: 8.0.h),
-                              child: Text(
-                                (service.serviceType?.serviceTypeName)
-                                    .toString(), // Display the group name
-                                style: TextStyle(
-                                  fontSize: 18.h,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            itemBuilder: (context, Services service) {
-                              return GestureDetector(
-                                onTap: () {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                        builder: (context) => ServiceDetailScreen(service: service)),
-                                  );
-                                },
-                                child: Container(
-                                  margin: EdgeInsets.only(bottom: 10.h),
-                                  padding: EdgeInsets.all(12.h),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10.h),
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      service.image != null && service.image != 'string'
-                                     ? Container(
-                                        height: 140.h,
-                                        width: double.maxFinite,
-                                       decoration: BoxDecoration(
-                                         borderRadius: BorderRadius.circular(10.h)
-                                       ),
-                                       child: Image.network(
-                                          service.image.toString(),
-                                          height: 140.h,
-                                          width: double.maxFinite,
-                                        ),
-                                     )
-                                      : Container(
-                                        height: 140.h,
-                                        width: double.maxFinite,
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(10.h)
-                                        ),
-                                        child: Skeleton(
-                                          height: 140.h,
-                                          width: double.maxFinite,
-                                        ),
-                                      ),
-                                      SizedBox(height: 6.h),
-                                      Text(
-                                        service.serviceName.toString(),
-                                        // Adjust according to your model
-                                        style:
-                                            CustomTextStyles.titleSmallGray600,
-                                      ),
-                                      SizedBox(height: 12.h),
-                                      SizedBox(
-                                        width: double.maxFinite,
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.end,
-                                          // crossAxisAlignment: CrossAxisAlignment.end,
-                                          children: [
-                                            SizedBox(
-                                              width: 100.h,
-                                              child: Row(
-                                                children: [
-                                                  Text(
-                                                  "Giá ",
-                                                    style: CustomTextStyles
-                                                        .titleSmallGray600,
-                                                  ),
-                                                  Text(
-                                                  NumberFormat('#,###', 'en_US').format(service.price) + " ₫",
-                                                    style: CustomTextStyles
-                                                        .titleSmallGray600,
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              );
-                            },
-                          )),
-                    )
-                  ],
-                ),
+                  ),
+                ],
               ),
+            ),
           ),
           bottomNavigationBar: _buildBottomNavigationBar(context)),
     );
@@ -250,7 +250,6 @@ class ServiceListingScreenState extends State<ServiceListingScreen>
         ),
         styleType: Style.bgFill);
   }
-
 
   Widget _buildBottomNavigationBar(BuildContext context) {
     return BottomNavigationBar(
@@ -321,15 +320,15 @@ class ServiceListingScreenState extends State<ServiceListingScreen>
           style:
               CustomTextStyles.bodyMediumPrimary.copyWith(color: Colors.blue),
         ),
-        CustomImageView(
-          imagePath: ImageConstant.imgArrowRightGray600,
-          height: 10.h,
-          width: 15.h,
-          margin: EdgeInsets.only(
-            left: 10.h,
-            top: 6.h,
-          ),
-        )
+        // CustomImageView(
+        //   imagePath: ImageConstant.imgArrowRightGray600,
+        //   height: 10.h,
+        //   width: 15.h,
+        //   margin: EdgeInsets.only(
+        //     left: 10.h,
+        //     top: 6.h,
+        //   ),
+        // )
       ],
     );
   }
