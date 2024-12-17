@@ -1,3 +1,5 @@
+import 'package:fhotel_1/data/models/caculate.dart';
+
 abstract class CreateReservationView {
 
   void showValidationError(String field,String message);
@@ -7,6 +9,8 @@ abstract class CreateReservationView {
   void onCreateRefundSuccess(String message);
 
   void onCreateTotalAmountSuccess(double totalAmount);
+
+  void onCalculateSuccess(PricingResult totalAmount);
 
   void onCreateAvailableRoomSuccess(int availableRoom);
 

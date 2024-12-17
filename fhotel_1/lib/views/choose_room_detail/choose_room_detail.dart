@@ -1,4 +1,5 @@
 import 'package:fhotel_1/core/utils/skeleton.dart';
+import 'package:fhotel_1/data/models/caculate.dart';
 import 'package:fhotel_1/data/models/room_facility.dart';
 import 'package:fhotel_1/data/models/type.dart';
 import 'package:fhotel_1/data/models/user.dart';
@@ -42,7 +43,7 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
   late ListRoomTypePresenter _presenter;
   late CreateReservation _createReservation;
   double? _totalAmount = 0;
-  String? _priceBreakDown;
+  PricingResult? _priceBreakDown;
   List<RoomFacility> _facilities = [];
   SessionManager sessionManager = SessionManager();
   String? dateStarSelected;
@@ -194,7 +195,7 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
         widget.roomTypeId,
         quantity,
       );
-      String? priceBreakdown = await _createReservation.createReservationToCalculate2(
+      _createReservation.createReservationToCalculate2(
         isoFormattedInDate,
         isoFormattedOutDate,
         widget.roomTypeId,
@@ -203,7 +204,7 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
       int? avalable = await _createReservation.calculateAvailable(
           isoFormattedInDate, isoFormattedOutDate, widget.roomTypeId);
       setState(() {
-        _priceBreakDown = priceBreakdown;
+        // _priceBreakDown = priceBreakdown;
         _totalAmount = amount; // Update the total amount in the state
         availableRoomInCalculate = avalable;
       });
@@ -995,7 +996,7 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
           width: double.maxFinite,
           child: Center(
             child: Text(
-              _priceBreakDown.toString(),
+              (_priceBreakDown?.priceBreakdown).toString(),
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 20,
@@ -1179,5 +1180,13 @@ class ChooseRoomRoomDetailScreenState extends State<ChooseRoomRoomDetailScreen>
   @override
   void onCreateRefundSuccess(String message) {
     // TODO: implement onCreateRefundSuccess
+  }
+
+  @override
+  void onCalculateSuccess(PricingResult totalAmount) {
+    // TODO: implement onCalculateSuccess
+    setState(() {
+      _priceBreakDown = totalAmount;
+    });
   }
 }

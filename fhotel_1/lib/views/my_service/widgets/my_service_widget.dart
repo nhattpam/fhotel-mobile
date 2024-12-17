@@ -1,4 +1,5 @@
 import 'package:fhotel_1/core/utils/skeleton.dart';
+import 'package:fhotel_1/data/models/caculate.dart';
 import 'package:fhotel_1/data/models/order.dart';
 import 'package:fhotel_1/data/models/order_detail.dart';
 import 'package:fhotel_1/presenters/get_order_detail_presenter.dart';
@@ -305,5 +306,10 @@ class MyServiceWidgetState extends State<MyServiceWidget> with AutomaticKeepAliv
   @override
   void onCreateRefundSuccess(String message) {
     // TODO: implement onCreateRefundSuccess
+  }
+
+  @override
+  void onCalculateSuccess(PricingResult totalAmount) {
+    // TODO: implement onCalculateSuccess
   }
 }

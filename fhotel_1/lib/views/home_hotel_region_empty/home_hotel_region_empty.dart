@@ -333,7 +333,7 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Điểm đến, khách sạn",
+                                      "Địa điểm, vị trí",
                                       style: theme.textTheme.bodyMedium,
                                     ),
                                     SizedBox(height: 6.h),
@@ -348,7 +348,7 @@ class HomeHotelRegionEmptyScreenState extends State<HomeHotelRegionEmptyScreen>
                                         // Show the search query if it's not empty, otherwise show the hint text
                                         _searchQuery.isNotEmpty
                                             ? _searchQuery
-                                            : "Nhập điểm đến, khách sạn",
+                                            : "Nhập địa điểm, vị trí",
                                         style: _searchQuery.isNotEmpty
                                             ? CustomTextStyles
                                             .titleSmallGray600 // Style for search query

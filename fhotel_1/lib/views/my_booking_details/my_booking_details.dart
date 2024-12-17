@@ -1,4 +1,5 @@
 import 'package:fhotel_1/core/utils/skeleton.dart';
+import 'package:fhotel_1/data/models/caculate.dart';
 import 'package:fhotel_1/data/models/feedback.dart';
 import 'package:fhotel_1/data/models/reservation.dart';
 import 'package:fhotel_1/data/models/user.dart';
@@ -1564,5 +1565,10 @@ class MyBookingDetailsScreenState extends State<MyBookingDetailsScreen>
     setState(() {
       refundMessage = message;
     });
+  }
+
+  @override
+  void onCalculateSuccess(PricingResult totalAmount) {
+    // TODO: implement onCalculateSuccess
   }
 }

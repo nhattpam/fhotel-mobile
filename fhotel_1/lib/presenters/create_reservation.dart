@@ -30,7 +30,7 @@ class CreateReservation {
       );
 
       // Calculate the total amount for the reservation
-      Calculate totalAmount = await _repository.calculate(reservationToCalculate);
+      PricingResult totalAmount = await _repository.calculate(reservationToCalculate);
 
       // Create the final reservation with the calculated total amount
       Reservation reservation = Reservation(
@@ -73,7 +73,7 @@ class CreateReservation {
       // Call the authenticate method from the network layer
       Reservation reservationToCalculate = Reservation(checkInDate: checkInDate, checkOutDate: checkOutDate, numberOfRooms: numberOfRooms, roomTypeId: roomTypeId);
       print('AAA');
-      Calculate totalAmount = await _repository.calculate(reservationToCalculate);
+      PricingResult totalAmount = await _repository.calculate(reservationToCalculate);
       print("This" + (totalAmount.totalAmount).toString());
       _view.onCreateTotalAmountSuccess((totalAmount.totalAmount) ?? 1);
       return totalAmount.totalAmount;
@@ -82,23 +82,19 @@ class CreateReservation {
       _view.onCreateError("Failed to create reservation");
     }
   }
-  Future<String?> createReservationToCalculate2(
-      String checkInDate,
+
+  Future<void> createReservationToCalculate2(String checkInDate,
       String checkOutDate,
       String roomTypeId,
       int numberOfRooms,
       ) async {
     try {
-      // final genderError = validateGender(gender);
-
-      // Call the authenticate method from the network layer
       Reservation reservationToCalculate = Reservation(checkInDate: checkInDate, checkOutDate: checkOutDate, numberOfRooms: numberOfRooms, roomTypeId: roomTypeId);
-      Calculate totalAmount = await _repository.calculate(reservationToCalculate);
-      _view.onCreateTotalAmountSuccess((totalAmount.totalAmount) ?? 1);
-      return totalAmount.priceBreakdown;
+      PricingResult totalAmount = await _repository.calculate(reservationToCalculate);
+      print("This is " + (totalAmount.priceBreakdown).toString());
+      _view.onCalculateSuccess(totalAmount);
     } catch (error) {
-      // If there's an error, notify the view of the failure
-      _view.onCreateError("Failed to create reservation");
+      _view.onCreateError(error.toString());
     }
   }
 

@@ -40,7 +40,7 @@ class CreateReservationRepo {
     }
   }
 
-  Future<Calculate> calculate(Reservation reservation) async {
+  Future<PricingResult> calculate(Reservation reservation) async {
     final url = Uri.parse('$_baseUrl/reservations/calculate');
     print(url);
     final response = await http.post(
@@ -56,7 +56,7 @@ class CreateReservationRepo {
       // Parse the response body to extract the totalAmount
       final responseBody = json.decode(response.body);
       print(responseBody);
-      return Calculate.fromJson(responseBody);
+      return PricingResult.fromJson(responseBody);
     } else {
       throw Exception('Failed to calculate');
     }
